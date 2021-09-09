@@ -38,7 +38,7 @@ public class PlafinicationEntretienATest {
 
     @Quand("on tente une planification d’entretien")
     public void onTenteUnePlanificationDEntretien() {
-        planifierEntretien = new PlanifierEntretien();
+        planifierEntretien = new PlanifierEntretien(entretienRepository, emailService);
         planifierEntretien.execute(candidat, disponibiliteDuCandidat, recruteur, dateDeDisponibiliteDuRecruteur);
     }
 
