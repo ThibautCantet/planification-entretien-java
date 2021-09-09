@@ -14,4 +14,9 @@ public class InMemoryEntretienRepository implements EntretienRepository {
     public Entretien findByCandidat(Candidat candidat) {
         return candidatEntretienHashMap.get(candidat);
     }
+
+    @Override
+    public void save(Entretien entretien) {
+        candidatEntretienHashMap.put(entretien.candidat(), entretien);
+    }
 }
