@@ -1,7 +1,9 @@
 package com.soat.planification_entretien.domain;
 
-public interface EmailService {
-    void envoyerUnEmailDeConfirmationAuCandidat(String email, HoraireEntretien horaire);
+import java.time.LocalDateTime;
 
-    void envoyerUnEmailDeConfirmationAuRecruteur(String email, HoraireEntretien horaire);
+public interface EmailService {
+    void envoyerUnEmailDeConfirmationAuCandidat(String email, LocalDateTime horaire);
+
+    void envoyerUnEmailDeConfirmationAuRecruteur(String email, LocalDateTime horaire);
 }

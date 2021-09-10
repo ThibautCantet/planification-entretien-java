@@ -1,37 +1,47 @@
 package com.soat.planification_entretien.domain;
 
+import com.soat.planification_entretien.event.EntretienEchouee;
+import com.soat.planification_entretien.event.EntretienPlanifie;
+import com.soat.planification_entretien.event.ResultatPlanificationEntretien;
+
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class Entretien {
-    private final Candidat candidat;
-    private final Recruteur recruteur;
+    private final EntretienId id;
+    private final UUID candidatId;
+    private final UUID recruteurId;
     private HoraireEntretien horaireEntretien;
 
-    public Entretien(Candidat candidat, Recruteur recruteur) {
-        this.candidat = candidat;
-        this.recruteur = recruteur;
+    public Entretien(UUID id, UUID candidatId, UUID recruteurId) {
+        this.id = new EntretienId(id);
+        this.candidatId = candidatId;
+        this.recruteurId = recruteurId;
     }
 
-    private Entretien(Candidat candidat, Recruteur recruteur, HoraireEntretien horaire) {
-        this.candidat = candidat;
-        this.recruteur = recruteur;
-        this.horaireEntretien = horaire;
+    private Entretien(UUID id, UUID candidatId, UUID recruteurId, LocalDateTime horaire) {
+        this.id = new EntretienId(id);
+        this.candidatId = candidatId;
+        this.recruteurId = recruteurId;
+        this.horaireEntretien = new HoraireEntretien(horaire);
     }
 
-    public static Entretien of(Candidat candidat, Recruteur recruteur, HoraireEntretien horaire) {
-        return new Entretien(candidat, recruteur, horaire);
+    public static Entretien of(UUID entretienId, UUID candidatId, UUID recruteurId, LocalDateTime horaire) {
+        return new Entretien(entretienId, candidatId, recruteurId, horaire);
     }
 
-    public Candidat getCandidat() {
-        return candidat;
+    public UUID getId() {
+        return id.id();
     }
 
-    public ResultatPlanificationEntretien planifier(Disponibilite disponibiliteDuCandidat, LocalDate dateDeDisponibiliteDuRecruteur) {
+    public ResultatPlanificationEntretien planifier(LocalDateTime disponibiliteDuCandidatDateTime, LocalDate dateDeDisponibiliteDuRecruteur) {
+        final Disponibilite disponibiliteDuCandidat = new Disponibilite(disponibiliteDuCandidatDateTime);
         this.horaireEntretien  = new HoraireEntretien(disponibiliteDuCandidat.horaire());
         if (disponibiliteDuCandidat.verifier(dateDeDisponibiliteDuRecruteur)) {
-            return new EntretienPlanifie(candidat, recruteur, horaireEntretien);
+            return new EntretienPlanifie(id.id(), candidatId, recruteurId, horaireEntretien.horaire());
         } else {
-            return new EntretienEchouee(candidat, recruteur, horaireEntretien);
+            return new EntretienEchouee(id.id(), candidatId, recruteurId, horaireEntretien.horaire());
         }
     }
 }
