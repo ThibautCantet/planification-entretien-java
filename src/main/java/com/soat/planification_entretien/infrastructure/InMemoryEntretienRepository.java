@@ -17,6 +17,6 @@ public class InMemoryEntretienRepository implements EntretienRepository {
 
     @Override
     public void save(Entretien entretien) {
-        candidatEntretienHashMap.put(entretien.candidat(), entretien);
+        candidatEntretienHashMap.put(entretien.getCandidat(), entretien);
     }
 }
