@@ -23,6 +23,7 @@ public class PlafinicationEntretienATest {
     private EntretienRepository entretienRepository = new InMemoryEntretienRepository();
 
     private EmailService emailService = new FakeEmailService();
+    private ResultatPlanificationEntretien resultatPlanificationEntretien;
 
     @Etantdonné("un candidat {string} \\({string}) avec {string} ans d’expériences qui est disponible {string} à {string}")
     public void unCandidatAvecAnsDExpériencesQuiEstDisponibleÀ(String language, String email, String experienceInYears, String date, String time) {
@@ -39,15 +40,17 @@ public class PlafinicationEntretienATest {
     @Quand("on tente une planification d’entretien")
     public void onTenteUnePlanificationDEntretien() {
         planifierEntretien = new PlanifierEntretien(entretienRepository, emailService);
-        planifierEntretien.execute(candidat, disponibiliteDuCandidat, recruteur, dateDeDisponibiliteDuRecruteur);
+        resultatPlanificationEntretien = planifierEntretien.execute(candidat, disponibiliteDuCandidat, recruteur, dateDeDisponibiliteDuRecruteur);
     }
 
     @Alors("L’entretien est planifié")
     public void lEntretienEstPlanifié() {
+        assertThat(resultatPlanificationEntretien).isEqualTo(new EntretienPlanifie(candidat, recruteur, new HoraireEntretien(disponibiliteDuCandidat.horaire())));
+
         Entretien entretien = entretienRepository.findByCandidat(candidat);
         HoraireEntretien horaire = new HoraireEntretien(disponibiliteDuCandidat.horaire());
-        Entretien expectedEntretien = new Entretien(candidat, recruteur, horaire);
-        assertThat(entretien).isEqualTo(expectedEntretien);
+        Entretien expectedEntretien = Entretien.of(candidat, recruteur, horaire);
+        assertThat(entretien).isEqualToComparingFieldByField(expectedEntretien);
     }
 
     @Et("un mail de confirmation est envoyé au candidat et au recruteur")
@@ -55,5 +58,20 @@ public class PlafinicationEntretienATest {
         HoraireEntretien horaire = new HoraireEntretien(disponibiliteDuCandidat.horaire());
         assertThat(((FakeEmailService) emailService).unEmailDeConfirmationAEteEnvoyerAuCandidat(candidat.email(), horaire));
         assertThat(((FakeEmailService) emailService).unEmailDeConfirmationAEteEnvoyerAuRecruteur(recruteur.email(), horaire));
+    }
+
+    @Alors("L’entretien n'est pas planifié")
+    public void lEntretienNEstPasPlanifié() {
+        assertThat(resultatPlanificationEntretien).isEqualTo(new EntretienEchouee(candidat, recruteur, new HoraireEntretien(disponibiliteDuCandidat.horaire())));
+
+        Entretien entretien = entretienRepository.findByCandidat(candidat);
+        assertThat(entretien).isNull();
+    }
+
+    @Et("aucun mail de confirmation n'est envoyé au candidat ou au recruteur")
+    public void aucunMailDeConfirmationNEstEnvoyéAuCandidatOuAuRecruteur() {
+        HoraireEntretien horaire = new HoraireEntretien(disponibiliteDuCandidat.horaire());
+        assertThat(((FakeEmailService) emailService).unEmailDeConfirmationAEteEnvoyerAuCandidat(candidat.email(), horaire)).isFalse();
+        assertThat(((FakeEmailService) emailService).unEmailDeConfirmationAEteEnvoyerAuRecruteur(recruteur.email(), horaire)).isFalse();
     }
 }
