@@ -5,5 +5,8 @@ record AnneeExperience(Integer experienceInYears) {
         if (experienceInYears == null) {
             throw new InvalidAnneeExperience();
         }
+        if (experienceInYears < 0) {
+            throw new InvalidAnneeExperience();
+        }
     }
 }
