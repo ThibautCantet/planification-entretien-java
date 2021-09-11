@@ -1,10 +1,10 @@
 package com.soat.planification_entretien.use_case;
 
-import com.soat.candidat.domain.Candidat;
+import com.soat.planification_entretien.domain.Candidat;
 import com.soat.planification_entretien.domain.*;
 import com.soat.planification_entretien.event.EntretienPlanifie;
 import com.soat.planification_entretien.event.ResultatPlanificationEntretien;
-import com.soat.recruteur.domain.Recruteur;
+import com.soat.planification_entretien.domain.Recruteur;
 
 import java.util.UUID;
 
@@ -30,10 +30,10 @@ public class PlanifierEntretien {
             entretienRepository.save(entretien);
 
             final Candidat candidat = candidatRepository.findById(candidatEntretienCommand.candidatId());
-            emailService.envoyerUnEmailDeConfirmationAuCandidat(candidat.getEmail(), candidatEntretienCommand.disponibiliteDuCandidat());
+            emailService.envoyerUnEmailDeConfirmationAuCandidat(candidat.email(), candidatEntretienCommand.disponibiliteDuCandidat());
 
             final Recruteur recruteur = recruteurRepository.findById(candidatEntretienCommand.recruteurId());
-            emailService.envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), candidatEntretienCommand.disponibiliteDuCandidat());
+            emailService.envoyerUnEmailDeConfirmationAuRecruteur(recruteur.email(), candidatEntretienCommand.disponibiliteDuCandidat());
         }
         return resultatPlanificationEntretien;
     }

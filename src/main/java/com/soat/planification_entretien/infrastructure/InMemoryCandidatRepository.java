@@ -1,9 +1,11 @@
 package com.soat.planification_entretien.infrastructure;
 
-import com.soat.candidat.domain.Candidat;
+import com.soat.planification_entretien.domain.Candidat;
 import com.soat.planification_entretien.domain.CandidatRepository;
 
 import java.util.UUID;
+
+import static java.util.Optional.ofNullable;
 
 public class InMemoryCandidatRepository implements CandidatRepository {
     private final com.soat.candidat.infrastructure.InMemoryCandidatRepository candidatRepository;
@@ -14,6 +16,8 @@ public class InMemoryCandidatRepository implements CandidatRepository {
 
     @Override
     public Candidat findById(UUID candidatId) {
-        return candidatRepository.findById(candidatId);
+        return ofNullable(candidatRepository.findById(candidatId))
+                .map(candidat -> new Candidat(candidat.getEmail()))
+                .orElse(null);
     }
 }

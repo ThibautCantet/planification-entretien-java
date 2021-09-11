@@ -24,6 +24,7 @@ public class InMemoryRecruteurRepository implements RecruteurRepository {
         recruteurs.put(recruteur.getId(), recruteur);
     }
 
+    @Override
     public Recruteur findById(UUID recruteurId) {
         return recruteurs.get(recruteurId);
     }

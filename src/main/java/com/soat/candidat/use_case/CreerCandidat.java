@@ -12,8 +12,11 @@ public class CreerCandidat {
         this.candidatRepository = candidatRepository;
     }
 
-    public void execute(String language, String email, int experienceEnAnnees) {
-        var candidat = new Candidat(candidatRepository.next(), language, email, experienceEnAnnees);
+    public UUID execute(String language, String email, int experienceEnAnnees) {
+        final UUID id = candidatRepository.next();
+        var candidat = new Candidat(id, language, email, experienceEnAnnees);
         candidatRepository.save(candidat);
+
+        return id;
     }
 }

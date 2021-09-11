@@ -6,4 +6,6 @@ public interface CandidatRepository {
     UUID next();
 
     void save(Candidat candidat);
+
+    Candidat findById(UUID candidatId);
 }
