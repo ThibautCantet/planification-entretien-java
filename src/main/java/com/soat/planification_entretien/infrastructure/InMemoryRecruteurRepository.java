@@ -17,7 +17,7 @@ public class InMemoryRecruteurRepository implements RecruteurRepository {
     @Override
     public Recruteur findById(UUID recruteurId) {
         return ofNullable(recruteurRepository.findById(recruteurId))
-                .map(recruteur -> new Recruteur(recruteur.getEmail()))
+                .map(recruteur -> new Recruteur(recruteur.getEmail(), recruteur.getExperienceEnAnnees()))
                 .orElse(null);
     }
 }

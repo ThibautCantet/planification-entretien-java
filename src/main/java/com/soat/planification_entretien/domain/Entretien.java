@@ -35,13 +35,17 @@ public class Entretien {
         return id.id();
     }
 
-    public ResultatPlanificationEntretien planifier(LocalDateTime disponibiliteDuCandidatDateTime, LocalDate dateDeDisponibiliteDuRecruteur) {
-        final Disponibilite disponibiliteDuCandidat = new Disponibilite(disponibiliteDuCandidatDateTime);
-        this.horaireEntretien  = new HoraireEntretien(disponibiliteDuCandidat.horaire());
-        if (disponibiliteDuCandidat.verifier(dateDeDisponibiliteDuRecruteur)) {
-            return new EntretienPlanifie(id.id(), candidatId, recruteurId, horaireEntretien.horaire());
+    public ResultatPlanificationEntretien planifier(Candidat candidat, Recruteur recruteur, LocalDateTime disponibiliteDuCandidatDateTime, LocalDate dateDeDisponibiliteDuRecruteur) {
+        if (recruteur.peutEvaluer(candidat)) {
+            final Disponibilite disponibiliteDuCandidat = new Disponibilite(disponibiliteDuCandidatDateTime);
+            this.horaireEntretien = new HoraireEntretien(disponibiliteDuCandidat.horaire());
+            if (disponibiliteDuCandidat.verifier(dateDeDisponibiliteDuRecruteur)) {
+                return new EntretienPlanifie(id.id(), candidatId, recruteurId, horaireEntretien.horaire());
+            } else {
+                return new EntretienEchouee(id.id(), candidatId, recruteurId, horaireEntretien.horaire());
+            }
         } else {
-            return new EntretienEchouee(id.id(), candidatId, recruteurId, horaireEntretien.horaire());
+            return new EntretienEchouee(id.id(), candidatId, recruteurId, disponibiliteDuCandidatDateTime);
         }
     }
 }

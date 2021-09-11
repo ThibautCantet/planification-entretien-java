@@ -23,28 +23,28 @@ public class CreationRecruteurATest {
 
     private String language;
     private String email;
-    private Integer experienceInYears;
+    private Integer experienceEnAnnees;
     private ResultatCreationRecruteur resultatCreationRecruteur;
 
     @Etantdonné("un recruteur {string} \\({string}) avec {string} ans d’expériences")
-    public void unRecruteurAvecAnsDExpériences(String language, String email, String experienceInYears) {
+    public void unRecruteurAvecAnsDExpériences(String language, String email, String experienceEnAnnees) {
         this.language = language;
         this.email = email;
-        this.experienceInYears = experienceInYears.isBlank() ? null : Integer.parseInt(experienceInYears);
+        this.experienceEnAnnees = experienceEnAnnees.isBlank() ? null : Integer.parseInt(experienceEnAnnees);
     }
 
     @Quand("on tente de l'enregistrer")
     public void onTenteDeLEnregistrer() {
         final CreerRecruteur creerRecruteur = new CreerRecruteur(recruteurRepository);
-        resultatCreationRecruteur = creerRecruteur.execute(language, email, experienceInYears);
+        resultatCreationRecruteur = creerRecruteur.execute(language, email, experienceEnAnnees);
     }
 
     @Alors("il est correctement enregistré avec ses informations {string}, {string} et {string} ans d’expériences")
-    public void ilEstCorrectementEnregistréAvecSesInformationsEtAnsDExpériences(String language, String email, String experienceInYears) {
+    public void ilEstCorrectementEnregistréAvecSesInformationsEtAnsDExpériences(String language, String email, String experienceEnAnnees) {
         assertThat(resultatCreationRecruteur).isEqualTo(new CreationRecruteurReussie(recruteurId));
 
         final Recruteur recruteur = recruteurRepository.findById(recruteurId);
-        assertThat(recruteur).isEqualToComparingFieldByField(new Recruteur(resultatCreationRecruteur.recruteurId(), language, email, Integer.parseInt(experienceInYears)));
+        assertThat(recruteur).isEqualToComparingFieldByField(new Recruteur(resultatCreationRecruteur.recruteurId(), language, email, Integer.parseInt(experienceEnAnnees)));
     }
 
     @Alors("l'enregistrement du recruteur est refusé pour le motif {string}")

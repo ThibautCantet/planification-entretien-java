@@ -24,15 +24,17 @@ public class PlanifierEntretien {
     public ResultatPlanificationEntretien execute(PlanifierEntretienCommand candidatEntretienCommand) {
         final UUID id = entretienRepository.next();
         final Entretien entretien = new Entretien(id, candidatEntretienCommand.candidatId(), candidatEntretienCommand.recruteurId());
-        final ResultatPlanificationEntretien resultatPlanificationEntretien = entretien.planifier(candidatEntretienCommand.disponibiliteDuCandidat(), candidatEntretienCommand.dateDeDisponibiliteDuRecruteur());
+
+        final Candidat candidat = candidatRepository.findById(candidatEntretienCommand.candidatId());
+        final Recruteur recruteur = recruteurRepository.findById(candidatEntretienCommand.recruteurId());
+
+        final ResultatPlanificationEntretien resultatPlanificationEntretien = entretien.planifier(candidat, recruteur, candidatEntretienCommand.disponibiliteDuCandidat(), candidatEntretienCommand.dateDeDisponibiliteDuRecruteur());
 
         if (resultatPlanificationEntretien instanceof EntretienPlanifie) {
             entretienRepository.save(entretien);
 
-            final Candidat candidat = candidatRepository.findById(candidatEntretienCommand.candidatId());
             emailService.envoyerUnEmailDeConfirmationAuCandidat(candidat.email(), candidatEntretienCommand.disponibiliteDuCandidat());
 
-            final Recruteur recruteur = recruteurRepository.findById(candidatEntretienCommand.recruteurId());
             emailService.envoyerUnEmailDeConfirmationAuRecruteur(recruteur.email(), candidatEntretienCommand.disponibiliteDuCandidat());
         }
         return resultatPlanificationEntretien;

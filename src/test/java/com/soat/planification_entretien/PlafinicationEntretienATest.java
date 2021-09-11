@@ -44,16 +44,16 @@ public class PlafinicationEntretienATest {
     private final com.soat.planification_entretien.domain.RecruteurRepository recruteurRepository2 = new com.soat.planification_entretien.infrastructure.InMemoryRecruteurRepository((InMemoryRecruteurRepository) recruteurRepository);
 
     @Etantdonné("un candidat {string} \\({string}) avec {string} ans d’expériences qui est disponible {string} à {string}")
-    public void unCandidatAvecAnsDExpériencesQuiEstDisponibleÀ(String language, String email, String experienceInYears, String date, String time) {
+    public void unCandidatAvecAnsDExpériencesQuiEstDisponibleÀ(String language, String email, String experienceEnAnnees, String date, String time) {
         final CreerCandidat creerCandidat = new CreerCandidat(candidatRepository);
-        creerCandidat.execute(language, email, Integer.parseInt(experienceInYears));
+        creerCandidat.execute(language, email, Integer.parseInt(experienceEnAnnees));
         disponibiliteDuCandidat = LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));
     }
 
     @Etqu("un recruteur {string} \\({string}) qui a {string} ans d’XP qui est dispo {string}")
-    public void unRecruteurQuiAAnsDXPQuiEstDispo(String language, String email, String experienceInYears, String date) {
+    public void unRecruteurQuiAAnsDXPQuiEstDispo(String language, String email, String experienceEnAnnees, String date) {
         final CreerRecruteur creerRecruteur = new CreerRecruteur(recruteurRepository);
-        creerRecruteur.execute(language, email, Integer.parseInt(experienceInYears));
+        creerRecruteur.execute(language, email, Integer.parseInt(experienceEnAnnees));
         dateDeDisponibiliteDuRecruteur = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 

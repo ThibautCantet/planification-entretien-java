@@ -14,7 +14,6 @@ import io.cucumber.java.fr.Quand;
 
 import java.util.UUID;
 
-import static java.util.Optional.ofNullable;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CreationCandidatATest {
@@ -24,28 +23,28 @@ public class CreationCandidatATest {
 
     private String language;
     private String email;
-    private Integer experienceInYears;
+    private Integer experienceEnAnnees;
     private ResultatCreationCandidat resultatCreationCandidat;
 
     @Etantdonné("un candidat {string} \\({string}) avec {string} ans d’expériences")
-    public void unCandidatAvecAnsDExpériences(String language, String email, String experienceInYears) {
+    public void unCandidatAvecAnsDExpériences(String language, String email, String experienceEnAnnees) {
         this.language = language;
         this.email = email;
-        this.experienceInYears = experienceInYears.isBlank() ? null : Integer.parseInt(experienceInYears);
+        this.experienceEnAnnees = experienceEnAnnees.isBlank() ? null : Integer.parseInt(experienceEnAnnees);
     }
 
     @Quand("on tente de l'enregistrer")
     public void onTenteDeLEnregistrer() {
         final CreerCandidat creerCandidat = new CreerCandidat(candidatRepository);
-        resultatCreationCandidat = creerCandidat.execute(language, email, experienceInYears);
+        resultatCreationCandidat = creerCandidat.execute(language, email, experienceEnAnnees);
     }
 
     @Alors("il est correctement enregistré avec ses informations {string}, {string} et {string} ans d’expériences")
-    public void ilEstCorrectementEnregistréAvecSesInformationsEtAnsDExpériences(String language, String email, String experienceInYears) {
+    public void ilEstCorrectementEnregistréAvecSesInformationsEtAnsDExpériences(String language, String email, String experienceEnAnnees) {
         assertThat(resultatCreationCandidat).isEqualTo(new CreationCandidatReussie(candidatId));
 
         final Candidat candidat = candidatRepository.findById(candidatId);
-        assertThat(candidat).isEqualToComparingFieldByField(new Candidat(resultatCreationCandidat.candidatId(), language, email, Integer.parseInt(experienceInYears)));
+        assertThat(candidat).isEqualToComparingFieldByField(new Candidat(resultatCreationCandidat.candidatId(), language, email, Integer.parseInt(experienceEnAnnees)));
     }
 
     @Alors("l'enregistrement est refusé pour le motif {string}")
