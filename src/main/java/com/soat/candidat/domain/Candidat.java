@@ -5,13 +5,13 @@ import java.util.UUID;
 public class Candidat {
     private CandidatId id;
     private final Language language;
-    private final String email;
+    private final Email email;
     private final AnneeExperience experienceInYears;
 
     public Candidat(UUID id, String language, String email, Integer experienceInYears) {
         this.id = new CandidatId(id);
         this.language = new Language(language);
-        this.email = email;
+        this.email = new Email(email);
         this.experienceInYears = new AnneeExperience(experienceInYears);
     }
 
@@ -20,6 +20,6 @@ public class Candidat {
     }
 
     public String getEmail() {
-        return email;
+        return email.adresse();
     }
 }
