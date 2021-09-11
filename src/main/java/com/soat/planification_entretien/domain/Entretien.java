@@ -8,23 +8,25 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import static java.util.Optional.ofNullable;
+
 public class Entretien {
     private final EntretienId id;
-    private final UUID candidatId;
-    private final UUID recruteurId;
+    private UUID candidatId;
+    private UUID recruteurId;
     private HoraireEntretien horaireEntretien;
 
-    public Entretien(UUID id, UUID candidatId, UUID recruteurId) {
+    public Entretien(UUID id) {
         this.id = new EntretienId(id);
-        this.candidatId = candidatId;
-        this.recruteurId = recruteurId;
     }
 
     private Entretien(UUID id, UUID candidatId, UUID recruteurId, LocalDateTime horaire) {
         this.id = new EntretienId(id);
         this.candidatId = candidatId;
         this.recruteurId = recruteurId;
-        this.horaireEntretien = new HoraireEntretien(horaire);
+        this.horaireEntretien = ofNullable(horaire)
+                .map(HoraireEntretien::new)
+                .orElse(null);
     }
 
     public static Entretien of(UUID entretienId, UUID candidatId, UUID recruteurId, LocalDateTime horaire) {
@@ -37,15 +39,22 @@ public class Entretien {
 
     public ResultatPlanificationEntretien planifier(Candidat candidat, Recruteur recruteur, LocalDateTime disponibiliteDuCandidatDateTime, LocalDate dateDeDisponibiliteDuRecruteur) {
         if (recruteur.peutEvaluer(candidat)) {
-            final Disponibilite disponibiliteDuCandidat = new Disponibilite(disponibiliteDuCandidatDateTime);
-            this.horaireEntretien = new HoraireEntretien(disponibiliteDuCandidat.horaire());
-            if (disponibiliteDuCandidat.verifier(dateDeDisponibiliteDuRecruteur)) {
-                return new EntretienPlanifie(id.id(), candidatId, recruteurId, horaireEntretien.horaire());
+            if (entretienEstPlanifiable(disponibiliteDuCandidatDateTime, dateDeDisponibiliteDuRecruteur)) {
+                this.horaireEntretien = new HoraireEntretien(disponibiliteDuCandidatDateTime);
+                this.candidatId = candidat.id();
+                this.recruteurId = recruteur.id();
+
+                return new EntretienPlanifie(id.id(), candidat.id(), recruteur.id(), disponibiliteDuCandidatDateTime);
             } else {
-                return new EntretienEchouee(id.id(), candidatId, recruteurId, horaireEntretien.horaire());
+                return new EntretienEchouee(id.id(), candidat.id(), recruteur.id(), disponibiliteDuCandidatDateTime);
             }
         } else {
-            return new EntretienEchouee(id.id(), candidatId, recruteurId, disponibiliteDuCandidatDateTime);
+            return new EntretienEchouee(id.id(), candidat.id(), recruteur.id(), disponibiliteDuCandidatDateTime);
         }
+    }
+
+    private boolean entretienEstPlanifiable(LocalDateTime disponibiliteDuCandidatDateTime, LocalDate dateDeDisponibiliteDuRecruteur) {
+        final Disponibilite disponibiliteDuCandidat = new Disponibilite(disponibiliteDuCandidatDateTime);
+        return disponibiliteDuCandidat.correspondA(dateDeDisponibiliteDuRecruteur);
     }
 }

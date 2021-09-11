@@ -21,7 +21,7 @@ class DisponibiliteUTest {
             final LocalDate dateDeDisponibilite = dateEtHeureDeDisponibilite.toLocalDate();
 
             // when
-            final boolean result = disponibilite.verifier(dateDeDisponibilite);
+            final boolean result = disponibilite.correspondA(dateDeDisponibilite);
 
             // then
             assertThat(result).isTrue();
@@ -35,7 +35,7 @@ class DisponibiliteUTest {
             final LocalDate dateDeDisponibiliteUnJourApres = dateEtHeureDeDisponibilite.toLocalDate().plusDays(1);
 
             // when
-            final boolean result = disponibilite.verifier(dateDeDisponibiliteUnJourApres);
+            final boolean result = disponibilite.correspondA(dateDeDisponibiliteUnJourApres);
 
             // then
             assertThat(result).isFalse();

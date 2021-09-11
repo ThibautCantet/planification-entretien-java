@@ -1,6 +1,8 @@
 package com.soat.planification_entretien.domain;
 
-public record Recruteur(String language, String email, Integer experienceEnAnnees) {
+import java.util.UUID;
+
+public record Recruteur(UUID id, String language, String email, Integer experienceEnAnnees) {
     public boolean peutEvaluer(Candidat candidat) {
         return aPlusDExperienceQueLe(candidat) && aLaMemeExpertiseQueLe(candidat);
     }

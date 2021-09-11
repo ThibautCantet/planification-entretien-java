@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 record Disponibilite(LocalDateTime horaire) {
-    boolean verifier(LocalDate disponibilite) {
+    boolean correspondA(LocalDate disponibilite) {
         return horaire.toLocalDate().equals(disponibilite);
     }
 }

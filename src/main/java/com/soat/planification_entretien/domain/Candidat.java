@@ -1,4 +1,6 @@
 package com.soat.planification_entretien.domain;
 
-public record Candidat(String language, String email, Integer experienceEnAnnees) {
+import java.util.UUID;
+
+public record Candidat(UUID id, String language, String email, Integer experienceEnAnnees) {
 }

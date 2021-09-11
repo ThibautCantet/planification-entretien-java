@@ -23,7 +23,7 @@ public class PlanifierEntretien {
 
     public ResultatPlanificationEntretien execute(PlanifierEntretienCommand candidatEntretienCommand) {
         final UUID id = entretienRepository.next();
-        final Entretien entretien = new Entretien(id, candidatEntretienCommand.candidatId(), candidatEntretienCommand.recruteurId());
+        final Entretien entretien = new Entretien(id);
 
         final Candidat candidat = candidatRepository.findById(candidatEntretienCommand.candidatId());
         final Recruteur recruteur = recruteurRepository.findById(candidatEntretienCommand.recruteurId());
