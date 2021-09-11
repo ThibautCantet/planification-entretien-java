@@ -2,6 +2,7 @@ package com.soat.candidat.use_case;
 
 import com.soat.candidat.domain.Candidat;
 import com.soat.candidat.domain.CandidatRepository;
+import com.soat.candidat.domain.InvalidAnneeExperience;
 import com.soat.candidat.domain.InvalidLanguage;
 import com.soat.candidat.event.CreationCandidatEchouee;
 import com.soat.candidat.event.CreationCandidatReussie;
@@ -16,7 +17,7 @@ public class CreerCandidat {
         this.candidatRepository = candidatRepository;
     }
 
-    public ResultatCreationCandidat execute(String language, String email, int experienceEnAnnees) {
+    public ResultatCreationCandidat execute(String language, String email, Integer experienceEnAnnees) {
         final UUID id = candidatRepository.next();
         try {
             var candidat = new Candidat(id, language, email, experienceEnAnnees);
@@ -24,6 +25,8 @@ public class CreerCandidat {
             return new CreationCandidatReussie(id);
         } catch (InvalidLanguage e) {
             return new CreationCandidatEchouee(id, "Techno invalide : language");
+        } catch (InvalidAnneeExperience e) {
+            return new CreationCandidatEchouee(id, "Années d'expérience invalide");
         }
 
     }

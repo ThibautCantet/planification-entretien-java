@@ -6,13 +6,13 @@ public class Candidat {
     private CandidatId id;
     private final Language language;
     private final String email;
-    private final int experienceInYears;
+    private final AnneeExperience experienceInYears;
 
-    public Candidat(UUID id, String language, String email, int experienceInYears) {
+    public Candidat(UUID id, String language, String email, Integer experienceInYears) {
         this.id = new CandidatId(id);
         this.language = new Language(language);
         this.email = email;
-        this.experienceInYears = experienceInYears;
+        this.experienceInYears = new AnneeExperience(experienceInYears);
     }
 
     public UUID getId() {

@@ -11,3 +11,9 @@ Fonctionnalité: Création d'un candidat
     Quand on tente de l'enregistrer
     Alors l'enregistrement est refusé pour le motif "Techno invalide : language"
     Et le candidat n'est pas enregistré
+
+  Scénario: Un candidat n'est pas crée quand son nombre d'années d'expérience est vide
+    Etant donné un candidat "Java" ("candidat@email.com") avec "" ans d’expériences
+    Quand on tente de l'enregistrer
+    Alors l'enregistrement est refusé pour le motif "Années d'expérience invalide"
+    Et le candidat n'est pas enregistré

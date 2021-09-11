@@ -14,6 +14,7 @@ import io.cucumber.java.fr.Quand;
 
 import java.util.UUID;
 
+import static java.util.Optional.ofNullable;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CreationCandidatATest {
@@ -30,7 +31,7 @@ public class CreationCandidatATest {
     public void unCandidatAvecAnsDExpériences(String language, String email, String experienceInYears) {
         this.language = language;
         this.email = email;
-        this.experienceInYears = Integer.parseInt(experienceInYears);
+        this.experienceInYears = experienceInYears.isBlank() ? null : Integer.parseInt(experienceInYears);
     }
 
     @Quand("on tente de l'enregistrer")
