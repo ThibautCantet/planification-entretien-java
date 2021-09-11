@@ -1,9 +1,9 @@
 package com.soat.candidat.domain;
 
-record Language(String language) {
+record Language(String name) {
     public Language {
-        if (language.isBlank()) {
-            throw new InvalidLanguage(language);
+        if (name.isBlank()) {
+            throw new InvalidLanguage(name);
         }
     }
 }

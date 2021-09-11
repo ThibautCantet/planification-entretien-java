@@ -21,7 +21,7 @@ public class CreerCandidat {
             candidatRepository.save(candidat);
             return new CreationCandidatReussie(id);
         } catch (InvalidLanguage e) {
-            return new CreationCandidatEchouee(id, "Techno invalide : language");
+            return new CreationCandidatEchouee(id, "Techno invalide : name");
         } catch (InvalidAnneesExperience e) {
             return new CreationCandidatEchouee(id, "Années d'expérience invalide");
         } catch (InvalidEmail e) {

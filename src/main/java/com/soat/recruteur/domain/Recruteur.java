@@ -24,6 +24,10 @@ public class Recruteur {
     }
 
     public Integer getExperienceEnAnnees() {
-        return experienceEnAnnees.annees();
+        return experienceEnAnnees.nombre();
+    }
+
+    public String getLanguage() {
+        return language.name();
     }
 }

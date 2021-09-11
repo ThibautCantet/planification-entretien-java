@@ -84,7 +84,7 @@ public class PlafinicationEntretienATest {
 
     @Alors("L’entretien n'est pas planifié")
     public void lEntretienNEstPasPlanifié() {
-        assertThat(resultatPlanificationEntretien).isEqualToComparingFieldByField(new EntretienEchouee(resultatPlanificationEntretien.id(), candidatId, recruteurId, disponibiliteDuCandidat));
+        assertThat(resultatPlanificationEntretien).isEqualTo(new EntretienEchouee(resultatPlanificationEntretien.id(), candidatId, recruteurId, disponibiliteDuCandidat));
 
         Entretien entretien = entretienRepository.findById(resultatPlanificationEntretien.id());
         assertThat(entretien).isNull();

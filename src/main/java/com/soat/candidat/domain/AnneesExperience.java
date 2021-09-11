@@ -1,11 +1,11 @@
 package com.soat.candidat.domain;
 
-record AnneesExperience(Integer annees) {
+record AnneesExperience(Integer nombre) {
     public AnneesExperience {
-        if (annees == null) {
+        if (nombre == null) {
             throw new InvalidAnneesExperience();
         }
-        if (annees < 0) {
+        if (nombre < 0) {
             throw new InvalidAnneesExperience();
         }
     }

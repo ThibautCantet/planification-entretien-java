@@ -22,7 +22,7 @@ public class CreerRecruteur {
 
             return new CreationRecruteurReussie(id);
         } catch (InvalidLanguage e) {
-            return new CreationRecruteurEchouee(id, "Techno invalide : language");
+            return new CreationRecruteurEchouee(id, "Techno invalide : name");
         } catch (InvalidAnneesExperience e) {
             return new CreationRecruteurEchouee(id, "Années d'expérience invalide");
         } catch (InvalidEmail e) {

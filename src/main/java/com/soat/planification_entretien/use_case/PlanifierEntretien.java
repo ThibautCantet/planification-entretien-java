@@ -34,7 +34,6 @@ public class PlanifierEntretien {
             entretienRepository.save(entretien);
 
             emailService.envoyerUnEmailDeConfirmationAuCandidat(candidat.email(), candidatEntretienCommand.disponibiliteDuCandidat());
-
             emailService.envoyerUnEmailDeConfirmationAuRecruteur(recruteur.email(), candidatEntretienCommand.disponibiliteDuCandidat());
         }
         return resultatPlanificationEntretien;
