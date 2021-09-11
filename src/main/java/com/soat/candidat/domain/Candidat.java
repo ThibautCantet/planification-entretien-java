@@ -4,13 +4,13 @@ import java.util.UUID;
 
 public class Candidat {
     private CandidatId id;
-    private final String language;
+    private final Language language;
     private final String email;
     private final int experienceInYears;
 
     public Candidat(UUID id, String language, String email, int experienceInYears) {
         this.id = new CandidatId(id);
-        this.language = language;
+        this.language = new Language(language);
         this.email = email;
         this.experienceInYears = experienceInYears;
     }
