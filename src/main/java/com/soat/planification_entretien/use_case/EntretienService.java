@@ -1,19 +1,19 @@
 package com.soat.planification_entretien.use_case;
 
-import com.soat.planification_entretien.domain.*;
+import com.soat.planification_entretien.model.*;
 
 import java.time.LocalDate;
 
-public class PlanifierEntretien {
+public class EntretienService {
     private final EntretienRepository entretienRepository;
     private final EmailService emailService;
 
-    public PlanifierEntretien(EntretienRepository entretienRepository, EmailService emailService) {
+    public EntretienService(EntretienRepository entretienRepository, EmailService emailService) {
         this.entretienRepository = entretienRepository;
         this.emailService = emailService;
     }
 
-    public ResultatPlanificationEntretien execute(Candidat candidat, Disponibilite disponibiliteDuCandidat, Recruteur recruteur, LocalDate dateDeDisponibiliteDuRecruteur) {
+    public ResultatPlanificationEntretien planifier(Candidat candidat, Disponibilite disponibiliteDuCandidat, Recruteur recruteur, LocalDate dateDeDisponibiliteDuRecruteur) {
         HoraireEntretien horaireEntretien = new HoraireEntretien(disponibiliteDuCandidat.horaire());
 
         Entretien entretien = new Entretien(candidat, recruteur);

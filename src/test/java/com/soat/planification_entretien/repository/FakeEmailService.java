@@ -1,7 +1,7 @@
-package com.soat.planification_entretien.infrastructure;
+package com.soat.planification_entretien.repository;
 
-import com.soat.planification_entretien.domain.EmailService;
-import com.soat.planification_entretien.domain.HoraireEntretien;
+import com.soat.planification_entretien.model.EmailService;
+import com.soat.planification_entretien.model.HoraireEntretien;
 
 public class FakeEmailService implements EmailService {
     private boolean unEmailDeConfirmationAEteEnvoyerAuCandidat = false;

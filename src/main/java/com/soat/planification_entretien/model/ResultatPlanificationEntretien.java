@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.domain;
+package com.soat.planification_entretien.model;
 
 public interface ResultatPlanificationEntretien {
 }

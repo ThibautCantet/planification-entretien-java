@@ -1,9 +1,9 @@
 package com.soat.planification_entretien;
 
-import com.soat.planification_entretien.domain.*;
-import com.soat.planification_entretien.infrastructure.FakeEmailService;
-import com.soat.planification_entretien.infrastructure.InMemoryEntretienRepository;
-import com.soat.planification_entretien.use_case.PlanifierEntretien;
+import com.soat.planification_entretien.model.*;
+import com.soat.planification_entretien.repository.FakeEmailService;
+import com.soat.planification_entretien.repository.InMemoryEntretienRepository;
+import com.soat.planification_entretien.use_case.EntretienService;
 import io.cucumber.java.fr.*;
 
 import java.time.LocalDate;
@@ -19,7 +19,7 @@ public class PlafinicationEntretienATest {
     private Disponibilite disponibiliteDuCandidat;
     private Recruteur recruteur;
     private LocalDate dateDeDisponibiliteDuRecruteur;
-    private PlanifierEntretien planifierEntretien;
+    private EntretienService entretienService;
     private EntretienRepository entretienRepository = new InMemoryEntretienRepository();
 
     private EmailService emailService = new FakeEmailService();
@@ -39,8 +39,8 @@ public class PlafinicationEntretienATest {
 
     @Quand("on tente une planification d’entretien")
     public void onTenteUnePlanificationDEntretien() {
-        planifierEntretien = new PlanifierEntretien(entretienRepository, emailService);
-        resultatPlanificationEntretien = planifierEntretien.execute(candidat, disponibiliteDuCandidat, recruteur, dateDeDisponibiliteDuRecruteur);
+        entretienService = new EntretienService(entretienRepository, emailService);
+        resultatPlanificationEntretien = entretienService.planifier(candidat, disponibiliteDuCandidat, recruteur, dateDeDisponibiliteDuRecruteur);
     }
 
     @Alors("L’entretien est planifié")

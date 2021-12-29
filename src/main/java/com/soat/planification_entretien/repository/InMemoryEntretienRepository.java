@@ -1,8 +1,8 @@
-package com.soat.planification_entretien.infrastructure;
+package com.soat.planification_entretien.repository;
 
-import com.soat.planification_entretien.domain.Candidat;
-import com.soat.planification_entretien.domain.Entretien;
-import com.soat.planification_entretien.domain.EntretienRepository;
+import com.soat.planification_entretien.model.Candidat;
+import com.soat.planification_entretien.model.Entretien;
+import com.soat.planification_entretien.model.EntretienRepository;
 
 import java.util.HashMap;
 
