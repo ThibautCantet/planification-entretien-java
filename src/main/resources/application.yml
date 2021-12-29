@@ -1,0 +1,19 @@
+spring:
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+  application:
+    name: cars
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/entretien
+    username: user
+    password: password
+
+server:
+  port: 8081
+
+  flyway:
+    table: schema_version
