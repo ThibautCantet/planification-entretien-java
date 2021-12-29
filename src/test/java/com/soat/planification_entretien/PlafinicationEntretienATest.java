@@ -1,27 +1,26 @@
 package com.soat.planification_entretien;
 
-import io.cucumber.java.fr.*;
+import io.cucumber.spring.CucumberContextConfiguration;
+import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.*;
+
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.AUTO_CONFIGURED)
+@Transactional
+@AutoConfigureCache
+@AutoConfigureDataJpa
+@AutoConfigureTestEntityManager
+@SpringBootTest(webEnvironment = RANDOM_PORT)
+@DirtiesContext
+@CucumberContextConfiguration
+@ActiveProfiles("AcceptanceTest")
 public class PlafinicationEntretienATest {
 
-    @Etantdonné("un candidat {string} \\({string}) avec {string} ans d’expériences qui est disponible {string} à {string}")
-    public void unCandidatAvecAnsDExpériencesQuiEstDisponibleÀ(String language, String email, String experienceInYears, String date, String time) {
-
-    }
-
-    @Etqu("un recruteur {string} \\({string}) qui a {string} ans d’XP qui est dispo {string}")
-    public void unRecruteurQuiAAnsDXPQuiEstDispo(String language, String email, String experienceInYears, String date) {
-    }
-
-    @Quand("on tente une planification d’entretien")
-    public void onTenteUnePlanificationDEntretien() {
-    }
-
-    @Alors("L’entretien est planifié")
-    public void lEntretienEstPlanifié() {
-    }
-
-    @Et("un mail de confirmation est envoyé au candidat et le recruteur")
-    public void unMailDeConfirmationEstEnvoyéAuCandidatEtLeRecruteur() {
-    }
 }
