@@ -5,6 +5,14 @@ import com.soat.planification_entretien.repository.FakeEmailService;
 import com.soat.planification_entretien.repository.InMemoryEntretienRepository;
 import com.soat.planification_entretien.use_case.EntretienService;
 import io.cucumber.java.fr.*;
+import io.cucumber.spring.CucumberContextConfiguration;
+import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,6 +21,14 @@ import java.time.format.DateTimeFormatter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.AUTO_CONFIGURED)
+@Transactional
+@AutoConfigureCache
+@AutoConfigureDataJpa
+@AutoConfigureTestEntityManager
+@SpringBootTest
+@DirtiesContext
+@CucumberContextConfiguration
 public class PlafinicationEntretienATest {
 
     private Candidat candidat;
