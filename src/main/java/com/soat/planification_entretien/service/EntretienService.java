@@ -1,6 +1,7 @@
-package com.soat.planification_entretien.use_case;
+package com.soat.planification_entretien.service;
 
 import com.soat.planification_entretien.model.*;
+import com.soat.planification_entretien.repository.EntretienRepository;
 
 import java.time.LocalDate;
 

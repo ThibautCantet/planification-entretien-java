@@ -1,9 +1,11 @@
 package com.soat.planification_entretien;
 
 import com.soat.planification_entretien.model.*;
+import com.soat.planification_entretien.repository.EntretienRepository;
 import com.soat.planification_entretien.repository.FakeEmailService;
 import com.soat.planification_entretien.repository.InMemoryEntretienRepository;
-import com.soat.planification_entretien.use_case.EntretienService;
+import com.soat.planification_entretien.service.EmailService;
+import com.soat.planification_entretien.service.EntretienService;
 import io.cucumber.java.fr.*;
 import io.cucumber.spring.CucumberContextConfiguration;
 import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;

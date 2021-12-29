@@ -1,6 +1,6 @@
 package com.soat.planification_entretien.repository;
 
-import com.soat.planification_entretien.model.EmailService;
+import com.soat.planification_entretien.service.EmailService;
 import com.soat.planification_entretien.model.HoraireEntretien;
 
 public class FakeEmailService implements EmailService {
