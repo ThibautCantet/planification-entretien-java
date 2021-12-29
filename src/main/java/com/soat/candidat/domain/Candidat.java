@@ -3,7 +3,7 @@ package com.soat.candidat.domain;
 import java.util.UUID;
 
 public class Candidat {
-    private CandidatId id;
+    private final CandidatId id;
     private final Language language;
     private final Email email;
     private final AnneesExperience experienceEnAnnees;
