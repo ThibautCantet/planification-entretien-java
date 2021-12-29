@@ -21,20 +21,20 @@ public class PlanifierEntretien {
         this.recruteurRepository = recruteurRepository;
     }
 
-    public ResultatPlanificationEntretien execute(PlanifierEntretienCommand candidatEntretienCommand) {
+    public ResultatPlanificationEntretien execute(PlanifierEntretienCommand planifierEntretienCommand) {
         final UUID id = entretienRepository.next();
         final Entretien entretien = new Entretien(id);
 
-        final Candidat candidat = candidatRepository.findById(candidatEntretienCommand.candidatId());
-        final Recruteur recruteur = recruteurRepository.findById(candidatEntretienCommand.recruteurId());
+        final Candidat candidat = candidatRepository.findById(planifierEntretienCommand.candidatId());
+        final Recruteur recruteur = recruteurRepository.findById(planifierEntretienCommand.recruteurId());
 
-        final ResultatPlanificationEntretien resultatPlanificationEntretien = entretien.planifier(candidat, recruteur, candidatEntretienCommand.disponibiliteDuCandidat(), candidatEntretienCommand.dateDeDisponibiliteDuRecruteur());
+        final ResultatPlanificationEntretien resultatPlanificationEntretien = entretien.planifier(candidat, recruteur, planifierEntretienCommand.disponibiliteDuCandidat(), planifierEntretienCommand.dateDeDisponibiliteDuRecruteur());
 
         if (resultatPlanificationEntretien instanceof EntretienPlanifie) {
             entretienRepository.save(entretien);
 
-            emailService.envoyerUnEmailDeConfirmationAuCandidat(candidat.email(), candidatEntretienCommand.disponibiliteDuCandidat());
-            emailService.envoyerUnEmailDeConfirmationAuRecruteur(recruteur.email(), candidatEntretienCommand.disponibiliteDuCandidat());
+            emailService.envoyerUnEmailDeConfirmationAuCandidat(candidat.email(), planifierEntretienCommand.disponibiliteDuCandidat());
+            emailService.envoyerUnEmailDeConfirmationAuRecruteur(recruteur.email(), planifierEntretienCommand.disponibiliteDuCandidat());
         }
         return resultatPlanificationEntretien;
     }
