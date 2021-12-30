@@ -22,8 +22,8 @@ public class EntretienService {
 
         if (resultatPlanificationEntretien instanceof EntretienPlanifie) {
             entretienRepository.save(entretien);
-            emailService.envoyerUnEmailDeConfirmationAuCandidat(candidat.email(), horaireEntretien);
-            emailService.envoyerUnEmailDeConfirmationAuRecruteur(recruteur.email(), horaireEntretien);
+            emailService.envoyerUnEmailDeConfirmationAuCandidat(candidat.getEmail(), horaireEntretien);
+            emailService.envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), horaireEntretien);
         }
         return resultatPlanificationEntretien;
     }
