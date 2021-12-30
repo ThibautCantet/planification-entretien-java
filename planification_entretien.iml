@@ -14,7 +14,9 @@
       <configuration>
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
-        <datasource-mapping />
+        <datasource-mapping>
+          <factory-entry name="entityManagerFactory" />
+        </datasource-mapping>
         <naming-strategy-map />
       </configuration>
     </facet>
@@ -122,25 +124,26 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-orm:5.3.13" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:5.3.13" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aspects:5.3.13" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: io.cucumber:cucumber-junit:7.0.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: io.cucumber:cucumber-junit:7.1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apiguardian:apiguardian-api:1.1.2" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: io.cucumber:cucumber-core:7.0.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: io.cucumber:cucumber-gherkin:7.0.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: io.cucumber:cucumber-gherkin-messages:7.0.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: io.cucumber:cucumber-core:7.1.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: io.cucumber:cucumber-gherkin:7.1.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: io.cucumber:cucumber-gherkin-messages:7.1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: io.cucumber:messages:17.1.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: io.cucumber:tag-expressions:4.0.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: io.cucumber:tag-expressions:4.1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: io.cucumber:cucumber-expressions:13.0.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: io.cucumber:datatable:7.0.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: io.cucumber:cucumber-plugin:7.0.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: io.cucumber:docstring:7.0.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: io.cucumber:datatable:7.1.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: io.cucumber:cucumber-plugin:7.1.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: io.cucumber:docstring:7.1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: io.cucumber:html-formatter:17.0.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: io.cucumber:create-meta:6.0.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: io.cucumber:create-meta:6.0.4" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.13.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:2.2" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: io.cucumber:cucumber-java:7.0.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: io.cucumber:cucumber-spring:6.8.0" level="project" />
-    <orderEntry type="library" name="Maven: org.flywaydb:flyway-core:8.0.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: io.cucumber:cucumber-java:7.1.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: io.cucumber:cucumber-spring:7.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.flywaydb:flyway-core:8.2.3" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: com.h2database:h2:1.4.200" level="project" />
-    <orderEntry type="library" name="Maven: org.postgresql:postgresql:42.2.24.jre7" level="project" />
+    <orderEntry type="library" name="Maven: org.postgresql:postgresql:42.3.1" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.checkerframework:checker-qual:3.5.0" level="project" />
   </component>
 </module>
