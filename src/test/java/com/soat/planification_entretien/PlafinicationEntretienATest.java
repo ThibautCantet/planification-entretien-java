@@ -1,13 +1,32 @@
 package com.soat.planification_entretien;
 
-import com.soat.planification_entretien.model.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.soat.planification_entretien.controller.EntretienController;
+import com.soat.planification_entretien.controller.EntretienDto;
+import com.soat.planification_entretien.model.Candidat;
+import com.soat.planification_entretien.model.Disponibilite;
+import com.soat.planification_entretien.model.Entretien;
+import com.soat.planification_entretien.model.HoraireEntretien;
+import com.soat.planification_entretien.model.Recruteur;
 import com.soat.planification_entretien.repository.EntretienRepository;
-import com.soat.planification_entretien.repository.FakeEmailService;
-import com.soat.planification_entretien.repository.InMemoryEntretienRepository;
 import com.soat.planification_entretien.service.EmailService;
-import com.soat.planification_entretien.service.EntretienService;
-import io.cucumber.java.fr.*;
+import io.cucumber.java.Before;
+import io.cucumber.java.fr.Alors;
+import io.cucumber.java.fr.Et;
+import io.cucumber.java.fr.Etantdonné;
+import io.cucumber.java.fr.Etqu;
+import io.cucumber.java.fr.Quand;
 import io.cucumber.spring.CucumberContextConfiguration;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -15,25 +34,37 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-
+import static io.restassured.RestAssured.*;
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Mockito.*;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.*;
 
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.AUTO_CONFIGURED)
 @Transactional
 @AutoConfigureCache
 @AutoConfigureDataJpa
 @AutoConfigureTestEntityManager
-@SpringBootTest
+@SpringBootTest(webEnvironment = RANDOM_PORT)
 @DirtiesContext
 @CucumberContextConfiguration
+@ActiveProfiles("AcceptanceTest")
 public class PlafinicationEntretienATest {
+    @Autowired
+    protected ObjectMapper objectMapper;
+
+    @LocalServerPort
+    protected int port;
+
+    @Before
+    public void initIntegrationTest() {
+        RestAssured.port = port;
+        RestAssured.basePath += EntretienController.PATH;
+    }
 
     @Autowired
     protected TestEntityManager entityManager;
@@ -42,12 +73,13 @@ public class PlafinicationEntretienATest {
     private Disponibilite disponibiliteDuCandidat;
     private Recruteur recruteur;
     private LocalDate dateDeDisponibiliteDuRecruteur;
-    private EntretienService entretienService;
+    private Response response;
+
     @Autowired
     private EntretienRepository entretienRepository;
 
-    private EmailService emailService = new FakeEmailService();
-    private ResultatPlanificationEntretien resultatPlanificationEntretien;
+    @Autowired
+    private EmailService emailService;
 
     @Etantdonné("un candidat {string} \\({string}) avec {string} ans d’expériences qui est disponible {string} à {string}")
     public void unCandidatAvecAnsDExpériencesQuiEstDisponibleÀ(String language, String email, String experienceInYears, String date, String time) {
@@ -64,14 +96,23 @@ public class PlafinicationEntretienATest {
     }
 
     @Quand("on tente une planification d’entretien")
-    public void onTenteUnePlanificationDEntretien() {
-        entretienService = new EntretienService(entretienRepository, emailService);
-        resultatPlanificationEntretien = entretienService.planifier(candidat, disponibiliteDuCandidat, recruteur, dateDeDisponibiliteDuRecruteur);
+    public void onTenteUnePlanificationDEntretien() throws JsonProcessingException {
+        EntretienDto entretienDto = new EntretienDto(candidat.getId(), recruteur.getId(), disponibiliteDuCandidat.horaire(), dateDeDisponibiliteDuRecruteur);
+        String body = objectMapper.writeValueAsString(entretienDto);
+        //@formatter:off
+        response = given()
+                .log().all()
+                .header("Content-Type", ContentType.JSON)
+                .body(body)
+        .when()
+                .post("planifier");
+        //@formatter:on
     }
 
     @Alors("L’entretien est planifié")
     public void lEntretienEstPlanifié() {
-        assertThat(resultatPlanificationEntretien).isEqualTo(new EntretienPlanifie(candidat, recruteur, new HoraireEntretien(disponibiliteDuCandidat.horaire())));
+        response.then()
+                .statusCode(HttpStatus.SC_CREATED);
 
         Entretien entretien = entretienRepository.findByCandidat(candidat);
         HoraireEntretien horaire = new HoraireEntretien(disponibiliteDuCandidat.horaire());
@@ -84,13 +125,14 @@ public class PlafinicationEntretienATest {
     @Et("un mail de confirmation est envoyé au candidat et au recruteur")
     public void unMailDeConfirmationEstEnvoyéAuCandidatEtAuRecruteur() {
         HoraireEntretien horaire = new HoraireEntretien(disponibiliteDuCandidat.horaire());
-        assertThat(((FakeEmailService) emailService).unEmailDeConfirmationAEteEnvoyerAuCandidat(candidat.getEmail(), horaire));
-        assertThat(((FakeEmailService) emailService).unEmailDeConfirmationAEteEnvoyerAuRecruteur(recruteur.getEmail(), horaire));
+        verify(emailService).envoyerUnEmailDeConfirmationAuCandidat(candidat.getEmail(), horaire);
+        verify(emailService).envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), horaire);
     }
 
     @Alors("L’entretien n'est pas planifié")
     public void lEntretienNEstPasPlanifié() {
-        assertThat(resultatPlanificationEntretien).isEqualTo(new EntretienEchouee(candidat, recruteur, new HoraireEntretien(disponibiliteDuCandidat.horaire())));
+        response.then()
+                .statusCode(HttpStatus.SC_BAD_REQUEST);
 
         Entretien entretien = entretienRepository.findByCandidat(candidat);
         assertThat(entretien).isNull();
@@ -99,7 +141,7 @@ public class PlafinicationEntretienATest {
     @Et("aucun mail de confirmation n'est envoyé au candidat ou au recruteur")
     public void aucunMailDeConfirmationNEstEnvoyéAuCandidatOuAuRecruteur() {
         HoraireEntretien horaire = new HoraireEntretien(disponibiliteDuCandidat.horaire());
-        assertThat(((FakeEmailService) emailService).unEmailDeConfirmationAEteEnvoyerAuCandidat(candidat.getEmail(), horaire)).isFalse();
-        assertThat(((FakeEmailService) emailService).unEmailDeConfirmationAEteEnvoyerAuRecruteur(recruteur.getEmail(), horaire)).isFalse();
+        verify(emailService, never()).envoyerUnEmailDeConfirmationAuCandidat(candidat.getEmail(), horaire);
+        verify(emailService, never()).envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), horaire);
     }
 }
