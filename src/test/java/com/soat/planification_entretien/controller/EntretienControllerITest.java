@@ -28,7 +28,7 @@ class EntretienControllerITest {
     @BeforeEach
     public void initIntegrationTest() {
         RestAssured.port = port;
-        RestAssured.basePath += EntretienController.PATH;
+        RestAssured.basePath = EntretienController.PATH;
     }
 
     @Test

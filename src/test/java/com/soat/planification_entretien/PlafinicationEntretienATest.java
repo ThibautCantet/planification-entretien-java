@@ -6,7 +6,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.soat.ATest;
 import com.soat.planification_entretien.controller.EntretienController;
 import com.soat.planification_entretien.controller.EntretienDto;
 import com.soat.planification_entretien.model.Candidat;
@@ -25,16 +25,13 @@ import io.cucumber.java.fr.Quand;
 import io.cucumber.spring.CucumberContextConfiguration;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,33 +50,29 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @DirtiesContext
 @CucumberContextConfiguration
 @ActiveProfiles("AcceptanceTest")
-public class PlafinicationEntretienATest {
-    @Autowired
-    protected ObjectMapper objectMapper;
-
-    @LocalServerPort
-    protected int port;
-
-    @Before
-    public void initIntegrationTest() {
-        RestAssured.port = port;
-        RestAssured.basePath += EntretienController.PATH;
-    }
-
-    @Autowired
-    protected TestEntityManager entityManager;
+public class PlafinicationEntretienATest extends ATest {
 
     private Candidat candidat;
     private Disponibilite disponibiliteDuCandidat;
     private Recruteur recruteur;
     private LocalDate dateDeDisponibiliteDuRecruteur;
-    private Response response;
 
     @Autowired
     private EntretienRepository entretienRepository;
 
     @Autowired
     private EmailService emailService;
+
+    @Before
+    @Override
+    public void setUp() {
+        initIntegrationTest();
+    }
+
+    @Override
+    protected void initPath() {
+        RestAssured.basePath = EntretienController.PATH;
+    }
 
     @Etantdonné("un candidat {string} \\({string}) avec {string} ans d’expériences qui est disponible {string} à {string}")
     public void unCandidatAvecAnsDExpériencesQuiEstDisponibleÀ(String language, String email, String experienceInYears, String date, String time) {
@@ -99,6 +92,7 @@ public class PlafinicationEntretienATest {
     public void onTenteUnePlanificationDEntretien() throws JsonProcessingException {
         EntretienDto entretienDto = new EntretienDto(candidat.getId(), recruteur.getId(), disponibiliteDuCandidat.horaire(), dateDeDisponibiliteDuRecruteur);
         String body = objectMapper.writeValueAsString(entretienDto);
+        initPath();
         //@formatter:off
         response = given()
                 .log().all()

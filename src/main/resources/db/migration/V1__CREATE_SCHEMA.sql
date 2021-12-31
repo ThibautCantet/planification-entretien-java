@@ -1,6 +1,6 @@
 create table candidat
 (
-    id                uuid         not null primary key,
+    id                int          not null primary key,
     language          varchar(255) not null,
     email             varchar(255) not null,
     experienceInYears int          not null
@@ -8,7 +8,7 @@ create table candidat
 
 create table recruteur
 (
-    id                uuid         not null primary key,
+    id                int          not null primary key,
     language          varchar(255) not null,
     email             varchar(255) not null,
     experienceInYears int          not null
@@ -16,8 +16,8 @@ create table recruteur
 
 create table entretien
 (
-    id          uuid not null primary key,
-    recruteurId uuid not null,
-    candidatId  uuid not null,
+    id          int not null primary key,
+    recruteurId int not null,
+    candidatId  int not null,
     horaire     timestamp
 );

@@ -18,7 +18,7 @@ public class Recruteur {
     @Column
     private Integer experienceInYears;
 
-    public Recruteur(String language, String email, Integer experienceInYears) {
+    public Recruteur(String language, String email, int experienceInYears) {
         this.language = language;
         this.email = email;
         this.experienceInYears = experienceInYears;
@@ -28,7 +28,7 @@ public class Recruteur {
 
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
