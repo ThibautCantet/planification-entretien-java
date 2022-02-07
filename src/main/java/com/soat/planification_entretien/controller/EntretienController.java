@@ -1,8 +1,5 @@
 package com.soat.planification_entretien.controller;
 
-import com.soat.planification_entretien.model.EntretienEchouee;
-import com.soat.planification_entretien.model.EntretienPlanifie;
-import com.soat.planification_entretien.model.ResultatPlanificationEntretien;
 import com.soat.planification_entretien.service.EntretienService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,14 +23,13 @@ public class EntretienController {
     @PostMapping("planifier")
     public ResponseEntity<Void> planifier(@RequestBody EntretienDto entretienDto) {
 
-        ResultatPlanificationEntretien resultat = entretienService.planifier(entretienDto.candidatId(), entretienDto.recruteurId(), entretienDto.disponibiliteDuCandidat(), entretienDto.horaire());
+        var planifie = entretienService.planifier(entretienDto.candidatId(), entretienDto.recruteurId(), entretienDto.disponibiliteDuCandidat(), entretienDto.disponibiliteDuRecruteur());
 
-        if (resultat instanceof EntretienPlanifie) {
+        if (planifie) {
             return created(null).build();
-        } else if (resultat instanceof EntretienEchouee) {
+        } else {
             return badRequest().build();
         }
-        return internalServerError().build();
 
     }
 }

@@ -1,6 +1,5 @@
 package com.soat.planification_entretien.model;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,22 +25,17 @@ public class Entretien {
     @JoinColumn(name = "recruteur_id")
     private Recruteur recruteur;
 
-    public Entretien(Candidat candidat, Recruteur recruteur) {
+    private Entretien(Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
         this.candidat = candidat;
         this.recruteur = recruteur;
-    }
-
-    private Entretien(Candidat candidat, Recruteur recruteur, HoraireEntretien horaire) {
-        this.candidat = candidat;
-        this.recruteur = recruteur;
-        this.horaireEntretien = horaire.horaire();
+        this.horaireEntretien = horaire;
     }
 
     public Entretien() {
 
     }
 
-    public static Entretien of(Candidat candidat, Recruteur recruteur, HoraireEntretien horaire) {
+    public static Entretien of(Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
         return new Entretien(candidat, recruteur, horaire);
     }
 
@@ -49,12 +43,4 @@ public class Entretien {
         return candidat;
     }
 
-    public ResultatPlanificationEntretien planifier(Disponibilite disponibiliteDuCandidat, LocalDate dateDeDisponibiliteDuRecruteur) {
-        this.horaireEntretien = disponibiliteDuCandidat.horaire();
-        if (disponibiliteDuCandidat.verifier(dateDeDisponibiliteDuRecruteur)) {
-            return new EntretienPlanifie(candidat, recruteur, new HoraireEntretien(horaireEntretien));
-        } else {
-            return new EntretienEchouee(candidat, recruteur, new HoraireEntretien(horaireEntretien));
-        }
-    }
 }

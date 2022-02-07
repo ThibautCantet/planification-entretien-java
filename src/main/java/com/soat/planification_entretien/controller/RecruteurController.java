@@ -1,8 +1,5 @@
 package com.soat.planification_entretien.controller;
 
-import com.soat.planification_entretien.model.CreationRecruteurRefusee;
-import com.soat.planification_entretien.model.CreationRecruteurValidee;
-import com.soat.planification_entretien.model.ResultatCreationRecruteur;
 import com.soat.planification_entretien.service.RecruteurService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,18 +21,17 @@ public class RecruteurController {
     }
 
     @PostMapping("")
-    public ResponseEntity<ResultatCreationRecruteur> creer(@RequestBody RecruteurDto recruteurDto) {
-        ResultatCreationRecruteur resultat = recruteurService.creer(
+    public ResponseEntity<Integer> creer(@RequestBody RecruteurDto recruteurDto) {
+        var resultat = recruteurService.creer(
                 recruteurDto.language(),
                 recruteurDto.email(),
                 recruteurDto.experienceEnAnnees().isBlank() ? null : Integer.parseInt(recruteurDto.experienceEnAnnees()));
 
-        if (resultat instanceof CreationRecruteurValidee) {
+        if (resultat != null) {
             return created(null).body(resultat);
-        } else if (resultat instanceof CreationRecruteurRefusee) {
-            return badRequest().body(resultat);
+        } else {
+            return badRequest().build();
         }
-        return internalServerError().build();
 
     }
 }

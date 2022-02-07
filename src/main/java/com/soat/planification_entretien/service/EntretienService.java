@@ -6,7 +6,6 @@ import com.soat.planification_entretien.repository.EntretienRepository;
 import com.soat.planification_entretien.repository.RecruteurRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Service
@@ -23,20 +22,19 @@ public class EntretienService {
         this.emailService = emailService;
     }
 
-    public ResultatPlanificationEntretien planifier(int candidatId, int recruteurId, LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDate dateDeDisponibiliteDuRecruteur) {
+    public boolean planifier(int candidatId, int recruteurId, LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
         Candidat candidat = candidatRepository.findById(candidatId).get();
-        Disponibilite disponibiliteDuCandidat = new Disponibilite(dateEtHeureDisponibiliteDuCandidat);
         Recruteur recruteur = recruteurRepository.findById(recruteurId).get();
-        HoraireEntretien horaireEntretien = new HoraireEntretien(disponibiliteDuCandidat.horaire());
 
-        Entretien entretien = new Entretien(candidat, recruteur);
-        ResultatPlanificationEntretien resultatPlanificationEntretien = entretien.planifier(disponibiliteDuCandidat, dateDeDisponibiliteDuRecruteur);
-
-        if (resultatPlanificationEntretien instanceof EntretienPlanifie) {
+        if (recruteur.getLanguage().equals(candidat.getLanguage())
+                && recruteur.getExperienceInYears() > candidat.getExperienceInYears()
+                && dateEtHeureDisponibiliteDuCandidat.equals(dateEtHeureDisponibiliteDuRecruteur)) {
+            Entretien entretien = Entretien.of(candidat, recruteur, dateEtHeureDisponibiliteDuRecruteur);
             entretienRepository.save(entretien);
-            emailService.envoyerUnEmailDeConfirmationAuCandidat(candidat.getEmail(), horaireEntretien);
-            emailService.envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), horaireEntretien);
+            emailService.envoyerUnEmailDeConfirmationAuCandidat(candidat.getEmail(), dateEtHeureDisponibiliteDuCandidat);
+            emailService.envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), dateEtHeureDisponibiliteDuCandidat);
+            return true;
         }
-        return resultatPlanificationEntretien;
+        return false;
     }
 }

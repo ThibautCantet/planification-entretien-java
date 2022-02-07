@@ -32,7 +32,15 @@ public class Candidat {
         return id;
     }
 
+    public String getLanguage() {
+        return language;
+    }
+
     public String getEmail() {
         return email;
+    }
+
+    public Integer getExperienceInYears() {
+        return experienceInYears;
     }
 }

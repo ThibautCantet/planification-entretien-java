@@ -1,17 +1,18 @@
 package com.soat.planification_entretien.service;
 
-import com.soat.planification_entretien.model.HoraireEntretien;
+import java.time.LocalDateTime;
+
 import org.springframework.stereotype.Service;
 
 @Service
 public class DummyEmailService implements EmailService {
     @Override
-    public void envoyerUnEmailDeConfirmationAuCandidat(String email, HoraireEntretien horaire) {
+    public void envoyerUnEmailDeConfirmationAuCandidat(String email, LocalDateTime horaire) {
 
     }
 
     @Override
-    public void envoyerUnEmailDeConfirmationAuRecruteur(String email, HoraireEntretien horaire) {
+    public void envoyerUnEmailDeConfirmationAuRecruteur(String email, LocalDateTime horaire) {
 
     }
 }

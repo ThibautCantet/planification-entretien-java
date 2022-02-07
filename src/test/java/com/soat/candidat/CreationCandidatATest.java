@@ -63,7 +63,6 @@ public class CreationCandidatATest extends ATest {
     @Alors("le candidat est correctement enregistré avec ses informations {string}, {string} et {string} ans d’expériences")
     public void leCandidatEstCorrectementEnregistréAvecSesInformationsEtAnsDExpériences(String language, String email, String experienceEnAnnees) {
         response.then()
-                .body("id", is(1))
                 .statusCode(HttpStatus.SC_CREATED);
 
         final Candidat candidat = candidatRepository.findById(candidatId).get();
@@ -72,10 +71,9 @@ public class CreationCandidatATest extends ATest {
                 .isEqualTo(new Candidat(language, email, Integer.parseInt(experienceEnAnnees)));
     }
 
-    @Alors("l'enregistrement est refusé pour le motif {string}")
-    public void lEnregistrementEstRefuséPourLeMotif(String motif) {
+    @Alors("l'enregistrement est refusé")
+    public void lEnregistrementEstRefusé() {
         response.then()
-                .body("message", is(motif))
                 .statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 

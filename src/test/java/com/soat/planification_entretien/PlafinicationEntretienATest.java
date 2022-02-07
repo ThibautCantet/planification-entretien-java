@@ -10,9 +10,7 @@ import com.soat.ATest;
 import com.soat.planification_entretien.controller.EntretienController;
 import com.soat.planification_entretien.controller.EntretienDto;
 import com.soat.planification_entretien.model.Candidat;
-import com.soat.planification_entretien.model.Disponibilite;
 import com.soat.planification_entretien.model.Entretien;
-import com.soat.planification_entretien.model.HoraireEntretien;
 import com.soat.planification_entretien.model.Recruteur;
 import com.soat.planification_entretien.repository.EntretienRepository;
 import com.soat.planification_entretien.service.EmailService;
@@ -53,9 +51,9 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 public class PlafinicationEntretienATest extends ATest {
 
     private Candidat candidat;
-    private Disponibilite disponibiliteDuCandidat;
+    private LocalDateTime disponibiliteDuCandidat;
     private Recruteur recruteur;
-    private LocalDate dateDeDisponibiliteDuRecruteur;
+    private LocalDateTime disponibiliteDuRecruteur;
 
     @Autowired
     private EntretienRepository entretienRepository;
@@ -78,19 +76,19 @@ public class PlafinicationEntretienATest extends ATest {
     public void unCandidatAvecAnsDExpériencesQuiEstDisponibleÀ(String language, String email, String experienceInYears, String date, String time) {
         candidat = new Candidat(language, email, Integer.parseInt(experienceInYears));
         entityManager.persist(candidat);
-        disponibiliteDuCandidat = new Disponibilite(LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm"))));
+        disponibiliteDuCandidat = LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));
     }
 
-    @Etqu("un recruteur {string} \\({string}) qui a {string} ans d’XP qui est dispo {string}")
-    public void unRecruteurQuiAAnsDXPQuiEstDispo(String language, String email, String experienceInYears, String date) {
+    @Etqu("un recruteur {string} \\({string}) qui a {string} ans d’XP qui est dispo {string} à {string}")
+    public void unRecruteurQuiAAnsDXPQuiEstDispo(String language, String email, String experienceInYears, String date, String time) {
         recruteur = new Recruteur(language, email, Integer.parseInt(experienceInYears));
         entityManager.persist(recruteur);
-        dateDeDisponibiliteDuRecruteur = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        disponibiliteDuRecruteur = LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));
     }
 
     @Quand("on tente une planification d’entretien")
     public void onTenteUnePlanificationDEntretien() throws JsonProcessingException {
-        EntretienDto entretienDto = new EntretienDto(candidat.getId(), recruteur.getId(), disponibiliteDuCandidat.horaire(), dateDeDisponibiliteDuRecruteur);
+        EntretienDto entretienDto = new EntretienDto(candidat.getId(), recruteur.getId(), disponibiliteDuCandidat, disponibiliteDuRecruteur);
         String body = objectMapper.writeValueAsString(entretienDto);
         initPath();
         //@formatter:off
@@ -109,8 +107,7 @@ public class PlafinicationEntretienATest extends ATest {
                 .statusCode(HttpStatus.SC_CREATED);
 
         Entretien entretien = entretienRepository.findByCandidat(candidat);
-        HoraireEntretien horaire = new HoraireEntretien(disponibiliteDuCandidat.horaire());
-        Entretien expectedEntretien = Entretien.of(candidat, recruteur, horaire);
+        Entretien expectedEntretien = Entretien.of(candidat, recruteur, disponibiliteDuCandidat);
         assertThat(entretien).usingRecursiveComparison()
                 .ignoringFields("id")
                 .isEqualTo(expectedEntretien);
@@ -118,9 +115,8 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Et("un mail de confirmation est envoyé au candidat et au recruteur")
     public void unMailDeConfirmationEstEnvoyéAuCandidatEtAuRecruteur() {
-        HoraireEntretien horaire = new HoraireEntretien(disponibiliteDuCandidat.horaire());
-        verify(emailService).envoyerUnEmailDeConfirmationAuCandidat(candidat.getEmail(), horaire);
-        verify(emailService).envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), horaire);
+        verify(emailService).envoyerUnEmailDeConfirmationAuCandidat(candidat.getEmail(), disponibiliteDuCandidat);
+        verify(emailService).envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), disponibiliteDuCandidat);
     }
 
     @Alors("L’entretien n'est pas planifié")
@@ -134,8 +130,7 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Et("aucun mail de confirmation n'est envoyé au candidat ou au recruteur")
     public void aucunMailDeConfirmationNEstEnvoyéAuCandidatOuAuRecruteur() {
-        HoraireEntretien horaire = new HoraireEntretien(disponibiliteDuCandidat.horaire());
-        verify(emailService, never()).envoyerUnEmailDeConfirmationAuCandidat(candidat.getEmail(), horaire);
-        verify(emailService, never()).envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), horaire);
+        verify(emailService, never()).envoyerUnEmailDeConfirmationAuCandidat(candidat.getEmail(), disponibiliteDuCandidat);
+        verify(emailService, never()).envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), disponibiliteDuCandidat);
     }
 }
