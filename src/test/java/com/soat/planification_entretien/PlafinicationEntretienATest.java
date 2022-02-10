@@ -85,4 +85,16 @@ public class PlafinicationEntretienATest {
         verify(emailService).sendToCandidat(emailCandidat);
         verify(emailService).sendToRecruteur(emailRecruteur);
     }
+
+    @Alors("L’entretien n'est pas planifié")
+    public void lEntretienNEstPasPlanifié() {
+        verify(entretienRepository, never()).save(any(Entretien.class));
+        assertThat(this.entretien).isNull();
+    }
+
+    @Et("aucun mail de confirmation est envoyé au candidat ou au recruteur")
+    public void aucunMailDeConfirmationEstEnvoyéAuCandidatOuAuRecruteur() {
+        verify(emailService, never()).sendToCandidat(anyString());
+        verify(emailService, never()).sendToRecruteur(anyString());
+    }
 }
