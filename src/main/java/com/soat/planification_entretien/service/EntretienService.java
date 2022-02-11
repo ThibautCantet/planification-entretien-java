@@ -19,11 +19,15 @@ public class EntretienService {
     }
 
     public Entretien planifier(Candidat candidat, Recruteur recruteur, LocalDateTime disponibiliteCandidat, LocalDate disponibiliteRecruteur) {
-        Entretien entretien = new Entretien(disponibiliteCandidat, candidat.email(), recruteur.email());
+        LocalDate dateDisponibiliteCandidat = LocalDate.of(disponibiliteCandidat.getYear(), disponibiliteCandidat.getMonth(), disponibiliteCandidat.getDayOfMonth());
+        if (dateDisponibiliteCandidat.equals(disponibiliteRecruteur)) {
+            Entretien entretien = new Entretien(disponibiliteCandidat, candidat.email(), recruteur.email());
 
-        emailService.sendToCandidat(candidat.email());
-        emailService.sendToRecruteur(recruteur.email());
+            emailService.sendToCandidat(candidat.email());
+            emailService.sendToRecruteur(recruteur.email());
 
-        return entretienRepository.save(entretien);
+            return entretienRepository.save(entretien);
+        }
+        return null;
     }
 }

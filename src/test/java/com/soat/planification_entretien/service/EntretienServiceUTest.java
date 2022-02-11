@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
-import static org.mockito.Mockito.*;
 
 class EntretienServiceUTest {
     private EntretienService entretienService;
@@ -64,6 +63,46 @@ class EntretienServiceUTest {
             // then
             verify(emailService).sendToCandidat("candidat@mail.com");
             verify(emailService).sendToRecruteur("recruteur@soat.fr");
+        }
+    }
+
+    @Nested
+    class PlanifierWhenDisponibiliteNotMatching {
+        private final Candidat candidat = new Candidat("Java", "candidat@mail.com", 5);
+        private final Recruteur recruteur = new Recruteur("Java", "recruteur@soat.fr", 10);
+        private final LocalDateTime disponibiliteCandidat = LocalDateTime.of(2022, 2, 10, 12, 0, 0);
+        private final LocalDate disponibiliteRecruteur = LocalDate.of(2022, 2, 11);
+
+        @Test
+        void should_save_entretien() {
+            // when
+            entretienService.planifier(candidat, recruteur, disponibiliteCandidat, disponibiliteRecruteur);
+
+            // then
+            verify(entretienRepository, never()).save(any(Entretien.class));
+        }
+
+        @Test
+        void should_return_saved_entretien() {
+            // given
+            Entretien entretien = new Entretien(disponibiliteCandidat, "candidat@mail.com", "recruteur@soat.fr");
+            given(entretienRepository.save(any())).willReturn(entretien);
+
+            // when
+            Entretien result = entretienService.planifier(candidat, recruteur, disponibiliteCandidat, disponibiliteRecruteur);
+
+            // then
+            assertThat(result).isNull();
+        }
+
+        @Test
+        void should_send_emails_to_candidat_and_recruteur() {
+            // when
+            entretienService.planifier(candidat, recruteur, disponibiliteCandidat, disponibiliteRecruteur);
+
+            // then
+            verify(emailService, never()).sendToCandidat(anyString());
+            verify(emailService, never()).sendToRecruteur(anyString());
         }
     }
 }
