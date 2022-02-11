@@ -20,7 +20,7 @@ public class EntretienService {
 
     public Entretien planifier(Candidat candidat, Recruteur recruteur, LocalDateTime disponibiliteCandidat, LocalDate disponibiliteRecruteur) {
         LocalDate dateDisponibiliteCandidat = LocalDate.of(disponibiliteCandidat.getYear(), disponibiliteCandidat.getMonth(), disponibiliteCandidat.getDayOfMonth());
-        if (isDateOk(disponibiliteRecruteur, dateDisponibiliteCandidat) && isSameLanguage(candidat, recruteur) && isRecruteurMoreExperienced(candidat, recruteur)) {
+        if (recruteur.peutEvaluer(candidat) && areDateTheSame(disponibiliteRecruteur, dateDisponibiliteCandidat)) {
             Entretien entretien = new Entretien(disponibiliteCandidat, candidat.email(), recruteur.email());
 
             emailService.sendToCandidat(candidat.email());
@@ -31,15 +31,7 @@ public class EntretienService {
         return null;
     }
 
-    private boolean isDateOk(LocalDate disponibiliteRecruteur, LocalDate dateDisponibiliteCandidat) {
+    private boolean areDateTheSame(LocalDate disponibiliteRecruteur, LocalDate dateDisponibiliteCandidat) {
         return dateDisponibiliteCandidat.equals(disponibiliteRecruteur);
-    }
-
-    private boolean isSameLanguage(Candidat candidat, Recruteur recruteur) {
-        return candidat.language().equals(recruteur.language());
-    }
-
-    private boolean isRecruteurMoreExperienced(Candidat candidat, Recruteur recruteur) {
-        return recruteur.xp() > candidat.xp();
     }
 }
