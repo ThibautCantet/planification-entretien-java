@@ -22,12 +22,14 @@ public class EntretienService {
         LocalDate dateDisponibiliteCandidat = LocalDate.of(disponibiliteCandidat.getYear(), disponibiliteCandidat.getMonth(), disponibiliteCandidat.getDayOfMonth());
         if (dateDisponibiliteCandidat.equals(disponibiliteRecruteur)) {
             if (candidat.language().equals(recruteur.language())) {
-                Entretien entretien = new Entretien(disponibiliteCandidat, candidat.email(), recruteur.email());
+                if (recruteur.xp() > candidat.xp()) {
+                    Entretien entretien = new Entretien(disponibiliteCandidat, candidat.email(), recruteur.email());
 
-                emailService.sendToCandidat(candidat.email());
-                emailService.sendToRecruteur(recruteur.email());
+                    emailService.sendToCandidat(candidat.email());
+                    emailService.sendToRecruteur(recruteur.email());
 
-                return entretienRepository.save(entretien);
+                    return entretienRepository.save(entretien);
+                }
             }
         }
         return null;
