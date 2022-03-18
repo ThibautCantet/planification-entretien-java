@@ -17,12 +17,21 @@ public class EntretienService {
     }
 
     public void planifier(Candidat candidat, Recruteur recruteur, Disponibilite disponibiliteDuCandidat, Disponibilite disponibiliteDuRecruteur) {
-        Entretien entretien = new Entretien(candidat, recruteur, disponibiliteDuCandidat);
-        if (candidat.getNombreAnneesXP() < recruteur.getNombreAnneesXP() && disponibiliteDuCandidat.equals(disponibiliteDuRecruteur)
-                && candidat.getTechnologie().equals(recruteur.getTechnologie())) {
+        if (entretienEstPlanifiable(candidat, recruteur, disponibiliteDuCandidat, disponibiliteDuRecruteur)) {
+            Entretien entretien = new Entretien(candidat, recruteur, disponibiliteDuCandidat);
             entretienRepository.save(entretien);
-            emailService.envoyerConfirmationAuCandidat(candidat.getEmail());
-            emailService.envoyerConfirmationAuRecruteur(recruteur.getEmail());
+            envoyerEmails(candidat, recruteur);
         }
+    }
+
+    private boolean entretienEstPlanifiable(Candidat candidat, Recruteur recruteur, Disponibilite disponibiliteDuCandidat, Disponibilite disponibiliteDuRecruteur) {
+        boolean recruteurEtCandidatDisponibleEnMemeTemps = disponibiliteDuCandidat.equals(disponibiliteDuRecruteur);
+
+        return recruteur.peutEvaluer(candidat) && recruteurEtCandidatDisponibleEnMemeTemps;
+    }
+
+    private void envoyerEmails(Candidat candidat, Recruteur recruteur) {
+        emailService.envoyerConfirmationAuCandidat(candidat.getEmail());
+        emailService.envoyerConfirmationAuRecruteur(recruteur.getEmail());
     }
 }

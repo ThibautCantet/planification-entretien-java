@@ -1,6 +1,5 @@
 package com.soat.planification_entretien.model;
 
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,5 +37,11 @@ public class Recruteur {
 
     public String getTechnologie() {
         return technologie;
+    }
+
+    public boolean peutEvaluer(Candidat candidat) {
+        boolean recruteurEstPlusExperimente = candidat.getNombreAnneesXP() < getNombreAnneesXP();
+        boolean recruteurEtCandidatOntLaMemeTechno = candidat.getTechnologie().equals(getTechnologie());
+        return recruteurEstPlusExperimente && recruteurEtCandidatOntLaMemeTechno;
     }
 }

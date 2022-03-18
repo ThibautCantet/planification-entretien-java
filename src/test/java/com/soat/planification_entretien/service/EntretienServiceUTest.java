@@ -41,16 +41,26 @@ class EntretienServiceUTest {
             // then
             ArgumentCaptor<Entretien> entretienArgumentCaptor = ArgumentCaptor.forClass(Entretien.class);
             verify(entretienRepository).save(entretienArgumentCaptor.capture());
-            assertThat(entretienArgumentCaptor.getValue()).usingRecursiveComparison().isEqualTo(new Entretien(candidat, recruteur, disponibiliteCandidat));
+            assertThat(entretienArgumentCaptor.getValue())
+                    .usingRecursiveComparison()
+                    .isEqualTo(new Entretien(candidat, recruteur, disponibiliteCandidat));
         }
 
         @Test
-        void should_send_emails_to_candidat_and_recruteur() {
+        void should_send_emails_to_candidat() {
             // when
             entretienService.planifier(candidat, recruteur, disponibiliteCandidat, disponibiliteRecruteur);
 
             // then
             verify(emailService).envoyerConfirmationAuCandidat("candidat@mail.com");
+        }
+
+        @Test
+        void should_send_emails_to_recruteur() {
+            // when
+            entretienService.planifier(candidat, recruteur, disponibiliteCandidat, disponibiliteRecruteur);
+
+            // then
             verify(emailService).envoyerConfirmationAuRecruteur("recruteur@soat.fr");
         }
     }
@@ -71,13 +81,21 @@ class EntretienServiceUTest {
         }
 
         @Test
-        void should_not_send_emails_to_candidat_and_recruteur() {
+        void should_not_send_emails_to_candidat() {
             // when
             entretienService.planifier(candidat, recruteur, disponibiliteCommune, disponibiliteCommune);
 
             // then
-            verify(emailService, never()).envoyerConfirmationAuCandidat(anyString());
-            verify(emailService, never()).envoyerConfirmationAuRecruteur(anyString());
+            verify(emailService, never()).envoyerConfirmationAuCandidat("candidat@mail.com");
+        }
+
+        @Test
+        void should_not_send_emails_to_recruteur() {
+            // when
+            entretienService.planifier(candidat, recruteur, disponibiliteCommune, disponibiliteCommune);
+
+            // then
+            verify(emailService, never()).envoyerConfirmationAuRecruteur("recruteur@soat.fr");
         }
     }
 
@@ -98,13 +116,21 @@ class EntretienServiceUTest {
         }
 
         @Test
-        void should_not_send_emails_to_candidat_and_recruteur() {
+        void should_not_send_emails_to_candidat() {
             // when
             entretienService.planifier(candidat, recruteur, disponibiliteCandidat, disponibiliteRecruteur);
 
             // then
-            verify(emailService, never()).envoyerConfirmationAuCandidat(anyString());
-            verify(emailService, never()).envoyerConfirmationAuRecruteur(anyString());
+            verify(emailService, never()).envoyerConfirmationAuCandidat("candidat@mail.com");
+        }
+
+        @Test
+        void should_not_send_emails_to_recruteur() {
+            // when
+            entretienService.planifier(candidat, recruteur, disponibiliteCandidat, disponibiliteRecruteur);
+
+            // then
+            verify(emailService, never()).envoyerConfirmationAuRecruteur("recruteur@soat.fr");
         }
     }
 
@@ -124,13 +150,21 @@ class EntretienServiceUTest {
         }
 
         @Test
-        void should_not_send_emails_to_candidat_and_recruteur() {
+        void should_not_send_emails_to_candidat() {
             // when
             entretienService.planifier(candidat, recruteur, disponibiliteCommune, disponibiliteCommune);
 
             // then
-            verify(emailService, never()).envoyerConfirmationAuCandidat(anyString());
-            verify(emailService, never()).envoyerConfirmationAuRecruteur(anyString());
+            verify(emailService, never()).envoyerConfirmationAuCandidat("candidat@mail.com");
+        }
+
+        @Test
+        void should_not_send_emails_to_recruteur() {
+            // when
+            entretienService.planifier(candidat, recruteur, disponibiliteCommune, disponibiliteCommune);
+
+            // then
+            verify(emailService, never()).envoyerConfirmationAuRecruteur("recruteur@soat.fr");
         }
     }
 

@@ -108,11 +108,11 @@ public class PlafinicationEntretienATest {
 
     @Et("aucun un email est envoyé au candidat")
     public void aucunUnEmailEstEnvoyéAuCandidat() {
-        verify(emailService, never()).envoyerConfirmationAuCandidat(emailCandidat);
+        verify(emailService, never()).envoyerConfirmationAuCandidat(any());
     }
 
     @Et("aucun email est envoyé au recruteur")
     public void aucunEmailEstEnvoyéAuRecruteur() {
-        verify(emailService, never()).envoyerConfirmationAuRecruteur(emailRecruteur);
+        verify(emailService, never()).envoyerConfirmationAuRecruteur(any());
     }
 }
