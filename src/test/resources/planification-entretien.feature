@@ -24,3 +24,11 @@ Fonctionnalité: Planifier un entretien de recrutement chez Soat
     Alors le rdv n’est pas pris
     Et aucun un email est envoyé au candidat
     Et aucun email est envoyé au recruteur
+
+  Scénario: Cas non passant 3 : le recruteur et le candidat ne sont pas de la même technologie
+    Etant donné un candidat avec comme email "candidat@mail.com" et avec 3 années d’XP, faisant du "Java" et disponible le "14/03/2022" à "14:00"
+    Et un recruteur avec comme email "recruteur@soat.fr" et 5 années d’XP, faisant du "C#" et disponible le "14/03/2022" à "14:00"
+    Quand je planifie l’entretien
+    Alors le rdv n’est pas pris
+    Et aucun un email est envoyé au candidat
+    Et aucun email est envoyé au recruteur

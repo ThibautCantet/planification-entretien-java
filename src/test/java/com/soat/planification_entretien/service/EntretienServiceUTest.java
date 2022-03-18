@@ -108,4 +108,30 @@ class EntretienServiceUTest {
         }
     }
 
+    @Nested
+    class PlanifierWhenTechnoNotMatching {
+        private final Candidat candidat = new Candidat("candidat@mail.com", 5, "Java");
+        private final Recruteur recruteur = new Recruteur("recruteur@soat.fr", 10, "C#");
+        private final Disponibilite disponibiliteCommune = new Disponibilite(LocalDateTime.of(2022, 2, 10, 12, 0, 0));
+
+        @Test
+        void should_not_save_entretien() {
+            // when
+            entretienService.planifier(candidat, recruteur, disponibiliteCommune, disponibiliteCommune);
+
+            // then
+            verify(entretienRepository, never()).save(any(Entretien.class));
+        }
+
+        @Test
+        void should_not_send_emails_to_candidat_and_recruteur() {
+            // when
+            entretienService.planifier(candidat, recruteur, disponibiliteCommune, disponibiliteCommune);
+
+            // then
+            verify(emailService, never()).envoyerConfirmationAuCandidat(anyString());
+            verify(emailService, never()).envoyerConfirmationAuRecruteur(anyString());
+        }
+    }
+
 }

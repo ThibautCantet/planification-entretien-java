@@ -35,4 +35,8 @@ public class Candidat {
     public int getNombreAnneesXP() {
         return nombreAnneesXP;
     }
+
+    public String getTechnologie() {
+        return technologie;
+    }
 }

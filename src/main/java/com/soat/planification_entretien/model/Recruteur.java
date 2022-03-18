@@ -35,4 +35,8 @@ public class Recruteur {
     public int getNombreAnneesXP() {
         return nombreAnneesXP;
     }
+
+    public String getTechnologie() {
+        return technologie;
+    }
 }
