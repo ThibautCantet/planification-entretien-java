@@ -37,7 +37,6 @@ class EntretienServiceUTest {
         void should_save_entretien() {
             // when
             entretienService.planifier(candidat, recruteur, disponibiliteCandidat, disponibiliteRecruteur);
-            ;
 
             // then
             ArgumentCaptor<Entretien> entretienArgumentCaptor = ArgumentCaptor.forClass(Entretien.class);
@@ -49,7 +48,6 @@ class EntretienServiceUTest {
         void should_send_emails_to_candidat_and_recruteur() {
             // when
             entretienService.planifier(candidat, recruteur, disponibiliteCandidat, disponibiliteRecruteur);
-            ;
 
             // then
             verify(emailService).envoyerConfirmationAuCandidat("candidat@mail.com");
@@ -82,4 +80,32 @@ class EntretienServiceUTest {
             verify(emailService, never()).envoyerConfirmationAuRecruteur(anyString());
         }
     }
+
+    @Nested
+    class PlanifierWhenDisponibiliteNotMatching {
+        private final Candidat candidat = new Candidat("candidat@mail.com", 5, "Java");
+        private final Recruteur recruteur = new Recruteur("recruteur@soat.fr", 10, "Java");
+        private final Disponibilite disponibiliteCandidat = new Disponibilite(LocalDateTime.of(2022, 2, 10, 12, 0, 0));
+        private final Disponibilite disponibiliteRecruteur = new Disponibilite(LocalDateTime.of(2022, 2, 11, 12, 0, 0));
+
+        @Test
+        void should_not_save_entretien() {
+            // when
+            entretienService.planifier(candidat, recruteur, disponibiliteCandidat, disponibiliteRecruteur);
+
+            // then
+            verify(entretienRepository, never()).save(any(Entretien.class));
+        }
+
+        @Test
+        void should_not_send_emails_to_candidat_and_recruteur() {
+            // when
+            entretienService.planifier(candidat, recruteur, disponibiliteCandidat, disponibiliteRecruteur);
+
+            // then
+            verify(emailService, never()).envoyerConfirmationAuCandidat(anyString());
+            verify(emailService, never()).envoyerConfirmationAuRecruteur(anyString());
+        }
+    }
+
 }
