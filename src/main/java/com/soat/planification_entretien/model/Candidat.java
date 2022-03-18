@@ -32,4 +32,7 @@ public class Candidat {
         return email;
     }
 
+    public int getNombreAnneesXP() {
+        return nombreAnneesXP;
+    }
 }

@@ -61,7 +61,7 @@ public class PlafinicationEntretienATest {
     @Autowired
     private EntretienRepository entretienRepository;
 
-    @Etantdonnéque("candidat avec comme email {string} et avec {int} années d’XP, faisant du {string} et disponible le {string} à {string}")
+    @Etantdonnéque("un candidat avec comme email {string} et avec {int} années d’XP, faisant du {string} et disponible le {string} à {string}")
     public void candidatAvecAnnéesDXPFaisantDuEtDisponibleLeÀ(String email, int nombreAnneesXP, String technologie, String dateDeDisponibilite, String heureDeDisponibilite) {
         candidat = new Candidat(email, nombreAnneesXP, technologie);
         emailCandidat = email;
@@ -98,5 +98,21 @@ public class PlafinicationEntretienATest {
     @Et("un email a été envoyé au recruteur")
     public void unEmailAÉtéEnvoyéAuRecruteur() {
         verify(emailService, times(1)).envoyerConfirmationAuRecruteur(emailRecruteur);
+    }
+
+    @Alors("le rdv n’est pas pris")
+    public void leRdvNEstPasPris() {
+        List<Entretien> entretiens = entretienRepository.findAll();
+        assertThat(entretiens).isEmpty();
+    }
+
+    @Et("aucun un email est envoyé au candidat")
+    public void aucunUnEmailEstEnvoyéAuCandidat() {
+        verify(emailService, never()).envoyerConfirmationAuCandidat(emailCandidat);
+    }
+
+    @Et("aucun email est envoyé au recruteur")
+    public void aucunEmailEstEnvoyéAuRecruteur() {
+        verify(emailService, never()).envoyerConfirmationAuRecruteur(emailRecruteur);
     }
 }

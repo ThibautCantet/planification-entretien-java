@@ -18,8 +18,10 @@ public class EntretienService {
 
     public void planifier(Candidat candidat, Recruteur recruteur, Disponibilite disponibiliteDuCandidat, Disponibilite disponibiliteDuRecruteur) {
         Entretien entretien = new Entretien(candidat, recruteur, disponibiliteDuCandidat);
-        entretienRepository.save(entretien);
-        emailService.envoyerConfirmationAuCandidat(candidat.getEmail());
-        emailService.envoyerConfirmationAuRecruteur(recruteur.getEmail());
+        if (candidat.getNombreAnneesXP() < recruteur.getNombreAnneesXP()) {
+            entretienRepository.save(entretien);
+            emailService.envoyerConfirmationAuCandidat(candidat.getEmail());
+            emailService.envoyerConfirmationAuRecruteur(recruteur.getEmail());
+        }
     }
 }
