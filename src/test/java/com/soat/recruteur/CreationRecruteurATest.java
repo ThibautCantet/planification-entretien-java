@@ -7,7 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
 import com.soat.planification_entretien.infrastructure.controller.RecruteurController;
 import com.soat.planification_entretien.infrastructure.model.Recruteur;
-import com.soat.planification_entretien.infrastructure.repository.RecruteurRepository;
+import com.soat.planification_entretien.infrastructure.repository.JpaRecruteurRepository;
 import com.soat.planification_entretien.infrastructure.controller.RecruteurDto;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.*;
 public class CreationRecruteurATest extends ATest {
 
     @Autowired
-    private RecruteurRepository recruteurRepository;
+    private JpaRecruteurRepository recruteurRepository;
 
     private RecruteurDto recruteurDto;
     private Integer recruteurId = 1;

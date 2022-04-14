@@ -7,7 +7,7 @@ import com.soat.ATest;
 import com.soat.planification_entretien.infrastructure.controller.CandidatDto;
 import com.soat.planification_entretien.infrastructure.controller.CandidatController;
 import com.soat.planification_entretien.infrastructure.model.Candidat;
-import com.soat.planification_entretien.infrastructure.repository.CandidatRepository;
+import com.soat.planification_entretien.infrastructure.repository.JpaCandidatRepository;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;
@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.*;
 public class CreationCandidatATest extends ATest {
 
     @Autowired
-    private CandidatRepository candidatRepository;
+    private JpaCandidatRepository candidatRepository;
 
     private CandidatDto candidatDto;
     private Integer candidatId = 1;

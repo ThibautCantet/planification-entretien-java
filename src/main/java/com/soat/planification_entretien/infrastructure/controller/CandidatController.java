@@ -3,8 +3,8 @@ package com.soat.planification_entretien.infrastructure.controller;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.soat.planification_entretien.infrastructure.repository.CandidatRepository;
-import com.soat.planification_entretien.infrastructure.model.Candidat;
+import com.soat.planification_entretien.domain.Candidat;
+import com.soat.planification_entretien.use_case.CandidatRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
