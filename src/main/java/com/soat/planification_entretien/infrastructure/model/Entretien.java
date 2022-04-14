@@ -25,7 +25,7 @@ public class Entretien {
     @JoinColumn(name = "recruteur_id")
     private Recruteur recruteur;
 
-    private Entretien(Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
+    public Entretien(Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
         this.candidat = candidat;
         this.recruteur = recruteur;
         this.horaireEntretien = horaire;
@@ -33,10 +33,6 @@ public class Entretien {
 
     public Entretien() {
 
-    }
-
-    public static Entretien of(Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
-        return new Entretien(candidat, recruteur, horaire);
     }
 
     public Candidat getCandidat() {

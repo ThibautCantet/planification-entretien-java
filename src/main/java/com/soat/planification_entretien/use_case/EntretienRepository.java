@@ -10,5 +10,5 @@ public interface EntretienRepository {
 
     Entretien save(Entretien entretien);
 
-    List<Entretien> findAllEntretiens();
+    List<Entretien> findAll();
 }

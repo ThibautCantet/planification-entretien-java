@@ -19,6 +19,11 @@ public class Candidat {
     private Integer experienceInYears;
 
     public Candidat(String language, String email, int experienceInYears) {
+        this(null, language, email, experienceInYears);
+    }
+
+    public Candidat(Integer id, String language, String email, int experienceInYears) {
+        this.id = id;
         this.language = language;
         this.email = email;
         this.experienceInYears = experienceInYears;
