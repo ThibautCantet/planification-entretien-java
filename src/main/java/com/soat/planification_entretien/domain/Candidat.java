@@ -6,14 +6,28 @@ public class Candidat {
     private String email;
     private Integer experienceInYears;
 
-    public Candidat(String language, String email, int experienceInYears) {
+    private Candidat(Integer id, String language, String email, int experienceInYears) {
+        this.id = id;
         this.language = language;
         this.email = email;
         this.experienceInYears = experienceInYears;
     }
 
-    public Candidat() {
+    private Candidat(String language, String email, int experienceInYears) {
+        this(null, language, email, experienceInYears);
+    }
 
+    public static Candidat of(int id, String language, String email, int experienceInYears) {
+        return new Candidat(id, language, email, experienceInYears);
+    }
+
+    public static Candidat of(String language, String email, int experienceInYears) {
+        return new Candidat(language, email, experienceInYears);
+    }
+
+
+    public static Candidat of(int id, Candidat candidat) {
+        return new Candidat(id, candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceInYears());
     }
 
     public Integer getId() {

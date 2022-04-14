@@ -31,7 +31,7 @@ public class RecruteurController {
             return badRequest().build();
         }
 
-        Recruteur recruteur = new Recruteur(recruteurDto.language(), recruteurDto.email(), Integer.parseInt(recruteurDto.experienceEnAnnees()));
+        Recruteur recruteur = Recruteur.of(recruteurDto.language(), recruteurDto.email(), Integer.parseInt(recruteurDto.experienceEnAnnees()));
         Recruteur savedRecruteur = recruteurRepository.save(recruteur);
 
         return created(null).body(savedRecruteur.getId());

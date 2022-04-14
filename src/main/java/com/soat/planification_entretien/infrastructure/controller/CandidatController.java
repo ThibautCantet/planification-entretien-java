@@ -33,7 +33,7 @@ public class CandidatController {
             return badRequest().build();
         }
 
-        Candidat candidat = new Candidat(candidatDto.language(), candidatDto.email(), Integer.parseInt(candidatDto.experienceEnAnnees()));
+        Candidat candidat = Candidat.of(candidatDto.language(), candidatDto.email(), Integer.parseInt(candidatDto.experienceEnAnnees()));
         Candidat savedCandidat = candidatRepository.save(candidat);
 
         return created(null).body(savedCandidat.getId());

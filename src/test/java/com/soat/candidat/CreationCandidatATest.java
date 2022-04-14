@@ -4,10 +4,10 @@ import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
-import com.soat.planification_entretien.infrastructure.controller.CandidatDto;
+import com.soat.planification_entretien.domain.Candidat;
 import com.soat.planification_entretien.infrastructure.controller.CandidatController;
-import com.soat.planification_entretien.infrastructure.model.Candidat;
-import com.soat.planification_entretien.infrastructure.repository.JpaCandidatRepository;
+import com.soat.planification_entretien.infrastructure.controller.CandidatDto;
+import com.soat.planification_entretien.use_case.CandidatRepository;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;
@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.*;
 public class CreationCandidatATest extends ATest {
 
     @Autowired
-    private JpaCandidatRepository candidatRepository;
+    private CandidatRepository candidatRepository;
 
     private CandidatDto candidatDto;
     private Integer candidatId = 1;
@@ -67,7 +67,7 @@ public class CreationCandidatATest extends ATest {
         final Candidat candidat = candidatRepository.findById(candidatId).get();
         assertThat(candidat).usingRecursiveComparison()
                 .ignoringFields("id")
-                .isEqualTo(new Candidat(language, email, Integer.parseInt(experienceEnAnnees)));
+                .isEqualTo(Candidat.of(language, email, Integer.parseInt(experienceEnAnnees)));
     }
 
     @Alors("l'enregistrement est refusé")

@@ -5,10 +5,10 @@ import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
+import com.soat.planification_entretien.domain.Recruteur;
 import com.soat.planification_entretien.infrastructure.controller.RecruteurController;
-import com.soat.planification_entretien.infrastructure.model.Recruteur;
-import com.soat.planification_entretien.infrastructure.repository.JpaRecruteurRepository;
 import com.soat.planification_entretien.infrastructure.controller.RecruteurDto;
+import com.soat.planification_entretien.use_case.RecruteurRepository;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;
@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.*;
 public class CreationRecruteurATest extends ATest {
 
     @Autowired
-    private JpaRecruteurRepository recruteurRepository;
+    private RecruteurRepository recruteurRepository;
 
     private RecruteurDto recruteurDto;
     private Integer recruteurId = 1;
@@ -68,7 +68,7 @@ public class CreationRecruteurATest extends ATest {
         final Recruteur recruteur = recruteurRepository.findById(recruteurId).get();
         assertThat(recruteur).usingRecursiveComparison()
                 .ignoringFields("id")
-                .isEqualTo(new Recruteur(language, email, Integer.parseInt(experienceEnAnnees)));
+                .isEqualTo(Recruteur.of(language, email, Integer.parseInt(experienceEnAnnees)));
     }
 
     @Alors("l'enregistrement du recruteur est refusé")
