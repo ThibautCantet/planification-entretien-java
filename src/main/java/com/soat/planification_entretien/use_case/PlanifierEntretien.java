@@ -6,6 +6,7 @@ import com.soat.planification_entretien.domain.Candidat;
 import com.soat.planification_entretien.domain.Entretien;
 import com.soat.planification_entretien.domain.Recruteur;
 import org.springframework.stereotype.Service;
+
 @Service
 public class PlanifierEntretien {
     private final CandidatRepository candidatRepository;

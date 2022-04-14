@@ -25,8 +25,19 @@ public class Entretien {
         return new Entretien(candidat, recruteur, horaire);
     }
 
+    public Integer getId() {
+        return id;
+    }
+
     public Candidat getCandidat() {
         return candidat;
     }
 
+    public Recruteur getRecruteur() {
+        return recruteur;
+    }
+
+    public LocalDateTime getHoraireEntretien() {
+        return horaireEntretien;
+    }
 }

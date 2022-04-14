@@ -15,4 +15,8 @@ public interface JpaEntretienRepository extends EntretienRepository, CrudReposit
     Entretien save(Entretien entretien);
 
     List<Entretien> findAll();
+
+    default List<com.soat.planification_entretien.domain.Entretien> findAllEntretiens() {
+        return null;
+    }
 }
