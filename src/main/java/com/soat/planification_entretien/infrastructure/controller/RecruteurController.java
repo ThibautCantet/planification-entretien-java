@@ -1,10 +1,10 @@
-package com.soat.planification_entretien.controller;
+package com.soat.planification_entretien.infrastructure.controller;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.soat.planification_entretien.model.Recruteur;
-import com.soat.planification_entretien.repository.RecruteurRepository;
+import com.soat.planification_entretien.infrastructure.model.Recruteur;
+import com.soat.planification_entretien.infrastructure.repository.RecruteurRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -1,6 +1,6 @@
-package com.soat.planification_entretien.controller;
+package com.soat.planification_entretien.infrastructure.controller;
 
-import com.soat.planification_entretien.service.EntretienService;
+import com.soat.planification_entretien.use_case.PlanifierEntretien;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,16 +14,16 @@ import static org.springframework.http.ResponseEntity.*;
 public class EntretienController {
     public static final String PATH = "/api/entretien/";
 
-    private final EntretienService entretienService;
+    private final PlanifierEntretien planifierEntretien;
 
-    public EntretienController(EntretienService entretienService) {
-        this.entretienService = entretienService;
+    public EntretienController(PlanifierEntretien planifierEntretien) {
+        this.planifierEntretien = planifierEntretien;
     }
 
     @PostMapping("planifier")
     public ResponseEntity<Void> planifier(@RequestBody EntretienDto entretienDto) {
 
-        var planifie = entretienService.planifier(entretienDto.candidatId(), entretienDto.recruteurId(), entretienDto.disponibiliteDuCandidat(), entretienDto.disponibiliteDuRecruteur());
+        var planifie = planifierEntretien.execute(entretienDto.candidatId(), entretienDto.recruteurId(), entretienDto.disponibiliteDuCandidat(), entretienDto.disponibiliteDuRecruteur());
 
         if (planifie) {
             return created(null).build();
