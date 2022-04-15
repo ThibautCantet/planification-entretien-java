@@ -1,12 +1,16 @@
 package com.soat.planification_entretien.service;
 
-import com.soat.planification_entretien.model.*;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import com.soat.planification_entretien.controller.EntretienDetailDto;
+import com.soat.planification_entretien.model.Candidat;
+import com.soat.planification_entretien.model.Entretien;
+import com.soat.planification_entretien.model.Recruteur;
 import com.soat.planification_entretien.repository.CandidatRepository;
 import com.soat.planification_entretien.repository.EntretienRepository;
 import com.soat.planification_entretien.repository.RecruteurRepository;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 
 @Service
 public class EntretienService {
@@ -36,5 +40,16 @@ public class EntretienService {
             return true;
         }
         return false;
+    }
+
+    public List<EntretienDetailDto> lister() {
+        return entretienRepository.findAll().stream().map(entretien ->
+                new EntretienDetailDto(
+                        entretien.getId(),
+                        entretien.getCandidat().getEmail(),
+                        entretien.getRecruteur().getEmail(),
+                        entretien.getRecruteur().getLanguage(),
+                        entretien.getHoraireEntretien())
+        ).toList();
     }
 }
