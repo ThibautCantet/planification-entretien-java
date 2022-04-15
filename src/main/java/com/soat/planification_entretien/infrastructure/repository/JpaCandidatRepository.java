@@ -3,7 +3,7 @@ package com.soat.planification_entretien.infrastructure.repository;
 import java.util.Optional;
 
 import com.soat.planification_entretien.domain.Candidat;
-import com.soat.planification_entretien.use_case.CandidatRepository;
+import com.soat.planification_entretien.domain.CandidatRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository

@@ -7,7 +7,7 @@ import com.soat.ATest;
 import com.soat.planification_entretien.domain.Candidat;
 import com.soat.planification_entretien.infrastructure.controller.CandidatController;
 import com.soat.planification_entretien.infrastructure.controller.CandidatDto;
-import com.soat.planification_entretien.use_case.CandidatRepository;
+import com.soat.planification_entretien.domain.CandidatRepository;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;
