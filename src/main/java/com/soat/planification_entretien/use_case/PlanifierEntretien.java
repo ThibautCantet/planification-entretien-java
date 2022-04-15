@@ -3,8 +3,12 @@ package com.soat.planification_entretien.use_case;
 import java.time.LocalDateTime;
 
 import com.soat.planification_entretien.domain.Candidat;
+import com.soat.planification_entretien.domain.CandidatRepository;
+import com.soat.planification_entretien.domain.EmailService;
 import com.soat.planification_entretien.domain.Entretien;
+import com.soat.planification_entretien.domain.EntretienRepository;
 import com.soat.planification_entretien.domain.Recruteur;
+import com.soat.planification_entretien.domain.RecruteurRepository;
 import org.springframework.stereotype.Service;
 
 @Service

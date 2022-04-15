@@ -8,7 +8,7 @@ import com.soat.ATest;
 import com.soat.planification_entretien.domain.Recruteur;
 import com.soat.planification_entretien.infrastructure.controller.RecruteurController;
 import com.soat.planification_entretien.infrastructure.controller.RecruteurDto;
-import com.soat.planification_entretien.use_case.RecruteurRepository;
+import com.soat.planification_entretien.domain.RecruteurRepository;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;

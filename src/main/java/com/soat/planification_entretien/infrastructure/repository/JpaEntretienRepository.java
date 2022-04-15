@@ -5,7 +5,7 @@ import java.util.List;
 import com.soat.planification_entretien.domain.Candidat;
 import com.soat.planification_entretien.domain.Entretien;
 import com.soat.planification_entretien.domain.Recruteur;
-import com.soat.planification_entretien.use_case.EntretienRepository;
+import com.soat.planification_entretien.domain.EntretienRepository;
 import org.springframework.stereotype.Service;
 
 @Service
