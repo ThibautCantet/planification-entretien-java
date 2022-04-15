@@ -4,13 +4,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.soat.planification_entretien.domain.Candidat;
-import com.soat.planification_entretien.domain.CandidatRepository;
+import com.soat.planification_entretien.use_case.CreerCandidat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
 
+import static java.util.Optional.*;
 import static org.springframework.http.ResponseEntity.*;
 
 @RestController
@@ -20,23 +22,18 @@ public class CandidatController {
 
     public static final String PATH = "/api/candidat";
 
-    private final CandidatRepository candidatRepository;
+    private final CreerCandidat creerCandidat;
 
-    public CandidatController(CandidatRepository candidatRepository) {
-        this.candidatRepository = candidatRepository;
+    public CandidatController(CreerCandidat creerCandidat) {
+        this.creerCandidat = creerCandidat;
     }
 
     @PostMapping("")
     public ResponseEntity<Integer> creer(@RequestBody CandidatDto candidatDto) {
 
-        if (candidatDto.language().isBlank() || !isEmail(candidatDto.email()) || candidatDto.experienceEnAnnees().isBlank() || Integer.parseInt(candidatDto.experienceEnAnnees()) < 0) {
-            return badRequest().build();
-        }
-
-        Candidat candidat = Candidat.of(candidatDto.language(), candidatDto.email(), Integer.parseInt(candidatDto.experienceEnAnnees()));
-        Candidat savedCandidat = candidatRepository.save(candidat);
-
-        return created(null).body(savedCandidat.getId());
+        Candidat candidat = creerCandidat.execute(candidatDto.language(), candidatDto.email(), candidatDto.experienceEnAnnees());
+        return ofNullable(candidat).map(c -> created(null).body(c.getId()))
+                .orElse(badRequest().build());
     }
 
     private static boolean isEmail(String adresse) {
