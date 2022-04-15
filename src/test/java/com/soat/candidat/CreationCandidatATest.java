@@ -40,9 +40,14 @@ public class CreationCandidatATest extends ATest {
         RestAssured.basePath = CandidatController.PATH;
     }
 
-    @Etantdonné("un candidat {string} \\({string}) avec {string} ans d’expériences")
-    public void unCandidatAvecAnsDExpériences(String language, String email, String experienceEnAnnees) {
+    @Etantdonné("un candidat {string} \\({string}) avec {int} ans d’expériences")
+    public void unCandidatAvecAnsDExpériences(String language, String email, Integer experienceEnAnnees) {
         candidatDto = new CandidatDto(language, email, experienceEnAnnees);
+    }
+
+    @Etantdonné("un candidat {string} \\({string})")
+    public void unCandidatAvecAnsDExpériences(String language, String email) {
+        candidatDto = new CandidatDto(language, email, null);
     }
 
     @Quand("on tente d'enregistrer le candidat")
@@ -59,15 +64,15 @@ public class CreationCandidatATest extends ATest {
         //@formatter:on
     }
 
-    @Alors("le candidat est correctement enregistré avec ses informations {string}, {string} et {string} ans d’expériences")
-    public void leCandidatEstCorrectementEnregistréAvecSesInformationsEtAnsDExpériences(String language, String email, String experienceEnAnnees) {
+    @Alors("le candidat est correctement enregistré avec ses informations {string}, {string} et {int} ans d’expériences")
+    public void leCandidatEstCorrectementEnregistréAvecSesInformationsEtAnsDExpériences(String language, String email, Integer experienceEnAnnees) {
         response.then()
                 .statusCode(HttpStatus.SC_CREATED);
 
         final Candidat candidat = candidatRepository.findById(candidatId).get();
         assertThat(candidat).usingRecursiveComparison()
                 .ignoringFields("id")
-                .isEqualTo(Candidat.of(language, email, Integer.parseInt(experienceEnAnnees)));
+                .isEqualTo(Candidat.of(language, email, experienceEnAnnees));
     }
 
     @Alors("l'enregistrement est refusé")

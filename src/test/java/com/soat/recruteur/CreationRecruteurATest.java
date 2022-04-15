@@ -41,9 +41,14 @@ public class CreationRecruteurATest extends ATest {
         RestAssured.basePath = RecruteurController.PATH;
     }
 
-    @Etantdonné("un recruteur {string} \\({string}) avec {string} ans d’expériences")
-    public void unRecruteurAvecAnsDExpériences(String language, String email, String experienceEnAnnees) {
+    @Etantdonné("un recruteur {string} \\({string}) avec {int} ans d’expériences")
+    public void unRecruteurAvecAnsDExpériences(String language, String email, Integer experienceEnAnnees) {
         recruteurDto = new RecruteurDto(language, email, experienceEnAnnees);
+    }
+
+    @Etantdonné("un recruteur {string} \\({string})")
+    public void unRecruteurAvecAnsDExpériences(String language, String email) {
+        recruteurDto = new RecruteurDto(language, email, null);
     }
 
     @Quand("on tente d'enregistrer le recruteur")
@@ -60,15 +65,15 @@ public class CreationRecruteurATest extends ATest {
         //@formatter:on
     }
 
-    @Alors("le recruteur est correctement enregistré avec ses informations {string}, {string} et {string} ans d’expériences")
-    public void leRecruteurEstCorrectementEnregistréAvecSesInformationsEtAnsDExpériences(String language, String email, String experienceEnAnnees) {
+    @Alors("le recruteur est correctement enregistré avec ses informations {string}, {string} et {int} ans d’expériences")
+    public void leRecruteurEstCorrectementEnregistréAvecSesInformationsEtAnsDExpériences(String language, String email, Integer experienceEnAnnees) {
         response.then()
                 .statusCode(HttpStatus.SC_CREATED);
 
         final Recruteur recruteur = recruteurRepository.findById(recruteurId).get();
         assertThat(recruteur).usingRecursiveComparison()
                 .ignoringFields("id")
-                .isEqualTo(Recruteur.of(language, email, Integer.parseInt(experienceEnAnnees)));
+                .isEqualTo(Recruteur.of(language, email, experienceEnAnnees));
     }
 
     @Alors("l'enregistrement du recruteur est refusé")
