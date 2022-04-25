@@ -1,5 +1,6 @@
 package com.soat.planification_entretien.infrastructure.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.soat.planification_entretien.domain.Recruteur;
@@ -25,5 +26,13 @@ public class JpaRecruteurRepository implements RecruteurRepository {
     public Optional<Recruteur> findById(int recruteurId) {
         var recruteur = jpaRecruteurCrudRepository.findById(recruteurId);
         return recruteur.map(r -> Recruteur.of(recruteurId, r.getLanguage(), r.getEmail(), r.getExperienceInYears()));
+    }
+
+    @Override
+    public List<Recruteur> findAll() {
+        return jpaRecruteurCrudRepository.findAll()
+                .stream()
+                .map(r -> Recruteur.of(r.getId(), r.getLanguage(), r.getEmail(), r.getExperienceInYears()))
+                .toList();
     }
 }

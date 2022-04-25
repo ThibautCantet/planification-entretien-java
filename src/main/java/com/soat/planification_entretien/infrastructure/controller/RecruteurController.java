@@ -1,12 +1,15 @@
 package com.soat.planification_entretien.infrastructure.controller;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.soat.planification_entretien.domain.Candidat;
 import com.soat.planification_entretien.domain.Recruteur;
 import com.soat.planification_entretien.use_case.CreerRecruteur;
+import com.soat.planification_entretien.use_case.ListerRecruteursExperimentes;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,9 +25,11 @@ public class RecruteurController {
     public static final String PATH = "/api/recruteur";
 
     private final CreerRecruteur creerRecruteur;
+    private final ListerRecruteursExperimentes listerRecruteursExperimentes;
 
-    public RecruteurController(CreerRecruteur creerRecruteur) {
+    public RecruteurController(CreerRecruteur creerRecruteur, ListerRecruteursExperimentes listerRecruteursExperimentes) {
         this.creerRecruteur = creerRecruteur;
+        this.listerRecruteursExperimentes = listerRecruteursExperimentes;
     }
 
     @PostMapping("")
@@ -32,6 +37,14 @@ public class RecruteurController {
         Recruteur recruteur = creerRecruteur.execute(recruteurDto.language(), recruteurDto.email(), recruteurDto.experienceEnAnnees());
         return ofNullable(recruteur).map(c -> created(null).body(c.getId()))
                 .orElse(badRequest().build());
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<RecruteurDetailDto>> findAll() {
+        List<RecruteurDetailDto> entretienDetails = listerRecruteursExperimentes.execute().stream()
+                .map(r -> new RecruteurDetailDto(r.id(), r.email(), r.competence()))
+                .toList();
+        return new ResponseEntity<>(entretienDetails, HttpStatus.OK);
     }
 
     private static boolean isEmail(String adresse) {
