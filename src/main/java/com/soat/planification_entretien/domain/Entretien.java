@@ -5,11 +5,11 @@ import java.time.LocalDateTime;
 public class Entretien {
     private Integer id;
 
-    private Candidat candidat;
+    private final Candidat candidat;
 
     private LocalDateTime horaireEntretien;
 
-    private Recruteur recruteur;
+    private final Recruteur recruteur;
 
     private Entretien(int id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
         this.id = id;
@@ -20,6 +20,11 @@ public class Entretien {
 
     private Entretien(Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
         this(0, candidat, recruteur, horaire);
+    }
+
+    public Entretien(Candidat candidat, Recruteur recruteur) {
+        this.candidat = candidat;
+        this.recruteur = recruteur;
     }
 
     public static Entretien of(Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
@@ -48,5 +53,14 @@ public class Entretien {
 
     public LocalDateTime getHoraireEntretien() {
         return horaireEntretien;
+    }
+
+    public boolean planifier(LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
+        boolean estPlanifiable = recruteur.peutEvaluer(candidat)
+                && dateEtHeureDisponibiliteDuCandidat.equals(dateEtHeureDisponibiliteDuRecruteur);
+        if (estPlanifiable) {
+            horaireEntretien = dateEtHeureDisponibiliteDuCandidat;
+        }
+        return estPlanifiable;
     }
 }

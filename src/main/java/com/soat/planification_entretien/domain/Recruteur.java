@@ -45,4 +45,9 @@ public class Recruteur {
     public Integer getExperienceInYears() {
         return experienceInYears;
     }
+
+    public boolean peutEvaluer(Candidat candidat) {
+        return this.language.equals(candidat.getLanguage())
+                && this.experienceInYears > candidat.getExperienceInYears();
+    }
 }

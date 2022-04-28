@@ -29,10 +29,8 @@ public class PlanifierEntretien {
         Candidat candidat = candidatRepository.findById(candidatId).get();
         Recruteur recruteur = recruteurRepository.findById(recruteurId).get();
 
-        if (recruteur.getLanguage().equals(candidat.getLanguage())
-                && recruteur.getExperienceInYears() > candidat.getExperienceInYears()
-                && dateEtHeureDisponibiliteDuCandidat.equals(dateEtHeureDisponibiliteDuRecruteur)) {
-            Entretien entretien = Entretien.of(candidat, recruteur, dateEtHeureDisponibiliteDuRecruteur);
+        Entretien entretien = new Entretien(candidat, recruteur);
+        if (entretien.planifier(dateEtHeureDisponibiliteDuCandidat, dateEtHeureDisponibiliteDuRecruteur)) {
             entretienRepository.save(entretien);
             emailService.envoyerUnEmailDeConfirmationAuCandidat(candidat.getEmail(), dateEtHeureDisponibiliteDuCandidat);
             emailService.envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), dateEtHeureDisponibiliteDuCandidat);
