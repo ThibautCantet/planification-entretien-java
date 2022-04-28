@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.domain;
+package com.soat.planification_entretien.use_case;
 
 import java.time.LocalDateTime;
 
