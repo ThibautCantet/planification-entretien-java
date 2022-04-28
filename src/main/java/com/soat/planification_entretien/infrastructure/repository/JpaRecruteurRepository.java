@@ -7,7 +7,6 @@ import com.soat.planification_entretien.domain.Recruteur;
 import com.soat.planification_entretien.domain.RecruteurRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
 public class JpaRecruteurRepository implements RecruteurRepository {
     private final JpaRecruteurCrudRepository jpaRecruteurCrudRepository;
 

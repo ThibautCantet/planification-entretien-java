@@ -4,9 +4,7 @@ import java.util.Optional;
 
 import com.soat.planification_entretien.domain.Candidat;
 import com.soat.planification_entretien.domain.CandidatRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public class JpaCandidatRepository implements CandidatRepository {
     private final JpaCandidatCrudRepository jpaCandidatCrudRepository;
 

@@ -8,7 +8,7 @@ import com.soat.planification_entretien.domain.Recruteur;
 import com.soat.planification_entretien.domain.EntretienRepository;
 import org.springframework.stereotype.Service;
 
-@Service
+//@Service
 public class JpaEntretienRepository implements EntretienRepository {
     private final JpaEntretienCrudRepository jpaEntretienCrudRepository;
     private final JpaCandidatCrudRepository jpaCandidatCrudRepository;
