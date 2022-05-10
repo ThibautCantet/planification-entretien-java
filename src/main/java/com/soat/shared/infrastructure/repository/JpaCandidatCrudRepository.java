@@ -1,6 +1,6 @@
-package com.soat.planification_entretien.infrastructure.repository;
+package com.soat.shared.infrastructure.repository;
 
-import com.soat.planification_entretien.infrastructure.model.Candidat;
+import com.soat.shared.infrastructure.repository.model.Candidat;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

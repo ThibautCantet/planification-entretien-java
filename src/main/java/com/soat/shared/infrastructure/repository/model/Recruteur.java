@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.infrastructure.model;
+package com.soat.shared.infrastructure.repository.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

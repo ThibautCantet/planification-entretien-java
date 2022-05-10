@@ -6,9 +6,10 @@ import com.soat.planification_entretien.domain.Candidat;
 import com.soat.planification_entretien.domain.Entretien;
 import com.soat.planification_entretien.domain.Recruteur;
 import com.soat.planification_entretien.domain.EntretienRepository;
-import org.springframework.stereotype.Service;
+import com.soat.shared.infrastructure.repository.JpaCandidatCrudRepository;
+import org.springframework.stereotype.Repository;
 
-//@Service
+@Repository
 public class JpaEntretienRepository implements EntretienRepository {
     private final JpaEntretienCrudRepository jpaEntretienCrudRepository;
     private final JpaCandidatCrudRepository jpaCandidatCrudRepository;
@@ -33,7 +34,7 @@ public class JpaEntretienRepository implements EntretienRepository {
         var jpaCandidat = jpaCandidatCrudRepository.findById(entretien.getCandidat().getId()).get();
         var jpaRecruteur = jpaRecruteurCrudRepository.findById(entretien.getRecruteur().getId()).get();
 
-        var jpaEntretien = new com.soat.planification_entretien.infrastructure.model.Entretien(jpaCandidat,
+        var jpaEntretien = new com.soat.shared.infrastructure.repository.model.Entretien(jpaCandidat,
                 jpaRecruteur, entretien.getHoraireEntretien());
         var save = jpaEntretienCrudRepository.save(jpaEntretien);
 
@@ -47,7 +48,7 @@ public class JpaEntretienRepository implements EntretienRepository {
                 .toList();
     }
 
-    private static Entretien toEntretien(com.soat.planification_entretien.infrastructure.model.Entretien jpaEntretien) {
+    private static Entretien toEntretien(com.soat.shared.infrastructure.repository.model.Entretien jpaEntretien) {
         return Entretien.of(jpaEntretien.getId(),
                 Candidat.of(jpaEntretien.getCandidat().getId(), jpaEntretien.getCandidat().getLanguage(), jpaEntretien.getCandidat().getEmail(), jpaEntretien.getCandidat().getExperienceInYears()),
                 Recruteur.of(jpaEntretien.getRecruteur().getId(), jpaEntretien.getRecruteur().getLanguage(), jpaEntretien.getRecruteur().getEmail(), jpaEntretien.getRecruteur().getExperienceInYears()),

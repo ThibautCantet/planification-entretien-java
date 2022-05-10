@@ -1,19 +1,19 @@
-package com.soat.planification_entretien.use_case;
+package com.soat.candidat.use_case;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.soat.planification_entretien.domain.Candidat;
-import com.soat.planification_entretien.domain.CandidatRepository;
+import com.soat.candidat.domain.Candidat;
+import com.soat.candidat.domain.CandidatRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CreerCandidat {
     private static final String EMAIL_REGEX = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
-
     private final CandidatRepository candidatRepository;
 
-    public CreerCandidat(CandidatRepository candidatRepository) {
+    public CreerCandidat(@Qualifier("candidat") CandidatRepository candidatRepository) {
         this.candidatRepository = candidatRepository;
     }
 

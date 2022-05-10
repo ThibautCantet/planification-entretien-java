@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.infrastructure.model;
+package com.soat.shared.infrastructure.repository.model;
 
 import java.time.LocalDateTime;
 import javax.persistence.Column;

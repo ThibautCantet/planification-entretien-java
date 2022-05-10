@@ -1,15 +1,11 @@
-package com.soat.planification_entretien.infrastructure.repository;
+package com.soat.candidat.infrastructure.repository;
 
-import java.util.Optional;
-
-import com.soat.planification_entretien.domain.Candidat;
-import com.soat.planification_entretien.domain.CandidatRepository;
+import com.soat.candidat.domain.Candidat;
+import com.soat.candidat.domain.CandidatRepository;
 import com.soat.shared.infrastructure.repository.JpaCandidatCrudRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-@Repository
-@Qualifier("entretien")
+@Repository("candidat")
 public class JpaCandidatRepository implements CandidatRepository {
     private final JpaCandidatCrudRepository jpaCandidatCrudRepository;
 
@@ -22,11 +18,5 @@ public class JpaCandidatRepository implements CandidatRepository {
         var jpaCandidat = new com.soat.shared.infrastructure.repository.model.Candidat(candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceInYears());
         var saved = jpaCandidatCrudRepository.save(jpaCandidat);
         return Candidat.of(saved.getId(), candidat);
-    }
-
-    @Override
-    public Optional<Candidat> findById(int candidatId) {
-        var candidat = jpaCandidatCrudRepository.findById(candidatId);
-        return candidat.map(r -> Candidat.of(candidatId, r.getLanguage(), r.getEmail(), r.getExperienceInYears()));
     }
 }

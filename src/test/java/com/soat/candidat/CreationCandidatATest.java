@@ -1,13 +1,12 @@
 package com.soat.candidat;
 
-import java.util.Optional;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
-import com.soat.planification_entretien.domain.Candidat;
-import com.soat.planification_entretien.infrastructure.controller.CandidatController;
-import com.soat.planification_entretien.infrastructure.controller.CandidatDto;
-import com.soat.planification_entretien.domain.CandidatRepository;
+import com.soat.candidat.domain.Candidat;
+import com.soat.candidat.infrastructure.controller.CandidatController;
+import com.soat.candidat.infrastructure.controller.CandidatDto;
+import com.soat.candidat.domain.CandidatRepository;
+import com.soat.shared.infrastructure.repository.JpaCandidatCrudRepository;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;
@@ -25,6 +24,9 @@ public class CreationCandidatATest extends ATest {
 
     @Autowired
     private CandidatRepository candidatRepository;
+
+    @Autowired
+    private JpaCandidatCrudRepository jpaCandidatCrudRepository;
 
     private CandidatDto candidatDto;
     private Integer candidatId = 1;
@@ -69,7 +71,7 @@ public class CreationCandidatATest extends ATest {
         response.then()
                 .statusCode(HttpStatus.SC_CREATED);
 
-        final Candidat candidat = candidatRepository.findById(candidatId).get();
+        final var candidat = jpaCandidatCrudRepository.findById(candidatId).get();
         assertThat(candidat).usingRecursiveComparison()
                 .ignoringFields("id")
                 .isEqualTo(Candidat.of(language, email, experienceEnAnnees));
@@ -83,7 +85,7 @@ public class CreationCandidatATest extends ATest {
 
     @Et("le candidat n'est pas enregistré")
     public void leCandidatNEstPasEnregistré() {
-        final Optional<Candidat> candidat = candidatRepository.findById(candidatId);
+        final var candidat = jpaCandidatCrudRepository.findById(candidatId);
         assertThat(candidat).isEmpty();
     }
 }

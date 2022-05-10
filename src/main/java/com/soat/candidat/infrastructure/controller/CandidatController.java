@@ -1,10 +1,7 @@
-package com.soat.planification_entretien.infrastructure.controller;
+package com.soat.candidat.infrastructure.controller;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import com.soat.planification_entretien.domain.Candidat;
-import com.soat.planification_entretien.use_case.CreerCandidat;
+import com.soat.candidat.domain.Candidat;
+import com.soat.candidat.use_case.CreerCandidat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +14,6 @@ import static org.springframework.http.ResponseEntity.*;
 @RestController
 @RequestMapping(CandidatController.PATH)
 public class CandidatController {
-    private static final String EMAIL_REGEX = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
 
     public static final String PATH = "/api/candidat";
 
@@ -33,11 +29,5 @@ public class CandidatController {
         Candidat candidat = creerCandidat.execute(candidatDto.language(), candidatDto.email(), candidatDto.experienceEnAnnees());
         return ofNullable(candidat).map(c -> created(null).body(c.getId()))
                 .orElse(badRequest().build());
-    }
-
-    private static boolean isEmail(String adresse) {
-        final Pattern r = Pattern.compile(EMAIL_REGEX);
-        final Matcher m = r.matcher(adresse);
-        return m.matches();
     }
 }
