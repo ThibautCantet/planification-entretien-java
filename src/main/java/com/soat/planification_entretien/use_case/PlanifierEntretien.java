@@ -9,6 +9,7 @@ import com.soat.planification_entretien.domain.Entretien;
 import com.soat.planification_entretien.domain.EntretienRepository;
 import com.soat.planification_entretien.domain.Recruteur;
 import com.soat.planification_entretien.domain.RecruteurRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,7 +19,7 @@ public class PlanifierEntretien {
     private final EntretienRepository entretienRepository;
     private final EmailService emailService;
 
-    public PlanifierEntretien(CandidatRepository candidatRepository, RecruteurRepository recruteurRepository, EntretienRepository entretienRepository, EmailService emailService) {
+    public PlanifierEntretien(CandidatRepository candidatRepository, @Qualifier("planification_entretien") RecruteurRepository recruteurRepository, EntretienRepository entretienRepository, EmailService emailService) {
         this.candidatRepository = candidatRepository;
         this.recruteurRepository = recruteurRepository;
         this.entretienRepository = entretienRepository;

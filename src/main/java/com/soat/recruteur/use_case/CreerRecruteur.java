@@ -1,10 +1,11 @@
-package com.soat.planification_entretien.use_case;
+package com.soat.recruteur.use_case;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.soat.planification_entretien.domain.Recruteur;
-import com.soat.planification_entretien.domain.RecruteurRepository;
+import com.soat.recruteur.domain.Recruteur;
+import com.soat.recruteur.domain.RecruteurRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,7 +14,7 @@ public class CreerRecruteur {
 
     private final RecruteurRepository recruteurRepository;
 
-    public CreerRecruteur(RecruteurRepository recruteurRepository) {
+    public CreerRecruteur(@Qualifier("recruteur") RecruteurRepository recruteurRepository) {
         this.recruteurRepository = recruteurRepository;
     }
 

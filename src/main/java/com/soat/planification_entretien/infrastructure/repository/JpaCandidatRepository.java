@@ -5,11 +5,9 @@ import java.util.Optional;
 import com.soat.planification_entretien.domain.Candidat;
 import com.soat.planification_entretien.domain.CandidatRepository;
 import com.soat.shared.infrastructure.repository.JpaCandidatCrudRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-@Repository
-@Qualifier("entretien")
+@Repository("entretien")
 public class JpaCandidatRepository implements CandidatRepository {
     private final JpaCandidatCrudRepository jpaCandidatCrudRepository;
 

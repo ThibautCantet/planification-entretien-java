@@ -7,6 +7,7 @@ import com.soat.planification_entretien.domain.Entretien;
 import com.soat.planification_entretien.domain.Recruteur;
 import com.soat.planification_entretien.domain.EntretienRepository;
 import com.soat.shared.infrastructure.repository.JpaCandidatCrudRepository;
+import com.soat.shared.infrastructure.repository.JpaRecruteurCrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository

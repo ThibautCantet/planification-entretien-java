@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.infrastructure.repository;
+package com.soat.shared.infrastructure.repository;
 
 import java.util.List;
 

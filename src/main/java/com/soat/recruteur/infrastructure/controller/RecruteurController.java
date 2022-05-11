@@ -1,12 +1,12 @@
-package com.soat.planification_entretien.infrastructure.controller;
+package com.soat.recruteur.infrastructure.controller;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.soat.planification_entretien.domain.Recruteur;
-import com.soat.planification_entretien.use_case.CreerRecruteur;
-import com.soat.planification_entretien.use_case.ListerRecruteursExperimentes;
+import com.soat.recruteur.domain.Recruteur;
+import com.soat.recruteur.use_case.CreerRecruteur;
+import com.soat.recruteur.use_case.ListerRecruteursExperimentes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

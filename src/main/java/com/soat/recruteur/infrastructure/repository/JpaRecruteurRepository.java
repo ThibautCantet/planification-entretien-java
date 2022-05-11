@@ -1,14 +1,14 @@
-package com.soat.planification_entretien.infrastructure.repository;
+package com.soat.recruteur.infrastructure.repository;
 
+import java.util.List;
 import java.util.Optional;
 
-import com.soat.planification_entretien.domain.Recruteur;
-import com.soat.planification_entretien.domain.RecruteurRepository;
+import com.soat.recruteur.domain.Recruteur;
+import com.soat.recruteur.domain.RecruteurRepository;
 import com.soat.shared.infrastructure.repository.JpaRecruteurCrudRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-@Repository("planification_entretien")
+@Repository("recruteur")
 public class JpaRecruteurRepository implements RecruteurRepository {
     private final JpaRecruteurCrudRepository jpaRecruteurCrudRepository;
 
@@ -21,6 +21,14 @@ public class JpaRecruteurRepository implements RecruteurRepository {
         var jpaRecruteur = new com.soat.shared.infrastructure.repository.model.Recruteur(recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears());
         var saved = jpaRecruteurCrudRepository.save(jpaRecruteur);
         return Recruteur.of(saved.getId(), recruteur);
+    }
+
+    @Override
+    public List<Recruteur> findAll() {
+        return jpaRecruteurCrudRepository.findAll()
+                .stream()
+                .map(r -> Recruteur.of(r.getId(), r.getLanguage(), r.getEmail(), r.getExperienceInYears()))
+                .toList();
     }
 
     @Override

@@ -1,16 +1,17 @@
-package com.soat.planification_entretien.use_case;
+package com.soat.recruteur.use_case;
 
 import java.util.List;
 
-import com.soat.planification_entretien.domain.RecruteurDetail;
-import com.soat.planification_entretien.domain.RecruteurRepository;
+import com.soat.recruteur.domain.RecruteurDetail;
+import com.soat.recruteur.domain.RecruteurRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ListerRecruteursExperimentes {
     private final RecruteurRepository recruteurRepository;
 
-    public ListerRecruteursExperimentes(RecruteurRepository recruteurRepository) {
+    public ListerRecruteursExperimentes(@Qualifier("recruteur") RecruteurRepository recruteurRepository) {
         this.recruteurRepository = recruteurRepository;
     }
 
