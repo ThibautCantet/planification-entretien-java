@@ -1,5 +1,7 @@
 package com.soat.candidat.infrastructure.repository;
 
+import java.util.UUID;
+
 import com.soat.candidat.domain.Candidat;
 import com.soat.candidat.domain.CandidatRepository;
 import com.soat.shared.infrastructure.repository.JpaCandidatCrudRepository;
@@ -14,9 +16,14 @@ public class JpaCandidatRepository implements CandidatRepository {
     }
 
     @Override
+    public UUID next() {
+        return UUID.randomUUID();
+    }
+
+    @Override
     public Candidat save(Candidat candidat) {
-        var jpaCandidat = new com.soat.shared.infrastructure.repository.model.Candidat(candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceInYears());
+        var jpaCandidat = new com.soat.shared.infrastructure.repository.model.Candidat(candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceEnAnnees());
         var saved = jpaCandidatCrudRepository.save(jpaCandidat);
-        return Candidat.of(saved.getId(), candidat);
+        return candidat;
     }
 }

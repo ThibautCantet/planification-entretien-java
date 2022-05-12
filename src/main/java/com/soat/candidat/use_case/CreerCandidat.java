@@ -1,7 +1,6 @@
 package com.soat.candidat.use_case;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.UUID;
 
 import com.soat.candidat.domain.Candidat;
 import com.soat.candidat.domain.CandidatRepository;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CreerCandidat {
-    private static final String EMAIL_REGEX = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
     private final CandidatRepository candidatRepository;
 
     public CreerCandidat(@Qualifier("candidat") CandidatRepository candidatRepository) {
@@ -18,18 +16,13 @@ public class CreerCandidat {
     }
 
     public Candidat execute(String language, String email, Integer experienceEnAnnees) {
-        if (language.isBlank() || !isEmail(email) || experienceEnAnnees == null || experienceEnAnnees < 0) {
+        try {
+            final UUID id = candidatRepository.next();
+            Candidat candidat = new Candidat(id, language, email, experienceEnAnnees);
+
+            return candidatRepository.save(candidat);
+        } catch (Exception e) {
             return null;
         }
-
-        Candidat candidat = Candidat.of(language, email, experienceEnAnnees);
-
-        return candidatRepository.save(candidat);
-    }
-
-    private static boolean isEmail(String adresse) {
-        final Pattern r = Pattern.compile(EMAIL_REGEX);
-        final Matcher m = r.matcher(adresse);
-        return m.matches();
     }
 }

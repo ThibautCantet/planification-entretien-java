@@ -1,48 +1,33 @@
 package com.soat.candidat.domain;
 
+import java.util.UUID;
+
 public class Candidat {
-    private Integer id;
-    private String language;
-    private String email;
-    private Integer experienceInYears;
+    private final CandidatId id;
+    private final Language language;
+    private final Email email;
+    private final AnneesExperience experienceEnAnnees;
 
-    private Candidat(Integer id, String language, String email, int experienceInYears) {
-        this.id = id;
-        this.language = language;
-        this.email = email;
-        this.experienceInYears = experienceInYears;
+    public Candidat(UUID id, String language, String email, Integer experienceEnAnnees) {
+        this.id = new CandidatId(id);
+        this.language = new Language(language);
+        this.email = new Email(email);
+        this.experienceEnAnnees = new AnneesExperience(experienceEnAnnees);
     }
 
-    private Candidat(String language, String email, int experienceInYears) {
-        this(null, language, email, experienceInYears);
-    }
-
-    public static Candidat of(int id, String language, String email, int experienceInYears) {
-        return new Candidat(id, language, email, experienceInYears);
-    }
-
-    public static Candidat of(String language, String email, int experienceInYears) {
-        return new Candidat(language, email, experienceInYears);
-    }
-
-
-    public static Candidat of(int id, Candidat candidat) {
-        return new Candidat(id, candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceInYears());
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getLanguage() {
-        return language;
+    public UUID getId() {
+        return id.id();
     }
 
     public String getEmail() {
-        return email;
+        return email.adresse();
     }
 
-    public Integer getExperienceInYears() {
-        return experienceInYears;
+    public Integer getExperienceEnAnnees() {
+        return experienceEnAnnees.nombre();
+    }
+
+    public String getLanguage() {
+        return language.name();
     }
 }

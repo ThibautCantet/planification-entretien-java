@@ -2,11 +2,11 @@ package com.soat.candidat;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
-import com.soat.candidat.domain.Candidat;
 import com.soat.candidat.infrastructure.controller.CandidatController;
 import com.soat.candidat.infrastructure.controller.CandidatDto;
 import com.soat.candidat.domain.CandidatRepository;
 import com.soat.shared.infrastructure.repository.JpaCandidatCrudRepository;
+import com.soat.shared.infrastructure.repository.model.Candidat;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;
@@ -74,7 +74,7 @@ public class CreationCandidatATest extends ATest {
         final var candidat = jpaCandidatCrudRepository.findById(candidatId).get();
         assertThat(candidat).usingRecursiveComparison()
                 .ignoringFields("id")
-                .isEqualTo(Candidat.of(language, email, experienceEnAnnees));
+                .isEqualTo(new Candidat(language, email, experienceEnAnnees));
     }
 
     @Alors("l'enregistrement est refusé")

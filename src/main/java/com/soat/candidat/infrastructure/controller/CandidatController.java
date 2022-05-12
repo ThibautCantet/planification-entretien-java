@@ -1,5 +1,7 @@
 package com.soat.candidat.infrastructure.controller;
 
+import java.util.UUID;
+
 import com.soat.candidat.domain.Candidat;
 import com.soat.candidat.use_case.CreerCandidat;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +26,7 @@ public class CandidatController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Integer> creer(@RequestBody CandidatDto candidatDto) {
+    public ResponseEntity<UUID> creer(@RequestBody CandidatDto candidatDto) {
 
         Candidat candidat = creerCandidat.execute(candidatDto.language(), candidatDto.email(), candidatDto.experienceEnAnnees());
         return ofNullable(candidat).map(c -> created(null).body(c.getId()))
