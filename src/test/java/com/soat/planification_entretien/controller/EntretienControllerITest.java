@@ -1,6 +1,7 @@
 package com.soat.planification_entretien.controller;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,7 +36,7 @@ class EntretienControllerITest {
     @Test
     void name() throws JsonProcessingException {
         var dateDeDisponibiliteDuRecruteur = LocalDateTime.MAX;
-        EntretienDto entretienDto = new EntretienDto(1, 1, LocalDateTime.of(2021, 12, 30, 1, 1, 1), dateDeDisponibiliteDuRecruteur);
+        EntretienDto entretienDto = new EntretienDto(UUID.randomUUID(), UUID.randomUUID(), LocalDateTime.of(2021, 12, 30, 1, 1, 1), dateDeDisponibiliteDuRecruteur);
         String body = objectMapper.writeValueAsString(entretienDto);
         //@formatter:off
         given()

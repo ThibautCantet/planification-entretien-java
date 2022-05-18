@@ -2,6 +2,7 @@ package com.soat.recruteur.infrastructure.repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.soat.recruteur.domain.Recruteur;
 import com.soat.recruteur.domain.RecruteurRepository;
@@ -17,23 +18,28 @@ public class JpaRecruteurRepository implements RecruteurRepository {
     }
 
     @Override
+    public UUID next() {
+        return UUID.randomUUID();
+    }
+
+    @Override
     public Recruteur save(Recruteur recruteur) {
-        var jpaRecruteur = new com.soat.shared.infrastructure.repository.model.Recruteur(recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears());
-        var saved = jpaRecruteurCrudRepository.save(jpaRecruteur);
-        return Recruteur.of(saved.getId(), recruteur);
+        var jpaRecruteur = new com.soat.shared.infrastructure.repository.model.Recruteur(recruteur.getId(), recruteur.getLanguage(), recruteur.getEmail(), recruteur.getAnneesExperience());
+        jpaRecruteurCrudRepository.save(jpaRecruteur);
+        return recruteur;
     }
 
     @Override
     public List<Recruteur> findAll() {
         return jpaRecruteurCrudRepository.findAll()
                 .stream()
-                .map(r -> Recruteur.of(r.getId(), r.getLanguage(), r.getEmail(), r.getExperienceInYears()))
+                .map(r -> new Recruteur(r.getId(), r.getLanguage(), r.getEmail(), r.getExperienceInYears()))
                 .toList();
     }
 
     @Override
-    public Optional<Recruteur> findById(int recruteurId) {
+    public Optional<Recruteur> findById(UUID recruteurId) {
         var recruteur = jpaRecruteurCrudRepository.findById(recruteurId);
-        return recruteur.map(r -> Recruteur.of(recruteurId, r.getLanguage(), r.getEmail(), r.getExperienceInYears()));
+        return recruteur.map(r -> new Recruteur(recruteurId, r.getLanguage(), r.getEmail(), r.getExperienceInYears()));
     }
 }

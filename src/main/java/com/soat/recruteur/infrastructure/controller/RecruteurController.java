@@ -1,6 +1,7 @@
 package com.soat.recruteur.infrastructure.controller;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,7 +34,7 @@ public class RecruteurController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Integer> creer(@RequestBody RecruteurDto recruteurDto) {
+    public ResponseEntity<UUID> creer(@RequestBody RecruteurDto recruteurDto) {
         Recruteur recruteur = creerRecruteur.execute(recruteurDto.language(), recruteurDto.email(), recruteurDto.experienceEnAnnees());
         return ofNullable(recruteur).map(c -> created(null).body(c.getId()))
                 .orElse(badRequest().build());

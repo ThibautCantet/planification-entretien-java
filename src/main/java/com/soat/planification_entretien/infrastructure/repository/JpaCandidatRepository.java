@@ -1,6 +1,7 @@
 package com.soat.planification_entretien.infrastructure.repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import com.soat.planification_entretien.domain.Candidat;
 import com.soat.planification_entretien.domain.CandidatRepository;
@@ -17,13 +18,13 @@ public class JpaCandidatRepository implements CandidatRepository {
 
     @Override
     public Candidat save(Candidat candidat) {
-        var jpaCandidat = new com.soat.shared.infrastructure.repository.model.Candidat(candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceInYears());
-        var saved = jpaCandidatCrudRepository.save(jpaCandidat);
-        return Candidat.of(saved.getId(), candidat);
+        var jpaCandidat = new com.soat.shared.infrastructure.repository.model.Candidat(candidat.getId(), candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceInYears());
+        jpaCandidatCrudRepository.save(jpaCandidat);
+        return candidat;
     }
 
     @Override
-    public Optional<Candidat> findById(int candidatId) {
+    public Optional<Candidat> findById(UUID candidatId) {
         var candidat = jpaCandidatCrudRepository.findById(candidatId);
         return candidat.map(r -> Candidat.of(candidatId, r.getLanguage(), r.getEmail(), r.getExperienceInYears()));
     }

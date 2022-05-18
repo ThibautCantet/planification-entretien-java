@@ -1,13 +1,13 @@
 # language: fr
-Fonctionnalité: Planifier un entretien de recrutement chez Soat
+Fonctionnalité: Lister les entretiens déjà planifiés
 
   Scénario: Lister les entretiens déjà planifiés
     Etant donné les recruteurs existants
-      | id | email             | language | xp |
-      | 1  | recruteur@soat.fr | Java     | 10 |
+      | id                                   | email             | language | xp |
+      | 123e4567-e89b-42d3-a456-556642440001 | recruteur@soat.fr | Java     | 10 |
     Et les candidats existants
-      | id | email             | language | xp |
-      | 1  | candidat@mail.com | Java     | 5  |
+      | id                                   | email             | language | xp |
+      | 423e4567-e89b-42d3-a456-556642440001 | candidat@mail.com | Java     | 5  |
     Et les entretiens existants
       | id | recruteur | candidat | horaire          |
       | 1  | 1         | 1        | 16/04/2019 15:00 |

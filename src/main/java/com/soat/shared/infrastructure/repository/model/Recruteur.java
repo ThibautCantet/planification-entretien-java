@@ -1,5 +1,6 @@
 package com.soat.shared.infrastructure.repository.model;
 
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,8 +9,7 @@ import javax.persistence.Id;
 @Entity
 public class Recruteur {
     @Id
-    @GeneratedValue
-    private Integer id;
+    private UUID id;
 
     @Column
     private String language;
@@ -18,11 +18,7 @@ public class Recruteur {
     @Column
     private Integer experienceInYears;
 
-    public Recruteur(String language, String email, int experienceInYears) {
-        this(null, language, email, experienceInYears);
-    }
-
-    public Recruteur(Integer id, String language, String email, int experienceInYears) {
+    public Recruteur(UUID id, String language, String email, int experienceInYears) {
         this.id = id;
         this.language = language;
         this.email = email;
@@ -33,7 +29,7 @@ public class Recruteur {
 
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 

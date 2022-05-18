@@ -2,6 +2,7 @@ package com.soat.recruteur;
 
 
 import java.util.Optional;
+import java.util.UUID;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
@@ -28,7 +29,6 @@ public class CreationRecruteurATest extends ATest {
     private RecruteurRepository recruteurRepository;
 
     private RecruteurDto recruteurDto;
-    private Integer recruteurId = 1;
 
     @Before
     @Override
@@ -70,10 +70,11 @@ public class CreationRecruteurATest extends ATest {
         response.then()
                 .statusCode(HttpStatus.SC_CREATED);
 
+        UUID recruteurId = response.then().extract().as(UUID.class);
+
         final Recruteur recruteur = recruteurRepository.findById(recruteurId).get();
         assertThat(recruteur).usingRecursiveComparison()
-                .ignoringFields("id")
-                .isEqualTo(Recruteur.of(language, email, experienceEnAnnees));
+                .isEqualTo(new Recruteur(recruteurId, language, email, experienceEnAnnees));
     }
 
     @Alors("l'enregistrement du recruteur est refusé")
@@ -84,7 +85,7 @@ public class CreationRecruteurATest extends ATest {
 
     @Et("le recruteur n'est pas enregistré")
     public void leRecruteurNEstPasEnregistré() {
-        final Optional<Recruteur> recruteur = recruteurRepository.findById(recruteurId);
-        assertThat(recruteur).isEmpty();
+        final var recruteurs = recruteurRepository.findAll();
+        assertThat(recruteurs).isEmpty();
     }
 }

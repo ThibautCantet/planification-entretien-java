@@ -1,6 +1,7 @@
 package com.soat.recruteur.use_case;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.soat.recruteur.domain.RecruteurDetail;
 import com.soat.recruteur.domain.RecruteurRepository;
@@ -18,25 +19,25 @@ public class ListerRecruteursExperimentes {
     public List<RecruteurDetail> execute() {
         return recruteurRepository.findAll()
                 .stream()
-                .filter(recruteur -> recruteur.getExperienceInYears() >= 10)
-                .map(recruteur -> new BasicRecruteurDetail(recruteur.getId(), recruteur.getEmail(), recruteur.getLanguage(), recruteur.getExperienceInYears()))
+                .filter(recruteur -> recruteur.getAnneesExperience() >= 10)
+                .map(recruteur -> new BasicRecruteurDetail(recruteur.getId(), recruteur.getEmail(), recruteur.getLanguage(), recruteur.getAnneesExperience()))
                 .map(RecruteurDetail.class::cast)
                 .toList();
     }
 
     class BasicRecruteurDetail implements RecruteurDetail {
-        private final Integer id;
+        private final UUID id;
         private final String email;
         private final String competence;
 
-        BasicRecruteurDetail(Integer id, String email, String language, Integer xp) {
+        BasicRecruteurDetail(UUID id, String email, String language, Integer xp) {
             this.id = id;
             this.email = email;
             this.competence = String.format("%s %s ans XP", language, xp);
         }
 
         @Override
-        public Integer id() {
+        public UUID id() {
             return id;
         }
 

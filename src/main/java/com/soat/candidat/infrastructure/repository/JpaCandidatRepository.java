@@ -22,8 +22,8 @@ public class JpaCandidatRepository implements CandidatRepository {
 
     @Override
     public Candidat save(Candidat candidat) {
-        var jpaCandidat = new com.soat.shared.infrastructure.repository.model.Candidat(candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceEnAnnees());
-        var saved = jpaCandidatCrudRepository.save(jpaCandidat);
+        var jpaCandidat = new com.soat.shared.infrastructure.repository.model.Candidat(candidat.getId(), candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceEnAnnees());
+        var s = jpaCandidatCrudRepository.save(jpaCandidat);
         return candidat;
     }
 }

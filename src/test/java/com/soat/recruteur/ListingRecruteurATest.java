@@ -3,6 +3,7 @@ package com.soat.recruteur;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import com.soat.ATest;
 import com.soat.recruteur.infrastructure.controller.RecruteurController;
@@ -56,7 +57,7 @@ public class ListingRecruteurATest extends ATest {
 
     private RecruteurDetailDto buildRecruteur(Map<String, String> entry) {
         return new RecruteurDetailDto(
-                Integer.parseInt(entry.get("id")),
+                UUID.fromString(entry.get("id")),
                 entry.get("email"),
                 entry.get("competence"));
     }

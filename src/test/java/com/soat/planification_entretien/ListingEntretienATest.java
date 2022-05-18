@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import com.soat.ATest;
 import com.soat.planification_entretien.infrastructure.controller.EntretienDetailDto;
@@ -66,6 +67,7 @@ public class ListingEntretienATest extends ATest {
 
     private Recruteur buildRecruteur(Map<String, String> entry) {
         return Recruteur.of(
+                UUID.fromString(entry.get("id")),
                 entry.get("language"),
                 entry.get("email"),
                 Integer.parseInt(entry.get("xp")));
@@ -83,6 +85,7 @@ public class ListingEntretienATest extends ATest {
 
     private Candidat buildCandidat(Map<String, String> entry) {
         return Candidat.of(
+                UUID.fromString(entry.get("id")),
                 entry.get("language"),
                 entry.get("email"),
                 Integer.parseInt(entry.get("xp")));

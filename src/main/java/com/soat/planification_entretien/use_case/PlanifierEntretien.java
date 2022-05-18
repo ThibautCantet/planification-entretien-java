@@ -1,6 +1,7 @@
 package com.soat.planification_entretien.use_case;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import com.soat.planification_entretien.domain.Candidat;
 import com.soat.planification_entretien.domain.CandidatRepository;
@@ -26,7 +27,7 @@ public class PlanifierEntretien {
         this.emailService = emailService;
     }
 
-    public boolean execute(int candidatId, int recruteurId, LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
+    public boolean execute(UUID candidatId, UUID recruteurId, LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
         Candidat candidat = candidatRepository.findById(candidatId).get();
         Recruteur recruteur = recruteurRepository.findById(recruteurId).get();
 

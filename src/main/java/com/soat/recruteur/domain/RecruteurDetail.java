@@ -1,7 +1,9 @@
 package com.soat.recruteur.domain;
 
+import java.util.UUID;
+
 public interface RecruteurDetail {
-    Integer id();
+    UUID id();
 
     String email();
 

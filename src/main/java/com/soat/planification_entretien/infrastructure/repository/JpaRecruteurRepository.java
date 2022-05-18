@@ -1,6 +1,7 @@
 package com.soat.planification_entretien.infrastructure.repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import com.soat.planification_entretien.domain.Recruteur;
 import com.soat.planification_entretien.domain.RecruteurRepository;
@@ -18,13 +19,13 @@ public class JpaRecruteurRepository implements RecruteurRepository {
 
     @Override
     public Recruteur save(Recruteur recruteur) {
-        var jpaRecruteur = new com.soat.shared.infrastructure.repository.model.Recruteur(recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears());
+        var jpaRecruteur = new com.soat.shared.infrastructure.repository.model.Recruteur(recruteur.getId(), recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears());
         var saved = jpaRecruteurCrudRepository.save(jpaRecruteur);
-        return Recruteur.of(saved.getId(), recruteur);
+        return recruteur;
     }
 
     @Override
-    public Optional<Recruteur> findById(int recruteurId) {
+    public Optional<Recruteur> findById(UUID recruteurId) {
         var recruteur = jpaRecruteurCrudRepository.findById(recruteurId);
         return recruteur.map(r -> Recruteur.of(recruteurId, r.getLanguage(), r.getEmail(), r.getExperienceInYears()));
     }

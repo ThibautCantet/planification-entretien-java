@@ -1,5 +1,7 @@
 package com.soat.candidat;
 
+import java.util.UUID;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
 import com.soat.candidat.infrastructure.controller.CandidatController;
@@ -14,6 +16,7 @@ import io.cucumber.java.fr.Etantdonné;
 import io.cucumber.java.fr.Quand;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.response.ResponseBody;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -29,7 +32,6 @@ public class CreationCandidatATest extends ATest {
     private JpaCandidatCrudRepository jpaCandidatCrudRepository;
 
     private CandidatDto candidatDto;
-    private Integer candidatId = 1;
 
     @Before
     @Override
@@ -71,10 +73,11 @@ public class CreationCandidatATest extends ATest {
         response.then()
                 .statusCode(HttpStatus.SC_CREATED);
 
+        UUID candidatId = response.then().extract().as(UUID.class);
+
         final var candidat = jpaCandidatCrudRepository.findById(candidatId).get();
         assertThat(candidat).usingRecursiveComparison()
-                .ignoringFields("id")
-                .isEqualTo(new Candidat(language, email, experienceEnAnnees));
+                .isEqualTo(new Candidat(candidatId, language, email, experienceEnAnnees));
     }
 
     @Alors("l'enregistrement est refusé")
@@ -85,7 +88,7 @@ public class CreationCandidatATest extends ATest {
 
     @Et("le candidat n'est pas enregistré")
     public void leCandidatNEstPasEnregistré() {
-        final var candidat = jpaCandidatCrudRepository.findById(candidatId);
-        assertThat(candidat).isEmpty();
+        final var candidats = jpaCandidatCrudRepository.findAll();
+        assertThat(candidats).isEmpty();
     }
 }
