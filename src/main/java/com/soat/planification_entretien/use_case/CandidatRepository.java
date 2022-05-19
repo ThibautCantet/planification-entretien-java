@@ -7,4 +7,6 @@ import com.soat.planification_entretien.domain.model.Candidat;
 
 public interface CandidatRepository {
     Optional<Candidat> findById(int candidatId);
+
+    Candidat save(Candidat candidat);
 }

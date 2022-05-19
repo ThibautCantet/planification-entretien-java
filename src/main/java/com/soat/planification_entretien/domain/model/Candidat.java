@@ -20,6 +20,11 @@ public class Candidat {
         this.experienceInYears = experienceInYears;
     }
 
+    public static Candidat of(Integer id, Candidat candidat) {
+        candidat.id = id;
+        return candidat;
+    }
+
     public Integer getId() {
         return id;
     }

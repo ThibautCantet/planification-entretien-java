@@ -2,6 +2,7 @@ package com.soat.planification_entretien.infrastructure.repository;
 
 import java.util.Optional;
 
+import com.soat.planification_entretien.domain.model.Candidat;
 import com.soat.planification_entretien.use_case.CandidatRepository;
 import org.springframework.stereotype.Repository;
 
@@ -23,5 +24,12 @@ public class HibernateCandidatRepository implements CandidatRepository {
                         candidat.getExperienceInYears()
                 )
         );
+    }
+
+    @Override
+    public Candidat save(Candidat candidat) {
+        com.soat.planification_entretien.infrastructure.repository.Candidat toSave = new com.soat.planification_entretien.infrastructure.repository.Candidat(candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceInYears());
+        com.soat.planification_entretien.infrastructure.repository.Candidat saved = candidatCrud.save(toSave);
+        return Candidat.of(saved.getId(), candidat);
     }
 }

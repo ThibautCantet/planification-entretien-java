@@ -24,4 +24,11 @@ public class HibernateRecruteurRepository implements RecruteurRepository {
                 )
         );
     }
+
+    @Override
+    public com.soat.planification_entretien.domain.model.Recruteur save(com.soat.planification_entretien.domain.model.Recruteur recruteur) {
+        com.soat.planification_entretien.infrastructure.repository.Recruteur toSave = new com.soat.planification_entretien.infrastructure.repository.Recruteur(recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears());
+        com.soat.planification_entretien.infrastructure.repository.Recruteur saved = recruteurCrud.save(toSave);
+        return com.soat.planification_entretien.domain.model.Recruteur.of(saved.getId(), recruteur);
+    }
 }

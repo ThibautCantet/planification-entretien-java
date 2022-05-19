@@ -20,6 +20,11 @@ public class Recruteur {
         this.experienceInYears = experienceInYears;
     }
 
+    public static Recruteur of(Integer id, Recruteur recruteur) {
+        recruteur.id = id;
+        return recruteur;
+    }
+
     public Integer getId() {
         return id;
     }
