@@ -1,10 +1,15 @@
 package com.soat.planification_entretien.application.controller;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.soat.planification_entretien.domain.candidat.Candidat;
+import com.soat.planification_entretien.domain.candidat.CandidatRepository;
 import com.soat.planification_entretien.domain.entretien.EntretienDetail;
 import com.soat.planification_entretien.domain.entretien.ListerEntretiens;
 import com.soat.planification_entretien.domain.entretien.PlanifierEntretien;
+import com.soat.planification_entretien.domain.recruteur.Recruteur;
+import com.soat.planification_entretien.domain.recruteur.RecruteurRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,10 +27,14 @@ public class EntretienController {
 
     private final PlanifierEntretien planifierEntretien;
     private final ListerEntretiens listerEntretiens;
+    private final CandidatRepository candidatRepository;
+    private final RecruteurRepository recruteurRepository;
 
-    public EntretienController(PlanifierEntretien planifierEntretien, ListerEntretiens listerEntretiens) {
+    public EntretienController(PlanifierEntretien planifierEntretien, ListerEntretiens listerEntretiens, CandidatRepository candidatRepository, RecruteurRepository recruteurRepository) {
         this.planifierEntretien = planifierEntretien;
         this.listerEntretiens = listerEntretiens;
+        this.candidatRepository = candidatRepository;
+        this.recruteurRepository = recruteurRepository;
     }
 
     @GetMapping("/")
@@ -37,7 +46,15 @@ public class EntretienController {
     @PostMapping("planifier")
     public ResponseEntity<Void> planifier(@RequestBody EntretienDto entretienDto) {
 
-        var planifie = planifierEntretien.execute(entretienDto.candidatId(), entretienDto.recruteurId(), entretienDto.disponibiliteDuCandidat(), entretienDto.disponibiliteDuRecruteur());
+        Optional<Candidat> candidat = candidatRepository.findById(entretienDto.candidatId());
+        if (candidat.isEmpty()) {
+            return badRequest().build();
+        }
+        Optional<Recruteur> recruteur = recruteurRepository.findById(entretienDto.recruteurId());
+        if (recruteur.isEmpty()) {
+            return badRequest().build();
+        }
+        var planifie = planifierEntretien.execute(candidat.get(), recruteur.get(), entretienDto.disponibiliteDuCandidat(), entretienDto.disponibiliteDuRecruteur());
 
         if (planifie) {
             return created(null).build();
