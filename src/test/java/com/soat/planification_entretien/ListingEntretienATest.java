@@ -12,8 +12,7 @@ import com.soat.planification_entretien.application.controller.EntretienControll
 import com.soat.planification_entretien.infrastructure.repository.Candidat;
 import com.soat.planification_entretien.infrastructure.repository.Entretien;
 import com.soat.planification_entretien.infrastructure.repository.Recruteur;
-import com.soat.planification_entretien.use_case.EntretienDetail;
-import com.soat.planification_entretien.use_case.EntretienService;
+import com.soat.planification_entretien.domain.entretien.EntretienDetail;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;

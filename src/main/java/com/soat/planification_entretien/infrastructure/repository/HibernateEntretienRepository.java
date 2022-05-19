@@ -2,7 +2,8 @@ package com.soat.planification_entretien.infrastructure.repository;
 
 import java.util.List;
 
-import com.soat.planification_entretien.use_case.EntretienRepository;
+import com.soat.planification_entretien.domain.recruteur.Recruteur;
+import com.soat.planification_entretien.domain.entretien.EntretienRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -18,7 +19,7 @@ public class HibernateEntretienRepository implements EntretienRepository {
     }
 
     @Override
-    public void save(com.soat.planification_entretien.domain.model.Entretien entretien) {
+    public void save(com.soat.planification_entretien.domain.entretien.Entretien entretien) {
 
         var jpaCandidat = candidatCrud.findById(entretien.getCandidat().getId()).get();
         var jpaRecruteur = recruteurCrud.findById(entretien.getRecruteur().getId()).get();
@@ -29,17 +30,17 @@ public class HibernateEntretienRepository implements EntretienRepository {
     }
 
     @Override
-    public List<com.soat.planification_entretien.domain.model.Entretien> findAll() {
+    public List<com.soat.planification_entretien.domain.entretien.Entretien> findAll() {
         return entretienCrud.findAll().stream()
                 .map(HibernateEntretienRepository::toEntretien)
                 .toList();
     }
 
-    private static com.soat.planification_entretien.domain.model.Entretien toEntretien(com.soat.planification_entretien.infrastructure.repository.Entretien jpaEntretien) {
-        return com.soat.planification_entretien.domain.model.Entretien.of(
+    private static com.soat.planification_entretien.domain.entretien.Entretien toEntretien(com.soat.planification_entretien.infrastructure.repository.Entretien jpaEntretien) {
+        return com.soat.planification_entretien.domain.entretien.Entretien.of(
                 jpaEntretien.getId(),
-                new com.soat.planification_entretien.domain.model.Candidat(jpaEntretien.getCandidat().getLanguage(), jpaEntretien.getCandidat().getEmail(), jpaEntretien.getCandidat().getExperienceInYears()),
-                new com.soat.planification_entretien.domain.model.Recruteur(jpaEntretien.getRecruteur().getLanguage(), jpaEntretien.getRecruteur().getEmail(), jpaEntretien.getRecruteur().getExperienceInYears()),
+                new com.soat.planification_entretien.domain.candidat.Candidat(jpaEntretien.getCandidat().getLanguage(), jpaEntretien.getCandidat().getEmail(), jpaEntretien.getCandidat().getExperienceInYears()),
+                new Recruteur(jpaEntretien.getRecruteur().getLanguage(), jpaEntretien.getRecruteur().getEmail(), jpaEntretien.getRecruteur().getExperienceInYears()),
                 jpaEntretien.getHoraireEntretien());
     }
 }

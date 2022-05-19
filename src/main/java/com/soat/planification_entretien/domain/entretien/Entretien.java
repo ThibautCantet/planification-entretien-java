@@ -1,6 +1,9 @@
-package com.soat.planification_entretien.domain.model;
+package com.soat.planification_entretien.domain.entretien;
 
 import java.time.LocalDateTime;
+
+import com.soat.planification_entretien.domain.candidat.Candidat;
+import com.soat.planification_entretien.domain.recruteur.Recruteur;
 
 public class Entretien {
     private Integer id;

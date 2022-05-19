@@ -1,8 +1,8 @@
-package com.soat.planification_entretien.use_case;
+package com.soat.planification_entretien.domain.entretien;
 
 import java.util.List;
 
-import com.soat.planification_entretien.domain.model.Entretien;
+import com.soat.planification_entretien.domain.entretien.Entretien;
 
 public interface EntretienRepository {
     void save(Entretien entretien);

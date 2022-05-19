@@ -13,7 +13,7 @@ import com.soat.planification_entretien.infrastructure.repository.Candidat;
 import com.soat.planification_entretien.infrastructure.repository.Entretien;
 import com.soat.planification_entretien.infrastructure.repository.Recruteur;
 import com.soat.planification_entretien.infrastructure.repository.EntretienCrud;
-import com.soat.planification_entretien.use_case.EmailService;
+import com.soat.planification_entretien.domain.entretien.EmailService;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;

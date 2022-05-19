@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.domain.model;
+package com.soat.planification_entretien.domain.candidat;
 
 public class Candidat {
     private Integer id;

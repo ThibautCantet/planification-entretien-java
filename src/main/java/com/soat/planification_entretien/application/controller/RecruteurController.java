@@ -1,6 +1,6 @@
 package com.soat.planification_entretien.application.controller;
 
-import com.soat.planification_entretien.use_case.CreerRecruteur;
+import com.soat.planification_entretien.domain.recruteur.CreerRecruteur;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

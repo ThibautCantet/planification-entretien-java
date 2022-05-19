@@ -1,9 +1,10 @@
-package com.soat.planification_entretien.use_case;
+package com.soat.planification_entretien.domain.candidat;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.soat.planification_entretien.domain.model.Candidat;
+import com.soat.planification_entretien.domain.candidat.Candidat;
+import com.soat.planification_entretien.domain.candidat.CandidatRepository;
 import org.springframework.stereotype.Service;
 
 @Service

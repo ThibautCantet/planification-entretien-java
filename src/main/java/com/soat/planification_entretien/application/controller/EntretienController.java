@@ -1,10 +1,9 @@
 package com.soat.planification_entretien.application.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import com.soat.planification_entretien.use_case.EntretienDetail;
-import com.soat.planification_entretien.use_case.EntretienService;
+import com.soat.planification_entretien.domain.entretien.EntretienDetail;
+import com.soat.planification_entretien.domain.entretien.EntretienService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
