@@ -1,6 +1,7 @@
 package com.soat.planification_entretien.application.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.soat.planification_entretien.use_case.EntretienDetail;
 import com.soat.planification_entretien.use_case.EntretienService;
@@ -27,7 +28,8 @@ public class EntretienController {
 
     @GetMapping("/")
     public ResponseEntity<List<EntretienDetail>> findAll() {
-        return new ResponseEntity<>(entretienService.lister(), HttpStatus.OK);
+        var entretiens = entretienService.lister();
+        return new ResponseEntity<>(entretiens, HttpStatus.OK);
     }
 
     @PostMapping("planifier")

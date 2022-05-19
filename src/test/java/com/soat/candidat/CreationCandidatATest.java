@@ -6,7 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
 import com.soat.planification_entretien.application.controller.CandidatDto;
 import com.soat.planification_entretien.application.controller.CandidatController;
-import com.soat.planification_entretien.domain.model.Candidat;
+import com.soat.planification_entretien.infrastructure.repository.Candidat;
 import com.soat.planification_entretien.infrastructure.repository.CandidatCrud;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;

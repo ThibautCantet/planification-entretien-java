@@ -2,14 +2,14 @@ package com.soat.planification_entretien.use_case;
 
 import java.time.LocalDateTime;
 
-public interface EntretienDetail {
-    int id();
+public record EntretienDetail(
+        int id,
 
-    String emailCandidat();
+        String emailCandidat,
 
-    String emailRecruteur();
+        String emailRecruteur,
 
-    String language();
+        String language,
 
-    LocalDateTime horaire();
+        LocalDateTime horaire) {
 }

@@ -1,7 +1,6 @@
 package com.soat.planification_entretien.use_case;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.soat.planification_entretien.domain.model.Entretien;
 

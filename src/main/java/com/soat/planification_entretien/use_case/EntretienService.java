@@ -40,7 +40,7 @@ public class EntretienService {
 
     public List<EntretienDetail> lister() {
         return entretienRepository.findAll().stream().map(entretien ->
-                        new EntretienImpl(
+                        new EntretienDetail(
                                 entretien.getId(),
                                 entretien.getCandidat().getEmail(),
                                 entretien.getRecruteur().getEmail(),
@@ -51,8 +51,4 @@ public class EntretienService {
                 .toList();
     }
 
-    record EntretienImpl(int id, String emailCandidat, String emailRecruteur, String language,
-                         LocalDateTime horaire) implements EntretienDetail {
-
-    }
 }

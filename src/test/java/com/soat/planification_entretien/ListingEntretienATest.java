@@ -9,10 +9,11 @@ import java.util.Map;
 
 import com.soat.ATest;
 import com.soat.planification_entretien.application.controller.EntretienController;
-import com.soat.planification_entretien.application.controller.EntretienDetailDto;
-import com.soat.planification_entretien.domain.model.Candidat;
-import com.soat.planification_entretien.domain.model.Entretien;
-import com.soat.planification_entretien.domain.model.Recruteur;
+import com.soat.planification_entretien.infrastructure.repository.Candidat;
+import com.soat.planification_entretien.infrastructure.repository.Entretien;
+import com.soat.planification_entretien.infrastructure.repository.Recruteur;
+import com.soat.planification_entretien.use_case.EntretienDetail;
+import com.soat.planification_entretien.use_case.EntretienService;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
@@ -106,17 +107,17 @@ public class ListingEntretienATest extends ATest {
 
     @Alors("on récupères les entretiens suivants")
     public void onRécupèresLesEntretiensSuivants(DataTable dataTable) {
-        List<EntretienDetailDto> entretiens = dataTableTransformEntries(dataTable, this::buildEntretienDetail);
+        List<EntretienDetail> entretiens = dataTableTransformEntries(dataTable, this::buildEntretienDetail);
 
-        EntretienDetailDto[] detailDtos = response.then().extract()
-                .as(EntretienDetailDto[].class);
+        EntretienDetail[] detailDtos = response.then().extract()
+                .as(EntretienDetail[].class);
         assertThat(Arrays.stream(detailDtos).toList())
                 .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-                .containsExactlyInAnyOrder(entretiens.toArray(EntretienDetailDto[]::new));
+                .containsExactlyInAnyOrder(entretiens.toArray(EntretienDetail[]::new));
     }
 
-    private EntretienDetailDto buildEntretienDetail(Map<String, String> entry) {
-        return new EntretienDetailDto(
+    private EntretienDetail buildEntretienDetail(Map<String, String> entry) {
+        return new EntretienDetail(
                 Integer.parseInt(entry.get("id")),
                 entry.get("candidat"),
                 entry.get("recruteur"),

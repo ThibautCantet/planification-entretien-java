@@ -1,22 +1,29 @@
-package com.soat.planification_entretien.domain.model;
+package com.soat.planification_entretien.infrastructure.repository;
 
 import java.time.LocalDateTime;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
+@Entity
 public class Entretien {
+    @Id
+    @GeneratedValue
     private Integer id;
 
+    @ManyToOne
+    @JoinColumn(name = "candidat_id")
     private Candidat candidat;
 
+    @Column
     private LocalDateTime horaireEntretien;
 
+    @ManyToOne
+    @JoinColumn(name = "recruteur_id")
     private Recruteur recruteur;
-
-    public Entretien(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
-        this.id = id;
-        this.candidat = candidat;
-        this.recruteur = recruteur;
-        this.horaireEntretien = horaire;
-    }
 
     private Entretien(Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
         this.candidat = candidat;
@@ -24,12 +31,12 @@ public class Entretien {
         this.horaireEntretien = horaire;
     }
 
-    public static Entretien of(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
-        return new Entretien(id, candidat, recruteur, horaire);
+    public Entretien() {
+
     }
 
-    public static Entretien of(Candidat candidat, Recruteur recruteur, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
-        return new Entretien(candidat, recruteur, dateEtHeureDisponibiliteDuRecruteur);
+    public static Entretien of(Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
+        return new Entretien(candidat, recruteur, horaire);
     }
 
     public Candidat getCandidat() {
