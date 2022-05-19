@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.model;
+package com.soat.planification_entretien.domain.model;
 
 import java.time.LocalDateTime;
 import javax.persistence.Column;
