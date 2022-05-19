@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.soat.planification_entretien.domain.model.Candidat;
-import com.soat.planification_entretien.infrastructure.repository.CandidatRepository;
+import com.soat.planification_entretien.infrastructure.repository.CandidatCrud;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,9 +20,9 @@ public class CandidatController {
 
     public static final String PATH = "/api/candidat";
 
-    private final CandidatRepository candidatRepository;
+    private final CandidatCrud candidatRepository;
 
-    public CandidatController(CandidatRepository candidatRepository) {
+    public CandidatController(CandidatCrud candidatRepository) {
         this.candidatRepository = candidatRepository;
     }
 

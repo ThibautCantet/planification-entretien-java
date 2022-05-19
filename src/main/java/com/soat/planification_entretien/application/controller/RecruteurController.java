@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.soat.planification_entretien.domain.model.Recruteur;
-import com.soat.planification_entretien.infrastructure.repository.RecruteurRepository;
+import com.soat.planification_entretien.infrastructure.repository.RecruteurCrud;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,9 +19,9 @@ public class RecruteurController {
     private static final String EMAIL_REGEX = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
     public static final String PATH = "/api/recruteur";
 
-    private final RecruteurRepository recruteurRepository;
+    private final RecruteurCrud recruteurRepository;
 
-    public RecruteurController(RecruteurRepository recruteurRepository) {
+    public RecruteurController(RecruteurCrud recruteurRepository) {
         this.recruteurRepository = recruteurRepository;
     }
 

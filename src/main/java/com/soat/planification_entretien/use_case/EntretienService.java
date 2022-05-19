@@ -7,9 +7,6 @@ import com.soat.planification_entretien.application.controller.EntretienDetailDt
 import com.soat.planification_entretien.domain.model.Candidat;
 import com.soat.planification_entretien.domain.model.Entretien;
 import com.soat.planification_entretien.domain.model.Recruteur;
-import com.soat.planification_entretien.infrastructure.repository.CandidatRepository;
-import com.soat.planification_entretien.infrastructure.repository.EntretienRepository;
-import com.soat.planification_entretien.infrastructure.repository.RecruteurRepository;
 import org.springframework.stereotype.Service;
 
 @Service

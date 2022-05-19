@@ -12,7 +12,7 @@ import com.soat.planification_entretien.application.controller.EntretienDto;
 import com.soat.planification_entretien.domain.model.Candidat;
 import com.soat.planification_entretien.domain.model.Entretien;
 import com.soat.planification_entretien.domain.model.Recruteur;
-import com.soat.planification_entretien.infrastructure.repository.EntretienRepository;
+import com.soat.planification_entretien.infrastructure.repository.EntretienCrud;
 import com.soat.planification_entretien.use_case.EmailService;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
@@ -56,7 +56,7 @@ public class PlafinicationEntretienATest extends ATest {
     private LocalDateTime disponibiliteDuRecruteur;
 
     @Autowired
-    private EntretienRepository entretienRepository;
+    private EntretienCrud entretienRepository;
 
     @Autowired
     private EmailService emailService;
