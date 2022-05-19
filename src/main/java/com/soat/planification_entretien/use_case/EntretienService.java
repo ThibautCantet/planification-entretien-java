@@ -3,7 +3,6 @@ package com.soat.planification_entretien.use_case;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.soat.planification_entretien.application.controller.EntretienDetailDto;
 import com.soat.planification_entretien.domain.model.Candidat;
 import com.soat.planification_entretien.domain.model.Entretien;
 import com.soat.planification_entretien.domain.model.Recruteur;
@@ -39,14 +38,21 @@ public class EntretienService {
         return false;
     }
 
-    public List<EntretienDetailDto> lister() {
+    public List<EntretienDetail> lister() {
         return entretienRepository.findAll().stream().map(entretien ->
-                new EntretienDetailDto(
-                        entretien.getId(),
-                        entretien.getCandidat().getEmail(),
-                        entretien.getRecruteur().getEmail(),
-                        entretien.getRecruteur().getLanguage(),
-                        entretien.getHoraireEntretien())
-        ).toList();
+                        new EntretienImpl(
+                                entretien.getId(),
+                                entretien.getCandidat().getEmail(),
+                                entretien.getRecruteur().getEmail(),
+                                entretien.getRecruteur().getLanguage(),
+                                entretien.getHoraireEntretien())
+                )
+                .map(EntretienDetail.class::cast)
+                .toList();
+    }
+
+    record EntretienImpl(int id, String emailCandidat, String emailRecruteur, String language,
+                         LocalDateTime horaire) implements EntretienDetail {
+
     }
 }

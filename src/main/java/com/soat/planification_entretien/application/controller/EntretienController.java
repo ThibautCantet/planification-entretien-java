@@ -2,6 +2,7 @@ package com.soat.planification_entretien.application.controller;
 
 import java.util.List;
 
+import com.soat.planification_entretien.use_case.EntretienDetail;
 import com.soat.planification_entretien.use_case.EntretienService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class EntretienController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<EntretienDetailDto>> findAll() {
+    public ResponseEntity<List<EntretienDetail>> findAll() {
         return new ResponseEntity<>(entretienService.lister(), HttpStatus.OK);
     }
 
