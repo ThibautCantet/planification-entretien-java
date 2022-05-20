@@ -2,11 +2,12 @@ package com.soat.planification_entretien.infrastructure.repository;
 
 import java.util.List;
 
+import com.soat.planification_entretien.domain.candidat.Candidat;
 import com.soat.planification_entretien.domain.recruteur.Recruteur;
 import com.soat.planification_entretien.domain.entretien.EntretienRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
+//@Repository
 public class HibernateEntretienRepository implements EntretienRepository {
     private final EntretienCrud entretienCrud;
     private final CandidatCrud candidatCrud;
@@ -34,6 +35,11 @@ public class HibernateEntretienRepository implements EntretienRepository {
         return entretienCrud.findAll().stream()
                 .map(HibernateEntretienRepository::toEntretien)
                 .toList();
+    }
+
+    @Override
+    public com.soat.planification_entretien.domain.entretien.Entretien findByCandidat(Candidat candidat) {
+        return null;
     }
 
     private static com.soat.planification_entretien.domain.entretien.Entretien toEntretien(com.soat.planification_entretien.infrastructure.repository.Entretien jpaEntretien) {

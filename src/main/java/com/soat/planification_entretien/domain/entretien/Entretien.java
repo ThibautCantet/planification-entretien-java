@@ -35,6 +35,11 @@ public class Entretien {
         return new Entretien(candidat, recruteur, dateEtHeureDisponibiliteDuRecruteur);
     }
 
+    public static Entretien of(Integer newId, Entretien entretien) {
+        entretien.id = newId;
+        return entretien;
+    }
+
     public Candidat getCandidat() {
         return candidat;
     }

@@ -6,8 +6,8 @@ import java.util.Optional;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
 import com.soat.planification_entretien.application.controller.RecruteurController;
-import com.soat.planification_entretien.infrastructure.repository.Recruteur;
-import com.soat.planification_entretien.infrastructure.repository.RecruteurCrud;
+import com.soat.planification_entretien.domain.recruteur.Recruteur;
+import com.soat.planification_entretien.domain.recruteur.RecruteurRepository;
 import com.soat.planification_entretien.application.controller.RecruteurDto;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.*;
 public class CreationRecruteurATest extends ATest {
 
     @Autowired
-    private RecruteurCrud recruteurRepository;
+    private RecruteurRepository recruteurRepository;
 
     private RecruteurDto recruteurDto;
     private Integer recruteurId = 1;

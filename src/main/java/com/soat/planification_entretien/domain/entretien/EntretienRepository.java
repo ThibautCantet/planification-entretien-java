@@ -2,10 +2,12 @@ package com.soat.planification_entretien.domain.entretien;
 
 import java.util.List;
 
-import com.soat.planification_entretien.domain.entretien.Entretien;
+import com.soat.planification_entretien.domain.candidat.Candidat;
 
 public interface EntretienRepository {
     void save(Entretien entretien);
 
     List<Entretien> findAll();
+
+    Entretien findByCandidat(Candidat candidat);
 }
