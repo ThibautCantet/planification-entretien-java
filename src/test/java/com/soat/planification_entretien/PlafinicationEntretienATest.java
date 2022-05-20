@@ -30,6 +30,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +44,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @Transactional
 @AutoConfigureCache
 @AutoConfigureDataJpa
+@EnableJpaRepositories
 @AutoConfigureTestEntityManager
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @DirtiesContext
