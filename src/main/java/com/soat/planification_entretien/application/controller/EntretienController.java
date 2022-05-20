@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import com.soat.planification_entretien.domain.candidat.Candidat;
 import com.soat.planification_entretien.domain.candidat.CandidatRepository;
-import com.soat.planification_entretien.domain.entretien.EntretienDetail;
 import com.soat.planification_entretien.domain.entretien.ListerEntretiens;
 import com.soat.planification_entretien.domain.entretien.PlanifierEntretien;
 import com.soat.planification_entretien.domain.recruteur.Recruteur;
@@ -38,8 +37,11 @@ public class EntretienController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<EntretienDetail>> findAll() {
-        var entretiens = listerEntretiens.execute();
+    public ResponseEntity<List<EntretienDetailDto>> findAll() {
+        var entretiens = listerEntretiens.execute()
+                .stream()
+                .map(e -> new EntretienDetailDto(e.getId(), e.getEmailCandidat(), e.getEmailRecruteur(), e.getLanguage(), e.getHoraire()))
+                .toList();
         return new ResponseEntity<>(entretiens, HttpStatus.OK);
     }
 

@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import com.soat.planification_entretien.domain.candidat.Candidat;
 import com.soat.planification_entretien.domain.recruteur.Recruteur;
 
-public class Entretien {
+public class Entretien implements IEntretien {
     private Integer id;
 
     private Candidat candidat;
@@ -71,5 +71,25 @@ public class Entretien {
         }
 
         return planifiable;
+    }
+
+    @Override
+    public String getEmailCandidat() {
+        return candidat.getEmail();
+    }
+
+    @Override
+    public String getEmailRecruteur() {
+        return recruteur.getEmail();
+    }
+
+    @Override
+    public String getLanguage() {
+        return recruteur.getLanguage();
+    }
+
+    @Override
+    public LocalDateTime getHoraire() {
+        return horaireEntretien;
     }
 }

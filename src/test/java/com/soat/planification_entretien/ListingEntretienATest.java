@@ -15,7 +15,7 @@ import com.soat.planification_entretien.domain.entretien.Entretien;
 import com.soat.planification_entretien.domain.entretien.EntretienRepository;
 import com.soat.planification_entretien.domain.recruteur.Recruteur;
 import com.soat.planification_entretien.domain.recruteur.RecruteurRepository;
-import com.soat.planification_entretien.domain.entretien.EntretienDetail;
+import com.soat.planification_entretien.application.controller.EntretienDetailDto;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
@@ -119,17 +119,17 @@ public class ListingEntretienATest extends ATest {
 
     @Alors("on récupères les entretiens suivants")
     public void onRécupèresLesEntretiensSuivants(DataTable dataTable) {
-        List<EntretienDetail> entretiens = dataTableTransformEntries(dataTable, this::buildEntretienDetail);
+        List<EntretienDetailDto> entretiens = dataTableTransformEntries(dataTable, this::buildEntretienDetail);
 
-        EntretienDetail[] detailDtos = response.then().extract()
-                .as(EntretienDetail[].class);
+        var detailDtos = response.then().extract()
+                .as(EntretienDetailDto[].class);
         assertThat(Arrays.stream(detailDtos).toList())
                 .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-                .containsExactlyInAnyOrder(entretiens.toArray(EntretienDetail[]::new));
+                .containsExactlyInAnyOrder(entretiens.toArray(EntretienDetailDto[]::new));
     }
 
-    private EntretienDetail buildEntretienDetail(Map<String, String> entry) {
-        return new EntretienDetail(
+    private EntretienDetailDto buildEntretienDetail(Map<String, String> entry) {
+        return new EntretienDetailDto(
                 Integer.parseInt(entry.get("id")),
                 entry.get("candidat"),
                 entry.get("recruteur"),

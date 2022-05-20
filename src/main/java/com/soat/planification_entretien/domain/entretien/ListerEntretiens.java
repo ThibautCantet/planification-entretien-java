@@ -13,16 +13,9 @@ public class ListerEntretiens {
         this.entretienRepository = entretienRepository;
     }
 
-    public List<EntretienDetail> execute() {
-        return entretienRepository.findAll().stream().map(entretien ->
-                        new EntretienDetail(
-                                entretien.getId(),
-                                entretien.getCandidat().getEmail(),
-                                entretien.getRecruteur().getEmail(),
-                                entretien.getRecruteur().getLanguage(),
-                                entretien.getHoraireEntretien())
-                )
-                .map(EntretienDetail.class::cast)
+    public List<IEntretien> execute() {
+        return entretienRepository.findAll().stream()
+                .map(IEntretien.class::cast)
                 .toList();
     }
 
