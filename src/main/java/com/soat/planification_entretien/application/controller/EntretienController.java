@@ -6,7 +6,8 @@ import java.util.Optional;
 import com.soat.planification_entretien.domain.candidat.Candidat;
 import com.soat.planification_entretien.domain.candidat.CandidatRepository;
 import com.soat.planification_entretien.domain.entretien.ListerEntretiens;
-import com.soat.planification_entretien.domain.entretien.PlanifierEntretien;
+import com.soat.planification_entretien.domain.entretien.PlanifierEntretienCommand;
+import com.soat.planification_entretien.domain.entretien.PlanifierEntretienCommandHandler;
 import com.soat.planification_entretien.domain.recruteur.Recruteur;
 import com.soat.planification_entretien.domain.recruteur.RecruteurRepository;
 import org.springframework.http.HttpStatus;
@@ -24,13 +25,13 @@ import static org.springframework.http.ResponseEntity.*;
 public class EntretienController {
     public static final String PATH = "/api/entretien/";
 
-    private final PlanifierEntretien planifierEntretien;
+    private final PlanifierEntretienCommandHandler planifierEntretienCommandHandler;
     private final ListerEntretiens listerEntretiens;
     private final CandidatRepository candidatRepository;
     private final RecruteurRepository recruteurRepository;
 
-    public EntretienController(PlanifierEntretien planifierEntretien, ListerEntretiens listerEntretiens, CandidatRepository candidatRepository, RecruteurRepository recruteurRepository) {
-        this.planifierEntretien = planifierEntretien;
+    public EntretienController(PlanifierEntretienCommandHandler planifierEntretienCommandHandler, ListerEntretiens listerEntretiens, CandidatRepository candidatRepository, RecruteurRepository recruteurRepository) {
+        this.planifierEntretienCommandHandler = planifierEntretienCommandHandler;
         this.listerEntretiens = listerEntretiens;
         this.candidatRepository = candidatRepository;
         this.recruteurRepository = recruteurRepository;
@@ -56,7 +57,8 @@ public class EntretienController {
         if (recruteur.isEmpty()) {
             return badRequest().build();
         }
-        var planifie = planifierEntretien.execute(candidat.get(), recruteur.get(), entretienDto.disponibiliteDuCandidat(), entretienDto.disponibiliteDuRecruteur());
+        PlanifierEntretienCommand command = new PlanifierEntretienCommand(candidat.get(), recruteur.get(), entretienDto.disponibiliteDuCandidat(), entretienDto.disponibiliteDuRecruteur());
+        var planifie = planifierEntretienCommandHandler.handle(command);
 
         if (planifie) {
             return created(null).build();
