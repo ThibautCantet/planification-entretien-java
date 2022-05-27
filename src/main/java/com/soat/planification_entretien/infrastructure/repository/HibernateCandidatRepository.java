@@ -6,7 +6,7 @@ import com.soat.planification_entretien.domain.candidat.Candidat;
 import com.soat.planification_entretien.domain.candidat.CandidatRepository;
 import org.springframework.stereotype.Repository;
 
-//@Repository
+@Repository
 public class HibernateCandidatRepository implements CandidatRepository {
     private final CandidatCrud candidatCrud;
 

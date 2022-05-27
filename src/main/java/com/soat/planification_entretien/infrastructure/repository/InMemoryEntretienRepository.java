@@ -9,7 +9,7 @@ import com.soat.planification_entretien.domain.entretien.Entretien;
 import com.soat.planification_entretien.domain.entretien.EntretienRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
+//@Repository
 public class InMemoryEntretienRepository implements EntretienRepository {
 
     private final Map<Integer, Entretien> cache = new HashMap<>();
