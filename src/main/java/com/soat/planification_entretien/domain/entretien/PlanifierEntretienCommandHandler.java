@@ -1,29 +1,34 @@
 package com.soat.planification_entretien.domain.entretien;
 
-import com.soat.planification_entretien.infrastructure.middleware.Bus;
-import com.soat.planification_entretien.infrastructure.middleware.CommandHandler;
-import com.soat.planification_entretien.infrastructure.middleware.MessageBus;
+import com.soat.planification_entretien.domain.entretien.entities.Entretien;
+import com.soat.planification_entretien.domain.entretien.event.EntretienNonPlanifie;
+import com.soat.planification_entretien.domain.entretien.event.EntretienPlanifie;
+import com.soat.planification_entretien.cqrs.CommandHandler;
+import com.soat.planification_entretien.cqrs.CommandResponse;
+import com.soat.planification_entretien.cqrs.Event;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PlanifierEntretienCommandHandler implements CommandHandler<PlanifierEntretienCommand, Boolean> {
+public class PlanifierEntretienCommandHandler implements CommandHandler<PlanifierEntretienCommand, CommandResponse<Integer, Event>> {
     private final EntretienRepository entretienRepository;
-    private final Bus bus;
 
-    public PlanifierEntretienCommandHandler(EntretienRepository entretienRepository, MessageBus bus) {
+    public PlanifierEntretienCommandHandler(EntretienRepository entretienRepository) {
         this.entretienRepository = entretienRepository;
-        this.bus = bus;
     }
 
     @Override
-    public Boolean handle(PlanifierEntretienCommand command) {
+    public CommandResponse<Integer, Event> handle(PlanifierEntretienCommand command) {
         Entretien entretien = new Entretien(command.candidat(), command.recruteur());
         if (entretien.planifier(command.dateEtHeureDisponibiliteDuCandidat(), command.dateEtHeureDisponibiliteDuRecruteur())) {
             var id = entretienRepository.save(entretien);
-            bus.send(new EntretienPlanifie(id, command.candidat().getEmail(), command.recruteur().getEmail(), command.dateEtHeureDisponibiliteDuCandidat()));
-            return true;
+            return new CommandResponse<>(id, new EntretienPlanifie(entretien.getEmailCandidat(), entretien.getEmailRecruteur(), entretien.getHoraireEntretien()));
         }
-        return false;
+        return new CommandResponse<>(new EntretienNonPlanifie());
 
+    }
+
+    @Override
+    public Class listenTo() {
+        return PlanifierEntretienCommand.class;
     }
 }

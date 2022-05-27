@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.soat.planification_entretien.domain.candidat.Candidat;
-import com.soat.planification_entretien.domain.entretien.Entretien;
+import com.soat.planification_entretien.domain.entretien.entities.Entretien;
 import com.soat.planification_entretien.domain.entretien.EntretienRepository;
 
 //@Repository

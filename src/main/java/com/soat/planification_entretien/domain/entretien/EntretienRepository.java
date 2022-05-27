@@ -3,6 +3,7 @@ package com.soat.planification_entretien.domain.entretien;
 import java.util.List;
 
 import com.soat.planification_entretien.domain.candidat.Candidat;
+import com.soat.planification_entretien.domain.entretien.entities.Entretien;
 
 public interface EntretienRepository {
     int save(Entretien entretien);

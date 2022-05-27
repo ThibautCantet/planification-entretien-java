@@ -8,7 +8,7 @@ import java.util.Map;
 
 import com.soat.ATest;
 import com.soat.planification_entretien.application.controller.RendezVousController;
-import com.soat.planification_entretien.domain.entretien.Calendrier;
+import com.soat.planification_entretien.domain.entretien.entities.Calendrier;
 import com.soat.planification_entretien.domain.rendez_vous.CalendrierRepository;
 import com.soat.planification_entretien.domain.rendez_vous.RendezVous;
 import io.cucumber.datatable.DataTable;

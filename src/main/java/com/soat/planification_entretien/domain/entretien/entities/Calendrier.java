@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.domain.entretien;
+package com.soat.planification_entretien.domain.entretien.entities;
 
 import java.util.List;
 
