@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.soat.planification_entretien.domain.entretien.Calendrier;
+import com.soat.planification_entretien.domain.entretien.entities.Calendrier;
 import com.soat.planification_entretien.domain.rendez_vous.CalendrierRepository;
 import org.springframework.stereotype.Repository;
 

@@ -11,6 +11,8 @@ spring:
     url: jdbc:postgresql://localhost:5432/entretien
     username: user
     password: password
+  main:
+    allow-circular-references: true
 
 server:
   port: 8081

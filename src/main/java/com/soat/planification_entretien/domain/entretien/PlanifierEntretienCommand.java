@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import com.soat.planification_entretien.domain.candidat.Candidat;
 import com.soat.planification_entretien.domain.recruteur.Recruteur;
-import com.soat.planification_entretien.infrastructure.middleware.Command;
+import com.soat.planification_entretien.cqrs.Command;
 
 public record PlanifierEntretienCommand(Candidat candidat, Recruteur recruteur,
                                         LocalDateTime dateEtHeureDisponibiliteDuCandidat,

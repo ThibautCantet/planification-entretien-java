@@ -12,10 +12,10 @@ import com.soat.planification_entretien.application.controller.EntretienControll
 import com.soat.planification_entretien.application.controller.EntretienDto;
 import com.soat.planification_entretien.domain.candidat.Candidat;
 import com.soat.planification_entretien.domain.candidat.CandidatRepository;
-import com.soat.planification_entretien.domain.entretien.Calendrier;
+import com.soat.planification_entretien.domain.entretien.entities.Calendrier;
 import com.soat.planification_entretien.domain.rendez_vous.CalendrierRepository;
 import com.soat.planification_entretien.domain.entretien.EmailService;
-import com.soat.planification_entretien.domain.entretien.Entretien;
+import com.soat.planification_entretien.domain.entretien.entities.Entretien;
 import com.soat.planification_entretien.domain.entretien.EntretienRepository;
 import com.soat.planification_entretien.domain.rendez_vous.RendezVous;
 import com.soat.planification_entretien.domain.recruteur.Recruteur;
