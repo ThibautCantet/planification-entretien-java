@@ -46,4 +46,16 @@ public class HibernateRecruteurRepository implements RecruteurRepository {
                         recruteur.getExperienceInYears()))
                 .toList();
     }
+
+    @Override
+    public Optional<com.soat.planification_entretien.domain.recruteur.Recruteur> findByEmail(String email) {
+        return recruteurCrud.findByEmail(email).map(
+                recruteur -> new com.soat.planification_entretien.domain.recruteur.Recruteur(
+                        recruteur.getId(),
+                        recruteur.getLanguage(),
+                        recruteur.getEmail(),
+                        recruteur.getExperienceInYears()
+                )
+        );
+    }
 }

@@ -5,14 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.soat.planification_entretien.domain.entretien.Calendrier;
-import com.soat.planification_entretien.domain.entretien.Entretien;
 import com.soat.planification_entretien.domain.rendez_vous.CalendrierRepository;
 import org.springframework.stereotype.Repository;
-
-import static java.util.Optional.*;
 
 @Repository
 public class InMemoryCalendrierRepository implements CalendrierRepository {
@@ -40,7 +36,7 @@ public class InMemoryCalendrierRepository implements CalendrierRepository {
     }
 
     @Override
-    public String findByRecruteurId(int recruteurId) {
+    public Calendrier findByRecruteurId(int recruteurId) {
         return null;
     }
 

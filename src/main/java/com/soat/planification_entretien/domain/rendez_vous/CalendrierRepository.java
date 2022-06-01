@@ -10,7 +10,7 @@ public interface CalendrierRepository {
 
     void save(Calendrier calendrier);
 
-    String findByRecruteurId(int recruteurId);
+    Calendrier findByRecruteurId(int recruteurId);
 
     void saveAll(List<Calendrier> calendriers);
 }

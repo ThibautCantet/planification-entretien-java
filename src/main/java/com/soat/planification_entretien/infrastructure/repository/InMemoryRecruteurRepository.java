@@ -32,4 +32,9 @@ public class InMemoryRecruteurRepository implements RecruteurRepository {
                 .filter(recruteur -> recruteur.getExperienceInYears() >= 10)
                 .toList();
     }
+
+    @Override
+    public Optional<Recruteur> findByEmail(String email) {
+        return Optional.empty();
+    }
 }

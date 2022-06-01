@@ -12,7 +12,7 @@ public class RecruteurDetailDto {
 
     public RecruteurDetailDto(int id, String language, Integer experienceInYears, String email) {
         this.id = id;
-        this.competence = String.format("%s %s ans XP", language, experienceInYears);
+        this.competence = String.format("%emailCandidat %emailCandidat ans XP", language, experienceInYears);
         this.email = email;
     }
 
