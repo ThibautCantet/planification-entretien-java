@@ -5,9 +5,11 @@ import java.util.List;
 import com.soat.planification_entretien.domain.candidat.Candidat;
 
 public interface EntretienRepository {
-    void save(Entretien entretien);
+    int save(Entretien entretien);
 
     List<Entretien> findAll();
 
     Entretien findByCandidat(Candidat candidat);
+
+    Entretien findById(int id);
 }

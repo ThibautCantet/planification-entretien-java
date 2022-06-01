@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
@@ -11,12 +12,14 @@ import com.soat.planification_entretien.application.controller.EntretienControll
 import com.soat.planification_entretien.application.controller.EntretienDto;
 import com.soat.planification_entretien.domain.candidat.Candidat;
 import com.soat.planification_entretien.domain.candidat.CandidatRepository;
+import com.soat.planification_entretien.domain.entretien.Calendrier;
+import com.soat.planification_entretien.domain.rendez_vous.CalendrierRepository;
+import com.soat.planification_entretien.domain.entretien.EmailService;
 import com.soat.planification_entretien.domain.entretien.Entretien;
 import com.soat.planification_entretien.domain.entretien.EntretienRepository;
-import com.soat.planification_entretien.domain.entretien.EmailService;
+import com.soat.planification_entretien.domain.rendez_vous.RendezVous;
 import com.soat.planification_entretien.domain.recruteur.Recruteur;
 import com.soat.planification_entretien.domain.recruteur.RecruteurRepository;
-import com.soat.planification_entretien.infrastructure.repository.InMemoryEntretienRepository;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;
@@ -66,6 +69,8 @@ public class PlafinicationEntretienATest extends ATest {
     private CandidatRepository candidatRepository;
     @Autowired
     private RecruteurRepository recruteurRepository;
+    @Autowired
+    private CalendrierRepository calendrierRepository;
 
     @Autowired
     private EmailService emailService;
@@ -120,7 +125,7 @@ public class PlafinicationEntretienATest extends ATest {
         Entretien entretien = entretienRepository.findByCandidat(candidat);
         Entretien expectedEntretien = Entretien.of(candidat, recruteur, disponibiliteDuCandidat);
         assertThat(entretien).usingRecursiveComparison()
-                .ignoringFields("id")
+                .ignoringFields("id", "candidat.id", "recruteur.id")
                 .isEqualTo(expectedEntretien);
     }
 
@@ -143,5 +148,22 @@ public class PlafinicationEntretienATest extends ATest {
     public void aucunMailDeConfirmationNEstEnvoyéAuCandidatOuAuRecruteur() {
         verify(emailService, never()).envoyerUnEmailDeConfirmationAuCandidat(candidat.getEmail(), disponibiliteDuCandidat);
         verify(emailService, never()).envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), disponibiliteDuCandidat);
+    }
+
+    @Et("ajouter un rendez-vous pour le recruteur {string} avec {string} pour le {string} à {string}")
+    public void ajouterUnRendezVousPourLeRecruteurAvecPourLeÀ(String emailRecruteur, String emailCandidat, String date, String time) {
+        var horaireEntretien = LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));
+
+        RendezVous expectedRendezVous = new RendezVous(emailCandidat, horaireEntretien);
+        Calendrier calendrier = calendrierRepository.findByRecruteur(emailRecruteur).orElse(null);
+        assertThat(calendrier).isNotNull();
+        assertThat(calendrier.emailRecruteur()).contains(emailRecruteur);
+        assertThat(calendrier.rendezVous()).contains(expectedRendezVous);
+    }
+
+    @Et("aucun rendez-vous n'est ajouté au recruteur")
+    public void aucunRendezVousNEstAjoutéAuRecruteur() {
+        Optional<Calendrier> calendrier = calendrierRepository.findByRecruteur(recruteur.getEmail());
+        assertThat(calendrier).isEmpty();
     }
 }
