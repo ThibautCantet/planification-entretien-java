@@ -8,12 +8,12 @@ import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
-import com.soat.planification_entretien.application.controller.RendezVousController;
-import com.soat.planification_entretien.application.controller.RendezVousDto;
-import com.soat.planification_entretien.domain.entretien.Calendrier;
-import com.soat.planification_entretien.domain.entretien.CalendrierDAO;
-import com.soat.planification_entretien.domain.rendez_vous.CalendrierRepository;
-import com.soat.planification_entretien.domain.rendez_vous.RendezVous;
+import com.soat.planification_entretien.application.controller.query.RendezVousController;
+import com.soat.planification_entretien.application.controller.query.RendezVousDto;
+import com.soat.planification_entretien.domain.entretien.command.entity.Calendrier;
+import com.soat.planification_entretien.domain.entretien.listener.dao.CalendrierDAO;
+import com.soat.planification_entretien.domain.rendez_vous.command.repository.CalendrierRepository;
+import com.soat.planification_entretien.domain.entretien.command.entity.RendezVous;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;

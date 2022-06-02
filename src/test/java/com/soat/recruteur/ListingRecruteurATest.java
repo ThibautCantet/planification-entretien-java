@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.soat.ATest;
-import com.soat.planification_entretien.application.controller.RecruteurCommandController;
-import com.soat.planification_entretien.application.controller.RecruteurDetailDto;
+import com.soat.planification_entretien.application.controller.command.RecruteurCommandController;
+import com.soat.planification_entretien.application.controller.query.RecruteurDetailDto;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;

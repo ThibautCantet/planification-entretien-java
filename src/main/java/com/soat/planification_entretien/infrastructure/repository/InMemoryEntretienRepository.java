@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.soat.planification_entretien.domain.candidat.Candidat;
-import com.soat.planification_entretien.domain.entretien.Entretien;
-import com.soat.planification_entretien.domain.entretien.EntretienRepository;
+import com.soat.planification_entretien.domain.candidat.entity.Candidat;
+import com.soat.planification_entretien.domain.entretien.command.entity.Entretien;
+import com.soat.planification_entretien.domain.entretien.command.repository.EntretienRepository;
 
 //@Repository
 public class InMemoryEntretienRepository implements EntretienRepository {

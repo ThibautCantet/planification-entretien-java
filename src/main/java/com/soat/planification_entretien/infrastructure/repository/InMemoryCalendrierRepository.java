@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.soat.planification_entretien.domain.entretien.Calendrier;
-import com.soat.planification_entretien.domain.rendez_vous.CalendrierRepository;
+import com.soat.planification_entretien.domain.entretien.command.entity.Calendrier;
+import com.soat.planification_entretien.domain.rendez_vous.command.repository.CalendrierRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -27,12 +27,14 @@ public class InMemoryCalendrierRepository implements CalendrierRepository {
     }
 
     @Override
-    public void save(Calendrier calendrier) {
+    public Integer save(Calendrier calendrier) {
         if (calendrier.id() == null) {
             Integer newId = cache.size() + 1;
             calendrier = new Calendrier(newId, calendrier.emailRecruteur(), calendrier.rendezVous());
         }
         cache.put(calendrier.id(), calendrier);
+
+        return calendrier.id();
     }
 
     @Override

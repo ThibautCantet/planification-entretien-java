@@ -4,16 +4,18 @@ import java.util.List;
 
 import com.soat.planification_entretien.cqrs.CommandHandler;
 import com.soat.planification_entretien.cqrs.EventHandler;
-import com.soat.planification_entretien.domain.candidat.CandidatRepository;
-import com.soat.planification_entretien.domain.candidat.CreerCandidatCommandHandler;
-import com.soat.planification_entretien.domain.entretien.AjouterEntretien;
-import com.soat.planification_entretien.domain.entretien.EmailService;
-import com.soat.planification_entretien.domain.entretien.EntretienRepository;
-import com.soat.planification_entretien.domain.entretien.EnvoyerEmails;
-import com.soat.planification_entretien.domain.entretien.PlanifierEntretienCommandHandler;
+import com.soat.planification_entretien.domain.candidat.repository.CandidatRepository;
+import com.soat.planification_entretien.domain.candidat.command.CreerCandidatCommandHandler;
+import com.soat.planification_entretien.domain.entretien.listener.AjouterEntretien;
+import com.soat.planification_entretien.domain.entretien.listener.EmailService;
+import com.soat.planification_entretien.domain.entretien.command.repository.EntretienRepository;
+import com.soat.planification_entretien.domain.entretien.listener.dao.EntretienDAO;
+import com.soat.planification_entretien.domain.entretien.listener.EnvoyerEmails;
+import com.soat.planification_entretien.domain.entretien.command.PlanifierEntretienCommandHandler;
 import com.soat.planification_entretien.domain.recruteur.CreerRecruteurCommandHandler;
 import com.soat.planification_entretien.domain.recruteur.RecruteurRepository;
-import com.soat.planification_entretien.domain.rendez_vous.CalendrierRepository;
+import com.soat.planification_entretien.domain.rendez_vous.command.AjouterRendezVousCommandHandler;
+import com.soat.planification_entretien.domain.rendez_vous.command.repository.CalendrierRepository;
 import com.soat.planification_entretien.cqrs.Event;
 import com.soat.planification_entretien.infrastructure.middleware.event.EventBus;
 import com.soat.planification_entretien.infrastructure.middleware.event.EventBusFactory;
@@ -27,25 +29,28 @@ public class CommandBusFactory {
     private final CalendrierRepository calendrierRepository;
     private final RecruteurRepository recruteurRepository;
     private final CandidatRepository candidatRepository;
+    private final EntretienDAO entretienDAO;
 
-    public CommandBusFactory(EntretienRepository entretienRepository, EmailService emailService, CalendrierRepository calendrierRepository, RecruteurRepository recruteurRepository, CandidatRepository candidatRepository) {
+    public CommandBusFactory(EntretienRepository entretienRepository, EmailService emailService, CalendrierRepository calendrierRepository, RecruteurRepository recruteurRepository, CandidatRepository candidatRepository, EntretienDAO entretienDAO) {
         this.entretienRepository = entretienRepository;
         this.emailService = emailService;
         this.calendrierRepository = calendrierRepository;
         this.recruteurRepository = recruteurRepository;
         this.candidatRepository = candidatRepository;
+        this.entretienDAO = entretienDAO;
     }
 
     protected List<CommandHandler> getCommandHandlers() {
         return List.of(
                 new PlanifierEntretienCommandHandler(entretienRepository),
                 new CreerRecruteurCommandHandler(recruteurRepository),
-                new CreerCandidatCommandHandler(candidatRepository)
+                new CreerCandidatCommandHandler(candidatRepository),
+                new AjouterRendezVousCommandHandler(calendrierRepository)
         );
     }
 
     protected List<EventHandler<? extends Event>> getEventHandlers() {
-        return List.of(new AjouterEntretien(entretienRepository, calendrierRepository),
+        return List.of(new AjouterEntretien(entretienDAO),
                 new EnvoyerEmails(emailService));
     }
 

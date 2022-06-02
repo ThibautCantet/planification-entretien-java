@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.soat.planification_entretien.application.controller.EntretienCommandController;
-import com.soat.planification_entretien.application.controller.EntretienDto;
+import com.soat.planification_entretien.application.controller.command.EntretienCommandController;
+import com.soat.planification_entretien.application.controller.command.EntretienDto;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;

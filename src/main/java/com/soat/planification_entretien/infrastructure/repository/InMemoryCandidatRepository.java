@@ -4,9 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import com.soat.planification_entretien.domain.candidat.Candidat;
-import com.soat.planification_entretien.domain.candidat.CandidatRepository;
-import org.springframework.stereotype.Repository;
+import com.soat.planification_entretien.domain.candidat.entity.Candidat;
+import com.soat.planification_entretien.domain.candidat.repository.CandidatRepository;
 
 //@Repository
 public class InMemoryCandidatRepository implements CandidatRepository {

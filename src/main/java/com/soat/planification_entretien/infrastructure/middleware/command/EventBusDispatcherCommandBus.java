@@ -1,5 +1,7 @@
 package com.soat.planification_entretien.infrastructure.middleware.command;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 import com.soat.planification_entretien.cqrs.Command;
 import com.soat.planification_entretien.cqrs.CommandResponse;
 import com.soat.planification_entretien.cqrs.Event;
@@ -20,15 +22,23 @@ public class EventBusDispatcherCommandBus implements CommandBus {
         Command eventCommand = publishEvent(commandResponse);
 
         if (eventCommand != null) {
-            return this.dispatch(eventCommand);
+            var dispatch = this.dispatch(eventCommand);
+            commandResponse.events().addAll(dispatch.events());
+            return commandResponse;
         }
 
-        return commandResponse;
+        return buildCommandResponseWishGeneratedEvents(commandResponse);
     }
 
     private <R extends CommandResponse> Command publishEvent(R commandResponse) {
-        Event event = commandResponse.event();
-        return eventBus.publish(event);
+        AtomicReference<Command> command = new AtomicReference<>();
+        commandResponse.events().forEach(e -> command.set(eventBus.publish((Event) e)));
+        return command.get();
     }
 
+
+    private <R extends CommandResponse> R buildCommandResponseWishGeneratedEvents(R dispatchedCommandResponse) {
+        dispatchedCommandResponse.events().addAll(eventBus.getPublishedEvents());
+        return dispatchedCommandResponse;
+    }
 }
