@@ -5,6 +5,8 @@ import java.util.List;
 import com.soat.planification_entretien.cqrs.Query;
 import com.soat.planification_entretien.cqrs.QueryHandler;
 import com.soat.planification_entretien.domain.entretien.CalendrierDAO;
+import com.soat.planification_entretien.domain.entretien.EntretienRepository;
+import com.soat.planification_entretien.domain.entretien.ListerEntretiensQueryHandler;
 import com.soat.planification_entretien.domain.rendez_vous.ListerRendezVousRecruteurQueryHandler;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +14,16 @@ import org.springframework.stereotype.Service;
 public class QueryBusFactory {
 
     private final CalendrierDAO calendrierDAO;
+    private final EntretienRepository entretienRepository;
 
-    public QueryBusFactory(CalendrierDAO calendrierDAO) {
+    public QueryBusFactory(CalendrierDAO calendrierDAO, EntretienRepository entretienRepository) {
         this.calendrierDAO = calendrierDAO;
+        this.entretienRepository = entretienRepository;
     }
 
     protected List<QueryHandler<? extends Query, ? extends Object>> getQueryHandlers() {
-        return List.of(new ListerRendezVousRecruteurQueryHandler(calendrierDAO));
+        return List.of(new ListerRendezVousRecruteurQueryHandler(calendrierDAO),
+                new ListerEntretiensQueryHandler(entretienRepository));
     }
 
     public QueryBus build() {

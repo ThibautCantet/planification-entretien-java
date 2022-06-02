@@ -8,7 +8,7 @@ import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
-import com.soat.planification_entretien.application.controller.EntretienController;
+import com.soat.planification_entretien.application.controller.EntretienCommandController;
 import com.soat.planification_entretien.application.controller.EntretienDto;
 import com.soat.planification_entretien.domain.candidat.Candidat;
 import com.soat.planification_entretien.domain.candidat.CandidatRepository;
@@ -83,7 +83,7 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Override
     protected void initPath() {
-        RestAssured.basePath = EntretienController.PATH;
+        RestAssured.basePath = EntretienCommandController.PATH;
     }
 
     @Etantdonné("un candidat {string} \\({string}) avec {string} ans d’expériences qui est disponible {string} à {string}")

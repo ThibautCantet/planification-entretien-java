@@ -2,10 +2,8 @@ package com.soat.planification_entretien.domain.entretien;
 
 import com.soat.planification_entretien.cqrs.CommandHandler;
 import com.soat.planification_entretien.cqrs.CommandResponse;
-import com.soat.planification_entretien.infrastructure.middleware.Event;
-import org.springframework.stereotype.Service;
+import com.soat.planification_entretien.cqrs.Event;
 
-@Service
 public class PlanifierEntretienCommandHandler implements CommandHandler<PlanifierEntretienCommand, CommandResponse<Boolean, Event>> {
     private final EntretienRepository entretienRepository;
 

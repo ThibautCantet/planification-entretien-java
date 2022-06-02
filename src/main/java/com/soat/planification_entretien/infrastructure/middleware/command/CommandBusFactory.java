@@ -10,7 +10,7 @@ import com.soat.planification_entretien.domain.entretien.EntretienRepository;
 import com.soat.planification_entretien.domain.entretien.EnvoyerEmails;
 import com.soat.planification_entretien.domain.entretien.PlanifierEntretienCommandHandler;
 import com.soat.planification_entretien.domain.rendez_vous.CalendrierRepository;
-import com.soat.planification_entretien.infrastructure.middleware.Event;
+import com.soat.planification_entretien.cqrs.Event;
 import com.soat.planification_entretien.infrastructure.middleware.event.EventBus;
 import com.soat.planification_entretien.infrastructure.middleware.event.EventBusFactory;
 import org.springframework.stereotype.Service;

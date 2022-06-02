@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.soat.ATest;
-import com.soat.planification_entretien.application.controller.EntretienController;
+import com.soat.planification_entretien.application.controller.EntretienCommandController;
 import com.soat.planification_entretien.domain.candidat.Candidat;
 import com.soat.planification_entretien.domain.candidat.CandidatRepository;
 import com.soat.planification_entretien.domain.entretien.Entretien;
@@ -50,7 +50,7 @@ public class ListingEntretienATest extends ATest {
 
     @Override
     protected void initPath() {
-        RestAssured.basePath = EntretienController.PATH;
+        RestAssured.basePath = EntretienCommandController.PATH;
     }
 
     @Etantdonné("les recruteurs existants")
@@ -67,7 +67,7 @@ public class ListingEntretienATest extends ATest {
     private Recruteur buildRecruteur(Map<String, String> entry) {
         return new Recruteur(
                 entry.get("language"),
-                entry.get("emailCandidat"),
+                entry.get("email"),
                 Integer.parseInt(entry.get("xp")));
     }
 
@@ -85,7 +85,7 @@ public class ListingEntretienATest extends ATest {
     private Candidat buildCandidat(Map<String, String> entry) {
         return new Candidat(
                 entry.get("language"),
-                entry.get("emailCandidat"),
+                entry.get("email"),
                 Integer.parseInt(entry.get("xp")));
     }
 
@@ -112,7 +112,7 @@ public class ListingEntretienATest extends ATest {
         response = given()
                         .contentType(ContentType.JSON)
                 .when()
-                        .get(EntretienController.PATH);
+                        .get(EntretienCommandController.PATH);
         //@formatter:on
 
     }

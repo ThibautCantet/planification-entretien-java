@@ -1,7 +1,7 @@
 package com.soat.planification_entretien.domain.entretien;
 
 import com.soat.planification_entretien.cqrs.EventHandler;
-import com.soat.planification_entretien.infrastructure.middleware.Event;
+import com.soat.planification_entretien.cqrs.Event;
 import org.springframework.stereotype.Service;
 
 @Service

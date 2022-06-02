@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.soat.planification_entretien.cqrs.EventHandler;
 import com.soat.planification_entretien.domain.rendez_vous.CalendrierRepository;
 import com.soat.planification_entretien.domain.rendez_vous.RendezVous;
-import com.soat.planification_entretien.infrastructure.middleware.Event;
+import com.soat.planification_entretien.cqrs.Event;
 import org.springframework.stereotype.Service;
 
 @Service

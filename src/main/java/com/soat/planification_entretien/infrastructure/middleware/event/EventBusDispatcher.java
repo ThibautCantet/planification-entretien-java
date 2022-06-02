@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import com.soat.planification_entretien.cqrs.Command;
 import com.soat.planification_entretien.cqrs.EventHandler;
-import com.soat.planification_entretien.infrastructure.middleware.Event;
+import com.soat.planification_entretien.cqrs.Event;
 
 public class EventBusDispatcher implements EventBus {
 
