@@ -1,6 +1,6 @@
 package com.soat.planification_entretien.application.controller;
 
-import com.soat.planification_entretien.domain.entretien.CalendrierDAO;
+import com.soat.planification_entretien.domain.rendez_vous.ListerRendezVousRecruteur;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class RendezVousController {
     public static final String PATH = "/api/rendezvous";
 
-    private final CalendrierDAO calendrierDAO;
+    private final ListerRendezVousRecruteur listerRendezVousRecruteur;
 
-    public RendezVousController(CalendrierDAO calendrierDAO) {
-        this.calendrierDAO = calendrierDAO;
+    public RendezVousController(ListerRendezVousRecruteur listerRendezVousRecruteur) {
+        this.listerRendezVousRecruteur = listerRendezVousRecruteur;
     }
 
     @GetMapping(value = "/recruteur/{email}", produces = "application/json")
-    public ResponseEntity<String> findByRecruteurId(@PathVariable String email) {
-        var optionalCalendrier = calendrierDAO.findByRecruteur(email);
+    public ResponseEntity<String> findByRecruteurEmail(@PathVariable String email) {
+        var optionalCalendrier = listerRendezVousRecruteur.execute(email);
         return optionalCalendrier
                 .map(calendrier -> new ResponseEntity<>(calendrier, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
