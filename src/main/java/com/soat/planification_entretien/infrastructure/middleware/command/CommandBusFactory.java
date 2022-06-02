@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.soat.planification_entretien.cqrs.CommandHandler;
 import com.soat.planification_entretien.cqrs.EventHandler;
+import com.soat.planification_entretien.domain.candidat.CandidatRepository;
+import com.soat.planification_entretien.domain.candidat.CreerCandidatCommandHandler;
 import com.soat.planification_entretien.domain.entretien.AjouterEntretien;
 import com.soat.planification_entretien.domain.entretien.EmailService;
 import com.soat.planification_entretien.domain.entretien.EntretienRepository;
@@ -24,18 +26,22 @@ public class CommandBusFactory {
     private final EmailService emailService;
     private final CalendrierRepository calendrierRepository;
     private final RecruteurRepository recruteurRepository;
+    private final CandidatRepository candidatRepository;
 
-    public CommandBusFactory(EntretienRepository entretienRepository, EmailService emailService, CalendrierRepository calendrierRepository, RecruteurRepository recruteurRepository) {
+    public CommandBusFactory(EntretienRepository entretienRepository, EmailService emailService, CalendrierRepository calendrierRepository, RecruteurRepository recruteurRepository, CandidatRepository candidatRepository) {
         this.entretienRepository = entretienRepository;
         this.emailService = emailService;
         this.calendrierRepository = calendrierRepository;
         this.recruteurRepository = recruteurRepository;
+        this.candidatRepository = candidatRepository;
     }
 
     protected List<CommandHandler> getCommandHandlers() {
         return List.of(
                 new PlanifierEntretienCommandHandler(entretienRepository),
-                new CreerRecruteurCommandHandler(recruteurRepository));
+                new CreerRecruteurCommandHandler(recruteurRepository),
+                new CreerCandidatCommandHandler(candidatRepository)
+        );
     }
 
     protected List<EventHandler<? extends Event>> getEventHandlers() {

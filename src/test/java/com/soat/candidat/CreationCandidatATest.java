@@ -5,7 +5,7 @@ import java.util.Optional;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
 import com.soat.planification_entretien.application.controller.CandidatDto;
-import com.soat.planification_entretien.application.controller.CandidatController;
+import com.soat.planification_entretien.application.controller.CandidatCommandController;
 import com.soat.planification_entretien.domain.candidat.Candidat;
 import com.soat.planification_entretien.domain.candidat.CandidatRepository;
 import io.cucumber.java.Before;
@@ -37,7 +37,7 @@ public class CreationCandidatATest extends ATest {
 
     @Override
     protected void initPath() {
-        RestAssured.basePath = CandidatController.PATH;
+        RestAssured.basePath = CandidatCommandController.PATH;
     }
 
     @Etantdonné("un candidat {string} \\({string}) avec {string} ans d’expériences")
