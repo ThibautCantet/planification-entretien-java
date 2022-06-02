@@ -4,8 +4,8 @@ import java.net.URI;
 
 import com.soat.planification_entretien.cqrs.CommandResponse;
 import com.soat.planification_entretien.cqrs.Event;
-import com.soat.planification_entretien.domain.recruteur.CreerRecruteurCommand;
-import com.soat.planification_entretien.domain.recruteur.RecruteurCree;
+import com.soat.planification_entretien.domain.recruteur.command.CreerRecruteurCommand;
+import com.soat.planification_entretien.domain.recruteur.event.RecruteurCree;
 import com.soat.planification_entretien.infrastructure.controller.CommandController;
 import com.soat.planification_entretien.infrastructure.middleware.command.CommandBusFactory;
 import org.springframework.http.ResponseEntity;

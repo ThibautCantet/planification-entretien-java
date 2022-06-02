@@ -4,21 +4,22 @@ import java.util.List;
 
 import com.soat.planification_entretien.cqrs.QueryHandler;
 import com.soat.planification_entretien.cqrs.QueryResponse;
-import com.soat.planification_entretien.domain.entretien.command.repository.EntretienRepository;
 import com.soat.planification_entretien.domain.entretien.event.EntretiensListes;
+import com.soat.planification_entretien.domain.entretien.query.dao.EntretienDAO;
+import com.soat.planification_entretien.domain.entretien.query.dto.IEntretien;
 
 public class ListerEntretiensQueryHandler implements QueryHandler<ListerEntretiensQuery, QueryResponse<List<IEntretien>>> {
 
-    private final EntretienRepository entretienRepository;
+    private final EntretienDAO entretienDAO;
 
 
-    public ListerEntretiensQueryHandler(EntretienRepository entretienRepository) {
-        this.entretienRepository = entretienRepository;
+    public ListerEntretiensQueryHandler(EntretienDAO entretienDAO) {
+        this.entretienDAO = entretienDAO;
     }
 
     @Override
     public QueryResponse<List<IEntretien>> handle(ListerEntretiensQuery query) {
-        List<IEntretien> entretiens = entretienRepository.findAll().stream()
+        List<IEntretien> entretiens = entretienDAO.findAll().stream()
                 .map(IEntretien.class::cast)
                 .toList();
         return new QueryResponse<>(entretiens, new EntretiensListes());

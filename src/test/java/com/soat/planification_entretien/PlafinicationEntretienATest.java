@@ -4,22 +4,26 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.soat.ATest;
 import com.soat.planification_entretien.application.controller.command.EntretienCommandController;
 import com.soat.planification_entretien.application.controller.command.EntretienDto;
+import com.soat.planification_entretien.application.controller.query.RendezVousDto;
 import com.soat.planification_entretien.domain.candidat.entity.Candidat;
 import com.soat.planification_entretien.domain.candidat.repository.CandidatRepository;
 import com.soat.planification_entretien.domain.entretien.command.entity.Calendrier;
 import com.soat.planification_entretien.domain.rendez_vous.command.repository.CalendrierRepository;
-import com.soat.planification_entretien.domain.entretien.listener.EmailService;
+import com.soat.planification_entretien.domain.entretien.listener.service.EmailService;
 import com.soat.planification_entretien.domain.entretien.command.entity.Entretien;
 import com.soat.planification_entretien.domain.entretien.command.repository.EntretienRepository;
 import com.soat.planification_entretien.domain.entretien.command.entity.RendezVous;
-import com.soat.planification_entretien.domain.recruteur.Recruteur;
-import com.soat.planification_entretien.domain.recruteur.RecruteurRepository;
+import com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur;
+import com.soat.planification_entretien.domain.recruteur.command.repository.RecruteurRepository;
+import com.soat.planification_entretien.domain.rendez_vous.query.dao.CalendrierDAO;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;
@@ -71,6 +75,9 @@ public class PlafinicationEntretienATest extends ATest {
     private RecruteurRepository recruteurRepository;
     @Autowired
     private CalendrierRepository calendrierRepository;
+
+    @Autowired
+    private CalendrierDAO calendrierDAO;
 
     @Autowired
     private EmailService emailService;
@@ -151,7 +158,7 @@ public class PlafinicationEntretienATest extends ATest {
     }
 
     @Et("ajouter un rendez-vous pour le recruteur {string} avec {string} pour le {string} à {string}")
-    public void ajouterUnRendezVousPourLeRecruteurAvecPourLeÀ(String emailRecruteur, String emailCandidat, String date, String time) {
+    public void ajouterUnRendezVousPourLeRecruteurAvecPourLeÀ(String emailRecruteur, String emailCandidat, String date, String time) throws JsonProcessingException {
         var horaireEntretien = LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));
 
         RendezVous expectedRendezVous = new RendezVous(emailCandidat, horaireEntretien);
@@ -159,11 +166,22 @@ public class PlafinicationEntretienATest extends ATest {
         assertThat(calendrier).isNotNull();
         assertThat(calendrier.emailRecruteur()).contains(emailRecruteur);
         assertThat(calendrier.rendezVous()).contains(expectedRendezVous);
+
+        Optional<String> rendezVousJson = calendrierDAO.findByRecruteur(emailRecruteur);
+        assertThat(rendezVousJson).isNotEmpty();
+
+        var mapType = new TypeReference<List<RendezVousDto>>() {
+        };
+        var rdv = objectMapper.readValue(rendezVousJson.get(), mapType);
+        assertThat(rdv).containsExactly(new RendezVousDto(emailCandidat, horaireEntretien));
     }
 
     @Et("aucun rendez-vous n'est ajouté au recruteur")
     public void aucunRendezVousNEstAjoutéAuRecruteur() {
         Optional<Calendrier> calendrier = calendrierRepository.findByRecruteur(recruteur.getEmail());
         assertThat(calendrier).isEmpty();
+
+        Optional<String> rendezVousJson = calendrierDAO.findByRecruteur(recruteur.getEmail());
+        assertThat(rendezVousJson).isEmpty();
     }
 }

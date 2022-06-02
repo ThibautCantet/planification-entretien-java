@@ -2,7 +2,7 @@ package com.soat.planification_entretien.infrastructure;
 
 import java.time.LocalDateTime;
 
-import com.soat.planification_entretien.domain.entretien.listener.EmailService;
+import com.soat.planification_entretien.domain.entretien.listener.service.EmailService;
 import org.springframework.stereotype.Service;
 
 @Service

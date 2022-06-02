@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.domain.entretien.listener;
+package com.soat.planification_entretien.domain.entretien.listener.service;
 
 import java.time.LocalDateTime;
 

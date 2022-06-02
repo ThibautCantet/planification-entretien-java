@@ -7,13 +7,15 @@ import com.soat.planification_entretien.cqrs.EventHandler;
 import com.soat.planification_entretien.domain.candidat.repository.CandidatRepository;
 import com.soat.planification_entretien.domain.candidat.command.CreerCandidatCommandHandler;
 import com.soat.planification_entretien.domain.entretien.listener.AjouterEntretien;
-import com.soat.planification_entretien.domain.entretien.listener.EmailService;
+import com.soat.planification_entretien.domain.entretien.listener.ProjectionCalendrierJson;
+import com.soat.planification_entretien.domain.entretien.listener.dao.CalendrierDAO;
+import com.soat.planification_entretien.domain.entretien.listener.service.EmailService;
 import com.soat.planification_entretien.domain.entretien.command.repository.EntretienRepository;
 import com.soat.planification_entretien.domain.entretien.listener.dao.EntretienDAO;
 import com.soat.planification_entretien.domain.entretien.listener.EnvoyerEmails;
 import com.soat.planification_entretien.domain.entretien.command.PlanifierEntretienCommandHandler;
-import com.soat.planification_entretien.domain.recruteur.CreerRecruteurCommandHandler;
-import com.soat.planification_entretien.domain.recruteur.RecruteurRepository;
+import com.soat.planification_entretien.domain.recruteur.command.CreerRecruteurCommandHandler;
+import com.soat.planification_entretien.domain.recruteur.command.repository.RecruteurRepository;
 import com.soat.planification_entretien.domain.rendez_vous.command.AjouterRendezVousCommandHandler;
 import com.soat.planification_entretien.domain.rendez_vous.command.repository.CalendrierRepository;
 import com.soat.planification_entretien.cqrs.Event;
@@ -30,14 +32,16 @@ public class CommandBusFactory {
     private final RecruteurRepository recruteurRepository;
     private final CandidatRepository candidatRepository;
     private final EntretienDAO entretienDAO;
+    private final CalendrierDAO calendrierDao;
 
-    public CommandBusFactory(EntretienRepository entretienRepository, EmailService emailService, CalendrierRepository calendrierRepository, RecruteurRepository recruteurRepository, CandidatRepository candidatRepository, EntretienDAO entretienDAO) {
+    public CommandBusFactory(EntretienRepository entretienRepository, EmailService emailService, CalendrierRepository calendrierRepository, RecruteurRepository recruteurRepository, CandidatRepository candidatRepository, EntretienDAO entretienDAO, CalendrierDAO calendrierDao) {
         this.entretienRepository = entretienRepository;
         this.emailService = emailService;
         this.calendrierRepository = calendrierRepository;
         this.recruteurRepository = recruteurRepository;
         this.candidatRepository = candidatRepository;
         this.entretienDAO = entretienDAO;
+        this.calendrierDao = calendrierDao;
     }
 
     protected List<CommandHandler> getCommandHandlers() {
@@ -51,7 +55,9 @@ public class CommandBusFactory {
 
     protected List<EventHandler<? extends Event>> getEventHandlers() {
         return List.of(new AjouterEntretien(entretienDAO),
-                new EnvoyerEmails(emailService));
+                new EnvoyerEmails(emailService),
+                new ProjectionCalendrierJson(calendrierDao, entretienRepository, calendrierRepository)
+        );
     }
 
     public CommandBus build() {

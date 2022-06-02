@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import com.soat.planification_entretien.domain.recruteur.Recruteur;
-import com.soat.planification_entretien.domain.recruteur.RecruteurRepository;
-import org.springframework.stereotype.Repository;
+import com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur;
+import com.soat.planification_entretien.domain.recruteur.command.repository.RecruteurRepository;
+import com.soat.planification_entretien.domain.recruteur.query.dao.RecruteurDAO;
 
 //@Repository
-public class InMemoryRecruteurRepository implements RecruteurRepository {
+public class InMemoryRecruteurRepository implements RecruteurRepository, RecruteurDAO {
     private final Map<Integer, Recruteur> cache = new HashMap<>();
 
     @Override
@@ -27,14 +27,10 @@ public class InMemoryRecruteurRepository implements RecruteurRepository {
     }
 
     @Override
-    public List<Recruteur> find10AnsExperience() {
+    public List<com.soat.planification_entretien.domain.recruteur.query.dto.Recruteur> find10AnsExperience() {
         return cache.values().stream()
                 .filter(recruteur -> recruteur.getExperienceInYears() >= 10)
+                .map(r -> new com.soat.planification_entretien.domain.recruteur.query.dto.Recruteur(r.getId(), r.getLanguage(), r.getEmail(), r.getExperienceInYears()))
                 .toList();
-    }
-
-    @Override
-    public Optional<Recruteur> findByEmail(String email) {
-        return Optional.empty();
     }
 }

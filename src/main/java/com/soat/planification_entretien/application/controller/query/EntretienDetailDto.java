@@ -2,7 +2,7 @@ package com.soat.planification_entretien.application.controller.query;
 
 import java.time.LocalDateTime;
 
-import com.soat.planification_entretien.domain.entretien.query.IEntretien;
+import com.soat.planification_entretien.domain.entretien.query.dto.IEntretien;
 
 public class EntretienDetailDto implements IEntretien {
     private final Integer id;

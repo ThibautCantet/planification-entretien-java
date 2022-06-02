@@ -1,13 +1,15 @@
-package com.soat.planification_entretien.domain.recruteur;
+package com.soat.planification_entretien.domain.recruteur.command;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.soat.planification_entretien.cqrs.CommandHandler;
 import com.soat.planification_entretien.cqrs.CommandResponse;
 import com.soat.planification_entretien.cqrs.Event;
+import com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur;
+import com.soat.planification_entretien.domain.recruteur.event.RecruteurCree;
+import com.soat.planification_entretien.domain.recruteur.event.RecruteurNonCree;
+import com.soat.planification_entretien.domain.recruteur.command.repository.RecruteurRepository;
 
 public class CreerRecruteurCommandHandler implements CommandHandler<CreerRecruteurCommand, CommandResponse<Integer, Event>> {
     private static final String EMAIL_REGEX = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";

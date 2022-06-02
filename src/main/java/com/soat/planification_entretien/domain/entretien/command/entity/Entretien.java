@@ -3,8 +3,8 @@ package com.soat.planification_entretien.domain.entretien.command.entity;
 import java.time.LocalDateTime;
 
 import com.soat.planification_entretien.domain.candidat.entity.Candidat;
-import com.soat.planification_entretien.domain.entretien.query.IEntretien;
-import com.soat.planification_entretien.domain.recruteur.Recruteur;
+import com.soat.planification_entretien.domain.entretien.query.dto.IEntretien;
+import com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur;
 
 public class Entretien implements IEntretien {
     private Integer id;

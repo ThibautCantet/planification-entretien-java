@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.domain.entretien.query;
+package com.soat.planification_entretien.domain.entretien.query.dto;
 
 import java.time.LocalDateTime;
 

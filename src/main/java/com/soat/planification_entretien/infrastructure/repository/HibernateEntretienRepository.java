@@ -3,7 +3,7 @@ package com.soat.planification_entretien.infrastructure.repository;
 import java.util.List;
 
 import com.soat.planification_entretien.domain.candidat.entity.Candidat;
-import com.soat.planification_entretien.domain.recruteur.Recruteur;
+import com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur;
 import com.soat.planification_entretien.domain.entretien.command.repository.EntretienRepository;
 import org.springframework.stereotype.Repository;
 
@@ -30,13 +30,6 @@ public class HibernateEntretienRepository implements EntretienRepository {
         Entretien saved = entretienCrud.save(jpaEntretien);
 
         return saved.getId();
-    }
-
-    @Override
-    public List<com.soat.planification_entretien.domain.entretien.command.entity.Entretien> findAll() {
-        return entretienCrud.findAll().stream()
-                .map(HibernateEntretienRepository::toEntretien)
-                .toList();
     }
 
     @Override

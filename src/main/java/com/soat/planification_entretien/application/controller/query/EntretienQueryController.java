@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.soat.planification_entretien.cqrs.QueryResponse;
 import com.soat.planification_entretien.domain.entretien.event.EntretiensListes;
-import com.soat.planification_entretien.domain.entretien.query.IEntretien;
+import com.soat.planification_entretien.domain.entretien.query.dto.IEntretien;
 import com.soat.planification_entretien.domain.entretien.query.ListerEntretiensQuery;
 import com.soat.planification_entretien.infrastructure.controller.QueryController;
 import com.soat.planification_entretien.infrastructure.middleware.queries.QueryBusFactory;

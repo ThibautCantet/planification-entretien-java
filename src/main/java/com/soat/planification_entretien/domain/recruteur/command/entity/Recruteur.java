@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.domain.recruteur;
+package com.soat.planification_entretien.domain.recruteur.command.entity;
 
 public class Recruteur {
     private Integer id;

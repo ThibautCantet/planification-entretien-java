@@ -4,31 +4,30 @@ import java.util.List;
 
 import com.soat.planification_entretien.cqrs.Query;
 import com.soat.planification_entretien.cqrs.QueryHandler;
-import com.soat.planification_entretien.domain.entretien.listener.dao.CalendrierDAO;
-import com.soat.planification_entretien.domain.entretien.command.repository.EntretienRepository;
 import com.soat.planification_entretien.domain.entretien.query.ListerEntretiensQueryHandler;
-import com.soat.planification_entretien.domain.recruteur.ListerQueryHandler;
-import com.soat.planification_entretien.domain.recruteur.RecruteurRepository;
+import com.soat.planification_entretien.domain.entretien.query.dao.EntretienDAO;
+import com.soat.planification_entretien.domain.recruteur.query.ListerRecruteurQueryHandler;
+import com.soat.planification_entretien.domain.recruteur.query.dao.RecruteurDAO;
 import com.soat.planification_entretien.domain.rendez_vous.query.ListerRendezVousRecruteurQueryHandler;
 import org.springframework.stereotype.Service;
 
 @Service
 public class QueryBusFactory {
 
-    private final EntretienRepository entretienRepository;
-    private final RecruteurRepository recruteurRepository;
+    private final EntretienDAO entretienDAO;
+    private final RecruteurDAO recruteurDAO;
     private final com.soat.planification_entretien.domain.rendez_vous.query.dao.CalendrierDAO queryCalendrierDAO;
 
-    public QueryBusFactory(EntretienRepository entretienRepository, RecruteurRepository recruteurRepository, com.soat.planification_entretien.domain.rendez_vous.query.dao.CalendrierDAO queryCalendrierDAO) {
-        this.entretienRepository = entretienRepository;
-        this.recruteurRepository = recruteurRepository;
+    public QueryBusFactory(EntretienDAO entretienDAO, RecruteurDAO recruteurDAO, com.soat.planification_entretien.domain.rendez_vous.query.dao.CalendrierDAO queryCalendrierDAO) {
+        this.entretienDAO = entretienDAO;
+        this.recruteurDAO = recruteurDAO;
         this.queryCalendrierDAO = queryCalendrierDAO;
     }
 
     protected List<QueryHandler<? extends Query, ? extends Object>> getQueryHandlers() {
         return List.of(new ListerRendezVousRecruteurQueryHandler(queryCalendrierDAO),
-                new ListerEntretiensQueryHandler(entretienRepository),
-                new ListerQueryHandler(recruteurRepository)
+                new ListerEntretiensQueryHandler(entretienDAO),
+                new ListerRecruteurQueryHandler(recruteurDAO)
         );
     }
 

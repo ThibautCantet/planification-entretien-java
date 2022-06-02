@@ -3,19 +3,19 @@ package com.soat.planification_entretien.domain.entretien.listener;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.soat.planification_entretien.domain.entretien.listener.dao.CalendrierDAO;
+import com.soat.planification_entretien.cqrs.EventHandlerVoid;
 import com.soat.planification_entretien.domain.entretien.command.entity.Calendrier;
 import com.soat.planification_entretien.domain.entretien.command.entity.Entretien;
-import com.soat.planification_entretien.domain.entretien.event.EntretienPlanifie;
-import com.soat.planification_entretien.domain.entretien.command.repository.EntretienRepository;
 import com.soat.planification_entretien.domain.entretien.command.entity.RendezVous;
+import com.soat.planification_entretien.domain.entretien.command.repository.EntretienRepository;
+import com.soat.planification_entretien.domain.entretien.event.EntretienPlanifie;
+import com.soat.planification_entretien.domain.entretien.listener.dao.CalendrierDAO;
 import com.soat.planification_entretien.domain.rendez_vous.command.repository.CalendrierRepository;
-import com.soat.planification_entretien.infrastructure.middleware.Listener;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProjectionCalendrierJson implements Listener<EntretienPlanifie> {
+public class ProjectionCalendrierJson extends EventHandlerVoid<EntretienPlanifie> {
     private final CalendrierDAO calendrierDAO;
     private final EntretienRepository entretienRepository;
     private final CalendrierRepository calendrierRepository;
@@ -27,7 +27,7 @@ public class ProjectionCalendrierJson implements Listener<EntretienPlanifie> {
     }
 
     @Override
-    public void onEvent(EntretienPlanifie event) {
+    public void handle(EntretienPlanifie event) {
         Entretien entretien = entretienRepository.findById(event.id());
         Calendrier calendrier = calendrierRepository.findByRecruteur(entretien.getRecruteur().getEmail())
                 .orElse(new Calendrier(null, entretien.getEmailRecruteur(), new ArrayList<>()));
@@ -40,5 +40,10 @@ public class ProjectionCalendrierJson implements Listener<EntretienPlanifie> {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Class listenTo() {
+        return EntretienPlanifie.class;
     }
 }

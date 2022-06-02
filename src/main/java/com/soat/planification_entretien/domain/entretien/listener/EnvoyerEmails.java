@@ -4,6 +4,7 @@ import com.soat.planification_entretien.cqrs.Event;
 import com.soat.planification_entretien.cqrs.EventHandlerEvent;
 import com.soat.planification_entretien.domain.entretien.event.EmailsEnvoyes;
 import com.soat.planification_entretien.domain.entretien.event.EntretienPlanifie;
+import com.soat.planification_entretien.domain.entretien.listener.service.EmailService;
 import org.springframework.stereotype.Service;
 
 @Service

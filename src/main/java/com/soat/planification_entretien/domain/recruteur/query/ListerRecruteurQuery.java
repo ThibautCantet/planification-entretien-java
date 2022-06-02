@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.domain.recruteur;
+package com.soat.planification_entretien.domain.recruteur.query;
 
 import com.soat.planification_entretien.cqrs.Query;
 
