@@ -6,10 +6,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
 import com.soat.planification_entretien.application.controller.RendezVousController;
 import com.soat.planification_entretien.application.controller.RendezVousDto;
 import com.soat.planification_entretien.domain.entretien.Calendrier;
+import com.soat.planification_entretien.domain.entretien.CalendrierDAO;
 import com.soat.planification_entretien.domain.rendez_vous.CalendrierRepository;
 import com.soat.planification_entretien.domain.rendez_vous.RendezVous;
 import io.cucumber.datatable.DataTable;
@@ -29,6 +31,9 @@ public class ListerRendezVousATest extends ATest {
 
     @Autowired
     private CalendrierRepository calendrierRepository;
+
+    @Autowired
+    private CalendrierDAO calendrierDAO;
 
     @Override
     protected void setUp() {
@@ -68,10 +73,12 @@ public class ListerRendezVousATest extends ATest {
     }
 
     @Et("les rendez-vous suivants")
-    public void lesRendezVousSuivants(DataTable dataTable) {
+    public void lesRendezVousSuivants(DataTable dataTable) throws JsonProcessingException {
         List<Calendrier> calendriers = dataTableTransformEntries(dataTable, this::buildCalendrier);
 
         calendrierRepository.saveAll(calendriers);
+
+        calendrierDAO.saveAll(calendriers);
     }
 
     private Calendrier buildCalendrier(Map<String, String> entry) {
