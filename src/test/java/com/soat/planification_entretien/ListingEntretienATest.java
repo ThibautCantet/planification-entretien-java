@@ -67,7 +67,7 @@ public class ListingEntretienATest extends ATest {
     private Recruteur buildRecruteur(Map<String, String> entry) {
         return new Recruteur(
                 entry.get("language"),
-                entry.get("email"),
+                entry.get("emailCandidat"),
                 Integer.parseInt(entry.get("xp")));
     }
 
@@ -85,7 +85,7 @@ public class ListingEntretienATest extends ATest {
     private Candidat buildCandidat(Map<String, String> entry) {
         return new Candidat(
                 entry.get("language"),
-                entry.get("email"),
+                entry.get("emailCandidat"),
                 Integer.parseInt(entry.get("xp")));
     }
 

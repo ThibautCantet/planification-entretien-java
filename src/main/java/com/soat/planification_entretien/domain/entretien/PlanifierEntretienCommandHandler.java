@@ -8,11 +8,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class PlanifierEntretienCommandHandler implements CommandHandler<PlanifierEntretienCommand, CommandResponse<Boolean, Event>> {
     private final EntretienRepository entretienRepository;
-    private final EmailService emailService;
 
-    public PlanifierEntretienCommandHandler(EntretienRepository entretienRepository, EmailService emailService) {
+    public PlanifierEntretienCommandHandler(EntretienRepository entretienRepository) {
         this.entretienRepository = entretienRepository;
-        this.emailService = emailService;
     }
 
     @Override
@@ -20,10 +18,8 @@ public class PlanifierEntretienCommandHandler implements CommandHandler<Planifie
         Entretien entretien = new Entretien(command.candidat(), command.recruteur());
         if (entretien.planifier(command.dateEtHeureDisponibiliteDuCandidat(), command.dateEtHeureDisponibiliteDuRecruteur())) {
             int id = entretienRepository.save(entretien);
-            emailService.envoyerUnEmailDeConfirmationAuCandidat(command.candidat().getEmail(), command.dateEtHeureDisponibiliteDuCandidat());
-            emailService.envoyerUnEmailDeConfirmationAuRecruteur(command.recruteur().getEmail(), command.dateEtHeureDisponibiliteDuCandidat());
 
-            return new CommandResponse<>(true, new EntretienPlanifie(id));
+            return new CommandResponse<>(true, new EntretienPlanifie(id, command.candidat().getEmail(), command.recruteur().getEmail(), command.dateEtHeureDisponibiliteDuCandidat()));
         }
         return new CommandResponse<>(false, new EntretienNonPlanifie());
     }

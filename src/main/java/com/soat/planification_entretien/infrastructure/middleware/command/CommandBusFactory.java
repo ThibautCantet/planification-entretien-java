@@ -7,6 +7,7 @@ import com.soat.planification_entretien.cqrs.EventHandler;
 import com.soat.planification_entretien.domain.entretien.AjouterEntretien;
 import com.soat.planification_entretien.domain.entretien.EmailService;
 import com.soat.planification_entretien.domain.entretien.EntretienRepository;
+import com.soat.planification_entretien.domain.entretien.EnvoyerEmails;
 import com.soat.planification_entretien.domain.entretien.PlanifierEntretienCommandHandler;
 import com.soat.planification_entretien.domain.rendez_vous.CalendrierRepository;
 import com.soat.planification_entretien.infrastructure.middleware.Event;
@@ -28,11 +29,12 @@ public class CommandBusFactory {
     }
 
     protected List<CommandHandler> getCommandHandlers() {
-        return List.of(new PlanifierEntretienCommandHandler(entretienRepository, emailService));
+        return List.of(new PlanifierEntretienCommandHandler(entretienRepository));
     }
 
     protected List<EventHandler<? extends Event>> getEventHandlers() {
-        return List.of(new AjouterEntretien(entretienRepository, calendrierRepository));
+        return List.of(new AjouterEntretien(entretienRepository, calendrierRepository),
+                new EnvoyerEmails(emailService));
     }
 
     public CommandBus build() {
