@@ -9,7 +9,7 @@ import com.soat.planification_entretien.infrastructure.middleware.Listener;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProjectionCalendrierJson implements Listener<EntretienPanifie> {
+public class ProjectionCalendrierJson implements Listener<EntretienPlanifie> {
     private final CalendrierDAO calendrierDAO;
     private final EntretienRepository entretienRepository;
     private final CalendrierRepository calendrierRepository;
@@ -21,7 +21,7 @@ public class ProjectionCalendrierJson implements Listener<EntretienPanifie> {
     }
 
     @Override
-    public void onEvent(EntretienPanifie event) {
+    public void onEvent(EntretienPlanifie event) {
         Entretien entretien = entretienRepository.findById(event.id());
         Calendrier calendrier = calendrierRepository.findByRecruteur(entretien.getRecruteur().getEmail())
                 .orElse(new Calendrier(null, entretien.getEmailRecruteur(), new ArrayList<>()));

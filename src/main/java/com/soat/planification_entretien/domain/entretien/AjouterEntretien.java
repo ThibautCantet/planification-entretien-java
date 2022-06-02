@@ -1,15 +1,15 @@
 package com.soat.planification_entretien.domain.entretien;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import com.soat.planification_entretien.cqrs.EventHandler;
 import com.soat.planification_entretien.domain.rendez_vous.CalendrierRepository;
 import com.soat.planification_entretien.domain.rendez_vous.RendezVous;
-import com.soat.planification_entretien.infrastructure.middleware.Listener;
+import com.soat.planification_entretien.infrastructure.middleware.Event;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AjouterEntretien implements Listener<EntretienPanifie> {
+public class AjouterEntretien implements EventHandler<EntretienPlanifie> {
     private final EntretienRepository entretienRepository;
     private final CalendrierRepository calendrierRepository;
 
@@ -19,7 +19,7 @@ public class AjouterEntretien implements Listener<EntretienPanifie> {
     }
 
     @Override
-    public void onEvent(EntretienPanifie event) {
+    public Event handle(EntretienPlanifie event) {
         Entretien entretien = entretienRepository.findById(event.id());
         Calendrier calendrier = calendrierRepository.findByRecruteur(entretien.getRecruteur().getEmail())
                 .orElse(new Calendrier(null, entretien.getEmailRecruteur(), new ArrayList<>()));
@@ -28,5 +28,12 @@ public class AjouterEntretien implements Listener<EntretienPanifie> {
         calendrier.add(rendezVous);
 
         calendrierRepository.save(calendrier);
+
+        return null;
+    }
+
+    @Override
+    public Class listenTo() {
+        return EntretienPlanifie.class;
     }
 }
