@@ -1,4 +1,6 @@
 package com.soat.planification_entretien.domain.rendez_vous;
 
-public record ListerRendezVousRecruteurQuery(String email) {
+import com.soat.planification_entretien.cqrs.Query;
+
+public record ListerRendezVousRecruteurQuery(String email) implements Query {
 }
