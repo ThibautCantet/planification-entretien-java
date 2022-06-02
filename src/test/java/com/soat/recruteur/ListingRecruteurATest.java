@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.soat.ATest;
-import com.soat.planification_entretien.application.controller.RecruteurController;
+import com.soat.planification_entretien.application.controller.RecruteurCommandController;
 import com.soat.planification_entretien.application.controller.RecruteurDetailDto;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
@@ -30,7 +30,7 @@ public class ListingRecruteurATest extends ATest {
 
     @Override
     protected void initPath() {
-        RestAssured.basePath = RecruteurController.PATH;
+        RestAssured.basePath = RecruteurCommandController.PATH;
     }
 
 
@@ -40,7 +40,7 @@ public class ListingRecruteurATest extends ATest {
         response = given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get(RecruteurController.PATH);
+                .get(RecruteurCommandController.PATH);
         //@formatter:on
     }
 
@@ -61,7 +61,7 @@ public class ListingRecruteurATest extends ATest {
         return new RecruteurDetailDto(
                 Integer.parseInt(entry.get("id")),
                 entry.get("competence"),
-                entry.get("emailCandidat")
+                entry.get("email")
         );
     }
 }

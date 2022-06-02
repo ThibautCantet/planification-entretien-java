@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
-import com.soat.planification_entretien.application.controller.RecruteurController;
+import com.soat.planification_entretien.application.controller.RecruteurCommandController;
 import com.soat.planification_entretien.domain.recruteur.Recruteur;
 import com.soat.planification_entretien.domain.recruteur.RecruteurRepository;
 import com.soat.planification_entretien.application.controller.RecruteurDto;
@@ -38,7 +38,7 @@ public class CreationRecruteurATest extends ATest {
 
     @Override
     protected void initPath() {
-        RestAssured.basePath = RecruteurController.PATH;
+        RestAssured.basePath = RecruteurCommandController.PATH;
     }
 
     @Etantdonné("un recruteur {string} \\({string}) avec {string} ans d’expériences")
