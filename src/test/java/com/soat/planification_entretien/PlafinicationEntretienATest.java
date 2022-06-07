@@ -21,7 +21,7 @@ import com.soat.planification_entretien.domain.entretien.listener.service.EmailS
 import com.soat.planification_entretien.domain.entretien.command.entity.Entretien;
 import com.soat.planification_entretien.domain.entretien.command.repository.EntretienRepository;
 import com.soat.planification_entretien.domain.entretien.command.entity.RendezVous;
-import com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur;
+import com.soat.planification_entretien.domain.entretien.command.entity.Recruteur;
 import com.soat.planification_entretien.domain.recruteur.command.repository.RecruteurRepository;
 import com.soat.planification_entretien.domain.rendez_vous.query.dao.CalendrierDAO;
 import io.cucumber.java.Before;
@@ -104,7 +104,8 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Etqu("un recruteur {string} \\({string}) qui a {string} ans d’XP qui est dispo {string} à {string}")
     public void unRecruteurQuiAAnsDXPQuiEstDispo(String language, String email, String experienceInYears, String date, String time) {
-        recruteur = new Recruteur(1, language, email, Integer.parseInt(experienceInYears));
+        var recruteur = new com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur(1, language, email, Integer.parseInt(experienceInYears));
+        this.recruteur = new Recruteur(1, language, email, Integer.parseInt(experienceInYears));
         //entityManager.persist(recruteur);
         recruteurRepository.save(recruteur);
         disponibiliteDuRecruteur = LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));
@@ -112,7 +113,7 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Quand("on tente une planification d’entretien")
     public void onTenteUnePlanificationDEntretien() throws JsonProcessingException {
-        EntretienDto entretienDto = new EntretienDto(candidat.id(), recruteur.getId(), disponibiliteDuCandidat, disponibiliteDuRecruteur);
+        EntretienDto entretienDto = new EntretienDto(candidat.id(), recruteur.id(), disponibiliteDuCandidat, disponibiliteDuRecruteur);
         String body = objectMapper.writeValueAsString(entretienDto);
         initPath();
         //@formatter:off
@@ -140,7 +141,7 @@ public class PlafinicationEntretienATest extends ATest {
     @Et("un mail de confirmation est envoyé au candidat et au recruteur")
     public void unMailDeConfirmationEstEnvoyéAuCandidatEtAuRecruteur() {
         verify(emailService).envoyerUnEmailDeConfirmationAuCandidat(candidat.email(), disponibiliteDuCandidat);
-        verify(emailService).envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), disponibiliteDuCandidat);
+        verify(emailService).envoyerUnEmailDeConfirmationAuRecruteur(recruteur.email(), disponibiliteDuCandidat);
     }
 
     @Alors("L’entretien n'est pas planifié")
@@ -155,7 +156,7 @@ public class PlafinicationEntretienATest extends ATest {
     @Et("aucun mail de confirmation n'est envoyé au candidat ou au recruteur")
     public void aucunMailDeConfirmationNEstEnvoyéAuCandidatOuAuRecruteur() {
         verify(emailService, never()).envoyerUnEmailDeConfirmationAuCandidat(candidat.email(), disponibiliteDuCandidat);
-        verify(emailService, never()).envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), disponibiliteDuCandidat);
+        verify(emailService, never()).envoyerUnEmailDeConfirmationAuRecruteur(recruteur.email(), disponibiliteDuCandidat);
     }
 
     @Et("ajouter un rendez-vous pour le recruteur {string} avec {string} pour le {string} à {string}")
@@ -179,10 +180,10 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Et("aucun rendez-vous n'est ajouté au recruteur")
     public void aucunRendezVousNEstAjoutéAuRecruteur() {
-        Optional<Calendrier> calendrier = calendrierRepository.findByRecruteur(recruteur.getEmail());
+        Optional<Calendrier> calendrier = calendrierRepository.findByRecruteur(recruteur.email());
         assertThat(calendrier).isEmpty();
 
-        Optional<String> rendezVousJson = calendrierDAO.findByRecruteur(recruteur.getEmail());
+        Optional<String> rendezVousJson = calendrierDAO.findByRecruteur(recruteur.email());
         assertThat(rendezVousJson).isEmpty();
     }
 }

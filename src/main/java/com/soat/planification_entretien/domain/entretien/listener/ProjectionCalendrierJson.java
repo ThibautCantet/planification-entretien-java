@@ -29,7 +29,7 @@ public class ProjectionCalendrierJson extends EventHandlerVoid<EntretienPlanifie
     @Override
     public void handle(EntretienPlanifie event) {
         Entretien entretien = entretienRepository.findById(event.id());
-        Calendrier calendrier = calendrierRepository.findByRecruteur(entretien.getRecruteur().getEmail())
+        Calendrier calendrier = calendrierRepository.findByRecruteur(entretien.getRecruteur().email())
                 .orElse(new Calendrier(null, entretien.getEmailRecruteur(), new ArrayList<>()));
 
         RendezVous rendezVous = new RendezVous(entretien.getEmailCandidat(), entretien.getHoraireEntretien());

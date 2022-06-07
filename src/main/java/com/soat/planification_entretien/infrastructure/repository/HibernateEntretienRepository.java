@@ -1,7 +1,7 @@
 package com.soat.planification_entretien.infrastructure.repository;
 
 import com.soat.planification_entretien.domain.entretien.command.entity.Candidat;
-import com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur;
+import com.soat.planification_entretien.domain.entretien.command.entity.Recruteur;
 import com.soat.planification_entretien.domain.entretien.command.repository.EntretienRepository;
 import org.springframework.stereotype.Repository;
 
@@ -21,7 +21,7 @@ public class HibernateEntretienRepository implements EntretienRepository {
     public int save(com.soat.planification_entretien.domain.entretien.command.entity.Entretien entretien) {
 
         var jpaCandidat = candidatCrud.findById(entretien.getCandidat().id()).get();
-        var jpaRecruteur = recruteurCrud.findById(entretien.getRecruteur().getId()).get();
+        var jpaRecruteur = recruteurCrud.findById(entretien.getRecruteur().id()).get();
 
         var jpaEntretien = Entretien.of(jpaCandidat,
                 jpaRecruteur, entretien.getHoraireEntretien());
