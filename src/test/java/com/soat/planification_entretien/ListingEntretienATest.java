@@ -104,7 +104,7 @@ public class ListingEntretienATest extends ATest {
         Recruteur savedRecruteur = savedRecruteurs.get(0);
         return Entretien.of(
                 new com.soat.planification_entretien.domain.entretien.command.entity.Candidat(savedCandidat.getId(), savedCandidat.getLanguage(), savedCandidat.getEmail(), savedCandidat.getExperienceInYears()),
-                new com.soat.planification_entretien.domain.entretien.command.entity.Recruteur(savedRecruteur.getId(), savedRecruteur.getLanguage(), savedRecruteur.getEmail(), savedRecruteur.getExperienceInYears()),
+                new com.soat.planification_entretien.domain.entretien.command.entity.Recruteur(savedRecruteur.getId(), savedRecruteur.getLanguage(), savedRecruteur.getEmail(), savedRecruteur.getExperienceInYears(), new ArrayList<>()),
                 LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
     }
 

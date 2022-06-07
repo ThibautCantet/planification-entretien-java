@@ -1,6 +1,7 @@
 package com.soat.planification_entretien.domain.entretien.command.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.soat.planification_entretien.domain.entretien.query.dto.IEntretien;
 
@@ -13,7 +14,7 @@ public class Entretien implements IEntretien {
 
     private Recruteur recruteur;
 
-    public Entretien(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
+    private Entretien(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
         this.id = id;
         this.candidat = candidat;
         this.recruteur = recruteur;
@@ -60,8 +61,8 @@ public class Entretien implements IEntretien {
         return id;
     }
 
-    public boolean planifier(LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
-        Creneau creneau = new Creneau(dateEtHeureDisponibiliteDuRecruteur, dateEtHeureDisponibiliteDuCandidat);
+    public boolean planifier(LocalDateTime dateEtHeureDisponibiliteDuCandidat, List<RendezVous> rendezVous) {
+        Creneau creneau = new Creneau(rendezVous, dateEtHeureDisponibiliteDuCandidat);
         boolean planifiable = recruteur.peutTester(candidat)
                 && creneau.estDisponible();
 

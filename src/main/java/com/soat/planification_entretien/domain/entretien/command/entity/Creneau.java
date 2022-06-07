@@ -2,8 +2,9 @@ package com.soat.planification_entretien.domain.entretien.command.entity;
 
 import java.time.LocalDateTime;
 
-public record Creneau(LocalDateTime disponibiliteRecruteur, LocalDateTime horairePropose) {
+public record Creneau(java.util.List<RendezVous> rendezVous, LocalDateTime horairePropose) {
     boolean estDisponible() {
-        return disponibiliteRecruteur.equals(horairePropose);
+        return rendezVous.stream()
+                .noneMatch(rdv -> horairePropose.equals(rdv.horaire()) || (horairePropose.isAfter(rdv.horaire()) && horairePropose.isBefore(horairePropose.plusHours(1))));
     }
 }

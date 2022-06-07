@@ -3,28 +3,43 @@ package com.soat.planification_entretien.infrastructure.repository;
 import java.util.List;
 import java.util.Optional;
 
+import com.soat.planification_entretien.domain.entretien.command.entity.Calendrier;
+import com.soat.planification_entretien.domain.entretien.command.entity.RendezVous;
 import com.soat.planification_entretien.domain.recruteur.command.repository.RecruteurRepository;
 import com.soat.planification_entretien.domain.recruteur.query.dao.RecruteurDAO;
+import com.soat.planification_entretien.domain.rendez_vous.command.repository.CalendrierRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class HibernateRecruteurRepository implements RecruteurRepository, RecruteurDAO {
     private final RecruteurCrud recruteurCrud;
+    public final CalendrierRepository calendrierRepository;
 
-    public HibernateRecruteurRepository(RecruteurCrud recruteurCrud) {
+    public HibernateRecruteurRepository(RecruteurCrud recruteurCrud, CalendrierRepository calendrierRepository) {
         this.recruteurCrud = recruteurCrud;
+        this.calendrierRepository = calendrierRepository;
     }
 
     @Override
     public Optional<com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur> findById(int recruteurId) {
-        return recruteurCrud.findById(recruteurId).map(
-                recruteur -> new com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur(
-                        recruteurId,
-                        recruteur.getLanguage(),
-                        recruteur.getEmail(),
-                        recruteur.getExperienceInYears()
-                )
-        );
+
+        Optional<Recruteur> optionalRecruteur = recruteurCrud.findById(recruteurId);
+        if (optionalRecruteur.isPresent()) {
+
+            List<RendezVous> rendezVous = calendrierRepository.findByRecruteur(optionalRecruteur.get().getEmail())
+                    .map(Calendrier::rendezVous)
+                    .orElse(List.of());
+            return optionalRecruteur.map(
+                    recruteur -> new com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur(
+                            recruteurId,
+                            recruteur.getLanguage(),
+                            recruteur.getEmail(),
+                            recruteur.getExperienceInYears(),
+                            rendezVous
+                    )
+            );
+        }
+        return Optional.empty();
     }
 
     @Override

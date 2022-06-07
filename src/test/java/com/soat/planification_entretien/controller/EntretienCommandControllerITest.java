@@ -34,8 +34,7 @@ class EntretienCommandControllerITest {
 
     @Test
     void name() throws JsonProcessingException {
-        var dateDeDisponibiliteDuRecruteur = LocalDateTime.MAX;
-        EntretienDto entretienDto = new EntretienDto(1, 1, LocalDateTime.of(2021, 12, 30, 1, 1, 1), dateDeDisponibiliteDuRecruteur);
+        EntretienDto entretienDto = new EntretienDto(1, 1, LocalDateTime.of(2021, 12, 30, 1, 1, 1));
         String body = objectMapper.writeValueAsString(entretienDto);
         //@formatter:off
         given()

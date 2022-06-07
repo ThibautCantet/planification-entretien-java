@@ -4,10 +4,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.soat.planification_entretien.domain.candidat.entity.Candidat;
+import com.soat.planification_entretien.domain.entretien.command.entity.Calendrier;
+import com.soat.planification_entretien.domain.entretien.command.entity.RendezVous;
 import com.soat.planification_entretien.domain.entretien.listener.dao.EntretienDAO;
 import com.soat.planification_entretien.domain.entretien.listener.dto.Entretien;
 import com.soat.planification_entretien.domain.entretien.query.dto.IEntretien;
 import com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur;
+import com.soat.planification_entretien.domain.rendez_vous.command.repository.CalendrierRepository;
 import com.soat.planification_entretien.infrastructure.repository.EntretienCrud;
 import org.springframework.stereotype.Repository;
 
@@ -15,9 +18,11 @@ import org.springframework.stereotype.Repository;
 public class HibernateEntretienDAO implements EntretienDAO,
         com.soat.planification_entretien.domain.entretien.query.dao.EntretienDAO {
     private final EntretienCrud entretienCrud;
+    private final CalendrierRepository calendrierRepository;
 
-    public HibernateEntretienDAO(EntretienCrud entretienCrud) {
+    public HibernateEntretienDAO(EntretienCrud entretienCrud, CalendrierRepository calendrierRepository) {
         this.entretienCrud = entretienCrud;
+        this.calendrierRepository = calendrierRepository;
     }
 
     @Override
@@ -29,15 +34,19 @@ public class HibernateEntretienDAO implements EntretienDAO,
     @Override
     public List<IEntretien> findAll() {
         return entretienCrud.findAll().stream()
-                .map(e -> toEntretien(e))
+                .map(this::toEntretien)
                 .toList();
     }
 
     private IEntretien toEntretien(com.soat.planification_entretien.infrastructure.repository.Entretien jpaEntretien) {
+        List<RendezVous> rendezVous = calendrierRepository.findByRecruteur(jpaEntretien.getRecruteur().getEmail())
+                .map(Calendrier::rendezVous)
+                .orElse(List.of());
+
         return new IEntretienImpl(
                 jpaEntretien.getId(),
                 new Candidat(jpaEntretien.getId(), jpaEntretien.getCandidat().getLanguage(), jpaEntretien.getCandidat().getEmail(), jpaEntretien.getCandidat().getExperienceInYears()),
-                new Recruteur(jpaEntretien.getId(), jpaEntretien.getRecruteur().getLanguage(), jpaEntretien.getRecruteur().getEmail(), jpaEntretien.getRecruteur().getExperienceInYears()),
+                new Recruteur(jpaEntretien.getId(), jpaEntretien.getRecruteur().getLanguage(), jpaEntretien.getRecruteur().getEmail(), jpaEntretien.getRecruteur().getExperienceInYears(), rendezVous),
                 jpaEntretien.getHoraireEntretien());
     }
 

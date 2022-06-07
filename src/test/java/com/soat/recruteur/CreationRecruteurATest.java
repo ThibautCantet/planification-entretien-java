@@ -1,6 +1,7 @@
 package com.soat.recruteur;
 
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -68,7 +69,7 @@ public class CreationRecruteurATest extends ATest {
         final Recruteur recruteur = recruteurRepository.findById(recruteurId).get();
         assertThat(recruteur).usingRecursiveComparison()
                 .ignoringFields("id")
-                .isEqualTo(new Recruteur(language, email, Integer.parseInt(experienceEnAnnees)));
+                .isEqualTo(new Recruteur(recruteurId, language, email, Integer.parseInt(experienceEnAnnees), new ArrayList<>()));
     }
 
     @Alors("l'enregistrement du recruteur est refusé")

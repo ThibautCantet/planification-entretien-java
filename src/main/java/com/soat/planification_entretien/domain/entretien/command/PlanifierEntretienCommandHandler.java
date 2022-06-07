@@ -18,7 +18,7 @@ public class PlanifierEntretienCommandHandler implements CommandHandler<Planifie
     @Override
     public CommandResponse<Boolean, Event> handle(PlanifierEntretienCommand command) {
         Entretien entretien = new Entretien(command.candidat(), command.recruteur());
-        if (entretien.planifier(command.dateEtHeureDisponibiliteDuCandidat(), command.dateEtHeureDisponibiliteDuRecruteur())) {
+        if (entretien.planifier(command.dateEtHeureDisponibiliteDuCandidat(), command.recruteur().rendezVous())) {
             int id = entretienRepository.save(entretien);
 
             return new CommandResponse<>(true, new EntretienPlanifie(id, command.candidat().email(), command.recruteur().email(), command.dateEtHeureDisponibiliteDuCandidat()));

@@ -42,11 +42,11 @@ public class EntretienCommandController extends CommandController {
         if (candidat.isEmpty()) {
             return badRequest().build();
         }
-        Optional<Recruteur> recruteur = recruteurRepository.findById(entretienDto.recruteurId()).map(r -> new Recruteur(r.getId(), r.getLanguage(), r.getEmail(), r.getExperienceInYears()));
+        Optional<Recruteur> recruteur = recruteurRepository.findById(entretienDto.recruteurId()).map(r -> new Recruteur(r.getId(), r.getLanguage(), r.getEmail(), r.getExperienceInYears(), r.getRendezVous()));
         if (recruteur.isEmpty()) {
             return badRequest().build();
         }
-        var commandResponse = getCommandBus().dispatch(new PlanifierEntretienCommand(candidat.get(), recruteur.get(), entretienDto.disponibiliteDuCandidat(), entretienDto.disponibiliteDuRecruteur()));
+        var commandResponse = getCommandBus().dispatch(new PlanifierEntretienCommand(candidat.get(), recruteur.get(), entretienDto.disponibiliteDuCandidat()));
 
         if (commandResponse.containEventType(EntretienPlanifie.class)) {
             return created(URI.create(PATH + "/" + commandResponse.value())).build();
