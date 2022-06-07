@@ -2,7 +2,6 @@ package com.soat.planification_entretien.domain.entretien.command.entity;
 
 import java.time.LocalDateTime;
 
-import com.soat.planification_entretien.domain.candidat.entity.Candidat;
 import com.soat.planification_entretien.domain.entretien.query.dto.IEntretien;
 import com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur;
 
@@ -63,8 +62,8 @@ public class Entretien implements IEntretien {
     }
 
     public boolean planifier(LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
-        boolean planifiable = recruteur.getLanguage().equals(candidat.getLanguage())
-                && recruteur.getExperienceInYears() > candidat.getExperienceInYears()
+        boolean planifiable = recruteur.getLanguage().equals(candidat.language())
+                && recruteur.getExperienceInYears() > candidat.experienceInYears()
                 && dateEtHeureDisponibiliteDuCandidat.equals(dateEtHeureDisponibiliteDuRecruteur);
 
         if (planifiable) {
@@ -76,7 +75,7 @@ public class Entretien implements IEntretien {
 
     @Override
     public String getEmailCandidat() {
-        return candidat.getEmail();
+        return candidat.email();
     }
 
     @Override

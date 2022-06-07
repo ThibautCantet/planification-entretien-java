@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.soat.planification_entretien.domain.candidat.entity.Candidat;
+import com.soat.planification_entretien.domain.entretien.command.entity.Candidat;
 import com.soat.planification_entretien.domain.entretien.command.entity.Entretien;
 import com.soat.planification_entretien.domain.entretien.command.repository.EntretienRepository;
 
@@ -23,7 +23,7 @@ public class InMemoryEntretienRepository implements EntretienRepository {
 
     public Entretien findByCandidat(Candidat candidat) {
         return cache.values().stream()
-                .filter(entretien -> entretien.getCandidat().getId().equals(candidat.getId()))
+                .filter(entretien -> entretien.getCandidat().id().equals(candidat.id()))
                 .findFirst()
                 .orElse(null);
     }

@@ -3,7 +3,7 @@ package com.soat.planification_entretien.application.controller.command;
 import java.net.URI;
 import java.util.Optional;
 
-import com.soat.planification_entretien.domain.candidat.entity.Candidat;
+import com.soat.planification_entretien.domain.entretien.command.entity.Candidat;
 import com.soat.planification_entretien.domain.candidat.repository.CandidatRepository;
 import com.soat.planification_entretien.domain.entretien.event.EntretienPlanifie;
 import com.soat.planification_entretien.domain.entretien.command.PlanifierEntretienCommand;
@@ -38,7 +38,7 @@ public class EntretienCommandController extends CommandController {
     @PostMapping("planifier")
     public ResponseEntity<Void> planifier(@RequestBody EntretienDto entretienDto) {
 
-        Optional<Candidat> candidat = candidatRepository.findById(entretienDto.candidatId());
+        Optional<Candidat> candidat = candidatRepository.findById(entretienDto.candidatId()).map(c -> new Candidat(c.getId(), c.getLanguage(), c.getEmail(), c.getExperienceInYears()));
         if (candidat.isEmpty()) {
             return badRequest().build();
         }

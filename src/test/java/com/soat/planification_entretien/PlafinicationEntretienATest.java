@@ -13,7 +13,7 @@ import com.soat.ATest;
 import com.soat.planification_entretien.application.controller.command.EntretienCommandController;
 import com.soat.planification_entretien.application.controller.command.EntretienDto;
 import com.soat.planification_entretien.application.controller.query.RendezVousDto;
-import com.soat.planification_entretien.domain.candidat.entity.Candidat;
+import com.soat.planification_entretien.domain.entretien.command.entity.Candidat;
 import com.soat.planification_entretien.domain.candidat.repository.CandidatRepository;
 import com.soat.planification_entretien.domain.entretien.command.entity.Calendrier;
 import com.soat.planification_entretien.domain.rendez_vous.command.repository.CalendrierRepository;
@@ -95,7 +95,8 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Etantdonné("un candidat {string} \\({string}) avec {string} ans d’expériences qui est disponible {string} à {string}")
     public void unCandidatAvecAnsDExpériencesQuiEstDisponibleÀ(String language, String email, String experienceInYears, String date, String time) {
-        candidat = new Candidat(1, language, email, Integer.parseInt(experienceInYears));
+        var candidat = new com.soat.planification_entretien.domain.candidat.entity.Candidat(1, language, email, Integer.parseInt(experienceInYears));
+        this.candidat = new Candidat(1, language, email, Integer.parseInt(experienceInYears));
         //entityManager.persist(candidat);
         candidatRepository.save(candidat);
         disponibiliteDuCandidat = LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));
@@ -111,7 +112,7 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Quand("on tente une planification d’entretien")
     public void onTenteUnePlanificationDEntretien() throws JsonProcessingException {
-        EntretienDto entretienDto = new EntretienDto(candidat.getId(), recruteur.getId(), disponibiliteDuCandidat, disponibiliteDuRecruteur);
+        EntretienDto entretienDto = new EntretienDto(candidat.id(), recruteur.getId(), disponibiliteDuCandidat, disponibiliteDuRecruteur);
         String body = objectMapper.writeValueAsString(entretienDto);
         initPath();
         //@formatter:off
@@ -138,7 +139,7 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Et("un mail de confirmation est envoyé au candidat et au recruteur")
     public void unMailDeConfirmationEstEnvoyéAuCandidatEtAuRecruteur() {
-        verify(emailService).envoyerUnEmailDeConfirmationAuCandidat(candidat.getEmail(), disponibiliteDuCandidat);
+        verify(emailService).envoyerUnEmailDeConfirmationAuCandidat(candidat.email(), disponibiliteDuCandidat);
         verify(emailService).envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), disponibiliteDuCandidat);
     }
 
@@ -153,7 +154,7 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Et("aucun mail de confirmation n'est envoyé au candidat ou au recruteur")
     public void aucunMailDeConfirmationNEstEnvoyéAuCandidatOuAuRecruteur() {
-        verify(emailService, never()).envoyerUnEmailDeConfirmationAuCandidat(candidat.getEmail(), disponibiliteDuCandidat);
+        verify(emailService, never()).envoyerUnEmailDeConfirmationAuCandidat(candidat.email(), disponibiliteDuCandidat);
         verify(emailService, never()).envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), disponibiliteDuCandidat);
     }
 

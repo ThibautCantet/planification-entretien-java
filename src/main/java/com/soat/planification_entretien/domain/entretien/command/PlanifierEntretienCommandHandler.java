@@ -21,7 +21,7 @@ public class PlanifierEntretienCommandHandler implements CommandHandler<Planifie
         if (entretien.planifier(command.dateEtHeureDisponibiliteDuCandidat(), command.dateEtHeureDisponibiliteDuRecruteur())) {
             int id = entretienRepository.save(entretien);
 
-            return new CommandResponse<>(true, new EntretienPlanifie(id, command.candidat().getEmail(), command.recruteur().getEmail(), command.dateEtHeureDisponibiliteDuCandidat()));
+            return new CommandResponse<>(true, new EntretienPlanifie(id, command.candidat().email(), command.recruteur().getEmail(), command.dateEtHeureDisponibiliteDuCandidat()));
         }
         return new CommandResponse<>(false, new EntretienNonPlanifie());
     }
