@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
 import com.soat.planification_entretien.application.controller.command.RecruteurCommandController;
+import com.soat.planification_entretien.application.controller.query.EntretienDetailDto;
 import com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur;
 import com.soat.planification_entretien.domain.recruteur.command.repository.RecruteurRepository;
 import com.soat.planification_entretien.application.controller.command.RecruteurDto;
@@ -43,7 +44,7 @@ public class CreationRecruteurATest extends ATest {
 
     @Etantdonné("un recruteur {string} \\({string}) avec {string} ans d’expériences")
     public void unRecruteurAvecAnsDExpériences(String language, String email, String experienceEnAnnees) {
-        recruteurDto = new RecruteurDto(language, email, experienceEnAnnees);
+        recruteurDto = new RecruteurDto(language, email, !experienceEnAnnees.isBlank() ? Integer.parseInt(experienceEnAnnees) : null);
     }
 
     @Quand("on tente d'enregistrer le recruteur")
@@ -65,10 +66,13 @@ public class CreationRecruteurATest extends ATest {
         response.then()
                 .statusCode(HttpStatus.SC_CREATED);
 
-        final Recruteur recruteur = recruteurRepository.findById(recruteurId).get();
+        Integer newId = response.then().extract()
+                .as(Integer.class);
+
+        final Recruteur recruteur = recruteurRepository.findById(newId).get();
         assertThat(recruteur).usingRecursiveComparison()
                 .ignoringFields("id")
-                .isEqualTo(new Recruteur(language, email, Integer.parseInt(experienceEnAnnees)));
+                .isEqualTo(Recruteur.create(language, email, Integer.parseInt(experienceEnAnnees)));
     }
 
     @Alors("l'enregistrement du recruteur est refusé")

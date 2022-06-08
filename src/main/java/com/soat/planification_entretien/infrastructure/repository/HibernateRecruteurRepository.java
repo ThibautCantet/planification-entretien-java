@@ -18,7 +18,7 @@ public class HibernateRecruteurRepository implements RecruteurRepository, Recrut
     @Override
     public Optional<com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur> findById(int recruteurId) {
         return recruteurCrud.findById(recruteurId).map(
-                recruteur -> new com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur(
+                recruteur -> com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur.create(
                         recruteurId,
                         recruteur.getLanguage(),
                         recruteur.getEmail(),
