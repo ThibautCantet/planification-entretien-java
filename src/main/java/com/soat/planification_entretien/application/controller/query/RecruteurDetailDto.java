@@ -3,26 +3,26 @@ package com.soat.planification_entretien.application.controller.query;
 import java.util.Objects;
 
 public class RecruteurDetailDto {
-    private int id;
+    private String id;
     private String competence;
     private String email;
 
     public RecruteurDetailDto() {
     }
 
-    public RecruteurDetailDto(int id, String language, Integer experienceInYears, String email) {
+    public RecruteurDetailDto(String id, String language, Integer experienceInYears, String email) {
         this.id = id;
         this.competence = String.format("%s %s ans XP", language, experienceInYears);
         this.email = email;
     }
 
-    public RecruteurDetailDto(int id, String competence, String email) {
+    public RecruteurDetailDto(String id, String competence, String email) {
         this.id = id;
         this.competence = competence;
         this.email = email;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 

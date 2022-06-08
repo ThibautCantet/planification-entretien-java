@@ -59,7 +59,7 @@ public class ListingRecruteurATest extends ATest {
 
     private RecruteurDetailDto buildRecruteur(Map<String, String> entry) {
         return new RecruteurDetailDto(
-                Integer.parseInt(entry.get("id")),
+                entry.get("id"),
                 entry.get("competence"),
                 entry.get("email")
         );

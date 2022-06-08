@@ -66,6 +66,7 @@ public class ListingEntretienATest extends ATest {
 
     private Recruteur buildRecruteur(Map<String, String> entry) {
         return Recruteur.create(
+                entry.get("id"),
                 entry.get("language"),
                 entry.get("email"),
                 Integer.parseInt(entry.get("xp")));

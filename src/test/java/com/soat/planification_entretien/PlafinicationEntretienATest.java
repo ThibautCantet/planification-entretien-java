@@ -103,7 +103,7 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Etqu("un recruteur {string} \\({string}) qui a {string} ans d’XP qui est dispo {string} à {string}")
     public void unRecruteurQuiAAnsDXPQuiEstDispo(String language, String email, String experienceInYears, String date, String time) {
-        recruteur = Recruteur.create(1, language, email, Integer.parseInt(experienceInYears));
+        recruteur = Recruteur.create("1", language, email, Integer.parseInt(experienceInYears));
         //entityManager.persist(recruteur);
         recruteurRepository.save(recruteur);
         disponibiliteDuRecruteur = LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));

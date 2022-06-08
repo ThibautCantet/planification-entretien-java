@@ -37,7 +37,7 @@ public class HibernateEntretienDAO implements EntretienDAO,
         return new IEntretienImpl(
                 jpaEntretien.getId(),
                 new Candidat(jpaEntretien.getId(), jpaEntretien.getCandidat().getLanguage(), jpaEntretien.getCandidat().getEmail(), jpaEntretien.getCandidat().getExperienceInYears()),
-                Recruteur.create(jpaEntretien.getId(), jpaEntretien.getRecruteur().getLanguage(), jpaEntretien.getRecruteur().getEmail(), jpaEntretien.getRecruteur().getExperienceInYears()),
+                Recruteur.create(jpaEntretien.getId().toString(), jpaEntretien.getRecruteur().getLanguage(), jpaEntretien.getRecruteur().getEmail(), jpaEntretien.getRecruteur().getExperienceInYears()),
                 jpaEntretien.getHoraireEntretien());
     }
 

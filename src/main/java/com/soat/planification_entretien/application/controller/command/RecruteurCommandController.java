@@ -1,6 +1,7 @@
 package com.soat.planification_entretien.application.controller.command;
 
 import java.net.URI;
+import java.util.UUID;
 
 import com.soat.planification_entretien.cqrs.CommandResponse;
 import com.soat.planification_entretien.cqrs.Event;
@@ -25,11 +26,11 @@ public class RecruteurCommandController extends CommandController {
         super(commandBusFactory);
     }
 
-    @PostMapping("")
-    public ResponseEntity<Integer> creer(@RequestBody RecruteurDto recruteurDto) {
-        CommandResponse<Integer, Event> commandResponse = getCommandBus().dispatch(new CreerRecruteurCommand(recruteurDto.language(), recruteurDto.email(), recruteurDto.experienceEnAnnees()));
+    @PostMapping
+    public ResponseEntity<UUID> creer(@RequestBody RecruteurDto recruteurDto) {
+        CommandResponse<String, Event> commandResponse = getCommandBus().dispatch(new CreerRecruteurCommand(recruteurDto.language(), recruteurDto.email(), recruteurDto.experienceEnAnnees()));
         if (commandResponse.containEventType(RecruteurCree.class)) {
-            return created(URI.create(PATH + "/" + commandResponse.value())).body(commandResponse.value());
+            return created(URI.create(PATH + "/" + commandResponse.value())).body(UUID.fromString(commandResponse.value()));
         }
         return badRequest().build();
     }

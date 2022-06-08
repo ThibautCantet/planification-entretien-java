@@ -7,15 +7,16 @@ public class Recruteur {
     private Email email;
     private AnneesExperience experienceInYears;
 
-    private Recruteur(String language, String email, Integer experienceInYears) {
+    private Recruteur(String recruteurId, String language, String email, Integer experienceInYears) {
+        id = new RecruteurId(recruteurId);
         this.language = Language.create(language);
         this.email = Email.create(email);
         this.experienceInYears = AnneesExperience.create(experienceInYears);
     }
 
-    public static Recruteur create(String language, String email, Integer experienceInYears) {
-        Recruteur recruteur = new Recruteur(language, email, experienceInYears);
-        if (!isValid(recruteur)) {
+    public static Recruteur create(String recruteurId, String language, String email, Integer experienceInYears) {
+        Recruteur recruteur = new Recruteur(recruteurId, language, email, experienceInYears);
+        if (recruteur.id == null || !isValid(recruteur)) {
             return null;
         }
         return recruteur;
@@ -25,27 +26,12 @@ public class Recruteur {
         return recruteur.language != null && recruteur.email != null && recruteur.experienceInYears != null;
     }
 
-    private Recruteur(int recruteurId, String language, String email, Integer experienceInYears) {
-        id = new RecruteurId(recruteurId);
-        this.language = Language.create(language);
-        this.email = Email.create(email);
-        this.experienceInYears = AnneesExperience.create(experienceInYears);
-    }
-
-    public static Recruteur create(int recruteurId, String language, String email, Integer experienceInYears) {
-        Recruteur recruteur = new Recruteur(recruteurId, language, email, experienceInYears);
-        if (recruteur.id == null || !isValid(recruteur)) {
-            return null;
-        }
-        return recruteur;
-    }
-
-    public static Recruteur of(Integer id, Recruteur recruteur) {
+    public static Recruteur of(String id, Recruteur recruteur) {
         recruteur.id = new RecruteurId(id);
         return recruteur;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id.value();
     }
 

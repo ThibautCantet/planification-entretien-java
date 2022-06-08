@@ -2,14 +2,12 @@ package com.soat.planification_entretien.infrastructure.repository;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
 public class Recruteur {
     @Id
-    @GeneratedValue
-    private Integer id;
+    private String id;
 
     @Column
     private String language;
@@ -18,7 +16,8 @@ public class Recruteur {
     @Column
     private Integer experienceInYears;
 
-    public Recruteur(String language, String email, int experienceInYears) {
+    public Recruteur(String id, String language, String email, int experienceInYears) {
+        this.id = id;
         this.language = language;
         this.email = email;
         this.experienceInYears = experienceInYears;
@@ -28,7 +27,7 @@ public class Recruteur {
 
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 

@@ -2,6 +2,7 @@ package com.soat.planification_entretien.infrastructure.repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.soat.planification_entretien.domain.recruteur.command.repository.RecruteurRepository;
 import com.soat.planification_entretien.domain.recruteur.query.dao.RecruteurDAO;
@@ -16,22 +17,37 @@ public class HibernateRecruteurRepository implements RecruteurRepository, Recrut
     }
 
     @Override
-    public Optional<com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur> findById(int recruteurId) {
-        return recruteurCrud.findById(recruteurId).map(
-                recruteur -> com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur.create(
-                        recruteurId,
-                        recruteur.getLanguage(),
-                        recruteur.getEmail(),
-                        recruteur.getExperienceInYears()
-                )
+    public UUID next() {
+        return UUID.randomUUID();
+    }
+
+    @Override
+    public Optional<com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur> findById(String recruteurId) {
+        return recruteurCrud.findById(recruteurId).map(recruteur -> toRecruteur(recruteurId, recruteur)
+        );
+    }
+
+    private com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur toRecruteur(String recruteurId, Recruteur recruteur) {
+        return com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur.create(
+                recruteurId,
+                recruteur.getLanguage(),
+                recruteur.getEmail(),
+                recruteur.getExperienceInYears()
         );
     }
 
     @Override
     public com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur save(com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur recruteur) {
-        com.soat.planification_entretien.infrastructure.repository.Recruteur toSave = new com.soat.planification_entretien.infrastructure.repository.Recruteur(recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears());
-        com.soat.planification_entretien.infrastructure.repository.Recruteur saved = recruteurCrud.save(toSave);
-        return com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur.of(saved.getId(), recruteur);
+        var toSave = new com.soat.planification_entretien.infrastructure.repository.Recruteur(recruteur.getId(), recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears());
+        recruteurCrud.save(toSave);
+        return recruteur;
+    }
+
+    @Override
+    public List<com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur> findAll() {
+        return recruteurCrud.findAll().stream()
+                .map(recruteur -> toRecruteur(recruteur.getId(), recruteur))
+                .toList();
     }
 
     @Override

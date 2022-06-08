@@ -1,5 +1,7 @@
 package com.soat.planification_entretien.domain.recruteur.command;
 
+import java.util.UUID;
+
 import com.soat.planification_entretien.cqrs.CommandHandler;
 import com.soat.planification_entretien.cqrs.CommandResponse;
 import com.soat.planification_entretien.cqrs.Event;
@@ -8,7 +10,7 @@ import com.soat.planification_entretien.domain.recruteur.command.repository.Recr
 import com.soat.planification_entretien.domain.recruteur.event.RecruteurCree;
 import com.soat.planification_entretien.domain.recruteur.event.RecruteurNonCree;
 
-public class CreerRecruteurCommandHandler implements CommandHandler<CreerRecruteurCommand, CommandResponse<Integer, Event>> {
+public class CreerRecruteurCommandHandler implements CommandHandler<CreerRecruteurCommand, CommandResponse<String, Event>> {
 
     private final RecruteurRepository recruteurRepository;
 
@@ -17,8 +19,9 @@ public class CreerRecruteurCommandHandler implements CommandHandler<CreerRecrute
     }
 
     @Override
-    public CommandResponse<Integer, Event> handle(CreerRecruteurCommand command) {
-        Recruteur recruteur = Recruteur.create(command.language(), command.email(), command.experienceEnAnnees());
+    public CommandResponse<String, Event> handle(CreerRecruteurCommand command) {
+        UUID id = recruteurRepository.next();
+        Recruteur recruteur = Recruteur.create(id.toString(), command.language(), command.email(), command.experienceEnAnnees());
         if (recruteur == null) {
             return new CommandResponse<>(new RecruteurNonCree());
         }
