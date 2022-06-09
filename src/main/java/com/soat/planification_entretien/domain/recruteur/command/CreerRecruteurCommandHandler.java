@@ -22,8 +22,8 @@ public class CreerRecruteurCommandHandler implements CommandHandler<CreerRecrute
     public CommandResponse<String, Event> handle(CreerRecruteurCommand command) {
         UUID id = recruteurRepository.next();
         Recruteur recruteur = Recruteur.create(id.toString(), command.language(), command.email(), command.experienceEnAnnees());
-        if (recruteur == null) {
-            return new CommandResponse<>(new RecruteurNonCree());
+        if (recruteur.getEvent() instanceof RecruteurNonCree) {
+            return new CommandResponse<>(recruteur.getEvent());
         }
 
         Recruteur savedRecruteur = recruteurRepository.save(recruteur);
