@@ -11,7 +11,7 @@ public class Entretien implements IEntretien {
 
     private Candidat candidat;
 
-    private LocalDateTime horaireEntretien;
+    private Creneau creneau;
 
     private Recruteur recruteur;
 
@@ -19,13 +19,13 @@ public class Entretien implements IEntretien {
         this.id = id;
         this.candidat = candidat;
         this.recruteur = recruteur;
-        this.horaireEntretien = horaire;
+        this.creneau = new Creneau(horaire);
     }
 
     private Entretien(Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
         this.candidat = candidat;
         this.recruteur = recruteur;
-        this.horaireEntretien = horaire;
+        this.creneau = new Creneau(horaire);
     }
 
     public Entretien(Candidat candidat, Recruteur recruteur) {
@@ -55,7 +55,7 @@ public class Entretien implements IEntretien {
     }
 
     public LocalDateTime getHoraireEntretien() {
-        return horaireEntretien;
+        return creneau.debut();
     }
 
     public Integer getId() {
@@ -68,7 +68,7 @@ public class Entretien implements IEntretien {
                 && dateEtHeureDisponibiliteDuCandidat.equals(dateEtHeureDisponibiliteDuRecruteur);
 
         if (planifiable) {
-            horaireEntretien = dateEtHeureDisponibiliteDuCandidat;
+            creneau = new Creneau(dateEtHeureDisponibiliteDuCandidat);
         }
 
         return planifiable;
@@ -91,6 +91,6 @@ public class Entretien implements IEntretien {
 
     @Override
     public LocalDateTime getHoraire() {
-        return horaireEntretien;
+        return creneau.debut();
     }
 }
