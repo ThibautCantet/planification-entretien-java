@@ -35,8 +35,13 @@ public class HibernateEntretienRepository implements EntretienRepository {
         var jpaCandidat = candidatCrud.findById(entretien.getCandidat().getId()).get();
         var jpaRecruteur = recruteurCrud.findById(entretien.getRecruteur().getId()).get();
 
-        var jpaEntretien = Entretien.of(jpaCandidat,
-                jpaRecruteur, entretien.getHoraireEntretien());
+        var jpaEntretien = Entretien.of(
+                entretien.getId(),
+                jpaCandidat,
+                jpaRecruteur,
+                entretien.getHoraireEntretien(),
+                entretien.getStatusValue()
+        );
         Entretien saved = entretienCrud.save(jpaEntretien);
 
         return saved.getId();

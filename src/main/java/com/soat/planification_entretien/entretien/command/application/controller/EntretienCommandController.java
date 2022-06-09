@@ -1,23 +1,25 @@
 package com.soat.planification_entretien.entretien.command.application.controller;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import com.soat.planification_entretien.entretien.command.domain.entity.Candidat;
 import com.soat.planification_entretien.candidat.command.repository.CandidatRepository;
+import com.soat.planification_entretien.entretien.command.MettreAJourStatusEntretienCommand;
 import com.soat.planification_entretien.entretien.command.PlanifierEntretienCommand;
-import com.soat.planification_entretien.entretien.event.EntretienPlanifie;
+import com.soat.planification_entretien.entretien.command.domain.entity.Candidat;
 import com.soat.planification_entretien.entretien.command.domain.entity.Recruteur;
-import com.soat.planification_entretien.recruteur.command.domain.repository.RecruteurRepository;
+import com.soat.planification_entretien.entretien.event.EntretienNonTrouve;
+import com.soat.planification_entretien.entretien.event.EntretienPlanifie;
 import com.soat.planification_entretien.infrastructure.controller.CommandController;
 import com.soat.planification_entretien.infrastructure.middleware.command.CommandBusFactory;
+import com.soat.planification_entretien.recruteur.command.domain.repository.RecruteurRepository;
 import com.soat.planification_entretien.rendez_vous.command.domain.entity.Calendrier;
-import com.soat.planification_entretien.rendez_vous.command.domain.entity.RendezVous;
 import com.soat.planification_entretien.rendez_vous.command.repository.CalendrierRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -70,6 +72,16 @@ public class EntretienCommandController extends CommandController {
         } else {
             return badRequest().build();
         }
+    }
 
+    @PutMapping("{id}")
+    public ResponseEntity<Void> mettreAJourStatus(@PathVariable("id") String id, @RequestBody StatutDto statutDto) {
+        var commandResponse = getCommandBus().dispatch(new MettreAJourStatusEntretienCommand(id, statutDto.status()));
+
+        if (commandResponse.containEventType(EntretienNonTrouve.class)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

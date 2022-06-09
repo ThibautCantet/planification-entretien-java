@@ -6,6 +6,7 @@ import com.soat.planification_entretien.cqrs.CommandHandler;
 import com.soat.planification_entretien.cqrs.EventHandler;
 import com.soat.planification_entretien.candidat.command.repository.CandidatRepository;
 import com.soat.planification_entretien.candidat.command.CreerCandidatCommandHandler;
+import com.soat.planification_entretien.entretien.command.MettreAJourStatusEntretienCommandHandler;
 import com.soat.planification_entretien.entretien.listener.AjouterEntretien;
 import com.soat.planification_entretien.entretien.listener.ProjectionCalendrierJson;
 import com.soat.planification_entretien.entretien.listener.dao.CalendrierDAO;
@@ -49,7 +50,8 @@ public class CommandBusFactory {
                 new PlanifierEntretienCommandHandler(entretienRepository),
                 new CreerRecruteurCommandHandler(recruteurRepository),
                 new CreerCandidatCommandHandler(candidatRepository),
-                new AjouterRendezVousCommandHandler(calendrierRepository)
+                new AjouterRendezVousCommandHandler(calendrierRepository),
+                new MettreAJourStatusEntretienCommandHandler(entretienRepository)
         );
     }
 

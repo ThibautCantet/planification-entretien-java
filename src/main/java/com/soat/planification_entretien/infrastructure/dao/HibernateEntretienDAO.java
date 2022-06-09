@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.soat.planification_entretien.candidat.command.domain.entity.Candidat;
+import com.soat.planification_entretien.entretien.command.application.controller.Status;
 import com.soat.planification_entretien.entretien.listener.dao.EntretienDAO;
 import com.soat.planification_entretien.entretien.listener.dto.Entretien;
 import com.soat.planification_entretien.entretien.query.dto.IEntretien;
@@ -29,7 +30,7 @@ public class HibernateEntretienDAO implements EntretienDAO,
     @Override
     public List<IEntretien> findAll() {
         return entretienCrud.findAll().stream()
-                .map(e -> toEntretien(e))
+                .map(this::toEntretien)
                 .toList();
     }
 
@@ -38,7 +39,8 @@ public class HibernateEntretienDAO implements EntretienDAO,
                 jpaEntretien.getId(),
                 new Candidat(jpaEntretien.getId(), jpaEntretien.getCandidat().getLanguage(), jpaEntretien.getCandidat().getEmail(), jpaEntretien.getCandidat().getExperienceInYears()),
                 Recruteur.create(jpaEntretien.getId().toString(), jpaEntretien.getRecruteur().getLanguage(), jpaEntretien.getRecruteur().getEmail(), jpaEntretien.getRecruteur().getExperienceInYears()),
-                jpaEntretien.getHoraireEntretien());
+                jpaEntretien.getHoraireEntretien(),
+                jpaEntretien.getStatus());
     }
 
     class IEntretienImpl implements IEntretien {
@@ -47,12 +49,14 @@ public class HibernateEntretienDAO implements EntretienDAO,
         private Candidat candidat;
         private Recruteur recruteur;
         private LocalDateTime horaireEntretien;
+        private Status status;
 
-        public IEntretienImpl(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaireEntretien) {
+        public IEntretienImpl(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaireEntretien, Status status) {
             this.id = id;
             this.candidat = candidat;
             this.recruteur = recruteur;
             this.horaireEntretien = horaireEntretien;
+            this.status = status;
         }
 
         @Override
@@ -78,6 +82,11 @@ public class HibernateEntretienDAO implements EntretienDAO,
         @Override
         public LocalDateTime getHoraire() {
             return horaireEntretien;
+        }
+
+        @Override
+        public String getStatus() {
+            return status.name();
         }
     }
 }

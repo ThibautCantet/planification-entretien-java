@@ -11,6 +11,7 @@ import com.soat.ATest;
 import com.soat.planification_entretien.entretien.command.application.controller.EntretienCommandController;
 import com.soat.planification_entretien.candidat.command.repository.CandidatRepository;
 import com.soat.planification_entretien.candidat.command.domain.entity.Candidat;
+import com.soat.planification_entretien.entretien.command.application.controller.Status;
 import com.soat.planification_entretien.entretien.command.domain.entity.Entretien;
 import com.soat.planification_entretien.entretien.command.domain.entity.RendezVous;
 import com.soat.planification_entretien.entretien.command.domain.repository.EntretienRepository;
@@ -111,6 +112,7 @@ public class ListingEntretienATest extends ATest {
         rendezVous.add(new RendezVous(candidat.getEmail(), horaire));
 
         return Entretien.of(
+                Integer.parseInt(entry.get(("id"))),
                 new com.soat.planification_entretien.entretien.command.domain.entity.Candidat(candidat.getId(), candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceInYears()),
                 new com.soat.planification_entretien.entretien.command.domain.entity.Recruteur(recruteur.getId(), recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears(), rendezVous),
                 horaire);

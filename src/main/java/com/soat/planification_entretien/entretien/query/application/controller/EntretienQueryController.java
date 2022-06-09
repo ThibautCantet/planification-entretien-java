@@ -30,7 +30,12 @@ public class EntretienQueryController extends QueryController {
         if (queryResponse.event() instanceof EntretiensListes) {
             var entretiens = queryResponse.value()
                     .stream()
-                    .map(e -> new EntretienDetailDto(e.getId(), e.getEmailCandidat(), e.getEmailRecruteur(), e.getLanguage(), e.getHoraire()))
+                    .map(e -> new EntretienDetailDto(e.getId(),
+                            e.getEmailCandidat(),
+                            e.getEmailRecruteur(),
+                            e.getLanguage(),
+                            e.getHoraire(),
+                            e.getStatus()))
                     .toList();
             return new ResponseEntity<>(entretiens, HttpStatus.OK);
         }

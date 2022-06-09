@@ -8,10 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.soat.planification_entretien.entretien.command.application.controller.Status;
+
 @Entity
 public class Entretien {
     @Id
-    @GeneratedValue
     private Integer id;
 
     @ManyToOne
@@ -25,18 +26,23 @@ public class Entretien {
     @JoinColumn(name = "recruteur_id")
     private Recruteur recruteur;
 
-    private Entretien(Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
+    @Column
+    private int status;
+
+    private Entretien(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire, int status) {
+        this.id = id;
         this.candidat = candidat;
         this.recruteur = recruteur;
         this.horaireEntretien = horaire;
+        this.status = status;
     }
 
     public Entretien() {
 
     }
 
-    public static Entretien of(Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
-        return new Entretien(candidat, recruteur, horaire);
+    public static Entretien of(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire, int status) {
+        return new Entretien(id, candidat, recruteur, horaire, status);
     }
 
     public Candidat getCandidat() {
@@ -53,5 +59,9 @@ public class Entretien {
 
     public Integer getId() {
         return id;
+    }
+
+    public Status getStatus() {
+        return Status.of(status);
     }
 }
