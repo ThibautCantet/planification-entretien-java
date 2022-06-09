@@ -101,9 +101,11 @@ public class ListingEntretienATest extends ATest {
     }
 
     private Entretien buildEntretien(Map<String, String> entry) {
+        Candidat candidat = savedCandidats.get(0);
+        Recruteur recruteur = savedRecruteurs.get(0);
         return Entretien.of(
-                savedCandidats.get(0),
-                savedRecruteurs.get(0),
+                new com.soat.planification_entretien.domain.entretien.command.entity.Candidat(candidat.getId(), candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceInYears()),
+                new com.soat.planification_entretien.domain.entretien.command.entity.Recruteur(recruteur.getId(), recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears()),
                 LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
     }
 

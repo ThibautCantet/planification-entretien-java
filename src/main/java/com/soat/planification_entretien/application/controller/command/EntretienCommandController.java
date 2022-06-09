@@ -1,13 +1,12 @@
 package com.soat.planification_entretien.application.controller.command;
 
 import java.net.URI;
-import java.util.Optional;
 
-import com.soat.planification_entretien.domain.candidat.entity.Candidat;
+import com.soat.planification_entretien.domain.entretien.command.entity.Candidat;
 import com.soat.planification_entretien.domain.candidat.repository.CandidatRepository;
-import com.soat.planification_entretien.domain.entretien.event.EntretienPlanifie;
 import com.soat.planification_entretien.domain.entretien.command.PlanifierEntretienCommand;
-import com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur;
+import com.soat.planification_entretien.domain.entretien.event.EntretienPlanifie;
+import com.soat.planification_entretien.domain.entretien.command.entity.Recruteur;
 import com.soat.planification_entretien.domain.recruteur.command.repository.RecruteurRepository;
 import com.soat.planification_entretien.infrastructure.controller.CommandController;
 import com.soat.planification_entretien.infrastructure.middleware.command.CommandBusFactory;
@@ -38,11 +37,14 @@ public class EntretienCommandController extends CommandController {
     @PostMapping("planifier")
     public ResponseEntity<Void> planifier(@RequestBody EntretienDto entretienDto) {
 
-        Optional<Candidat> candidat = candidatRepository.findById(entretienDto.candidatId());
+        var candidat = candidatRepository.findById(entretienDto.candidatId()).map(c ->
+                new Candidat(c.getId(), c.getLanguage(), c.getEmail(), c.getExperienceInYears())
+        );
         if (candidat.isEmpty()) {
             return badRequest().build();
         }
-        Optional<Recruteur> recruteur = recruteurRepository.findById(entretienDto.recruteurId());
+        var recruteur = recruteurRepository.findById(entretienDto.recruteurId()).map(r ->
+                new Recruteur(r.getId(), r.getLanguage(), r.getEmail(), r.getExperienceInYears()));
         if (recruteur.isEmpty()) {
             return badRequest().build();
         }

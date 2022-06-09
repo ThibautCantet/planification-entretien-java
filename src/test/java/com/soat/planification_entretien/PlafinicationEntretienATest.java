@@ -13,7 +13,7 @@ import com.soat.ATest;
 import com.soat.planification_entretien.application.controller.command.EntretienCommandController;
 import com.soat.planification_entretien.application.controller.command.EntretienDto;
 import com.soat.planification_entretien.application.controller.query.RendezVousDto;
-import com.soat.planification_entretien.domain.candidat.entity.Candidat;
+import com.soat.planification_entretien.domain.entretien.command.entity.Candidat;
 import com.soat.planification_entretien.domain.candidat.repository.CandidatRepository;
 import com.soat.planification_entretien.domain.entretien.command.entity.Calendrier;
 import com.soat.planification_entretien.domain.rendez_vous.command.repository.CalendrierRepository;
@@ -21,7 +21,7 @@ import com.soat.planification_entretien.domain.entretien.listener.service.EmailS
 import com.soat.planification_entretien.domain.entretien.command.entity.Entretien;
 import com.soat.planification_entretien.domain.entretien.command.repository.EntretienRepository;
 import com.soat.planification_entretien.domain.entretien.command.entity.RendezVous;
-import com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur;
+import com.soat.planification_entretien.domain.entretien.command.entity.Recruteur;
 import com.soat.planification_entretien.domain.recruteur.command.repository.RecruteurRepository;
 import com.soat.planification_entretien.domain.rendez_vous.query.dao.CalendrierDAO;
 import io.cucumber.java.Before;
@@ -96,16 +96,22 @@ public class PlafinicationEntretienATest extends ATest {
     @Etantdonné("un candidat {string} \\({string}) avec {string} ans d’expériences qui est disponible {string} à {string}")
     public void unCandidatAvecAnsDExpériencesQuiEstDisponibleÀ(String language, String email, String experienceInYears, String date, String time) {
         candidat = new Candidat(1, language, email, Integer.parseInt(experienceInYears));
-        //entityManager.persist(candidat);
-        candidatRepository.save(candidat);
+        candidatRepository.save(new com.soat.planification_entretien.domain.candidat.entity.Candidat(
+                candidat.getLanguage(),
+                candidat.getEmail(),
+                candidat.getExperienceInYears()
+        ));
         disponibiliteDuCandidat = LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));
     }
 
     @Etqu("un recruteur {string} \\({string}) qui a {string} ans d’XP qui est dispo {string} à {string}")
     public void unRecruteurQuiAAnsDXPQuiEstDispo(String language, String email, String experienceInYears, String date, String time) {
-        recruteur = Recruteur.create("1", language, email, Integer.parseInt(experienceInYears));
-        //entityManager.persist(recruteur);
-        recruteurRepository.save(recruteur);
+        recruteur = new Recruteur("1", language, email, Integer.parseInt(experienceInYears));
+        recruteurRepository.save(com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur.create(
+                "1",
+                recruteur.getLanguage(),
+                recruteur.getEmail(),
+                recruteur.getExperienceInYears()));
         disponibiliteDuRecruteur = LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));
     }
 
