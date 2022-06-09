@@ -6,14 +6,14 @@ import com.soat.planification_entretien.entretien.command.application.controller
 import com.soat.planification_entretien.entretien.query.dto.IEntretien;
 
 public class EntretienDetailDto implements IEntretien {
-    private Integer id;
+    private String id;
     private String emailCandidat;
     private String emailRecruteur;
     private String language;
     private LocalDateTime horaire;
     private String status;
 
-    public EntretienDetailDto(int id, String emailCandidat, String emailRecruteur, String language, LocalDateTime horaire, String status) {
+    public EntretienDetailDto(String id, String emailCandidat, String emailRecruteur, String language, LocalDateTime horaire, String status) {
         this.id = id;
         this.emailCandidat = emailCandidat;
         this.emailRecruteur = emailRecruteur;
@@ -23,7 +23,7 @@ public class EntretienDetailDto implements IEntretien {
     }
 
     public EntretienDetailDto(
-            int id,
+            String id,
             String emailCandidat,
             String emailRecruteur,
             String language,
@@ -35,7 +35,7 @@ public class EntretienDetailDto implements IEntretien {
     }
 
     @Override
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 

@@ -17,7 +17,7 @@ public class MettreAJourStatusEntretienCommandHandler implements CommandHandler<
 
     @Override
     public CommandResponse<Void, Event> handle(MettreAJourStatusEntretienCommand command) {
-        Entretien entretien = entretienRepository.findById(Integer.parseInt(command.id()));
+        Entretien entretien = entretienRepository.findById(command.id());
 
         if (entretien == null) {
             return new CommandResponse<>(new EntretienNonTrouve());

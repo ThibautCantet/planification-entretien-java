@@ -103,7 +103,7 @@ public class StatusEntretienATest extends ATest {
 
     private EntretienDetailDto buildEntretienDetail(Map<String, String> entry) {
         return new EntretienDetailDto(
-                Integer.parseInt(entry.get("id")),
+                entry.get("id"),
                 entry.get("candidat"),
                 entry.get("recruteur"),
                 entry.get("language"),

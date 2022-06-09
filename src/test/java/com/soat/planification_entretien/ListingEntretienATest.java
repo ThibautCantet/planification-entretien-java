@@ -124,13 +124,13 @@ public class ListingEntretienATest extends ATest {
 
         if (entry.get("status") == null) {
             return Entretien.of(
-                    Integer.parseInt(entry.get(("id"))),
+                    entry.get(("id")),
                     new com.soat.planification_entretien.entretien.command.domain.entity.Candidat(candidat.getId(), candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceInYears()),
                     new com.soat.planification_entretien.entretien.command.domain.entity.Recruteur(recruteur.getId(), recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears(), rendezVous),
                     horaire);
         }
         return Entretien.of(
-                Integer.parseInt(entry.get(("id"))),
+                entry.get(("id")),
                 new com.soat.planification_entretien.entretien.command.domain.entity.Candidat(candidat.getId(), candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceInYears()),
                 new com.soat.planification_entretien.entretien.command.domain.entity.Recruteur(recruteur.getId(), recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears(), rendezVous),
                 horaire,
@@ -161,7 +161,7 @@ public class ListingEntretienATest extends ATest {
 
     private EntretienDetailDto buildEntretienDetail(Map<String, String> entry) {
         return new EntretienDetailDto(
-                Integer.parseInt(entry.get("id")),
+                entry.get("id"),
                 entry.get("candidat"),
                 entry.get("recruteur"),
                 entry.get("language"),

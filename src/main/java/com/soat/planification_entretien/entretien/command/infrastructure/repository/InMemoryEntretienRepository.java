@@ -2,6 +2,7 @@ package com.soat.planification_entretien.entretien.command.infrastructure.reposi
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import com.soat.planification_entretien.entretien.command.domain.entity.Entretien;
 import com.soat.planification_entretien.entretien.command.domain.entity.Candidat;
@@ -10,14 +11,19 @@ import com.soat.planification_entretien.entretien.command.domain.repository.Entr
 //@Repository
 public class InMemoryEntretienRepository implements EntretienRepository {
 
-    private final Map<Integer, Entretien> cache = new HashMap<>();
+    private final Map<String, Entretien> cache = new HashMap<>();
 
     @Override
-    public int save(Entretien entretien) {
+    public UUID next() {
+        return UUID.randomUUID();
+    }
+
+    @Override
+    public String save(Entretien entretien) {
         Integer newId = cache.size() + 1;
-        entretien = Entretien.of(newId, entretien);
+        entretien = Entretien.of(newId.toString(), entretien);
         cache.put(entretien.getId(), entretien);
-        return newId;
+        return newId.toString();
     }
 
     public Entretien findByCandidat(Candidat candidat) {
@@ -28,7 +34,7 @@ public class InMemoryEntretienRepository implements EntretienRepository {
     }
 
     @Override
-    public Entretien findById(int id) {
+    public Entretien findById(String id) {
         return null;
     }
 }

@@ -1,5 +1,7 @@
 package com.soat.planification_entretien.entretien.command;
 
+import java.util.UUID;
+
 import com.soat.planification_entretien.cqrs.CommandHandler;
 import com.soat.planification_entretien.cqrs.CommandResponse;
 import com.soat.planification_entretien.cqrs.Event;
@@ -17,11 +19,12 @@ public class PlanifierEntretienCommandHandler implements CommandHandler<Planifie
 
     @Override
     public CommandResponse<Boolean, Event> handle(PlanifierEntretienCommand command) {
-        Entretien entretien = new Entretien(command.candidat(), command.recruteur());
+        UUID id = entretienRepository.next();
+        Entretien entretien = new Entretien(id.toString(), command.candidat(), command.recruteur());
         if (entretien.planifier(command.dateEtHeureDisponibiliteDuCandidat())) {
-            int id = entretienRepository.save(entretien);
+            entretienRepository.save(entretien);
 
-            return new CommandResponse<>(true, new EntretienPlanifie(id, command.candidat().getEmail(), command.recruteur().getEmail(), command.dateEtHeureDisponibiliteDuCandidat()));
+            return new CommandResponse<>(true, new EntretienPlanifie(id.toString(), command.candidat().getEmail(), command.recruteur().getEmail(), command.dateEtHeureDisponibiliteDuCandidat()));
         }
         return new CommandResponse<>(false, new EntretienNonPlanifie());
     }

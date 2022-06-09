@@ -22,7 +22,7 @@ public class HibernateEntretienDAO implements EntretienDAO,
     }
 
     @Override
-    public Entretien findById(int id) {
+    public Entretien findById(String id) {
         return entretienCrud.findById(id).map(entretien -> new Entretien(entretien.getRecruteur().getEmail(), entretien.getCandidat().getEmail(), entretien.getHoraireEntretien()))
                 .orElse(null);
     }
@@ -37,21 +37,21 @@ public class HibernateEntretienDAO implements EntretienDAO,
     private IEntretien toEntretien(com.soat.planification_entretien.infrastructure.repository.Entretien jpaEntretien) {
         return new IEntretienImpl(
                 jpaEntretien.getId(),
-                new Candidat(jpaEntretien.getId(), jpaEntretien.getCandidat().getLanguage(), jpaEntretien.getCandidat().getEmail(), jpaEntretien.getCandidat().getExperienceInYears()),
-                Recruteur.create(jpaEntretien.getId().toString(), jpaEntretien.getRecruteur().getLanguage(), jpaEntretien.getRecruteur().getEmail(), jpaEntretien.getRecruteur().getExperienceInYears()),
+                new Candidat(jpaEntretien.getCandidat().getId(), jpaEntretien.getCandidat().getLanguage(), jpaEntretien.getCandidat().getEmail(), jpaEntretien.getCandidat().getExperienceInYears()),
+                Recruteur.create(jpaEntretien.getRecruteur().getId(), jpaEntretien.getRecruteur().getLanguage(), jpaEntretien.getRecruteur().getEmail(), jpaEntretien.getRecruteur().getExperienceInYears()),
                 jpaEntretien.getHoraireEntretien(),
                 jpaEntretien.getStatus());
     }
 
     class IEntretienImpl implements IEntretien {
 
-        private Integer id;
+        private String id;
         private Candidat candidat;
         private Recruteur recruteur;
         private LocalDateTime horaireEntretien;
         private Status status;
 
-        public IEntretienImpl(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaireEntretien, Status status) {
+        public IEntretienImpl(String id, Candidat candidat, Recruteur recruteur, LocalDateTime horaireEntretien, Status status) {
             this.id = id;
             this.candidat = candidat;
             this.recruteur = recruteur;
@@ -60,7 +60,7 @@ public class HibernateEntretienDAO implements EntretienDAO,
         }
 
         @Override
-        public Integer getId() {
+        public String getId() {
             return id;
         }
 

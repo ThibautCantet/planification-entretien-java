@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EntretienCrud extends CrudRepository<Entretien, Integer> {
+public interface EntretienCrud extends CrudRepository<Entretien, String> {
     Entretien findByCandidat(Candidat candidat);
 
     Entretien save(Entretien entretien);

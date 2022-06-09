@@ -3,7 +3,6 @@ package com.soat.planification_entretien.infrastructure.repository;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -13,7 +12,7 @@ import com.soat.planification_entretien.entretien.command.application.controller
 @Entity
 public class Entretien {
     @Id
-    private Integer id;
+    private String id;
 
     @ManyToOne
     @JoinColumn(name = "candidat_id")
@@ -29,7 +28,7 @@ public class Entretien {
     @Column
     private int status;
 
-    private Entretien(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire, int status) {
+    private Entretien(String id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire, int status) {
         this.id = id;
         this.candidat = candidat;
         this.recruteur = recruteur;
@@ -41,7 +40,7 @@ public class Entretien {
 
     }
 
-    public static Entretien of(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire, int status) {
+    public static Entretien of(String id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire, int status) {
         return new Entretien(id, candidat, recruteur, horaire, status);
     }
 
@@ -57,7 +56,7 @@ public class Entretien {
         return horaireEntretien;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 

@@ -6,7 +6,7 @@ import com.soat.planification_entretien.entretien.command.application.controller
 import com.soat.planification_entretien.entretien.query.dto.IEntretien;
 
 public class Entretien implements IEntretien {
-    private Integer id;
+    private EntretienId id;
 
     private Candidat candidat;
 
@@ -15,15 +15,15 @@ public class Entretien implements IEntretien {
     private Recruteur recruteur;
     private Status status;
 
-    public Entretien(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire, Status status) {
-        this.id = id;
+    public Entretien(String id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire, Status status) {
+        this.id = new EntretienId(id);
         this.candidat = candidat;
         this.recruteur = recruteur;
         this.creneau = new Creneau(horaire);
         this.status = status;
     }
 
-    public Entretien(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
+    public Entretien(String id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
         this(id, candidat, recruteur, horaire, Status.PLANIFIE);
     }
 
@@ -31,17 +31,18 @@ public class Entretien implements IEntretien {
         this(null, candidat, recruteur, horaire);
     }
 
-    public Entretien(Candidat candidat, Recruteur recruteur) {
+    public Entretien(String id, Candidat candidat, Recruteur recruteur) {
+        this.id = new EntretienId(id);
         this.candidat = candidat;
         this.recruteur = recruteur;
         this.status = Status.PLANIFIE;
     }
 
-    public static Entretien of(int id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire, Status status) {
+    public static Entretien of(String id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire, Status status) {
         return new Entretien(id, candidat, recruteur, horaire, status);
     }
 
-    public static Entretien of(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
+    public static Entretien of(String id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
         return new Entretien(id, candidat, recruteur, horaire);
     }
 
@@ -49,8 +50,8 @@ public class Entretien implements IEntretien {
         return new Entretien(candidat, recruteur, horaire);
     }
 
-    public static Entretien of(Integer newId, Entretien entretien) {
-        entretien.id = newId;
+    public static Entretien of(String newId, Entretien entretien) {
+        entretien.id = new EntretienId(newId);
         return entretien;
     }
 
@@ -62,8 +63,9 @@ public class Entretien implements IEntretien {
         return recruteur;
     }
 
-    public Integer getId() {
-        return id;
+    @Override
+    public String getId() {
+        return id.value();
     }
 
     public boolean planifier(LocalDateTime dateEtHeureDisponibiliteDuCandidat) {
