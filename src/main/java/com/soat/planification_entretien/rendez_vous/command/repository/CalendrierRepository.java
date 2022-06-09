@@ -11,4 +11,6 @@ public interface CalendrierRepository {
     Integer save(Calendrier calendrier);
 
     void saveAll(List<Calendrier> calendriers);
+
+    List<Calendrier> findAll();
 }

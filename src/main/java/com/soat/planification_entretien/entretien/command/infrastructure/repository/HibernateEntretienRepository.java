@@ -39,7 +39,7 @@ public class HibernateEntretienRepository implements EntretienRepository {
                 entretien.getId(),
                 jpaCandidat,
                 jpaRecruteur,
-                entretien.getHoraireEntretien(),
+                entretien.getHoraire(),
                 entretien.getStatusValue()
         );
         Entretien saved = entretienCrud.save(jpaEntretien);

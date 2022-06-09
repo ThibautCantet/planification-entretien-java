@@ -23,7 +23,10 @@ public class MettreAJourStatusEntretienCommandHandler implements CommandHandler<
             return new CommandResponse<>(new EntretienNonTrouve());
         }
 
-        entretien.confirmer();
+        switch (command.status()) {
+            case CONFIRME -> entretien.confirmer();
+            case ANNULE -> entretien.annuler();
+        }
 
         entretienRepository.save(entretien);
 

@@ -36,4 +36,9 @@ public class InMemoryCalendrierRepository implements CalendrierRepository {
     public void saveAll(List<Calendrier> calendriers) {
         calendriers.forEach(this::save);
     }
+
+    @Override
+    public List<Calendrier> findAll() {
+        return cache.values().stream().toList();
+    }
 }

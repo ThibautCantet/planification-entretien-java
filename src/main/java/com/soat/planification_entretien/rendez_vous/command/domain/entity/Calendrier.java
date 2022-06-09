@@ -10,4 +10,8 @@ public record Calendrier(Integer id, String emailRecruteur, List<RendezVous> ren
     public Calendrier updateId(Integer id) {
         return new Calendrier(id, emailRecruteur, rendezVous);
     }
+
+    public void annulerRendezVous(RendezVous rendezVous) {
+        this.rendezVous.remove(rendezVous);
+    }
 }

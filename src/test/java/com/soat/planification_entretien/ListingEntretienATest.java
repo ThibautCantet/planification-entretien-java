@@ -8,16 +8,18 @@ import java.util.List;
 import java.util.Map;
 
 import com.soat.ATest;
-import com.soat.planification_entretien.entretien.command.application.controller.EntretienCommandController;
-import com.soat.planification_entretien.candidat.command.repository.CandidatRepository;
 import com.soat.planification_entretien.candidat.command.domain.entity.Candidat;
+import com.soat.planification_entretien.candidat.command.repository.CandidatRepository;
+import com.soat.planification_entretien.entretien.command.application.controller.EntretienCommandController;
 import com.soat.planification_entretien.entretien.command.application.controller.Status;
 import com.soat.planification_entretien.entretien.command.domain.entity.Entretien;
 import com.soat.planification_entretien.entretien.command.domain.entity.RendezVous;
 import com.soat.planification_entretien.entretien.command.domain.repository.EntretienRepository;
+import com.soat.planification_entretien.entretien.query.application.controller.EntretienDetailDto;
 import com.soat.planification_entretien.recruteur.command.domain.entity.Recruteur;
 import com.soat.planification_entretien.recruteur.command.domain.repository.RecruteurRepository;
-import com.soat.planification_entretien.entretien.query.application.controller.EntretienDetailDto;
+import com.soat.planification_entretien.rendez_vous.command.domain.entity.Calendrier;
+import com.soat.planification_entretien.rendez_vous.command.repository.CalendrierRepository;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
@@ -43,6 +45,8 @@ public class ListingEntretienATest extends ATest {
     private RecruteurRepository recruteurRepository;
     @Autowired
     private EntretienRepository entretienRepository;
+    @Autowired
+    private CalendrierRepository calendrierRepository;
 
     @Before
     @Override
@@ -100,6 +104,13 @@ public class ListingEntretienATest extends ATest {
         for (Entretien entretien : entretiens) {
             //entityManager.persist(entretien);
             entretienRepository.save(entretien);
+
+            if (entretien.getStatus().equals(Status.PLANIFIE.name()) || entretien.getStatus().equals(Status.CONFIRME.name())) {
+                var rendezVous = new ArrayList<com.soat.planification_entretien.rendez_vous.command.domain.entity.RendezVous>();
+                rendezVous.add(new com.soat.planification_entretien.rendez_vous.command.domain.entity.RendezVous(entretien.getEmailCandidat(), entretien.getHoraire()));
+                Calendrier calendrier = new Calendrier(1, entretien.getEmailRecruteur(), rendezVous);
+                calendrierRepository.save(calendrier);
+            }
         }
     }
 
@@ -111,11 +122,19 @@ public class ListingEntretienATest extends ATest {
         List<RendezVous> rendezVous = new ArrayList<>();
         rendezVous.add(new RendezVous(candidat.getEmail(), horaire));
 
+        if (entry.get("status") == null) {
+            return Entretien.of(
+                    Integer.parseInt(entry.get(("id"))),
+                    new com.soat.planification_entretien.entretien.command.domain.entity.Candidat(candidat.getId(), candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceInYears()),
+                    new com.soat.planification_entretien.entretien.command.domain.entity.Recruteur(recruteur.getId(), recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears(), rendezVous),
+                    horaire);
+        }
         return Entretien.of(
                 Integer.parseInt(entry.get(("id"))),
                 new com.soat.planification_entretien.entretien.command.domain.entity.Candidat(candidat.getId(), candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceInYears()),
                 new com.soat.planification_entretien.entretien.command.domain.entity.Recruteur(recruteur.getId(), recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears(), rendezVous),
-                horaire);
+                horaire,
+                Enum.valueOf(Status.class, entry.get("status")));
     }
 
     @Quand("on liste les tous les entretiens")

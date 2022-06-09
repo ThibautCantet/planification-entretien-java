@@ -32,7 +32,7 @@ public class ProjectionCalendrierJson extends EventHandlerVoid<EntretienPlanifie
         Calendrier calendrier = calendrierRepository.findByRecruteur(entretien.getRecruteur().getEmail())
                 .orElse(new Calendrier(null, entretien.getEmailRecruteur(), new ArrayList<>()));
 
-        RendezVous rendezVous = new RendezVous(entretien.getEmailCandidat(), entretien.getHoraireEntretien());
+        RendezVous rendezVous = new RendezVous(entretien.getEmailCandidat(), entretien.getHoraire());
         calendrier.add(rendezVous);
 
         try {

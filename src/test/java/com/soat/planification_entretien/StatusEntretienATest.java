@@ -12,6 +12,8 @@ import com.soat.planification_entretien.entretien.command.application.controller
 import com.soat.planification_entretien.entretien.command.application.controller.Status;
 import com.soat.planification_entretien.entretien.command.application.controller.StatutDto;
 import com.soat.planification_entretien.entretien.query.application.controller.EntretienDetailDto;
+import com.soat.planification_entretien.rendez_vous.command.domain.entity.Calendrier;
+import com.soat.planification_entretien.rendez_vous.command.repository.CalendrierRepository;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
@@ -20,12 +22,16 @@ import io.cucumber.java.fr.Quand;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.soat.planification_entretien.entretien.command.application.controller.Status.*;
 import static io.restassured.RestAssured.*;
 import static org.assertj.core.api.Assertions.*;
 
 public class StatusEntretienATest extends ATest {
+
+    @Autowired
+    private CalendrierRepository calendrierRepository;
 
     @Before
     @Override
@@ -51,6 +57,22 @@ public class StatusEntretienATest extends ATest {
                     .header("Content-Type", ContentType.JSON)
                 .when()
                     .put(entretienId);
+        //@formatter:on
+    }
+
+    @Quand("on annule l'entretien {string}")
+    public void onAnnuleLEntretien(String entretienId) throws JsonProcessingException {
+        StatutDto status = new StatutDto(ANNULE);
+        String body = objectMapper.writeValueAsString(status);
+
+        initPath();
+        //@formatter:off
+        response = given()
+                .log().all()
+                .body(body)
+                .header("Content-Type", ContentType.JSON)
+                .when()
+                .put(entretienId);
         //@formatter:on
     }
 
@@ -88,5 +110,12 @@ public class StatusEntretienATest extends ATest {
                 LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
                 entry.get("status").toUpperCase()
         );
+    }
+
+    @Et("le rendez-vous n'existe plus")
+    public void leRendezVousNExistePlus() {
+        List<Calendrier> calendriers = calendrierRepository.findAll();
+
+        assertThat(calendriers.get(0).rendezVous()).isEmpty();
     }
 }

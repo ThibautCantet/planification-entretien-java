@@ -15,25 +15,30 @@ public class Entretien implements IEntretien {
     private Recruteur recruteur;
     private Status status;
 
-    public Entretien(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
+    public Entretien(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire, Status status) {
         this.id = id;
         this.candidat = candidat;
         this.recruteur = recruteur;
         this.creneau = new Creneau(horaire);
-        this.status = Status.PLANIFIE;
+        this.status = status;
+    }
+
+    public Entretien(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
+        this(id, candidat, recruteur, horaire, Status.PLANIFIE);
     }
 
     private Entretien(Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
-        this.candidat = candidat;
-        this.recruteur = recruteur;
-        this.creneau = new Creneau(horaire);
-        this.status = Status.PLANIFIE;
+        this(null, candidat, recruteur, horaire);
     }
 
     public Entretien(Candidat candidat, Recruteur recruteur) {
         this.candidat = candidat;
         this.recruteur = recruteur;
         this.status = Status.PLANIFIE;
+    }
+
+    public static Entretien of(int id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire, Status status) {
+        return new Entretien(id, candidat, recruteur, horaire, status);
     }
 
     public static Entretien of(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
@@ -55,10 +60,6 @@ public class Entretien implements IEntretien {
 
     public Recruteur getRecruteur() {
         return recruteur;
-    }
-
-    public LocalDateTime getHoraireEntretien() {
-        return creneau.debut();
     }
 
     public Integer getId() {
@@ -98,6 +99,10 @@ public class Entretien implements IEntretien {
 
     public void confirmer() {
         this.status = Status.CONFIRME;
+    }
+
+    public void annuler() {
+        this.status = Status.ANNULE;
     }
 
     @Override
