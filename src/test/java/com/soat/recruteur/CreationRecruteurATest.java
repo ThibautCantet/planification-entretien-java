@@ -2,15 +2,13 @@ package com.soat.recruteur;
 
 
 import java.util.List;
-import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
-import com.soat.planification_entretien.application.controller.command.RecruteurCommandController;
-import com.soat.planification_entretien.application.controller.query.EntretienDetailDto;
-import com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur;
-import com.soat.planification_entretien.domain.recruteur.command.repository.RecruteurRepository;
-import com.soat.planification_entretien.application.controller.command.RecruteurDto;
+import com.soat.planification_entretien.recruteur.command.application.controller.RecruteurCommandController;
+import com.soat.planification_entretien.recruteur.command.domain.entity.Recruteur;
+import com.soat.planification_entretien.recruteur.command.domain.repository.RecruteurRepository;
+import com.soat.planification_entretien.recruteur.command.application.controller.RecruteurDto;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;

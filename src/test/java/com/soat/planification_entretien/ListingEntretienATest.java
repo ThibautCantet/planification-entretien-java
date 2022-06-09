@@ -8,14 +8,15 @@ import java.util.List;
 import java.util.Map;
 
 import com.soat.ATest;
-import com.soat.planification_entretien.application.controller.command.EntretienCommandController;
-import com.soat.planification_entretien.domain.candidat.entity.Candidat;
-import com.soat.planification_entretien.domain.candidat.repository.CandidatRepository;
-import com.soat.planification_entretien.domain.entretien.command.entity.Entretien;
-import com.soat.planification_entretien.domain.entretien.command.repository.EntretienRepository;
-import com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur;
-import com.soat.planification_entretien.domain.recruteur.command.repository.RecruteurRepository;
-import com.soat.planification_entretien.application.controller.query.EntretienDetailDto;
+import com.soat.planification_entretien.entretien.command.application.controller.EntretienCommandController;
+import com.soat.planification_entretien.candidat.command.repository.CandidatRepository;
+import com.soat.planification_entretien.candidat.command.domain.entity.Candidat;
+import com.soat.planification_entretien.entretien.command.domain.entity.Entretien;
+import com.soat.planification_entretien.entretien.command.domain.entity.RendezVous;
+import com.soat.planification_entretien.entretien.command.domain.repository.EntretienRepository;
+import com.soat.planification_entretien.recruteur.command.domain.entity.Recruteur;
+import com.soat.planification_entretien.recruteur.command.domain.repository.RecruteurRepository;
+import com.soat.planification_entretien.entretien.query.application.controller.EntretienDetailDto;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
@@ -85,6 +86,7 @@ public class ListingEntretienATest extends ATest {
 
     private Candidat buildCandidat(Map<String, String> entry) {
         return new Candidat(
+                Integer.parseInt(entry.get("id")),
                 entry.get("language"),
                 entry.get("email"),
                 Integer.parseInt(entry.get("xp")));
@@ -103,10 +105,15 @@ public class ListingEntretienATest extends ATest {
     private Entretien buildEntretien(Map<String, String> entry) {
         Candidat candidat = savedCandidats.get(0);
         Recruteur recruteur = savedRecruteurs.get(0);
+
+        LocalDateTime horaire = LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+        List<RendezVous> rendezVous = new ArrayList<>();
+        rendezVous.add(new RendezVous(candidat.getEmail(), horaire));
+
         return Entretien.of(
-                new com.soat.planification_entretien.domain.entretien.command.entity.Candidat(candidat.getId(), candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceInYears()),
-                new com.soat.planification_entretien.domain.entretien.command.entity.Recruteur(recruteur.getId(), recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears()),
-                LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+                new com.soat.planification_entretien.entretien.command.domain.entity.Candidat(candidat.getId(), candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceInYears()),
+                new com.soat.planification_entretien.entretien.command.domain.entity.Recruteur(recruteur.getId(), recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears(), rendezVous),
+                horaire);
     }
 
     @Quand("on liste les tous les entretiens")

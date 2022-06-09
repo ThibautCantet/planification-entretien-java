@@ -4,11 +4,12 @@ import java.util.List;
 
 import com.soat.planification_entretien.cqrs.Query;
 import com.soat.planification_entretien.cqrs.QueryHandler;
-import com.soat.planification_entretien.domain.entretien.query.ListerEntretiensQueryHandler;
-import com.soat.planification_entretien.domain.entretien.query.dao.EntretienDAO;
-import com.soat.planification_entretien.domain.recruteur.query.ListerRecruteurQueryHandler;
-import com.soat.planification_entretien.domain.recruteur.query.dao.RecruteurDAO;
-import com.soat.planification_entretien.domain.rendez_vous.query.ListerRendezVousRecruteurQueryHandler;
+import com.soat.planification_entretien.entretien.query.ListerEntretiensQueryHandler;
+import com.soat.planification_entretien.entretien.query.dao.EntretienDAO;
+import com.soat.planification_entretien.recruteur.query.ListerRecruteurQueryHandler;
+import com.soat.planification_entretien.recruteur.query.dao.RecruteurDAO;
+import com.soat.planification_entretien.rendez_vous.query.ListerRendezVousRecruteurQueryHandler;
+import com.soat.planification_entretien.rendez_vous.query.dao.CalendrierDAO;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,9 +17,9 @@ public class QueryBusFactory {
 
     private final EntretienDAO entretienDAO;
     private final RecruteurDAO recruteurDAO;
-    private final com.soat.planification_entretien.domain.rendez_vous.query.dao.CalendrierDAO queryCalendrierDAO;
+    private final CalendrierDAO queryCalendrierDAO;
 
-    public QueryBusFactory(EntretienDAO entretienDAO, RecruteurDAO recruteurDAO, com.soat.planification_entretien.domain.rendez_vous.query.dao.CalendrierDAO queryCalendrierDAO) {
+    public QueryBusFactory(EntretienDAO entretienDAO, RecruteurDAO recruteurDAO, CalendrierDAO queryCalendrierDAO) {
         this.entretienDAO = entretienDAO;
         this.recruteurDAO = recruteurDAO;
         this.queryCalendrierDAO = queryCalendrierDAO;

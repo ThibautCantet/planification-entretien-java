@@ -3,17 +3,17 @@ package com.soat.planification_entretien.infrastructure.dao;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.soat.planification_entretien.domain.candidat.entity.Candidat;
-import com.soat.planification_entretien.domain.entretien.listener.dao.EntretienDAO;
-import com.soat.planification_entretien.domain.entretien.listener.dto.Entretien;
-import com.soat.planification_entretien.domain.entretien.query.dto.IEntretien;
-import com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur;
+import com.soat.planification_entretien.candidat.command.domain.entity.Candidat;
+import com.soat.planification_entretien.entretien.listener.dao.EntretienDAO;
+import com.soat.planification_entretien.entretien.listener.dto.Entretien;
+import com.soat.planification_entretien.entretien.query.dto.IEntretien;
+import com.soat.planification_entretien.recruteur.command.domain.entity.Recruteur;
 import com.soat.planification_entretien.infrastructure.repository.EntretienCrud;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class HibernateEntretienDAO implements EntretienDAO,
-        com.soat.planification_entretien.domain.entretien.query.dao.EntretienDAO {
+        com.soat.planification_entretien.entretien.query.dao.EntretienDAO {
     private final EntretienCrud entretienCrud;
 
     public HibernateEntretienDAO(EntretienCrud entretienCrud) {

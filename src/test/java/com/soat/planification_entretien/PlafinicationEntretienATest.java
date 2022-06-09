@@ -4,26 +4,27 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.soat.ATest;
-import com.soat.planification_entretien.application.controller.command.EntretienCommandController;
-import com.soat.planification_entretien.application.controller.command.EntretienDto;
-import com.soat.planification_entretien.application.controller.query.RendezVousDto;
-import com.soat.planification_entretien.domain.entretien.command.entity.Candidat;
-import com.soat.planification_entretien.domain.candidat.repository.CandidatRepository;
-import com.soat.planification_entretien.domain.entretien.command.entity.Calendrier;
-import com.soat.planification_entretien.domain.rendez_vous.command.repository.CalendrierRepository;
-import com.soat.planification_entretien.domain.entretien.listener.service.EmailService;
-import com.soat.planification_entretien.domain.entretien.command.entity.Entretien;
-import com.soat.planification_entretien.domain.entretien.command.repository.EntretienRepository;
-import com.soat.planification_entretien.domain.entretien.command.entity.RendezVous;
-import com.soat.planification_entretien.domain.entretien.command.entity.Recruteur;
-import com.soat.planification_entretien.domain.recruteur.command.repository.RecruteurRepository;
-import com.soat.planification_entretien.domain.rendez_vous.query.dao.CalendrierDAO;
+import com.soat.planification_entretien.entretien.command.application.controller.EntretienCommandController;
+import com.soat.planification_entretien.entretien.command.application.controller.EntretienDto;
+import com.soat.planification_entretien.rendez_vous.query.application.controller.RendezVousDto;
+import com.soat.planification_entretien.entretien.command.domain.entity.Candidat;
+import com.soat.planification_entretien.candidat.command.repository.CandidatRepository;
+import com.soat.planification_entretien.rendez_vous.command.domain.entity.Calendrier;
+import com.soat.planification_entretien.recruteur.command.domain.entity.Recruteur;
+import com.soat.planification_entretien.rendez_vous.command.repository.CalendrierRepository;
+import com.soat.planification_entretien.entretien.listener.service.EmailService;
+import com.soat.planification_entretien.entretien.command.domain.entity.Entretien;
+import com.soat.planification_entretien.entretien.command.domain.repository.EntretienRepository;
+import com.soat.planification_entretien.rendez_vous.command.domain.entity.RendezVous;
+import com.soat.planification_entretien.recruteur.command.domain.repository.RecruteurRepository;
+import com.soat.planification_entretien.rendez_vous.query.dao.CalendrierDAO;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;
@@ -64,8 +65,7 @@ public class PlafinicationEntretienATest extends ATest {
 
     private Candidat candidat;
     private LocalDateTime disponibiliteDuCandidat;
-    private Recruteur recruteur;
-    private LocalDateTime disponibiliteDuRecruteur;
+    private com.soat.planification_entretien.entretien.command.domain.entity.Recruteur recruteur;
 
     @Autowired
     private EntretienRepository entretienRepository;
@@ -96,28 +96,39 @@ public class PlafinicationEntretienATest extends ATest {
     @Etantdonné("un candidat {string} \\({string}) avec {string} ans d’expériences qui est disponible {string} à {string}")
     public void unCandidatAvecAnsDExpériencesQuiEstDisponibleÀ(String language, String email, String experienceInYears, String date, String time) {
         candidat = new Candidat(1, language, email, Integer.parseInt(experienceInYears));
-        candidatRepository.save(new com.soat.planification_entretien.domain.candidat.entity.Candidat(
+        candidatRepository.save(new com.soat.planification_entretien.candidat.command.domain.entity.Candidat(
                 candidat.getLanguage(),
                 candidat.getEmail(),
                 candidat.getExperienceInYears()
         ));
-        disponibiliteDuCandidat = LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));
+        disponibiliteDuCandidat = parseDateTime(date, time);
     }
 
-    @Etqu("un recruteur {string} \\({string}) qui a {string} ans d’XP qui est dispo {string} à {string}")
-    public void unRecruteurQuiAAnsDXPQuiEstDispo(String language, String email, String experienceInYears, String date, String time) {
-        recruteur = new Recruteur("1", language, email, Integer.parseInt(experienceInYears));
-        recruteurRepository.save(com.soat.planification_entretien.domain.recruteur.command.entity.Recruteur.create(
+    @Etqu("un recruteur {string} \\({string}) qui a {string} ans d’XP")
+    public void unRecruteurQuiAAnsDXP(String language, String email, String experienceInYears) {
+        recruteur = new com.soat.planification_entretien.entretien.command.domain.entity.Recruteur("1", language, email, Integer.parseInt(experienceInYears), new ArrayList<>());
+        recruteurRepository.save(Recruteur.create(
                 "1",
                 recruteur.getLanguage(),
                 recruteur.getEmail(),
                 recruteur.getExperienceInYears()));
-        disponibiliteDuRecruteur = LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));
+    }
+
+    @Et("qui a déjà un rendez-vous le {string} à {string}")
+    public void quiADéjàUnRendezVousLeÀ(String date, String time) {
+        List<RendezVous> rdv = new ArrayList<>();
+        var rendezVous = new RendezVous("autre@candidat.fr", parseDateTime(date, time));
+        rdv.add(rendezVous);
+        calendrierRepository.save(new Calendrier(1, recruteur.getEmail(), rdv));
+    }
+
+    static LocalDateTime parseDateTime(String date, String time) {
+        return LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));
     }
 
     @Quand("on tente une planification d’entretien")
     public void onTenteUnePlanificationDEntretien() throws JsonProcessingException {
-        EntretienDto entretienDto = new EntretienDto(candidat.getId(), recruteur.getId(), disponibiliteDuCandidat, disponibiliteDuRecruteur);
+        EntretienDto entretienDto = new EntretienDto(candidat.getId(), recruteur.getId(), disponibiliteDuCandidat);
         String body = objectMapper.writeValueAsString(entretienDto);
         initPath();
         //@formatter:off
@@ -136,7 +147,12 @@ public class PlafinicationEntretienATest extends ATest {
                 .statusCode(HttpStatus.SC_CREATED);
 
         Entretien entretien = entretienRepository.findByCandidat(candidat);
-        Entretien expectedEntretien = Entretien.of(candidat, recruteur, disponibiliteDuCandidat);
+        var expectedRecruteur = new com.soat.planification_entretien.entretien.command.domain.entity.Recruteur(recruteur.getId(),
+                recruteur.getLanguage(),
+                recruteur.getEmail(),
+                recruteur.getExperienceInYears(),
+                List.of(new com.soat.planification_entretien.entretien.command.domain.entity.RendezVous(candidat.getEmail(), disponibiliteDuCandidat)));
+        Entretien expectedEntretien = Entretien.of(candidat, expectedRecruteur, disponibiliteDuCandidat);
         assertThat(entretien).usingRecursiveComparison()
                 .ignoringFields("id", "candidat.id", "recruteur.id")
                 .isEqualTo(expectedEntretien);
@@ -165,7 +181,7 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Et("ajouter un rendez-vous pour le recruteur {string} avec {string} pour le {string} à {string}")
     public void ajouterUnRendezVousPourLeRecruteurAvecPourLeÀ(String emailRecruteur, String emailCandidat, String date, String time) throws JsonProcessingException {
-        var horaireEntretien = LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));
+        var horaireEntretien = parseDateTime(date, time);
 
         RendezVous expectedRendezVous = new RendezVous(emailCandidat, horaireEntretien);
         Calendrier calendrier = calendrierRepository.findByRecruteur(emailRecruteur).orElse(null);
@@ -184,8 +200,9 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Et("aucun rendez-vous n'est ajouté au recruteur")
     public void aucunRendezVousNEstAjoutéAuRecruteur() {
-        Optional<Calendrier> calendrier = calendrierRepository.findByRecruteur(recruteur.getEmail());
-        assertThat(calendrier).isEmpty();
+        Calendrier calendrier = calendrierRepository.findByRecruteur(recruteur.getEmail())
+                .orElse(new Calendrier(0, "", List.of()));
+        assertThat(calendrier.rendezVous()).doesNotContain(new RendezVous(candidat.getEmail(), disponibiliteDuCandidat));
 
         Optional<String> rendezVousJson = calendrierDAO.findByRecruteur(recruteur.getEmail());
         assertThat(rendezVousJson).isEmpty();
