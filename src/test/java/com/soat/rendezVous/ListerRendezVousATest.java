@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
@@ -85,7 +86,7 @@ public class ListerRendezVousATest extends ATest {
         List<RendezVous> rendezVous = Arrays.stream(entry.get("rendez-vous").split(";"))
                 .map(String::trim)
                 .map(this::toRendezVous)
-                .toList();
+                .collect(Collectors.toList());
         return new Calendrier(
                 Integer.parseInt(entry.get("id")),
                 entry.get("recruteur"),

@@ -12,8 +12,10 @@ import java.util.UUID;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.soat.ATest;
+import com.soat.planification_entretien.entretien.command.application.controller.EntretienAutomatiqueDto;
 import com.soat.planification_entretien.entretien.command.application.controller.EntretienCommandController;
 import com.soat.planification_entretien.entretien.command.application.controller.EntretienDto;
+import com.soat.planification_entretien.entretien.command.application.controller.Status;
 import com.soat.planification_entretien.rendez_vous.query.application.controller.RendezVousDto;
 import com.soat.planification_entretien.entretien.command.domain.entity.Candidat;
 import com.soat.planification_entretien.candidat.command.repository.CandidatRepository;
@@ -142,6 +144,21 @@ public class PlafinicationEntretienATest extends ATest {
         //@formatter:on
     }
 
+    @Quand("on tente une planification automatique d’entretien")
+    public void onTenteUnePlanificationAutomatiqueDEntretien() throws JsonProcessingException {
+        var entretienDto = new EntretienAutomatiqueDto(candidat.getId(), disponibiliteDuCandidat);
+        String body = objectMapper.writeValueAsString(entretienDto);
+        initPath();
+        //@formatter:off
+        response = given()
+                .log().all()
+                .header("Content-Type", ContentType.JSON)
+                .body(body)
+                .when()
+                .post("planifier-automatique");
+        //@formatter:on
+    }
+
     @Alors("L’entretien est planifié")
     public void lEntretienEstPlanifié() {
         response.then()
@@ -159,10 +176,30 @@ public class PlafinicationEntretienATest extends ATest {
                 .isEqualTo(expectedEntretien);
     }
 
+    @Alors("L’entretien est planifié pour le recruteur {string}")
+    public void lEntretienEstPlanifiéPourLeRecruteur(String recruteurId) {
+        response.then()
+                .statusCode(HttpStatus.SC_CREATED);
+
+        Entretien entretien = entretienRepository.findByCandidat(candidat);
+
+        assertThat(entretien.getRecruteur().getId()).isEqualTo(recruteurId);
+        assertThat(entretien.getCandidat().getId()).isEqualTo(candidat.getId());
+        assertThat(entretien.getStatus()).isEqualTo(Status.PLANIFIE.name());
+        assertThat(entretien.getHoraire()).isEqualTo(disponibiliteDuCandidat);
+
+    }
+
     @Et("un mail de confirmation est envoyé au candidat et au recruteur")
     public void unMailDeConfirmationEstEnvoyéAuCandidatEtAuRecruteur() {
         verify(emailService).envoyerUnEmailDeConfirmationAuCandidat(candidat.getEmail(), disponibiliteDuCandidat);
         verify(emailService).envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), disponibiliteDuCandidat);
+    }
+
+    @Et("un mail de confirmation est envoyé au candidat et au recruteur {string}")
+    public void unMailDeConfirmationEstEnvoyéAuCandidatEtAuRecruteurEmail(String recruteurRmail) {
+        verify(emailService).envoyerUnEmailDeConfirmationAuCandidat(candidat.getEmail(), disponibiliteDuCandidat);
+        verify(emailService).envoyerUnEmailDeConfirmationAuRecruteur(recruteurRmail, disponibiliteDuCandidat);
     }
 
     @Alors("L’entretien n'est pas planifié")
@@ -196,7 +233,7 @@ public class PlafinicationEntretienATest extends ATest {
         var mapType = new TypeReference<List<RendezVousDto>>() {
         };
         var rdv = objectMapper.readValue(rendezVousJson.get(), mapType);
-        assertThat(rdv).containsExactly(new RendezVousDto(emailCandidat, horaireEntretien));
+        assertThat(rdv).contains(new RendezVousDto(emailCandidat, horaireEntretien));
     }
 
     @Et("aucun rendez-vous n'est ajouté au recruteur")

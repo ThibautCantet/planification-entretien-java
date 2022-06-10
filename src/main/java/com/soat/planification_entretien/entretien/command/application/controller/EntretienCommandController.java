@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.soat.planification_entretien.candidat.command.repository.CandidatRepository;
 import com.soat.planification_entretien.entretien.command.MettreAJourStatusEntretienCommand;
+import com.soat.planification_entretien.entretien.command.PlanifierEntretienAutomatiqueCommand;
 import com.soat.planification_entretien.entretien.command.PlanifierEntretienCommand;
 import com.soat.planification_entretien.entretien.command.domain.entity.Candidat;
 import com.soat.planification_entretien.entretien.command.domain.entity.Recruteur;
@@ -66,6 +67,26 @@ public class EntretienCommandController extends CommandController {
             return badRequest().build();
         }
         var commandResponse = getCommandBus().dispatch(new PlanifierEntretienCommand(candidat.get(), recruteur.get(), entretienDto.disponibiliteDuCandidat()));
+
+        if (commandResponse.containEventType(EntretienPlanifie.class)) {
+            return created(URI.create(PATH + "/" + commandResponse.value())).build();
+        } else {
+            return badRequest().build();
+        }
+    }
+
+
+    @PostMapping("planifier-automatique")
+    public ResponseEntity<Void> planifierAutomatique(@RequestBody EntretienAutomatiqueDto entretienAutomatiqueDto) {
+
+        var candidat = candidatRepository.findById(entretienAutomatiqueDto.candidatId()).map(c ->
+                new Candidat(c.getId(), c.getLanguage(), c.getEmail(), c.getExperienceInYears())
+        );
+        if (candidat.isEmpty()) {
+            return badRequest().build();
+        }
+
+        var commandResponse = getCommandBus().dispatch(new PlanifierEntretienAutomatiqueCommand(candidat.get(), entretienAutomatiqueDto.disponibiliteDuCandidat()));
 
         if (commandResponse.containEventType(EntretienPlanifie.class)) {
             return created(URI.create(PATH + "/" + commandResponse.value())).build();

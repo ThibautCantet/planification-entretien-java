@@ -7,6 +7,8 @@ import com.soat.planification_entretien.cqrs.EventHandler;
 import com.soat.planification_entretien.candidat.command.repository.CandidatRepository;
 import com.soat.planification_entretien.candidat.command.CreerCandidatCommandHandler;
 import com.soat.planification_entretien.entretien.command.MettreAJourStatusEntretienCommandHandler;
+import com.soat.planification_entretien.entretien.command.PlanifierEntretienAutomatiqueCommandHandler;
+import com.soat.planification_entretien.entretien.command.infrastructure_service.ReferentielDeConsultantRecruteur;
 import com.soat.planification_entretien.entretien.listener.AjouterEntretien;
 import com.soat.planification_entretien.entretien.listener.ModifierRendezVous;
 import com.soat.planification_entretien.entretien.listener.ProjectionCalendrierJson;
@@ -35,8 +37,9 @@ public class CommandBusFactory {
     private final CandidatRepository candidatRepository;
     private final EntretienDAO entretienDAO;
     private final CalendrierDAO calendrierDao;
+    private final ReferentielDeConsultantRecruteur referentielDeConsultantRecruteur;
 
-    public CommandBusFactory(EntretienRepository entretienRepository, EmailService emailService, CalendrierRepository calendrierRepository, RecruteurRepository recruteurRepository, CandidatRepository candidatRepository, EntretienDAO entretienDAO, CalendrierDAO calendrierDao) {
+    public CommandBusFactory(EntretienRepository entretienRepository, EmailService emailService, CalendrierRepository calendrierRepository, RecruteurRepository recruteurRepository, CandidatRepository candidatRepository, EntretienDAO entretienDAO, CalendrierDAO calendrierDao, ReferentielDeConsultantRecruteur referentielDeConsultantRecruteur) {
         this.entretienRepository = entretienRepository;
         this.emailService = emailService;
         this.calendrierRepository = calendrierRepository;
@@ -44,6 +47,7 @@ public class CommandBusFactory {
         this.candidatRepository = candidatRepository;
         this.entretienDAO = entretienDAO;
         this.calendrierDao = calendrierDao;
+        this.referentielDeConsultantRecruteur = referentielDeConsultantRecruteur;
     }
 
     protected List<CommandHandler> getCommandHandlers() {
@@ -52,7 +56,8 @@ public class CommandBusFactory {
                 new CreerRecruteurCommandHandler(recruteurRepository),
                 new CreerCandidatCommandHandler(candidatRepository),
                 new AjouterRendezVousCommandHandler(calendrierRepository),
-                new MettreAJourStatusEntretienCommandHandler(entretienRepository)
+                new MettreAJourStatusEntretienCommandHandler(entretienRepository),
+                new PlanifierEntretienAutomatiqueCommandHandler(entretienRepository, referentielDeConsultantRecruteur)
         );
     }
 
