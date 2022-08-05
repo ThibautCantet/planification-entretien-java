@@ -10,7 +10,7 @@ import com.soat.planification_entretien.entretien.command.domain.repository.Entr
 import com.soat.planification_entretien.entretien.event.EntretienNonPlanifie;
 import com.soat.planification_entretien.entretien.event.EntretienPlanifie;
 
-public class PlanifierEntretienCommandHandler implements CommandHandler<PlanifierEntretienCommand, CommandResponse<Boolean, Event>> {
+public class PlanifierEntretienCommandHandler implements CommandHandler<PlanifierEntretienCommand, CommandResponse<Event>> {
     private final EntretienRepository entretienRepository;
 
     public PlanifierEntretienCommandHandler(EntretienRepository entretienRepository) {
@@ -18,15 +18,15 @@ public class PlanifierEntretienCommandHandler implements CommandHandler<Planifie
     }
 
     @Override
-    public CommandResponse<Boolean, Event> handle(PlanifierEntretienCommand command) {
+    public CommandResponse<Event> handle(PlanifierEntretienCommand command) {
         UUID id = entretienRepository.next();
         Entretien entretien = new Entretien(id.toString(), command.candidat(), command.recruteur());
         if (entretien.planifier(command.dateEtHeureDisponibiliteDuCandidat())) {
             entretienRepository.save(entretien);
 
-            return new CommandResponse<>(true, new EntretienPlanifie(id.toString(), command.candidat().getEmail(), command.recruteur().getEmail(), command.dateEtHeureDisponibiliteDuCandidat()));
+            return new CommandResponse<>(new EntretienPlanifie(id.toString(), command.candidat().getEmail(), command.recruteur().getEmail(), command.dateEtHeureDisponibiliteDuCandidat()));
         }
-        return new CommandResponse<>(false, new EntretienNonPlanifie());
+        return new CommandResponse<>(new EntretienNonPlanifie());
     }
 
     @Override

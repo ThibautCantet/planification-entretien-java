@@ -8,7 +8,7 @@ import com.soat.planification_entretien.entretien.command.domain.repository.Entr
 import com.soat.planification_entretien.entretien.event.EntretienMisAJour;
 import com.soat.planification_entretien.entretien.event.EntretienNonTrouve;
 
-public class MettreAJourStatusEntretienCommandHandler implements CommandHandler<MettreAJourStatusEntretienCommand, CommandResponse<Void, Event>> {
+public class MettreAJourStatusEntretienCommandHandler implements CommandHandler<MettreAJourStatusEntretienCommand, CommandResponse<Event>> {
     private final EntretienRepository entretienRepository;
 
     public MettreAJourStatusEntretienCommandHandler(EntretienRepository entretienRepository) {
@@ -16,7 +16,7 @@ public class MettreAJourStatusEntretienCommandHandler implements CommandHandler<
     }
 
     @Override
-    public CommandResponse<Void, Event> handle(MettreAJourStatusEntretienCommand command) {
+    public CommandResponse<Event> handle(MettreAJourStatusEntretienCommand command) {
         Entretien entretien = entretienRepository.findById(command.id());
 
         if (entretien == null) {

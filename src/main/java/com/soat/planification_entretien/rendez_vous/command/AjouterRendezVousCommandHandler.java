@@ -10,7 +10,7 @@ import com.soat.planification_entretien.rendez_vous.command.domain.entity.Rendez
 import com.soat.planification_entretien.rendez_vous.event.RendezAjoute;
 import com.soat.planification_entretien.rendez_vous.command.repository.CalendrierRepository;
 
-public class AjouterRendezVousCommandHandler implements CommandHandler<AjouterRendezVousCommand, CommandResponse<Integer, Event>> {
+public class AjouterRendezVousCommandHandler implements CommandHandler<AjouterRendezVousCommand, CommandResponse<Event>> {
     private final CalendrierRepository calendrierRepository;
 
     public AjouterRendezVousCommandHandler(CalendrierRepository calendrierRepository) {
@@ -18,7 +18,7 @@ public class AjouterRendezVousCommandHandler implements CommandHandler<AjouterRe
     }
 
     @Override
-    public CommandResponse<Integer, Event> handle(AjouterRendezVousCommand command) {
+    public CommandResponse<Event> handle(AjouterRendezVousCommand command) {
         Calendrier calendrier = calendrierRepository.findByRecruteur(command.emailRecruteur())
                 .orElse(new Calendrier(null, command.emailRecruteur(), new ArrayList<>()));
 
@@ -26,7 +26,7 @@ public class AjouterRendezVousCommandHandler implements CommandHandler<AjouterRe
         calendrier.add(rendezVous);
 
         Integer id = calendrierRepository.save(calendrier);
-        return new CommandResponse<>(id, new RendezAjoute());
+        return new CommandResponse<>(new RendezAjoute(id));
     }
 
     @Override

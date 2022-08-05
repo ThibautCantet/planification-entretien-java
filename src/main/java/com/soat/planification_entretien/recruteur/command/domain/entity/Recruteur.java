@@ -19,7 +19,7 @@ public class Recruteur {
         this.experienceInYears = AnneesExperience.create(experienceInYears);
 
         if (isValid()) {
-            event = new RecruteurCree();
+            event = new RecruteurCree(id.value());
         } else {
             event = new RecruteurNonCree();
         }

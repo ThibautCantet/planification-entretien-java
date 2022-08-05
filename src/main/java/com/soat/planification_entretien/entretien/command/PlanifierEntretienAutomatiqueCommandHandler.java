@@ -15,7 +15,7 @@ import com.soat.planification_entretien.entretien.command.infrastructure_service
 import com.soat.planification_entretien.entretien.event.EntretienNonPlanifie;
 import com.soat.planification_entretien.entretien.event.EntretienPlanifie;
 
-public class PlanifierEntretienAutomatiqueCommandHandler implements CommandHandler<PlanifierEntretienAutomatiqueCommand, CommandResponse<Boolean, Event>> {
+public class PlanifierEntretienAutomatiqueCommandHandler implements CommandHandler<PlanifierEntretienAutomatiqueCommand, CommandResponse<Event>> {
     private final EntretienRepository entretienRepository;
     private final ReferentielDeConsultantRecruteur referentielDeConsultantRecruteur;
 
@@ -25,14 +25,14 @@ public class PlanifierEntretienAutomatiqueCommandHandler implements CommandHandl
     }
 
     @Override
-    public CommandResponse<Boolean, Event> handle(PlanifierEntretienAutomatiqueCommand command) {
+    public CommandResponse<Event> handle(PlanifierEntretienAutomatiqueCommand command) {
 
         var disponibilitéConsultantRecruteur = new DisponibilitéConsultantRecruteur();
 
         List<Recruteur> recruteurs = referentielDeConsultantRecruteur.findAll();
         Optional<Recruteur> optionalRecruteur = disponibilitéConsultantRecruteur.chercherConsultantRecruteurDisponibleParMois(recruteurs, command.candidat(), command.dateEtHeureDisponibiliteDuCandidat());
         if (optionalRecruteur.isEmpty()) {
-            return new CommandResponse<>(false, new EntretienNonPlanifie());
+            return new CommandResponse<>(new EntretienNonPlanifie());
         }
 
         UUID id = entretienRepository.next();
@@ -42,7 +42,7 @@ public class PlanifierEntretienAutomatiqueCommandHandler implements CommandHandl
                 command.dateEtHeureDisponibiliteDuCandidat());
         entretienRepository.save(entretien);
 
-        return new CommandResponse<>(true, new EntretienPlanifie(id.toString(), command.candidat().getEmail(), optionalRecruteur.get().getEmail(), command.dateEtHeureDisponibiliteDuCandidat()));
+        return new CommandResponse<>(new EntretienPlanifie(id.toString(), command.candidat().getEmail(), optionalRecruteur.get().getEmail(), command.dateEtHeureDisponibiliteDuCandidat()));
     }
 
     @Override

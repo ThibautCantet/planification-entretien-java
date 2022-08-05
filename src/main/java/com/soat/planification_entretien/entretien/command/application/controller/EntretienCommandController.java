@@ -47,7 +47,7 @@ public class EntretienCommandController extends CommandController {
     }
 
     @PostMapping("planifier")
-    public ResponseEntity<Void> planifier(@RequestBody EntretienDto entretienDto) {
+    public ResponseEntity<Integer> planifier(@RequestBody EntretienDto entretienDto) {
 
         var candidat = candidatRepository.findById(entretienDto.candidatId()).map(c ->
                 new Candidat(c.getId(), c.getLanguage(), c.getEmail(), c.getExperienceInYears())
@@ -68,11 +68,11 @@ public class EntretienCommandController extends CommandController {
         }
         var commandResponse = getCommandBus().dispatch(new PlanifierEntretienCommand(candidat.get(), recruteur.get(), entretienDto.disponibiliteDuCandidat()));
 
-        if (commandResponse.containEventType(EntretienPlanifie.class)) {
-            return created(URI.create(PATH + "/" + commandResponse.value())).build();
-        } else {
-            return badRequest().build();
-        }
+        return (ResponseEntity<Integer>) commandResponse.findFirst(EntretienPlanifie.class)
+                .map(EntretienPlanifie.class::cast)
+                .map(event -> created(URI.create(PATH + "/" + ((EntretienPlanifie) event).id()))
+                        .body(((EntretienPlanifie) event).id()))
+                .orElse(badRequest().build());
     }
 
 
@@ -88,21 +88,19 @@ public class EntretienCommandController extends CommandController {
 
         var commandResponse = getCommandBus().dispatch(new PlanifierEntretienAutomatiqueCommand(candidat.get(), entretienAutomatiqueDto.disponibiliteDuCandidat()));
 
-        if (commandResponse.containEventType(EntretienPlanifie.class)) {
-            return created(URI.create(PATH + "/" + commandResponse.value())).build();
-        } else {
-            return badRequest().build();
-        }
+        return (ResponseEntity<Void>) commandResponse.findFirst(EntretienPlanifie.class)
+                .map(EntretienPlanifie.class::cast)
+                .map(event -> created(URI.create(PATH + "/" + ((EntretienPlanifie) event).id()))
+                        .body(((EntretienPlanifie) event).id()))
+                .orElse(badRequest().build());
     }
 
     @PutMapping("{id}")
     public ResponseEntity<Void> mettreAJourStatus(@PathVariable("id") String id, @RequestBody StatutDto statutDto) {
         var commandResponse = getCommandBus().dispatch(new MettreAJourStatusEntretienCommand(id, statutDto.status()));
 
-        if (commandResponse.containEventType(EntretienNonTrouve.class)) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        return (ResponseEntity<Void>) commandResponse.findFirst(EntretienNonTrouve.class)
+                .map(unused -> new ResponseEntity<>(HttpStatus.BAD_REQUEST))
+                .orElse(new ResponseEntity<>(HttpStatus.OK));
     }
 }

@@ -3,29 +3,23 @@ package com.soat.planification_entretien.cqrs;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-public class CommandResponse<T, E extends Event> {
+public class CommandResponse<E extends Event> {
 
-    private T value;
     List<E> events;
 
     public CommandResponse(E event) {
-        this(null, event);
-    }
-
-    public CommandResponse(T value, E event) {
-        this.value = value;
         this.events = new ArrayList<>();
         events.add(event);
     }
 
-    public boolean containEventType(Class<? extends Event> clazz) {
+    // Todo (je voudrais que le type de retour soir le type passer en paramètre)
+    // .map(clazz::cast) ne suffit pas
+    public Optional<? extends Event> findFirst(Class<? extends Event> clazz) {
         return events.stream()
-                .anyMatch(e -> e.getClass().equals(clazz));
-    }
-
-    public T value() {
-        return value;
+                .filter(e -> e.getClass().equals(clazz))
+                .findFirst();
     }
 
     public List<E> events() {

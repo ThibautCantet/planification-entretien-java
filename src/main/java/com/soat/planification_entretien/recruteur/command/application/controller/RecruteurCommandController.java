@@ -28,11 +28,12 @@ public class RecruteurCommandController extends CommandController {
 
     @PostMapping
     public ResponseEntity<UUID> creer(@RequestBody RecruteurDto recruteurDto) {
-        CommandResponse<String, Event> commandResponse = getCommandBus().dispatch(new CreerRecruteurCommand(recruteurDto.language(), recruteurDto.email(), recruteurDto.experienceEnAnnees()));
-        if (commandResponse.containEventType(RecruteurCree.class)) {
-            return created(URI.create(PATH + "/" + commandResponse.value())).body(UUID.fromString(commandResponse.value()));
-        }
-        return badRequest().build();
+        CommandResponse<Event> commandResponse = getCommandBus().dispatch(new CreerRecruteurCommand(recruteurDto.language(), recruteurDto.email(), recruteurDto.experienceEnAnnees()));
+        return commandResponse.findFirst(RecruteurCree.class)
+                .map(RecruteurCree.class::cast)
+                .map(event -> created(URI.create(PATH + "/" + event.id()))
+                        .body(UUID.fromString(event.id())))
+                .orElse(badRequest().build());
     }
 
 }

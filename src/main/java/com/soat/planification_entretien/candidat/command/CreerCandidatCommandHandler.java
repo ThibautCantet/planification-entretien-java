@@ -11,7 +11,7 @@ import com.soat.planification_entretien.candidat.command.domain.entity.Candidat;
 import com.soat.planification_entretien.candidat.event.CandidatCree;
 import com.soat.planification_entretien.candidat.event.CandidatNonCree;
 
-public class CreerCandidatCommandHandler implements CommandHandler<CreerCandidatCommand, CommandResponse<Integer, Event>> {
+public class CreerCandidatCommandHandler implements CommandHandler<CreerCandidatCommand, CommandResponse<Event>> {
     private static final String EMAIL_REGEX = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
 
     private final CandidatRepository candidatRepository;
@@ -20,7 +20,7 @@ public class CreerCandidatCommandHandler implements CommandHandler<CreerCandidat
         this.candidatRepository = candidatRepository;
     }
 
-    public CommandResponse<Integer, Event> handle(CreerCandidatCommand command) {
+    public CommandResponse<Event> handle(CreerCandidatCommand command) {
         if (command.language().isBlank() || !isEmail(command.email()) || command.experienceEnAnnees().isBlank() || Integer.parseInt(command.experienceEnAnnees()) < 0) {
             return new CommandResponse<>(new CandidatNonCree());
         }
@@ -28,7 +28,7 @@ public class CreerCandidatCommandHandler implements CommandHandler<CreerCandidat
         Candidat candidat = new Candidat(command.language(), command.email(), Integer.parseInt(command.experienceEnAnnees()));
         Candidat savedCandidat = candidatRepository.save(candidat);
 
-        return new CommandResponse<>(savedCandidat.getId(), new CandidatCree());
+        return new CommandResponse<>(new CandidatCree(savedCandidat.getId()));
     }
 
     private static boolean isEmail(String adresse) {

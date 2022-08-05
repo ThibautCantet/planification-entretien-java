@@ -10,7 +10,7 @@ import com.soat.planification_entretien.recruteur.command.domain.repository.Recr
 import com.soat.planification_entretien.recruteur.event.RecruteurCree;
 import com.soat.planification_entretien.recruteur.event.RecruteurNonCree;
 
-public class CreerRecruteurCommandHandler implements CommandHandler<CreerRecruteurCommand, CommandResponse<String, Event>> {
+public class CreerRecruteurCommandHandler implements CommandHandler<CreerRecruteurCommand, CommandResponse<Event>> {
 
     private final RecruteurRepository recruteurRepository;
 
@@ -19,7 +19,7 @@ public class CreerRecruteurCommandHandler implements CommandHandler<CreerRecrute
     }
 
     @Override
-    public CommandResponse<String, Event> handle(CreerRecruteurCommand command) {
+    public CommandResponse<Event> handle(CreerRecruteurCommand command) {
         UUID id = recruteurRepository.next();
         Recruteur recruteur = Recruteur.create(id.toString(), command.language(), command.email(), command.experienceEnAnnees());
         if (recruteur.getEvent() instanceof RecruteurNonCree) {
@@ -28,7 +28,7 @@ public class CreerRecruteurCommandHandler implements CommandHandler<CreerRecrute
 
         Recruteur savedRecruteur = recruteurRepository.save(recruteur);
 
-        return new CommandResponse<>(savedRecruteur.getId(), new RecruteurCree());
+        return new CommandResponse<>(new RecruteurCree(savedRecruteur.getId()));
     }
 
     @Override
