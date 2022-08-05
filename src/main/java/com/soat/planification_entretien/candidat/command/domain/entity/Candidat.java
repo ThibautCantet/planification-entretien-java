@@ -1,31 +1,21 @@
 package com.soat.planification_entretien.candidat.command.domain.entity;
 
-public class Candidat {
-    private Integer id;
+import java.util.UUID;
 
+public class Candidat {
+    private UUID id;
     private String language;
     private String email;
     private Integer experienceInYears;
 
-    public Candidat(String language, String email, int experienceInYears) {
+    public Candidat(UUID candidatId, String language, String email, Integer experienceInYears) {
+        this.id = candidatId;
         this.language = language;
         this.email = email;
         this.experienceInYears = experienceInYears;
     }
 
-    public Candidat(int candidatId, String language, String email, Integer experienceInYears) {
-        id = candidatId;
-        this.language = language;
-        this.email = email;
-        this.experienceInYears = experienceInYears;
-    }
-
-    public static Candidat of(Integer id, Candidat candidat) {
-        candidat.id = id;
-        return candidat;
-    }
-
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 

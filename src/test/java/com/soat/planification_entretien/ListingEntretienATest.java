@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import com.soat.ATest;
 import com.soat.planification_entretien.candidat.command.domain.entity.Candidat;
@@ -83,7 +84,6 @@ public class ListingEntretienATest extends ATest {
         List<Candidat> candidats = dataTableTransformEntries(dataTable, this::buildCandidat);
 
         for (Candidat candidat : candidats) {
-            //Candidat saved = entityManager.persist(candidat);
             candidatRepository.save(candidat);
             savedCandidats.add(candidat);
         }
@@ -91,7 +91,7 @@ public class ListingEntretienATest extends ATest {
 
     private Candidat buildCandidat(Map<String, String> entry) {
         return new Candidat(
-                Integer.parseInt(entry.get("id")),
+                UUID.fromString(entry.get("id")),
                 entry.get("language"),
                 entry.get("email"),
                 Integer.parseInt(entry.get("xp")));

@@ -2,6 +2,7 @@ package com.soat.planification_entretien.entretien.command.application.controlle
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 import com.soat.planification_entretien.candidat.command.repository.CandidatRepository;
 import com.soat.planification_entretien.entretien.command.MettreAJourStatusEntretienCommand;
@@ -47,7 +48,7 @@ public class EntretienCommandController extends CommandController {
     }
 
     @PostMapping("planifier")
-    public ResponseEntity<Integer> planifier(@RequestBody EntretienDto entretienDto) {
+    public ResponseEntity<UUID> planifier(@RequestBody EntretienDto entretienDto) {
 
         var candidat = candidatRepository.findById(entretienDto.candidatId()).map(c ->
                 new Candidat(c.getId(), c.getLanguage(), c.getEmail(), c.getExperienceInYears())
@@ -68,7 +69,7 @@ public class EntretienCommandController extends CommandController {
         }
         var commandResponse = getCommandBus().dispatch(new PlanifierEntretienCommand(candidat.get(), recruteur.get(), entretienDto.disponibiliteDuCandidat()));
 
-        return (ResponseEntity<Integer>) commandResponse.findFirst(EntretienPlanifie.class)
+        return (ResponseEntity<UUID>) commandResponse.findFirst(EntretienPlanifie.class)
                 .map(EntretienPlanifie.class::cast)
                 .map(event -> created(URI.create(PATH + "/" + ((EntretienPlanifie) event).id()))
                         .body(((EntretienPlanifie) event).id()))

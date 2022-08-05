@@ -1,6 +1,7 @@
 package com.soat.planification_entretien.candidat.command.application.controller;
 
 import java.net.URI;
+import java.util.UUID;
 
 import com.soat.planification_entretien.cqrs.CommandResponse;
 import com.soat.planification_entretien.cqrs.Event;
@@ -27,7 +28,7 @@ public class CandidatCommandController extends CommandController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Integer> creer(@RequestBody CandidatDto candidatDto) {
+    public ResponseEntity<UUID> creer(@RequestBody CandidatDto candidatDto) {
         CommandResponse<Event> commandResponse = getCommandBus().dispatch(new CreerCandidatCommand(candidatDto.language(), candidatDto.email(), candidatDto.experienceEnAnnees()));
         return commandResponse.findFirst(CandidatCree.class)
                 .map(CandidatCree.class::cast)

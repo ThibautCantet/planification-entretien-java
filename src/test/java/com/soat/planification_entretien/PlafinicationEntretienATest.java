@@ -98,8 +98,9 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Etantdonné("un candidat {string} \\({string}) avec {string} ans d’expériences qui est disponible {string} à {string}")
     public void unCandidatAvecAnsDExpériencesQuiEstDisponibleÀ(String language, String email, String experienceInYears, String date, String time) {
-        candidat = new Candidat(1, language, email, Integer.parseInt(experienceInYears));
+        candidat = new Candidat(UUID.randomUUID(), language, email, Integer.parseInt(experienceInYears));
         candidatRepository.save(new com.soat.planification_entretien.candidat.command.domain.entity.Candidat(
+                candidat.getId(),
                 candidat.getLanguage(),
                 candidat.getEmail(),
                 candidat.getExperienceInYears()

@@ -1,5 +1,6 @@
 package com.soat.planification_entretien.candidat.command;
 
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,10 +26,10 @@ public class CreerCandidatCommandHandler implements CommandHandler<CreerCandidat
             return new CommandResponse<>(new CandidatNonCree());
         }
 
-        Candidat candidat = new Candidat(command.language(), command.email(), Integer.parseInt(command.experienceEnAnnees()));
-        Candidat savedCandidat = candidatRepository.save(candidat);
+        Candidat candidat = new Candidat(UUID.randomUUID(), command.language(), command.email(), Integer.parseInt(command.experienceEnAnnees()));
+        candidatRepository.save(candidat);
 
-        return new CommandResponse<>(new CandidatCree(savedCandidat.getId()));
+        return new CommandResponse<>(new CandidatCree(candidat.getId()));
     }
 
     private static boolean isEmail(String adresse) {

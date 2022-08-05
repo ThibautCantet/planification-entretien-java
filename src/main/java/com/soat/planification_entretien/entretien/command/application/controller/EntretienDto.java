@@ -1,6 +1,7 @@
 package com.soat.planification_entretien.entretien.command.application.controller;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
-public record EntretienDto(int candidatId, String recruteurId, LocalDateTime disponibiliteDuCandidat) {
+public record EntretienDto(UUID candidatId, String recruteurId, LocalDateTime disponibiliteDuCandidat) {
 }

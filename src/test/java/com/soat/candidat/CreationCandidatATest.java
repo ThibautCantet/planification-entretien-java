@@ -1,6 +1,7 @@
 package com.soat.candidat;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
@@ -27,7 +28,6 @@ public class CreationCandidatATest extends ATest {
     private CandidatRepository candidatRepository;
 
     private CandidatDto candidatDto;
-    private Integer candidatId = 1;
 
     @Before
     @Override
@@ -64,10 +64,11 @@ public class CreationCandidatATest extends ATest {
         response.then()
                 .statusCode(HttpStatus.SC_CREATED);
 
+        var candidatId = response.then().extract().as(UUID.class);
+
         final Candidat candidat = candidatRepository.findById(candidatId).get();
         assertThat(candidat).usingRecursiveComparison()
-                .ignoringFields("id")
-                .isEqualTo(new Candidat(language, email, Integer.parseInt(experienceEnAnnees)));
+                .isEqualTo(new Candidat(candidatId, language, email, Integer.parseInt(experienceEnAnnees)));
     }
 
     @Alors("l'enregistrement est refusé")
@@ -78,7 +79,7 @@ public class CreationCandidatATest extends ATest {
 
     @Et("le candidat n'est pas enregistré")
     public void leCandidatNEstPasEnregistré() {
-        final Optional<Candidat> candidat = candidatRepository.findById(candidatId);
-        assertThat(candidat).isEmpty();
+        var candidats = candidatRepository.findAll();
+        assertThat(candidats).isEmpty();
     }
 }
