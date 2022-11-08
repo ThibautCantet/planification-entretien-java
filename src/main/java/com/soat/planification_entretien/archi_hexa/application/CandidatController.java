@@ -3,7 +3,7 @@ package com.soat.planification_entretien.archi_hexa.application;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.Candidat;
+import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.JpaCandidat;
 import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.repository.CandidatRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,8 +33,8 @@ public class CandidatController {
             return badRequest().build();
         }
 
-        Candidat candidat = new Candidat(candidatDto.language(), candidatDto.email(), Integer.parseInt(candidatDto.experienceEnAnnees()));
-        Candidat savedCandidat = candidatRepository.save(candidat);
+        JpaCandidat candidat = new JpaCandidat(candidatDto.language(), candidatDto.email(), Integer.parseInt(candidatDto.experienceEnAnnees()));
+        JpaCandidat savedCandidat = candidatRepository.save(candidat);
 
         return created(null).body(savedCandidat.getId());
     }

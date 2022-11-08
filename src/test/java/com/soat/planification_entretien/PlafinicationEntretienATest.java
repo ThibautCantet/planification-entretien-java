@@ -9,9 +9,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
 import com.soat.planification_entretien.archi_hexa.application.EntretienController;
 import com.soat.planification_entretien.archi_hexa.application.EntretienDto;
-import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.Candidat;
-import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.Entretien;
-import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.Recruteur;
+import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.JpaCandidat;
+import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.JpaEntretien;
+import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.JpaRecruteur;
 import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.repository.EntretienRepository;
 import com.soat.planification_entretien.archi_hexa.domain.EmailService;
 import io.cucumber.java.Before;
@@ -50,9 +50,9 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @ActiveProfiles("AcceptanceTest")
 public class PlafinicationEntretienATest extends ATest {
 
-    private Candidat candidat;
+    private JpaCandidat candidat;
     private LocalDateTime disponibiliteDuCandidat;
-    private Recruteur recruteur;
+    private JpaRecruteur recruteur;
     private LocalDateTime disponibiliteDuRecruteur;
 
     @Autowired
@@ -74,14 +74,14 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Etantdonné("un candidat {string} \\({string}) avec {string} ans d’expériences qui est disponible {string} à {string}")
     public void unCandidatAvecAnsDExpériencesQuiEstDisponibleÀ(String language, String email, String experienceInYears, String date, String time) {
-        candidat = new Candidat(language, email, Integer.parseInt(experienceInYears));
+        candidat = new JpaCandidat(language, email, Integer.parseInt(experienceInYears));
         entityManager.persist(candidat);
         disponibiliteDuCandidat = LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));
     }
 
     @Etqu("un recruteur {string} \\({string}) qui a {string} ans d’XP qui est dispo {string} à {string}")
     public void unRecruteurQuiAAnsDXPQuiEstDispo(String language, String email, String experienceInYears, String date, String time) {
-        recruteur = new Recruteur(language, email, Integer.parseInt(experienceInYears));
+        recruteur = new JpaRecruteur(language, email, Integer.parseInt(experienceInYears));
         entityManager.persist(recruteur);
         disponibiliteDuRecruteur = LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));
     }
@@ -106,8 +106,8 @@ public class PlafinicationEntretienATest extends ATest {
         response.then()
                 .statusCode(HttpStatus.SC_CREATED);
 
-        Entretien entretien = entretienRepository.findByCandidat(candidat);
-        Entretien expectedEntretien = Entretien.of(candidat, recruteur, disponibiliteDuCandidat);
+        JpaEntretien entretien = entretienRepository.findByCandidat(candidat);
+        JpaEntretien expectedEntretien = JpaEntretien.of(candidat, recruteur, disponibiliteDuCandidat);
         assertThat(entretien).usingRecursiveComparison()
                 .ignoringFields("id")
                 .isEqualTo(expectedEntretien);
@@ -124,7 +124,7 @@ public class PlafinicationEntretienATest extends ATest {
         response.then()
                 .statusCode(HttpStatus.SC_BAD_REQUEST);
 
-        Entretien entretien = entretienRepository.findByCandidat(candidat);
+        JpaEntretien entretien = entretienRepository.findByCandidat(candidat);
         assertThat(entretien).isNull();
     }
 
