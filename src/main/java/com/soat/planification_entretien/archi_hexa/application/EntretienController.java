@@ -1,8 +1,8 @@
-package com.soat.planification_entretien.controller;
+package com.soat.planification_entretien.archi_hexa.application;
 
 import java.util.List;
 
-import com.soat.planification_entretien.service.EntretienService;
+import com.soat.planification_entretien.archi_hexa.domain.EntretienService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

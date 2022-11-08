@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.model;
+package com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
