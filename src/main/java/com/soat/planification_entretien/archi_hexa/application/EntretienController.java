@@ -2,7 +2,8 @@ package com.soat.planification_entretien.archi_hexa.application;
 
 import java.util.List;
 
-import com.soat.planification_entretien.archi_hexa.domain.EntretienService;
+import com.soat.planification_entretien.archi_hexa.domain.use_case.ListerEntretien;
+import com.soat.planification_entretien.archi_hexa.domain.use_case.PlanifierEntretien;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,21 +19,23 @@ import static org.springframework.http.ResponseEntity.*;
 public class EntretienController {
     public static final String PATH = "/api/entretien/";
 
-    private final EntretienService entretienService;
+    private final ListerEntretien listerEntretien;
+    private final PlanifierEntretien planifierEntretien;
 
-    public EntretienController(EntretienService entretienService) {
-        this.entretienService = entretienService;
+    public EntretienController(ListerEntretien listerEntretien, PlanifierEntretien planifierEntretien) {
+        this.listerEntretien = listerEntretien;
+        this.planifierEntretien = planifierEntretien;
     }
 
     @GetMapping("/")
     public ResponseEntity<List<EntretienDetailDto>> findAll() {
-        return new ResponseEntity<>(entretienService.lister(), HttpStatus.OK);
+        return new ResponseEntity<>(listerEntretien.execute(), HttpStatus.OK);
     }
 
     @PostMapping("planifier")
     public ResponseEntity<Void> planifier(@RequestBody EntretienDto entretienDto) {
 
-        var planifie = entretienService.planifier(entretienDto.candidatId(), entretienDto.recruteurId(), entretienDto.disponibiliteDuCandidat(), entretienDto.disponibiliteDuRecruteur());
+        var planifie = planifierEntretien.execute(entretienDto.candidatId(), entretienDto.recruteurId(), entretienDto.disponibiliteDuCandidat(), entretienDto.disponibiliteDuRecruteur());
 
         if (planifie) {
             return created(null).build();
