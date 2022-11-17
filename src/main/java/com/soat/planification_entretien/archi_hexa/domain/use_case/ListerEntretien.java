@@ -1,6 +1,6 @@
 package com.soat.planification_entretien.archi_hexa.domain.use_case;
 
-import com.soat.planification_entretien.archi_hexa.domain.entity.EntretienDetailDto;
+import com.soat.planification_entretien.archi_hexa.domain.entity.EntretienDetail;
 import com.soat.planification_entretien.archi_hexa.domain.port.EntretienPort;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ public class ListerEntretien {
         this.entretienPort = entretienPort;
     }
 
-    public List<EntretienDetailDto> execute() {
+    public List<EntretienDetail> execute() {
         return entretienPort.findAll();
     }
 }

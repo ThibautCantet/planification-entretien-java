@@ -9,7 +9,7 @@ import java.util.Map;
 
 import com.soat.ATest;
 import com.soat.planification_entretien.archi_hexa.application.EntretienController;
-import com.soat.planification_entretien.archi_hexa.domain.entity.EntretienDetailDto;
+import com.soat.planification_entretien.archi_hexa.domain.entity.EntretienDetail;
 import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.JpaCandidat;
 import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.JpaEntretien;
 import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.JpaRecruteur;
@@ -106,17 +106,17 @@ public class ListingEntretienATest extends ATest {
 
     @Alors("on récupères les entretiens suivants")
     public void onRécupèresLesEntretiensSuivants(DataTable dataTable) {
-        List<EntretienDetailDto> entretiens = dataTableTransformEntries(dataTable, this::buildEntretienDetail);
+        List<EntretienDetail> entretiens = dataTableTransformEntries(dataTable, this::buildEntretienDetail);
 
-        EntretienDetailDto[] detailDtos = response.then().extract()
-                .as(EntretienDetailDto[].class);
+        EntretienDetail[] detailDtos = response.then().extract()
+                .as(EntretienDetail[].class);
         assertThat(Arrays.stream(detailDtos).toList())
                 .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-                .containsExactlyInAnyOrder(entretiens.toArray(EntretienDetailDto[]::new));
+                .containsExactlyInAnyOrder(entretiens.toArray(EntretienDetail[]::new));
     }
 
-    private EntretienDetailDto buildEntretienDetail(Map<String, String> entry) {
-        return new EntretienDetailDto(
+    private EntretienDetail buildEntretienDetail(Map<String, String> entry) {
+        return new EntretienDetail(
                 Integer.parseInt(entry.get("id")),
                 entry.get("candidat"),
                 entry.get("recruteur"),

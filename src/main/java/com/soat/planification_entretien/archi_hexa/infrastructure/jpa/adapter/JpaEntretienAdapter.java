@@ -2,7 +2,7 @@ package com.soat.planification_entretien.archi_hexa.infrastructure.jpa.adapter;
 
 import com.soat.planification_entretien.archi_hexa.domain.entity.Candidat;
 import com.soat.planification_entretien.archi_hexa.domain.entity.Entretien;
-import com.soat.planification_entretien.archi_hexa.domain.entity.EntretienDetailDto;
+import com.soat.planification_entretien.archi_hexa.domain.entity.EntretienDetail;
 import com.soat.planification_entretien.archi_hexa.domain.entity.Recruteur;
 import com.soat.planification_entretien.archi_hexa.domain.port.EntretienPort;
 import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.JpaCandidat;
@@ -30,9 +30,9 @@ public class JpaEntretienAdapter implements EntretienPort {
     }
 
     @Override
-    public List<EntretienDetailDto> findAll() {
+    public List<EntretienDetail> findAll() {
         return entretienRepository.findAll().stream().map(entretien ->
-                new EntretienDetailDto(
+                new EntretienDetail(
                         entretien.getId(),
                         entretien.getCandidat().getEmail(),
                         entretien.getRecruteur().getEmail(),
