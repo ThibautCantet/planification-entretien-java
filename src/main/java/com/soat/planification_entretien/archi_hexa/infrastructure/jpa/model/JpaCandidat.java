@@ -24,6 +24,13 @@ public class JpaCandidat {
         this.experienceInYears = experienceInYears;
     }
 
+    public JpaCandidat(Integer id, String language, String email, Integer experienceInYears) {
+        this.id = id;
+        this.language = language;
+        this.email = email;
+        this.experienceInYears = experienceInYears;
+    }
+
     public JpaCandidat() {
 
     }
