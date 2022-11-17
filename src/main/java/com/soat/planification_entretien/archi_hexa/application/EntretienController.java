@@ -2,6 +2,7 @@ package com.soat.planification_entretien.archi_hexa.application;
 
 import java.util.List;
 
+import com.soat.planification_entretien.archi_hexa.domain.entity.EntretienDetailDto;
 import com.soat.planification_entretien.archi_hexa.domain.use_case.ListerEntretien;
 import com.soat.planification_entretien.archi_hexa.domain.use_case.PlanifierEntretien;
 import org.springframework.http.HttpStatus;

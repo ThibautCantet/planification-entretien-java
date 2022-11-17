@@ -2,6 +2,7 @@ package com.soat.planification_entretien.archi_hexa.infrastructure.jpa.adapter;
 
 import com.soat.planification_entretien.archi_hexa.domain.entity.Candidat;
 import com.soat.planification_entretien.archi_hexa.domain.entity.Entretien;
+import com.soat.planification_entretien.archi_hexa.domain.entity.EntretienDetailDto;
 import com.soat.planification_entretien.archi_hexa.domain.entity.Recruteur;
 import com.soat.planification_entretien.archi_hexa.domain.port.EntretienPort;
 import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.JpaCandidat;
@@ -9,6 +10,8 @@ import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.JpaE
 import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.JpaRecruteur;
 import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.repository.EntretienRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class JpaEntretienAdapter implements EntretienPort {
@@ -24,6 +27,18 @@ public class JpaEntretienAdapter implements EntretienPort {
         final JpaRecruteur jpaRecruteur = toJpaRecruteur(entretien.recruteur());
         JpaEntretien jpaEntretien = JpaEntretien.of(jpaCandidat, jpaRecruteur, entretien.dateEtHeureDisponibiliteDuRecruteur());
         entretienRepository.save(jpaEntretien);
+    }
+
+    @Override
+    public List<EntretienDetailDto> findAll() {
+        return entretienRepository.findAll().stream().map(entretien ->
+                new EntretienDetailDto(
+                        entretien.getId(),
+                        entretien.getCandidat().getEmail(),
+                        entretien.getRecruteur().getEmail(),
+                        entretien.getRecruteur().getLanguage(),
+                        entretien.getHoraireEntretien())
+        ).toList();
     }
 
     private static JpaRecruteur toJpaRecruteur(Recruteur recruteur) {

@@ -9,7 +9,7 @@ import java.util.Map;
 
 import com.soat.ATest;
 import com.soat.planification_entretien.archi_hexa.application.EntretienController;
-import com.soat.planification_entretien.archi_hexa.application.EntretienDetailDto;
+import com.soat.planification_entretien.archi_hexa.domain.entity.EntretienDetailDto;
 import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.JpaCandidat;
 import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.JpaEntretien;
 import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.JpaRecruteur;

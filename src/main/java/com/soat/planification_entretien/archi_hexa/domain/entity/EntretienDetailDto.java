@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.archi_hexa.application;
+package com.soat.planification_entretien.archi_hexa.domain.entity;
 
 import java.time.LocalDateTime;
 
