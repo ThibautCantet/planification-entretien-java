@@ -22,6 +22,13 @@ public class JpaRecruteurAdapter implements RecruteurPort {
         return optionalJpaRecruteur.map(JpaRecruteurAdapter::toRecruteur);
     }
 
+    @Override
+    public Integer save(Recruteur recruteur) {
+        final JpaRecruteur jpaRecruteur = new JpaRecruteur(recruteur.language(), recruteur.email(), recruteur.experienceInYears());
+        final JpaRecruteur saveJpaRecruteur = recruteurRepository.save(jpaRecruteur);
+        return saveJpaRecruteur.getId();
+    }
+
     private static Recruteur toRecruteur(JpaRecruteur jpaRecruteur) {
         return new Recruteur(
                 jpaRecruteur.getId(),

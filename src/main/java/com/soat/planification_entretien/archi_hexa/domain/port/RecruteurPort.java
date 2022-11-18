@@ -7,4 +7,6 @@ import java.util.Optional;
 public interface RecruteurPort {
 
     Optional<Recruteur> findById(int id);
+
+    Integer save(Recruteur recruteur);
 }
