@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
-@Service
+@Service("SQL")
 public class PlanifierEntretien {
     private final CandidatPort candidatPort;
     private final RecruteurPort recruteurPort;

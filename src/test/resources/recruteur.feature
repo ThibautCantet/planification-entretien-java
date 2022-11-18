@@ -35,3 +35,15 @@ Fonctionnalité: Création d'un recruteur
     Quand on tente d'enregistrer le recruteur
     Alors l'enregistrement du recruteur est refusé
     Et le recruteur n'est pas enregistré
+
+  Scénario: Lister les recruteurs ayant plus de 10 ans exp
+    Etant donné les recruteurs existants sont
+      | email              | language | xp |
+      | recruteur1@soat.fr | Java     | 11 |
+      | recruteur2@soat.fr | Java     | 8  |
+      | recruteur3@soat.fr | C#       | 10 |
+    Quand on liste les tous les recruteurs ayant plus de dix ans d'exp
+    Alors on récupères les recruteurs suivants
+      | email              | languageXP     |
+      | recruteur1@soat.fr | Java 11 ans XP |
+      | recruteur3@soat.fr | C# 10 ans XP   |

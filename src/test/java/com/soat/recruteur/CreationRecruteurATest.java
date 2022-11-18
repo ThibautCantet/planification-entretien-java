@@ -1,14 +1,20 @@
 package com.soat.recruteur;
 
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
 import com.soat.planification_entretien.archi_hexa.application.RecruteurController;
+import com.soat.planification_entretien.archi_hexa.application.RecruteurExperimenteDto;
+import com.soat.planification_entretien.archi_hexa.domain.entity.EntretienDetail;
 import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.JpaRecruteur;
 import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.repository.RecruteurRepository;
 import com.soat.planification_entretien.archi_hexa.application.RecruteurDto;
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;
@@ -81,5 +87,51 @@ public class CreationRecruteurATest extends ATest {
     public void leRecruteurNEstPasEnregistré() {
         final Optional<JpaRecruteur> recruteur = recruteurRepository.findById(recruteurId);
         assertThat(recruteur).isEmpty();
+    }
+
+    @Etantdonné("les recruteurs existants sont")
+    public void lesRecruteursExistantsSont(DataTable dataTable) {
+        List<JpaRecruteur> recruteurs = dataTableTransformEntries(dataTable, this::buildRecruteur);
+
+        for (JpaRecruteur recruteur : recruteurs) {
+            recruteurRepository.save(recruteur);
+        }
+
+    }
+
+    private JpaRecruteur buildRecruteur(Map<String, String> entry) {
+        return new JpaRecruteur(
+                entry.get("language"),
+                entry.get("email"),
+                Integer.parseInt(entry.get("xp")));
+    }
+
+    @Quand("on liste les tous les recruteurs ayant plus de dix ans d'exp")
+    public void onListeLesTousLesRecruteursAyantPlusDeAnsDExp() {
+        initPath();
+        //@formatter:off
+        response = given()
+                .log().all()
+                .header("Content-Type", ContentType.JSON)
+                .when()
+                .get("/experimente");
+        //@formatter:on
+    }
+
+    @Alors("on récupères les recruteurs suivants")
+    public void onRécupèresLesRecruteursSuivants(DataTable datatable) {
+        var recruteurs = dataTableTransformEntries(datatable, this::buildRecruteurExperimente);
+
+        assertThat(response.statusCode()).isEqualTo(200);
+        RecruteurExperimenteDto[] recruteurExperimenteDtos = response.then().extract()
+                .as(RecruteurExperimenteDto[].class);
+        assertThat(Arrays.stream(recruteurExperimenteDtos).toList())
+                .containsExactlyInAnyOrder(recruteurs.toArray(RecruteurExperimenteDto[]::new));
+    }
+
+    private RecruteurExperimenteDto buildRecruteurExperimente(Map<String, String> entry) {
+        return new RecruteurExperimenteDto(
+                entry.get("email"),
+                entry.get("languageXP"));
     }
 }

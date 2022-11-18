@@ -1,18 +1,23 @@
 package com.soat.planification_entretien.archi_hexa.application;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.soat.planification_entretien.archi_hexa.domain.entity.Recruteur;
+import com.soat.planification_entretien.archi_hexa.domain.entity.RecruteurExperimente;
 import com.soat.planification_entretien.archi_hexa.domain.use_case.CreerRecruteur;
-import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.JpaRecruteur;
+import com.soat.planification_entretien.archi_hexa.domain.use_case.ListerRecruteurExperimente;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static org.springframework.http.ResponseEntity.*;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static org.springframework.http.ResponseEntity.badRequest;
+import static org.springframework.http.ResponseEntity.created;
 
 @RestController
 @RequestMapping(RecruteurController.PATH)
@@ -21,9 +26,11 @@ public class RecruteurController {
     public static final String PATH = "/api/recruteur";
 
     private final CreerRecruteur creerRecruteur;
+    private final ListerRecruteurExperimente listerRecruteurExperimente;
 
-    public RecruteurController(CreerRecruteur creerRecruteur) {
+    public RecruteurController(CreerRecruteur creerRecruteur, ListerRecruteurExperimente listerRecruteurExperimente) {
         this.creerRecruteur = creerRecruteur;
+        this.listerRecruteurExperimente = listerRecruteurExperimente;
     }
 
     @PostMapping("")
@@ -35,6 +42,15 @@ public class RecruteurController {
         Recruteur recruteur = toRecruteur(recruteurDto);
         final Integer savedRecruteurId = creerRecruteur.execute(recruteur);
         return created(null).body(savedRecruteurId);
+    }
+
+    @GetMapping("/experimente")
+    public ResponseEntity<List<RecruteurExperimenteDto>> experimente() {
+        var recruteurs = listerRecruteurExperimente.execute()
+                .stream()
+                .map(r -> new RecruteurExperimenteDto(r.email(), r.languageXP()))
+                .toList();
+        return new ResponseEntity<>(recruteurs, HttpStatus.OK);
     }
 
     private static Recruteur toRecruteur(RecruteurDto recruteurDto) {
