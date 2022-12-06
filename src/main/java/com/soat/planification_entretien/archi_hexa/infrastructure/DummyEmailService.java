@@ -1,7 +1,8 @@
-package com.soat.planification_entretien.service;
+package com.soat.planification_entretien.archi_hexa.infrastructure;
 
 import java.time.LocalDateTime;
 
+import com.soat.planification_entretien.archi_hexa.domain.EmailService;
 import org.springframework.stereotype.Service;
 
 @Service
