@@ -1,27 +1,20 @@
 package com.soat.planification_entretien.archi_hexa.domain.use_case;
 
-import com.soat.planification_entretien.archi_hexa.application.EntretienDetailDto;
-import com.soat.planification_entretien.archi_hexa.infrastructure.repository.EntretienRepository;
+import com.soat.planification_entretien.archi_hexa.domain.model.EntretienDetail;
+import com.soat.planification_entretien.archi_hexa.domain.port.EntretienPort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class ListerEntretien {
-    private final EntretienRepository entretienRepository;
+    private final EntretienPort entretienPort;
 
-    public ListerEntretien(EntretienRepository entretienRepository) {
-        this.entretienRepository = entretienRepository;
+    public ListerEntretien(EntretienPort entretienPort) {
+        this.entretienPort = entretienPort;
     }
 
-    public List<EntretienDetailDto> execute() {
-        return entretienRepository.findAll().stream().map(entretien ->
-                new EntretienDetailDto(
-                        entretien.getId(),
-                        entretien.getCandidat().getEmail(),
-                        entretien.getRecruteur().getEmail(),
-                        entretien.getRecruteur().getLanguage(),
-                        entretien.getHoraireEntretien())
-        ).toList();
+    public List<EntretienDetail> execute() {
+        return entretienPort.findAll();
     }
 }

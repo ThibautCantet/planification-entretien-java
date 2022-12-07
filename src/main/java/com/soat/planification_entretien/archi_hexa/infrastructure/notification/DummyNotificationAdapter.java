@@ -1,12 +1,12 @@
-package com.soat.planification_entretien.archi_hexa.infrastructure;
+package com.soat.planification_entretien.archi_hexa.infrastructure.notification;
 
 import java.time.LocalDateTime;
 
-import com.soat.planification_entretien.archi_hexa.domain.EmailService;
+import com.soat.planification_entretien.archi_hexa.domain.port.NotificationPort;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DummyEmailService implements EmailService {
+public class DummyNotificationAdapter implements NotificationPort {
     @Override
     public void envoyerUnEmailDeConfirmationAuCandidat(String email, LocalDateTime horaire) {
 

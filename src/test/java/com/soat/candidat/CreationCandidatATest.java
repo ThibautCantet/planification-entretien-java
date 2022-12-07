@@ -6,8 +6,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
 import com.soat.planification_entretien.archi_hexa.application.CandidatDto;
 import com.soat.planification_entretien.archi_hexa.application.CandidatController;
-import com.soat.planification_entretien.archi_hexa.infrastructure.model.Candidat;
-import com.soat.planification_entretien.archi_hexa.infrastructure.repository.CandidatRepository;
+import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.JpaCandidat;
+import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.repository.JpaCandidatRepository;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;
@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.*;
 public class CreationCandidatATest extends ATest {
 
     @Autowired
-    private CandidatRepository candidatRepository;
+    private JpaCandidatRepository jpaCandidatRepository;
 
     private CandidatDto candidatDto;
     private Integer candidatId = 1;
@@ -64,10 +64,10 @@ public class CreationCandidatATest extends ATest {
         response.then()
                 .statusCode(HttpStatus.SC_CREATED);
 
-        final Candidat candidat = candidatRepository.findById(candidatId).get();
+        final JpaCandidat candidat = jpaCandidatRepository.findById(candidatId).get();
         assertThat(candidat).usingRecursiveComparison()
                 .ignoringFields("id")
-                .isEqualTo(new Candidat(language, email, Integer.parseInt(experienceEnAnnees)));
+                .isEqualTo(new JpaCandidat(language, email, Integer.parseInt(experienceEnAnnees)));
     }
 
     @Alors("l'enregistrement est refusé")
@@ -78,7 +78,7 @@ public class CreationCandidatATest extends ATest {
 
     @Et("le candidat n'est pas enregistré")
     public void leCandidatNEstPasEnregistré() {
-        final Optional<Candidat> candidat = candidatRepository.findById(candidatId);
+        final Optional<JpaCandidat> candidat = jpaCandidatRepository.findById(candidatId);
         assertThat(candidat).isEmpty();
     }
 }

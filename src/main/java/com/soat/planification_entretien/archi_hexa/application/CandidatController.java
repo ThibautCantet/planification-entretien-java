@@ -3,8 +3,8 @@ package com.soat.planification_entretien.archi_hexa.application;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.soat.planification_entretien.archi_hexa.infrastructure.model.Candidat;
-import com.soat.planification_entretien.archi_hexa.infrastructure.repository.CandidatRepository;
+import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.JpaCandidat;
+import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.repository.JpaCandidatRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,10 +20,10 @@ public class CandidatController {
 
     public static final String PATH = "/api/candidat";
 
-    private final CandidatRepository candidatRepository;
+    private final JpaCandidatRepository jpaCandidatRepository;
 
-    public CandidatController(CandidatRepository candidatRepository) {
-        this.candidatRepository = candidatRepository;
+    public CandidatController(JpaCandidatRepository jpaCandidatRepository) {
+        this.jpaCandidatRepository = jpaCandidatRepository;
     }
 
     @PostMapping("")
@@ -33,8 +33,8 @@ public class CandidatController {
             return badRequest().build();
         }
 
-        Candidat candidat = new Candidat(candidatDto.language(), candidatDto.email(), Integer.parseInt(candidatDto.experienceEnAnnees()));
-        Candidat savedCandidat = candidatRepository.save(candidat);
+        JpaCandidat candidat = new JpaCandidat(candidatDto.language(), candidatDto.email(), Integer.parseInt(candidatDto.experienceEnAnnees()));
+        JpaCandidat savedCandidat = jpaCandidatRepository.save(candidat);
 
         return created(null).body(savedCandidat.getId());
     }

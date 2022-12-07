@@ -2,6 +2,7 @@ package com.soat.planification_entretien.archi_hexa.application;
 
 import java.util.List;
 
+import com.soat.planification_entretien.archi_hexa.domain.model.EntretienDetail;
 import com.soat.planification_entretien.archi_hexa.domain.use_case.PlanifierEntretien;
 import com.soat.planification_entretien.archi_hexa.domain.use_case.ListerEntretien;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,7 @@ public class EntretienController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<EntretienDetailDto>> findAll() {
+    public ResponseEntity<List<EntretienDetail>> findAll() {
         return new ResponseEntity<>(listerEntretien.execute(), HttpStatus.OK);
     }
 

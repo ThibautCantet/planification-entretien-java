@@ -1,41 +1,41 @@
 package com.soat.planification_entretien.archi_hexa.domain.use_case;
 
-import java.time.LocalDateTime;
-
-import com.soat.planification_entretien.archi_hexa.domain.EmailService;
-import com.soat.planification_entretien.archi_hexa.infrastructure.model.Candidat;
-import com.soat.planification_entretien.archi_hexa.infrastructure.model.Entretien;
-import com.soat.planification_entretien.archi_hexa.infrastructure.model.Recruteur;
-import com.soat.planification_entretien.archi_hexa.infrastructure.repository.CandidatRepository;
-import com.soat.planification_entretien.archi_hexa.infrastructure.repository.EntretienRepository;
-import com.soat.planification_entretien.archi_hexa.infrastructure.repository.RecruteurRepository;
+import com.soat.planification_entretien.archi_hexa.domain.port.NotificationPort;
+import com.soat.planification_entretien.archi_hexa.domain.model.Candidat;
+import com.soat.planification_entretien.archi_hexa.domain.model.Entretien;
+import com.soat.planification_entretien.archi_hexa.domain.model.Recruteur;
+import com.soat.planification_entretien.archi_hexa.domain.port.CandidatPort;
+import com.soat.planification_entretien.archi_hexa.domain.port.EntretienPort;
+import com.soat.planification_entretien.archi_hexa.domain.port.RecruteurPort;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Service
 public class PlanifierEntretien {
-    private final CandidatRepository candidatRepository;
-    private final RecruteurRepository recruteurRepository;
-    private final EntretienRepository entretienRepository;
-    private final EmailService emailService;
+    private final CandidatPort candidatPort;
+    private final RecruteurPort recruteurPort;
+    private final EntretienPort entretienPort;
+    private final NotificationPort notificationPort;
 
-    public PlanifierEntretien(CandidatRepository candidatRepository, RecruteurRepository recruteurRepository, EntretienRepository entretienRepository, EmailService emailService) {
-        this.candidatRepository = candidatRepository;
-        this.recruteurRepository = recruteurRepository;
-        this.entretienRepository = entretienRepository;
-        this.emailService = emailService;
+    public PlanifierEntretien(CandidatPort candidatPort, RecruteurPort recruteurPort, EntretienPort entretienPort, NotificationPort notificationPort) {
+        this.candidatPort = candidatPort;
+        this.recruteurPort = recruteurPort;
+        this.entretienPort = entretienPort;
+        this.notificationPort = notificationPort;
     }
 
     public boolean planifier(int candidatId, int recruteurId, LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
-        Candidat candidat = candidatRepository.findById(candidatId).get();
-        Recruteur recruteur = recruteurRepository.findById(recruteurId).get();
+        Candidat candidat = candidatPort.findById(candidatId).get();
+        Recruteur recruteur = recruteurPort.findById(recruteurId).get();
 
-        if (recruteur.getLanguage().equals(candidat.getLanguage())
-                && recruteur.getExperienceInYears() > candidat.getExperienceInYears()
+        if (recruteur.language().equals(candidat.language())
+                && recruteur.experienceInYears() > candidat.experienceInYears()
                 && dateEtHeureDisponibiliteDuCandidat.equals(dateEtHeureDisponibiliteDuRecruteur)) {
-            Entretien entretien = Entretien.of(candidat, recruteur, dateEtHeureDisponibiliteDuRecruteur);
-            entretienRepository.save(entretien);
-            emailService.envoyerUnEmailDeConfirmationAuCandidat(candidat.getEmail(), dateEtHeureDisponibiliteDuCandidat);
-            emailService.envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), dateEtHeureDisponibiliteDuCandidat);
+            Entretien entretien = new Entretien(candidat, recruteur, dateEtHeureDisponibiliteDuRecruteur);
+            entretienPort.save(entretien);
+            notificationPort.envoyerUnEmailDeConfirmationAuCandidat(candidat.email(), dateEtHeureDisponibiliteDuCandidat);
+            notificationPort.envoyerUnEmailDeConfirmationAuRecruteur(recruteur.email(), dateEtHeureDisponibiliteDuCandidat);
             return true;
         }
         return false;

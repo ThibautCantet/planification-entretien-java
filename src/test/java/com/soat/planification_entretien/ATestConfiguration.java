@@ -1,6 +1,6 @@
 package com.soat.planification_entretien;
 
-import com.soat.planification_entretien.archi_hexa.domain.EmailService;
+import com.soat.planification_entretien.archi_hexa.domain.port.NotificationPort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -14,7 +14,7 @@ public class ATestConfiguration {
 
     @Bean("EmailServiceATest")
     @Primary
-    public EmailService emailService() {
-        return mock(EmailService.class);
+    public NotificationPort emailService() {
+        return mock(NotificationPort.class);
     }
 }
