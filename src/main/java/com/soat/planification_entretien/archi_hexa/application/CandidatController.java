@@ -1,18 +1,17 @@
 package com.soat.planification_entretien.archi_hexa.application;
 
+import static org.springframework.http.ResponseEntity.badRequest;
+import static org.springframework.http.ResponseEntity.created;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.soat.planification_entretien.archi_hexa.domain.model.Candidat;
-import com.soat.planification_entretien.archi_hexa.domain.use_case.CreerCandidat;
-import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.JpaCandidat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import static org.springframework.http.ResponseEntity.*;
+import com.soat.planification_entretien.archi_hexa.domain.model.Candidat;
+import com.soat.planification_entretien.archi_hexa.domain.use_case.CreerCandidat;
 
 @RestController
 @RequestMapping(CandidatController.PATH)

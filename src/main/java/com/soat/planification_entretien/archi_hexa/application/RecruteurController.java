@@ -3,8 +3,9 @@ package com.soat.planification_entretien.archi_hexa.application;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.soat.planification_entretien.archi_hexa.domain.model.Recruteur;
+import com.soat.planification_entretien.archi_hexa.domain.use_case.CreerRecruteur;
 import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.JpaRecruteur;
-import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.repository.JpaRecruteurRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,10 +20,10 @@ public class RecruteurController {
     private static final String EMAIL_REGEX = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
     public static final String PATH = "/api/recruteur";
 
-    private final JpaRecruteurRepository jpaRecruteurRepository;
+    private final CreerRecruteur creerRecruteur;
 
-    public RecruteurController(JpaRecruteurRepository jpaRecruteurRepository) {
-        this.jpaRecruteurRepository = jpaRecruteurRepository;
+    public RecruteurController(CreerRecruteur creerRecruteur) {
+        this.creerRecruteur = creerRecruteur;
     }
 
     @PostMapping("")
@@ -30,11 +31,14 @@ public class RecruteurController {
         if (recruteurDto.language().isBlank() || !isEmail(recruteurDto.email()) || recruteurDto.experienceEnAnnees().isBlank() || Integer.parseInt(recruteurDto.experienceEnAnnees()) < 0) {
             return badRequest().build();
         }
+        Recruteur recruteur = toRecruteur(recruteurDto);
+        Integer savedRecruteurId = creerRecruteur.execute(recruteur);
 
-        JpaRecruteur recruteur = new JpaRecruteur(recruteurDto.language(), recruteurDto.email(), Integer.parseInt(recruteurDto.experienceEnAnnees()));
-        JpaRecruteur savedRecruteur = jpaRecruteurRepository.save(recruteur);
+        return created(null).body(savedRecruteurId);
+    }
 
-        return created(null).body(savedRecruteur.getId());
+    private static Recruteur toRecruteur(RecruteurDto recruteurDto) {
+        return new Recruteur(null, recruteurDto.language(), recruteurDto.email(), Integer.parseInt(recruteurDto.experienceEnAnnees()));
     }
 
     private static boolean isEmail(String adresse) {
