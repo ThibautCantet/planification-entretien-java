@@ -3,8 +3,9 @@ package com.soat.planification_entretien.archi_hexa.application;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.soat.planification_entretien.archi_hexa.domain.model.Candidat;
+import com.soat.planification_entretien.archi_hexa.domain.use_case.CreerCandidat;
 import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.JpaCandidat;
-import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.repository.JpaCandidatRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,10 +21,10 @@ public class CandidatController {
 
     public static final String PATH = "/api/candidat";
 
-    private final JpaCandidatRepository jpaCandidatRepository;
+    private final CreerCandidat creerCandidat;
 
-    public CandidatController(JpaCandidatRepository jpaCandidatRepository) {
-        this.jpaCandidatRepository = jpaCandidatRepository;
+    public CandidatController(CreerCandidat creerCandidat) {
+        this.creerCandidat = creerCandidat;
     }
 
     @PostMapping("")
@@ -33,10 +34,14 @@ public class CandidatController {
             return badRequest().build();
         }
 
-        JpaCandidat candidat = new JpaCandidat(candidatDto.language(), candidatDto.email(), Integer.parseInt(candidatDto.experienceEnAnnees()));
-        JpaCandidat savedCandidat = jpaCandidatRepository.save(candidat);
+        Candidat candidat = toCandidat(candidatDto);
+        Integer savedCandidatId = creerCandidat.execute(candidat);
 
-        return created(null).body(savedCandidat.getId());
+        return created(null).body(savedCandidatId);
+    }
+
+    private static Candidat toCandidat(CandidatDto candidatDto) {
+        return new Candidat(null, candidatDto.language(), candidatDto.email(), Integer.parseInt(candidatDto.experienceEnAnnees()));
     }
 
     private static boolean isEmail(String adresse) {

@@ -6,4 +6,6 @@ import java.util.Optional;
 
 public interface CandidatPort {
     Optional<Candidat> findById(int id);
+
+    Integer save(Candidat candidat);
 }

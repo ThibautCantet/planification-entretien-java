@@ -23,6 +23,17 @@ public class JpaCandidatAdapter implements CandidatPort {
         return optionalOfCandidat.map(JpaCandidatAdapter::toCandidatDetail);
     }
 
+    @Override
+    public Integer save(Candidat candidat) {
+        JpaCandidat jpaCandidat = toJpaCandidat(candidat);
+        JpaCandidat saveJpaCandidat = jpaCandidatRepository.save(jpaCandidat);
+        return saveJpaCandidat.getId();
+    }
+
+    private static JpaCandidat toJpaCandidat(Candidat candidat) {
+        return new JpaCandidat(candidat.language(), candidat.email(), candidat.experienceInYears());
+    }
+
     private static Candidat toCandidatDetail(JpaCandidat candidat) {
         return new Candidat(
                 candidat.getId(),
