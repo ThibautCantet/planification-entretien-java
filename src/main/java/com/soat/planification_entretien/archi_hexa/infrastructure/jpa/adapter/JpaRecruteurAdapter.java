@@ -1,6 +1,8 @@
 package com.soat.planification_entretien.archi_hexa.infrastructure.jpa.adapter;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Repository;
 import com.soat.planification_entretien.archi_hexa.domain.model.Recruteur;
 import com.soat.planification_entretien.archi_hexa.domain.port.RecruteurPort;
@@ -18,7 +20,7 @@ public class JpaRecruteurAdapter implements RecruteurPort {
     @Override
     public Optional<Recruteur> findById(int id) {
         final Optional<JpaRecruteur> optionalOfRecruteur = jpaRecruteurRepository.findById(id);
-        return optionalOfRecruteur.map(JpaRecruteurAdapter::toRecruteurDetail);
+        return optionalOfRecruteur.map(JpaRecruteurAdapter::toRecruteur);
     }
 
     @Override
@@ -28,7 +30,15 @@ public class JpaRecruteurAdapter implements RecruteurPort {
         return savedJpaRecruteur.getId();
     }
 
-    private static Recruteur toRecruteurDetail(JpaRecruteur recruteur) {
+    @Override
+    public List<Recruteur> getByExperience(Integer minExperienceInYears) {
+        List<JpaRecruteur> jpaRecruteurs = jpaRecruteurRepository.findByExperienceInYearsGreaterThanEqual(minExperienceInYears);
+        return jpaRecruteurs.stream()
+              .map(JpaRecruteurAdapter::toRecruteur)
+              .toList();
+    }
+
+    private static Recruteur toRecruteur(JpaRecruteur recruteur) {
         return new Recruteur(
               recruteur.getId(),
               recruteur.getLanguage(),

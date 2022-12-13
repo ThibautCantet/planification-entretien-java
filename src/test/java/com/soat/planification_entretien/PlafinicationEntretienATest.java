@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
 import com.soat.planification_entretien.archi_hexa.application.EntretienController;
-import com.soat.planification_entretien.archi_hexa.application.EntretienDto;
+import com.soat.planification_entretien.archi_hexa.application.JsonEntretien;
 import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.JpaCandidat;
 import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.JpaEntretien;
 import com.soat.planification_entretien.archi_hexa.infrastructure.jpa.model.JpaRecruteur;
@@ -88,8 +88,8 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Quand("on tente une planification d’entretien")
     public void onTenteUnePlanificationDEntretien() throws JsonProcessingException {
-        EntretienDto entretienDto = new EntretienDto(candidat.getId(), recruteur.getId(), disponibiliteDuCandidat, disponibiliteDuRecruteur);
-        String body = objectMapper.writeValueAsString(entretienDto);
+        JsonEntretien jsonEntretien = new JsonEntretien(candidat.getId(), recruteur.getId(), disponibiliteDuCandidat, disponibiliteDuRecruteur);
+        String body = objectMapper.writeValueAsString(jsonEntretien);
         initPath();
         //@formatter:off
         response = given()

@@ -35,3 +35,15 @@ Fonctionnalité: Création d'un recruteur
     Quand on tente d'enregistrer le recruteur
     Alors l'enregistrement du recruteur est refusé
     Et le recruteur n'est pas enregistré
+
+  Scénario: Lister les recuteurs ayant au moins 10 ans d'experiences
+    Etant donné les recruteurs existants dans la base
+      | id | email              | language | xp |
+      | 1  | recruteur1@soat.fr | Java     | 10 |
+      | 2  | recruteur2@soat.fr | Java     | 5  |
+      | 3  | recruteur3@soat.fr | C#       | 12 |
+    Quand on cherche les recuteurs ayant au moins 10 d'experience
+    Alors on récupères les recuteurs suivants
+      | id | email              | competence     |
+      | 1  | recruteur1@soat.fr | Java 10 ans XP |
+      | 3  | recruteur3@soat.fr | C# 12 ans XP   |

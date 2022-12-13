@@ -34,9 +34,9 @@ public class EntretienController {
     }
 
     @PostMapping("planifier")
-    public ResponseEntity<Void> planifier(@RequestBody EntretienDto entretienDto) {
+    public ResponseEntity<Void> planifier(@RequestBody JsonEntretien jsonEntretien) {
 
-        var planifie = planifierEntretien.planifier(entretienDto.candidatId(), entretienDto.recruteurId(), entretienDto.disponibiliteDuCandidat(), entretienDto.disponibiliteDuRecruteur());
+        var planifie = planifierEntretien.planifier(jsonEntretien.candidatId(), jsonEntretien.recruteurId(), jsonEntretien.disponibiliteDuCandidat(), jsonEntretien.disponibiliteDuRecruteur());
 
         if (planifie) {
             return created(null).build();
