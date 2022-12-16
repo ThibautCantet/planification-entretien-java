@@ -36,11 +36,12 @@ public class ListingRecruteurATest extends ATest {
 
     @Quand("on liste les tous les recruteurs de plus de 10 ans d'XP")
     public void onListeLesTousLesRecruteursDePlusDeAnsDXP() {
+        initPath();
         //@formatter:off
         response = given()
                 .contentType(ContentType.JSON)
-                .when()
-                .get(RecruteurController.PATH);
+            .when()
+                .get();
         //@formatter:on
     }
 
@@ -53,7 +54,6 @@ public class ListingRecruteurATest extends ATest {
         RecruteurDetailDto[] detailDtos = response.then().extract()
                 .as(RecruteurDetailDto[].class);
         assertThat(Arrays.stream(detailDtos).toList())
-                .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
                 .containsExactlyInAnyOrder(recruteurs.toArray(RecruteurDetailDto[]::new));
     }
 

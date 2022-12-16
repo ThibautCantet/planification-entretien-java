@@ -1,5 +1,5 @@
 # language: fr
-Fonctionnalité: Planifier un entretien de recrutement chez Soat
+Fonctionnalité: Lister un entretien de recrutement chez Soat
 
   Scénario: Lister les entretiens déjà planifiés
     Etant donné les recruteurs existants
