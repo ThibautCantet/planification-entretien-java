@@ -7,7 +7,7 @@ import com.soat.planification_entretien.domain.recruteur.Recruteur;
 import com.soat.planification_entretien.domain.entretien.EntretienRepository;
 import org.springframework.stereotype.Repository;
 
-//@Repository
+@Repository
 public class HibernateEntretienRepository implements EntretienRepository {
     private final EntretienCrud entretienCrud;
     private final CandidatCrud candidatCrud;
@@ -39,7 +39,11 @@ public class HibernateEntretienRepository implements EntretienRepository {
 
     @Override
     public com.soat.planification_entretien.domain.entretien.Entretien findByCandidat(Candidat candidat) {
-        return null;
+        var maybeEntretien = entretienCrud.findByCandidat_Email(candidat.getEmail());
+
+        return maybeEntretien
+                .map(HibernateEntretienRepository::toEntretien)
+                .orElse(null);
     }
 
     private static com.soat.planification_entretien.domain.entretien.Entretien toEntretien(com.soat.planification_entretien.infrastructure.repository.Entretien jpaEntretien) {

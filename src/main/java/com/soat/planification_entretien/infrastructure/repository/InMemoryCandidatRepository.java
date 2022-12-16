@@ -8,7 +8,7 @@ import com.soat.planification_entretien.domain.candidat.Candidat;
 import com.soat.planification_entretien.domain.candidat.CandidatRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
+//@Repository
 public class InMemoryCandidatRepository implements CandidatRepository {
     private final Map<Integer, Candidat> cache = new HashMap<>();
 

@@ -6,7 +6,7 @@ import com.soat.planification_entretien.domain.candidat.Candidat;
 import com.soat.planification_entretien.domain.candidat.CandidatRepository;
 import org.springframework.stereotype.Repository;
 
-//@Repository
+@Repository
 public class HibernateCandidatRepository implements CandidatRepository {
     private final CandidatCrud candidatCrud;
 
@@ -28,8 +28,8 @@ public class HibernateCandidatRepository implements CandidatRepository {
 
     @Override
     public Candidat save(Candidat candidat) {
-        com.soat.planification_entretien.infrastructure.repository.Candidat toSave = new com.soat.planification_entretien.infrastructure.repository.Candidat(candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceInYears());
-        com.soat.planification_entretien.infrastructure.repository.Candidat saved = candidatCrud.save(toSave);
+        var toSave = new com.soat.planification_entretien.infrastructure.repository.Candidat(candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceInYears());
+        var saved = candidatCrud.save(toSave);
         return Candidat.of(saved.getId(), candidat);
     }
 }

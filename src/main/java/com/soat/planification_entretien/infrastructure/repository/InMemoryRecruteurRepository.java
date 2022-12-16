@@ -10,7 +10,7 @@ import com.soat.planification_entretien.domain.recruteur.Recruteur;
 import com.soat.planification_entretien.domain.recruteur.RecruteurRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
+//@Repository
 public class InMemoryRecruteurRepository implements RecruteurRepository {
     private final Map<Integer, Recruteur> cache = new HashMap<>();
 

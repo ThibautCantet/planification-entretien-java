@@ -1,11 +1,14 @@
 package com.soat.planification_entretien.application.controller;
 
+import java.net.URI;
+
 import com.soat.planification_entretien.domain.candidat.CreerCandidat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import static org.springframework.http.ResponseEntity.*;
 
@@ -28,6 +31,11 @@ public class CandidatController {
             return badRequest().build();
         }
 
-        return created(null).body(createdCandidatId);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(createdCandidatId)
+                .toUri();
+
+        return created(location).body(createdCandidatId);
     }
 }

@@ -120,7 +120,7 @@ public class PlafinicationEntretienATest extends ATest {
         Entretien entretien = entretienRepository.findByCandidat(candidat);
         Entretien expectedEntretien = Entretien.of(candidat, recruteur, disponibiliteDuCandidat);
         assertThat(entretien).usingRecursiveComparison()
-                .ignoringFields("id")
+                .ignoringFields("id", "candidat.id", "recruteur.id")
                 .isEqualTo(expectedEntretien);
     }
 
