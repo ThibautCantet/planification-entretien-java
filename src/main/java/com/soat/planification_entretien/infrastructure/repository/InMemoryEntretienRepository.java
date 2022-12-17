@@ -15,10 +15,12 @@ public class InMemoryEntretienRepository implements EntretienRepository {
     private final Map<Integer, Entretien> cache = new HashMap<>();
 
     @Override
-    public void save(Entretien entretien) {
+    public int save(Entretien entretien) {
         Integer newId = cache.size() + 1;
         entretien = Entretien.of(newId, entretien);
         cache.put(entretien.getId(), entretien);
+
+        return newId;
     }
 
     @Override

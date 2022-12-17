@@ -5,7 +5,7 @@ import java.util.List;
 import com.soat.planification_entretien.domain.candidat.Candidat;
 
 public interface EntretienRepository {
-    void save(Entretien entretien);
+    int save(Entretien entretien);
 
     List<Entretien> findAll();
 
