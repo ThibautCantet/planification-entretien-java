@@ -4,8 +4,8 @@ import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
-import com.soat.planification_entretien.application.controller.CandidatDto;
-import com.soat.planification_entretien.application.controller.CandidatController;
+import com.soat.planification_entretien.infrastructure.controller.CandidatDto;
+import com.soat.planification_entretien.infrastructure.controller.CandidatController;
 import com.soat.planification_entretien.domain.candidat.Candidat;
 import com.soat.planification_entretien.domain.candidat.CandidatRepository;
 import io.cucumber.java.Before;

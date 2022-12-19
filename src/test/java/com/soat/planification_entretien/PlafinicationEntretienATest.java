@@ -7,8 +7,8 @@ import java.time.format.DateTimeFormatter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
-import com.soat.planification_entretien.application.controller.EntretienController;
-import com.soat.planification_entretien.application.controller.EntretienDto;
+import com.soat.planification_entretien.infrastructure.controller.EntretienController;
+import com.soat.planification_entretien.infrastructure.controller.EntretienDto;
 import com.soat.planification_entretien.domain.candidat.Candidat;
 import com.soat.planification_entretien.domain.candidat.CandidatRepository;
 import com.soat.planification_entretien.domain.entretien.Entretien;
@@ -16,7 +16,6 @@ import com.soat.planification_entretien.domain.entretien.EntretienRepository;
 import com.soat.planification_entretien.domain.entretien.EmailService;
 import com.soat.planification_entretien.domain.recruteur.Recruteur;
 import com.soat.planification_entretien.domain.recruteur.RecruteurRepository;
-import com.soat.planification_entretien.infrastructure.repository.InMemoryEntretienRepository;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;

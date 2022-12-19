@@ -1,18 +1,20 @@
-package com.soat.planification_entretien.domain.candidat;
+package com.soat.planification_entretien.use_case;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.soat.planification_entretien.domain.recruteur.Recruteur;
+import com.soat.planification_entretien.domain.recruteur.RecruteurRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CreerCandidat {
+public class CreerRecruteur {
     private static final String EMAIL_REGEX = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
 
-    private final CandidatRepository candidatRepository;
+    private final RecruteurRepository recruteurRepository;
 
-    public CreerCandidat(CandidatRepository candidatRepository) {
-        this.candidatRepository = candidatRepository;
+    public CreerRecruteur(RecruteurRepository recruteurRepository) {
+        this.recruteurRepository = recruteurRepository;
     }
 
     public Integer execute(String language, String email, String experienceEnAnnees) {
@@ -21,10 +23,10 @@ public class CreerCandidat {
             return null;
         }
 
-        Candidat candidat = new Candidat(language, email, Integer.parseInt(experienceEnAnnees));
-        Candidat savedCandidat = candidatRepository.save(candidat);
+        Recruteur recruteur = new Recruteur(language, email, Integer.parseInt(experienceEnAnnees));
+        Recruteur savedRecruteur = recruteurRepository.save(recruteur);
 
-        return savedCandidat.getId();
+        return savedRecruteur.getId();
     }
 
     private static boolean isEmail(String adresse) {

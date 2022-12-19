@@ -1,8 +1,8 @@
-package com.soat.planification_entretien.application.controller;
+package com.soat.planification_entretien.infrastructure.controller;
 
 import java.net.URI;
 
-import com.soat.planification_entretien.domain.candidat.CreerCandidat;
+import com.soat.planification_entretien.use_case.CreerCandidat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

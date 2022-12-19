@@ -1,12 +1,12 @@
-package com.soat.planification_entretien.application.controller;
+package com.soat.planification_entretien.infrastructure.controller;
 
 import java.util.List;
 import java.util.Optional;
 
 import com.soat.planification_entretien.domain.candidat.Candidat;
 import com.soat.planification_entretien.domain.candidat.CandidatRepository;
-import com.soat.planification_entretien.domain.entretien.ListerEntretiens;
-import com.soat.planification_entretien.domain.entretien.PlanifierEntretien;
+import com.soat.planification_entretien.use_case.ListerEntretiens;
+import com.soat.planification_entretien.use_case.PlanifierEntretien;
 import com.soat.planification_entretien.domain.recruteur.Recruteur;
 import com.soat.planification_entretien.domain.recruteur.RecruteurRepository;
 import org.springframework.http.HttpStatus;

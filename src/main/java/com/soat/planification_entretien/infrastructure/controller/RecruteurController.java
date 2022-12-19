@@ -1,9 +1,9 @@
-package com.soat.planification_entretien.application.controller;
+package com.soat.planification_entretien.infrastructure.controller;
 
 import java.util.List;
 
-import com.soat.planification_entretien.domain.recruteur.CreerRecruteur;
-import com.soat.planification_entretien.domain.recruteur.Lister;
+import com.soat.planification_entretien.use_case.CreerRecruteur;
+import com.soat.planification_entretien.use_case.ListerRecruteursExperimentes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,11 +20,11 @@ public class RecruteurController {
     public static final String PATH = "/api/recruteur";
 
     private final CreerRecruteur creerRecruteur;
-    private final Lister lister;
+    private final ListerRecruteursExperimentes listerRecruteursExperimentes;
 
-    public RecruteurController(CreerRecruteur creerRecruteur, Lister lister) {
+    public RecruteurController(CreerRecruteur creerRecruteur, ListerRecruteursExperimentes listerRecruteursExperimentes) {
         this.creerRecruteur = creerRecruteur;
-        this.lister = lister;
+        this.listerRecruteursExperimentes = listerRecruteursExperimentes;
     }
 
     @PostMapping("")
@@ -39,7 +39,7 @@ public class RecruteurController {
 
     @GetMapping("")
     public ResponseEntity<List<RecruteurDetailDto>> lister() {
-        List<RecruteurDetailDto> recruteurs = lister.execute().stream()
+        List<RecruteurDetailDto> recruteurs = listerRecruteursExperimentes.execute().stream()
                 .map(e -> new RecruteurDetailDto(e.getId(), e.getLanguage(), e.getExperienceInYears(), e.getEmail()))
                 .toList();
 
