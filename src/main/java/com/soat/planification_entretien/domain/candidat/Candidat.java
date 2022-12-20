@@ -1,17 +1,10 @@
 package com.soat.planification_entretien.domain.candidat;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static com.soat.planification_entretien.use_case.CreerCandidat.*;
-
 public class Candidat {
-    private static final String EMAIL_REGEX = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
 
     private Integer id;
-
     private String language;
-    private String email;
+    private CandidatEmail email;
     private Integer experienceInYears;
 
     public Candidat(String language, String email, int experienceInYears) {
@@ -19,24 +12,18 @@ public class Candidat {
     }
 
     public Candidat(Integer candidatId, String language, String email, Integer experienceInYears) {
-        if (language.isBlank() || !isEmail(email) || email.endsWith("soat.fr") || experienceInYears < 0) {
+        if (language.isBlank() || experienceInYears < 0) {
             throw new IllegalArgumentException();
         }
         this.id = candidatId;
         this.language = language;
-        this.email = email;
+        this.email = new CandidatEmail(email);
         this.experienceInYears = experienceInYears;
     }
 
     public static Candidat of(Integer id, Candidat candidat) {
         candidat.id = id;
         return candidat;
-    }
-
-    private static boolean isEmail(String adresse) {
-        final Pattern r = Pattern.compile(EMAIL_REGEX);
-        final Matcher m = r.matcher(adresse);
-        return m.matches();
     }
 
     public Integer getId() {
@@ -47,8 +34,8 @@ public class Candidat {
         return language;
     }
 
-    public String getEmail() {
-        return email;
+    public String getAdresseEmail() {
+        return email.adresse();
     }
 
     public Integer getExperienceInYears() {

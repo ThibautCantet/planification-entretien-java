@@ -75,7 +75,7 @@ public class Entretien implements IEntretien {
 
     @Override
     public String getEmailCandidat() {
-        return candidat.getEmail();
+        return candidat.getAdresseEmail();
     }
 
     @Override

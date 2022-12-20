@@ -28,7 +28,7 @@ public class HibernateCandidatRepository implements CandidatRepository {
 
     @Override
     public Candidat save(Candidat candidat) {
-        var toSave = new com.soat.planification_entretien.infrastructure.repository.Candidat(candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceInYears());
+        var toSave = new com.soat.planification_entretien.infrastructure.repository.Candidat(candidat.getLanguage(), candidat.getAdresseEmail(), candidat.getExperienceInYears());
         var saved = candidatCrud.save(toSave);
         return Candidat.of(saved.getId(), candidat);
     }

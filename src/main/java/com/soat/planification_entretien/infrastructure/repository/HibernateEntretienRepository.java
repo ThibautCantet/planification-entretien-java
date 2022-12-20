@@ -39,7 +39,7 @@ public class HibernateEntretienRepository implements EntretienRepository {
 
     @Override
     public com.soat.planification_entretien.domain.entretien.Entretien findByCandidat(Candidat candidat) {
-        var maybeEntretien = entretienCrud.findByCandidat_Email(candidat.getEmail());
+        var maybeEntretien = entretienCrud.findByCandidat_Email(candidat.getAdresseEmail());
 
         return maybeEntretien
                 .map(HibernateEntretienRepository::toEntretien)
