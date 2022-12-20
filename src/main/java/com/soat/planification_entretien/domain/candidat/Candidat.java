@@ -5,7 +5,7 @@ public class Candidat {
     private Integer id;
     private String language;
     private CandidatEmail email;
-    private Integer experienceInYears;
+    private Experience experience;
 
     public Candidat(String language, String email, int experienceInYears) {
         this(null, language, email, experienceInYears);
@@ -18,7 +18,7 @@ public class Candidat {
         this.id = candidatId;
         this.language = language;
         this.email = new CandidatEmail(email);
-        this.experienceInYears = experienceInYears;
+        this.experience = new Experience(experienceInYears);
     }
 
     public static Candidat of(Integer id, Candidat candidat) {
@@ -39,6 +39,6 @@ public class Candidat {
     }
 
     public Integer getExperienceInYears() {
-        return experienceInYears;
+        return experience.annee();
     }
 }

@@ -1,26 +1,25 @@
 package com.soat.planification_entretien.domain.recruteur;
 
 public class Recruteur {
-    private static final int MINIMUM_XP_REQUISE = 3;
 
     private Integer id;
 
     private String language;
     private RecruteurEmail email;
-    private Integer experienceInYears;
+    private Experience experience;
 
     public Recruteur(String language, String email, int experienceInYears) {
         this(null, language, email, experienceInYears);
     }
 
     public Recruteur(Integer recruteurId, String language, String email, Integer experienceInYears) {
-        if (language.isBlank() || experienceInYears < MINIMUM_XP_REQUISE) {
+        if (language.isBlank()) {
             throw new IllegalArgumentException();
         }
         this.id = recruteurId;
         this.language = language;
         this.email = new RecruteurEmail(email);
-        this.experienceInYears = experienceInYears;
+        this.experience = new Experience(experienceInYears);
     }
 
     public static Recruteur of(Integer id, Recruteur recruteur) {
@@ -41,6 +40,6 @@ public class Recruteur {
     }
 
     public Integer getExperienceInYears() {
-        return experienceInYears;
+        return experience.annee();
     }
 }
