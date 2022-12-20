@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 public class Recruteur {
     private static final String EMAIL_REGEX = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
+    private static final int MINIMUM_XP_REQUISE = 3;
 
     private Integer id;
 
@@ -17,7 +18,7 @@ public class Recruteur {
     }
 
     public Recruteur(Integer recruteurId, String language, String email, Integer experienceInYears) {
-        if (language.isBlank() || !isEmail(email) || experienceInYears < 0) {
+        if (language.isBlank() || !isEmail(email) || !email.endsWith("soat.fr") || experienceInYears < MINIMUM_XP_REQUISE) {
             throw new IllegalArgumentException();
         }
         this.id = recruteurId;

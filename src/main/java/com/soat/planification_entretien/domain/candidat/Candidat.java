@@ -19,7 +19,7 @@ public class Candidat {
     }
 
     public Candidat(Integer candidatId, String language, String email, Integer experienceInYears) {
-        if (language.isBlank() || !isEmail(email) || experienceInYears < 0) {
+        if (language.isBlank() || !isEmail(email) || email.endsWith("soat.fr") || experienceInYears < 0) {
             throw new IllegalArgumentException();
         }
         this.id = candidatId;
