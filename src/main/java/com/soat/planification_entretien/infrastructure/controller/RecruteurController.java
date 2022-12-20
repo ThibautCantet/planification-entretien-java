@@ -29,6 +29,9 @@ public class RecruteurController {
 
     @PostMapping("")
     public ResponseEntity<Integer> creer(@RequestBody RecruteurDto recruteurDto) {
+        if (validExperience(recruteurDto)) {
+            return badRequest().build();
+        }
         Integer createdRecruteurId = creerRecruteur.execute(recruteurDto.language(), recruteurDto.email(), recruteurDto.experienceEnAnnees());
         if (createdRecruteurId == null) {
             return badRequest().build();
@@ -44,6 +47,15 @@ public class RecruteurController {
                 .toList();
 
         return new ResponseEntity<>(recruteurs, HttpStatus.OK);
+    }
+
+    private static boolean validExperience(RecruteurDto candidatDto) {
+        try {
+            Integer.parseInt(candidatDto.experienceEnAnnees());
+            return candidatDto.experienceEnAnnees().isBlank();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 }
