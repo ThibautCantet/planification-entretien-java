@@ -22,7 +22,7 @@ public class HibernateEntretienRepository implements EntretienRepository {
     @Override
     public void save(com.soat.planification_entretien.domain.entretien.Entretien entretien) {
 
-        var jpaCandidat = candidatCrud.findById(entretien.getCandidat().getId()).get();
+        var jpaCandidat = candidatCrud.findById(entretien.getCandidat().id()).get();
         var jpaRecruteur = recruteurCrud.findById(entretien.getRecruteur().getId()).get();
 
         var jpaEntretien = Entretien.of(jpaCandidat,
@@ -38,8 +38,8 @@ public class HibernateEntretienRepository implements EntretienRepository {
     }
 
     @Override
-    public com.soat.planification_entretien.domain.entretien.Entretien findByCandidat(Candidat candidat) {
-        var maybeEntretien = entretienCrud.findByCandidat_Email(candidat.getAdresseEmail());
+    public com.soat.planification_entretien.domain.entretien.Entretien findByCandidatId(int candidatId) {
+        var maybeEntretien = entretienCrud.findByCandidat_Id(candidatId);
 
         return maybeEntretien
                 .map(HibernateEntretienRepository::toEntretien)
@@ -49,7 +49,7 @@ public class HibernateEntretienRepository implements EntretienRepository {
     private static com.soat.planification_entretien.domain.entretien.Entretien toEntretien(com.soat.planification_entretien.infrastructure.repository.Entretien jpaEntretien) {
         return com.soat.planification_entretien.domain.entretien.Entretien.of(
                 jpaEntretien.getId(),
-                new com.soat.planification_entretien.domain.candidat.Candidat(jpaEntretien.getCandidat().getLanguage(), jpaEntretien.getCandidat().getEmail(), jpaEntretien.getCandidat().getExperienceInYears()),
+                new com.soat.planification_entretien.domain.entretien.Candidat(jpaEntretien.getId(), jpaEntretien.getCandidat().getLanguage(), jpaEntretien.getCandidat().getEmail(), jpaEntretien.getCandidat().getExperienceInYears()),
                 new Recruteur(jpaEntretien.getRecruteur().getLanguage(), jpaEntretien.getRecruteur().getEmail(), jpaEntretien.getRecruteur().getExperienceInYears()),
                 jpaEntretien.getHoraireEntretien());
     }

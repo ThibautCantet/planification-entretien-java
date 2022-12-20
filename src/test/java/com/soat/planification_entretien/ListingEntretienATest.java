@@ -9,7 +9,7 @@ import java.util.Map;
 
 import com.soat.ATest;
 import com.soat.planification_entretien.infrastructure.controller.EntretienController;
-import com.soat.planification_entretien.domain.candidat.Candidat;
+import com.soat.planification_entretien.domain.entretien.Candidat;
 import com.soat.planification_entretien.domain.candidat.CandidatRepository;
 import com.soat.planification_entretien.domain.entretien.Entretien;
 import com.soat.planification_entretien.domain.entretien.EntretienRepository;
@@ -27,6 +27,7 @@ import io.restassured.http.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.soat.planification_entretien.PlafinicationEntretienATest.*;
 import static io.restassured.RestAssured.*;
 import static org.assertj.core.api.Assertions.*;
 
@@ -76,14 +77,17 @@ public class ListingEntretienATest extends ATest {
         List<Candidat> candidats = dataTableTransformEntries(dataTable, this::buildCandidat);
 
         for (Candidat candidat : candidats) {
-            //Candidat saved = entityManager.persist(candidat);
-            candidatRepository.save(candidat);
+            var saved = candidatRepository.save(new com.soat.planification_entretien.domain.candidat.Candidat(candidat.language(),
+                    candidat.adresseEmail(),
+                    candidat.experienceInYears()));
+            candidat = new Candidat(saved.getId(), saved.getLanguage(), saved.getAdresseEmail(), saved.getExperienceInYears());
             savedCandidats.add(candidat);
         }
     }
 
     private Candidat buildCandidat(Map<String, String> entry) {
         return new Candidat(
+                null,
                 entry.get("language"),
                 entry.get("email"),
                 Integer.parseInt(entry.get("xp")));

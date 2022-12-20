@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EntretienCrud extends CrudRepository<Entretien, Integer> {
-    Optional<Entretien> findByCandidat_Email(String candidatEmail);
+    Optional<Entretien> findByCandidat_Id(Integer id);
 
     Entretien save(Entretien entretien);
 

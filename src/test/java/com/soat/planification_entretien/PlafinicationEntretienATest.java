@@ -116,11 +116,21 @@ public class PlafinicationEntretienATest extends ATest {
         response.then()
                 .statusCode(HttpStatus.SC_CREATED);
 
-        Entretien entretien = entretienRepository.findByCandidat(candidat);
-        Entretien expectedEntretien = Entretien.of(candidat, recruteur, disponibiliteDuCandidat);
+        Entretien entretien = entretienRepository.findByCandidatId(candidat.getId());
+        Entretien expectedEntretien = Entretien.of(
+                convertToEntretienCandidat(candidat),
+                recruteur, disponibiliteDuCandidat);
         assertThat(entretien).usingRecursiveComparison()
                 .ignoringFields("id", "candidat.id", "recruteur.id")
                 .isEqualTo(expectedEntretien);
+    }
+
+    static com.soat.planification_entretien.domain.entretien.Candidat convertToEntretienCandidat(Candidat candidat) {
+        return new com.soat.planification_entretien.domain.entretien.Candidat(
+                candidat.getId(),
+                candidat.getLanguage(),
+                candidat.getAdresseEmail(),
+                candidat.getExperienceInYears());
     }
 
     @Et("un mail de confirmation est envoyé au candidat et au recruteur")
@@ -134,7 +144,7 @@ public class PlafinicationEntretienATest extends ATest {
         response.then()
                 .statusCode(HttpStatus.SC_BAD_REQUEST);
 
-        Entretien entretien = entretienRepository.findByCandidat(candidat);
+        Entretien entretien = entretienRepository.findByCandidatId(candidat.getId());
         assertThat(entretien).isNull();
     }
 

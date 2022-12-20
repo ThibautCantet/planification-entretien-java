@@ -26,9 +26,10 @@ public class InMemoryEntretienRepository implements EntretienRepository {
         return cache.values().stream().toList();
     }
 
-    public Entretien findByCandidat(Candidat candidat) {
+    @Override
+    public Entretien findByCandidatId(int candidatId) {
         return cache.values().stream()
-                .filter(entretien -> entretien.getCandidat().getId().equals(candidat.getId()))
+                .filter(entretien -> entretien.getCandidat().id().equals(candidatId))
                 .findFirst()
                 .orElse(null);
     }
