@@ -59,8 +59,7 @@ public class Entretien implements IEntretien {
     }
 
     public boolean planifier(LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
-        boolean planifiable = recruteur.language().equals(candidat.language())
-                && recruteur.experienceInYears() > candidat.experienceInYears()
+        boolean planifiable = recruteur.estCompatible(candidat)
                 && dateEtHeureDisponibiliteDuCandidat.equals(dateEtHeureDisponibiliteDuRecruteur);
 
         if (planifiable) {
@@ -72,17 +71,17 @@ public class Entretien implements IEntretien {
 
     @Override
     public String getEmailCandidat() {
-        return candidat.adresseEmail();
+        return candidat.getAdresseEmail();
     }
 
     @Override
     public String getEmailRecruteur() {
-        return recruteur.adresseEmail();
+        return recruteur.getAdresseEmail();
     }
 
     @Override
     public String getLanguage() {
-        return recruteur.language();
+        return recruteur.getLanguage();
     }
 
     @Override

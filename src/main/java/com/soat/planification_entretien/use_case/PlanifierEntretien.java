@@ -23,8 +23,8 @@ public class PlanifierEntretien {
         Entretien entretien = new Entretien(candidat, recruteur);
         if (entretien.planifier(dateEtHeureDisponibiliteDuCandidat, dateEtHeureDisponibiliteDuRecruteur)) {
             entretienRepository.save(entretien);
-            emailService.envoyerUnEmailDeConfirmationAuCandidat(candidat.adresseEmail(), dateEtHeureDisponibiliteDuCandidat);
-            emailService.envoyerUnEmailDeConfirmationAuRecruteur(recruteur.adresseEmail(), dateEtHeureDisponibiliteDuCandidat);
+            emailService.envoyerUnEmailDeConfirmationAuCandidat(candidat.getAdresseEmail(), dateEtHeureDisponibiliteDuCandidat);
+            emailService.envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getAdresseEmail(), dateEtHeureDisponibiliteDuCandidat);
             return true;
         }
         return false;

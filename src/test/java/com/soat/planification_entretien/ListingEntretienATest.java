@@ -59,9 +59,9 @@ public class ListingEntretienATest extends ATest {
         List<Recruteur> recruteurs = dataTableTransformEntries(dataTable, this::buildRecruteur);
 
         for (Recruteur recruteur : recruteurs) {
-            var saved = recruteurRepository.save(new com.soat.planification_entretien.domain.recruteur.Recruteur(recruteur.language(),
-                    recruteur.adresseEmail(),
-                    recruteur.experienceInYears()));
+            var saved = recruteurRepository.save(new com.soat.planification_entretien.domain.recruteur.Recruteur(recruteur.getLanguage(),
+                    recruteur.getAdresseEmail(),
+                    recruteur.getExperienceInYears()));
             recruteur = new Recruteur(saved.getId(), saved.getLanguage(), saved.getAdresseEmail(), saved.getExperienceInYears());
             savedRecruteurs.add(recruteur);
         }
@@ -80,9 +80,9 @@ public class ListingEntretienATest extends ATest {
         List<Candidat> candidats = dataTableTransformEntries(dataTable, this::buildCandidat);
 
         for (Candidat candidat : candidats) {
-            var saved = candidatRepository.save(new com.soat.planification_entretien.domain.candidat.Candidat(candidat.language(),
-                    candidat.adresseEmail(),
-                    candidat.experienceInYears()));
+            var saved = candidatRepository.save(new com.soat.planification_entretien.domain.candidat.Candidat(candidat.getLanguage(),
+                    candidat.getAdresseEmail(),
+                    candidat.getExperienceInYears()));
             candidat = new Candidat(saved.getId(), saved.getLanguage(), saved.getAdresseEmail(), saved.getExperienceInYears());
             savedCandidats.add(candidat);
         }
