@@ -6,7 +6,7 @@ import com.soat.planification_entretien.domain.entretien.Candidat;
 import com.soat.planification_entretien.domain.entretien.EmailService;
 import com.soat.planification_entretien.domain.entretien.Entretien;
 import com.soat.planification_entretien.domain.entretien.EntretienRepository;
-import com.soat.planification_entretien.domain.recruteur.Recruteur;
+import com.soat.planification_entretien.domain.entretien.Recruteur;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,7 +24,7 @@ public class PlanifierEntretien {
         if (entretien.planifier(dateEtHeureDisponibiliteDuCandidat, dateEtHeureDisponibiliteDuRecruteur)) {
             entretienRepository.save(entretien);
             emailService.envoyerUnEmailDeConfirmationAuCandidat(candidat.adresseEmail(), dateEtHeureDisponibiliteDuCandidat);
-            emailService.envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getAdresseEmail(), dateEtHeureDisponibiliteDuCandidat);
+            emailService.envoyerUnEmailDeConfirmationAuRecruteur(recruteur.adresseEmail(), dateEtHeureDisponibiliteDuCandidat);
             return true;
         }
         return false;

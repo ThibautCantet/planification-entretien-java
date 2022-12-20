@@ -1,13 +1,12 @@
 package com.soat.planification_entretien.infrastructure.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.soat.planification_entretien.domain.entretien.Candidat;
 import com.soat.planification_entretien.domain.candidat.CandidatRepository;
 import com.soat.planification_entretien.use_case.ListerEntretiens;
 import com.soat.planification_entretien.use_case.PlanifierEntretien;
-import com.soat.planification_entretien.domain.recruteur.Recruteur;
+import com.soat.planification_entretien.domain.entretien.Recruteur;
 import com.soat.planification_entretien.domain.recruteur.RecruteurRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,7 +52,9 @@ public class EntretienController {
         if (candidat.isEmpty()) {
             return badRequest().build();
         }
-        Optional<Recruteur> recruteur = recruteurRepository.findById(entretienDto.recruteurId());
+        var recruteur = recruteurRepository.findById(entretienDto.recruteurId())
+                .map(c -> new Recruteur(c.getId(), c.getLanguage(), c.getAdresseEmail(), c.getExperienceInYears()));
+
         if (recruteur.isEmpty()) {
             return badRequest().build();
         }

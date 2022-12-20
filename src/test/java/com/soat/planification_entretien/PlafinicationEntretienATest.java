@@ -119,7 +119,8 @@ public class PlafinicationEntretienATest extends ATest {
         Entretien entretien = entretienRepository.findByCandidatId(candidat.getId());
         Entretien expectedEntretien = Entretien.of(
                 convertToEntretienCandidat(candidat),
-                recruteur, disponibiliteDuCandidat);
+                convertToEntretienRecruteur(recruteur),
+                disponibiliteDuCandidat);
         assertThat(entretien).usingRecursiveComparison()
                 .ignoringFields("id", "candidat.id", "recruteur.id")
                 .isEqualTo(expectedEntretien);
@@ -127,6 +128,14 @@ public class PlafinicationEntretienATest extends ATest {
 
     static com.soat.planification_entretien.domain.entretien.Candidat convertToEntretienCandidat(Candidat candidat) {
         return new com.soat.planification_entretien.domain.entretien.Candidat(
+                candidat.getId(),
+                candidat.getLanguage(),
+                candidat.getAdresseEmail(),
+                candidat.getExperienceInYears());
+    }
+
+    static com.soat.planification_entretien.domain.entretien.Recruteur convertToEntretienRecruteur(Recruteur candidat) {
+        return new com.soat.planification_entretien.domain.entretien.Recruteur(
                 candidat.getId(),
                 candidat.getLanguage(),
                 candidat.getAdresseEmail(),
