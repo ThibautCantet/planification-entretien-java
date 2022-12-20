@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.soat.planification_entretien.domain.recruteur.RecruteurRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -30,7 +28,7 @@ public class HibernateRecruteurRepository implements RecruteurRepository {
 
     @Override
     public com.soat.planification_entretien.domain.recruteur.Recruteur save(com.soat.planification_entretien.domain.recruteur.Recruteur recruteur) {
-        var toSave = new com.soat.planification_entretien.infrastructure.repository.Recruteur(recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears());
+        var toSave = new com.soat.planification_entretien.infrastructure.repository.Recruteur(recruteur.getLanguage(), recruteur.getAdresseEmail(), recruteur.getExperienceInYears());
         var saved = recruteurCrud.save(toSave);
         return com.soat.planification_entretien.domain.recruteur.Recruteur.of(saved.getId(), recruteur);
     }

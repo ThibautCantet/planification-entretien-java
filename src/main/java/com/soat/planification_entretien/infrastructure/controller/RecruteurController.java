@@ -43,7 +43,7 @@ public class RecruteurController {
     @GetMapping("")
     public ResponseEntity<List<RecruteurDetailDto>> lister() {
         List<RecruteurDetailDto> recruteurs = listerRecruteursExperimentes.execute().stream()
-                .map(e -> new RecruteurDetailDto(e.getId(), e.getLanguage(), e.getExperienceInYears(), e.getEmail()))
+                .map(e -> new RecruteurDetailDto(e.getId(), e.getLanguage(), e.getExperienceInYears(), e.getAdresseEmail()))
                 .toList();
 
         return new ResponseEntity<>(recruteurs, HttpStatus.OK);

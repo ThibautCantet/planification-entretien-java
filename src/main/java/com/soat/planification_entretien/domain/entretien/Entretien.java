@@ -80,7 +80,7 @@ public class Entretien implements IEntretien {
 
     @Override
     public String getEmailRecruteur() {
-        return recruteur.getEmail();
+        return recruteur.getAdresseEmail();
     }
 
     @Override
