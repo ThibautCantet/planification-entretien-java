@@ -1,15 +1,11 @@
 package com.soat.planification_entretien.use_case;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.soat.planification_entretien.domain.candidat.Candidat;
 import com.soat.planification_entretien.domain.candidat.CandidatRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CreerCandidat {
-    private static final String EMAIL_REGEX = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
 
     private final CandidatRepository candidatRepository;
 
@@ -18,20 +14,15 @@ public class CreerCandidat {
     }
 
     public Integer execute(String language, String email, String experienceEnAnnees) {
+        try {
+            Candidat candidat = new Candidat(language, email, Integer.parseInt(experienceEnAnnees));
 
-        if (language.isBlank() || !isEmail(email) || experienceEnAnnees.isBlank() || Integer.parseInt(experienceEnAnnees) < 0) {
+            Candidat savedCandidat = candidatRepository.save(candidat);
+
+            return savedCandidat.getId();
+        } catch (IllegalArgumentException e) {
             return null;
         }
-
-        Candidat candidat = new Candidat(language, email, Integer.parseInt(experienceEnAnnees));
-        Candidat savedCandidat = candidatRepository.save(candidat);
-
-        return savedCandidat.getId();
     }
 
-    private static boolean isEmail(String adresse) {
-        final Pattern r = Pattern.compile(EMAIL_REGEX);
-        final Matcher m = r.matcher(adresse);
-        return m.matches();
-    }
 }

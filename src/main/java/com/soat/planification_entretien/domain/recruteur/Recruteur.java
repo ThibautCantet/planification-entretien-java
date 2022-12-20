@@ -1,6 +1,11 @@
 package com.soat.planification_entretien.domain.recruteur;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Recruteur {
+    private static final String EMAIL_REGEX = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
+
     private Integer id;
 
     private String language;
@@ -8,6 +13,9 @@ public class Recruteur {
     private Integer experienceInYears;
 
     public Recruteur(String language, String email, int experienceInYears) {
+        if (language.isBlank() || !isEmail(email) || experienceInYears < 0) {
+            throw new IllegalArgumentException();
+        }
         this.language = language;
         this.email = email;
         this.experienceInYears = experienceInYears;
@@ -23,6 +31,12 @@ public class Recruteur {
     public static Recruteur of(Integer id, Recruteur recruteur) {
         recruteur.id = id;
         return recruteur;
+    }
+
+    private static boolean isEmail(String adresse) {
+        final Pattern r = Pattern.compile(EMAIL_REGEX);
+        final Matcher m = r.matcher(adresse);
+        return m.matches();
     }
 
     public Integer getId() {

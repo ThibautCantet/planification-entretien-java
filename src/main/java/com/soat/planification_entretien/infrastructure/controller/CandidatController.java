@@ -25,7 +25,9 @@ public class CandidatController {
 
     @PostMapping("")
     public ResponseEntity<Integer> creer(@RequestBody CandidatDto candidatDto) {
-
+        if (validExperience(candidatDto)) {
+            return badRequest().build();
+        }
         Integer createdCandidatId = creerCandidat.execute(candidatDto.language(), candidatDto.email(), candidatDto.experienceEnAnnees());
         if (createdCandidatId == null) {
             return badRequest().build();
@@ -37,5 +39,14 @@ public class CandidatController {
                 .toUri();
 
         return created(location).body(createdCandidatId);
+    }
+
+    private static boolean validExperience(CandidatDto candidatDto) {
+        try {
+            Integer.parseInt(candidatDto.experienceEnAnnees());
+            return candidatDto.experienceEnAnnees().isBlank();
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
