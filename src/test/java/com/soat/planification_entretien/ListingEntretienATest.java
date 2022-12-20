@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.soat.ATest;
+import com.soat.planification_entretien.domain.entretien.Status;
 import com.soat.planification_entretien.infrastructure.controller.EntretienController;
 import com.soat.planification_entretien.domain.entretien.Candidat;
 import com.soat.planification_entretien.domain.candidat.CandidatRepository;
@@ -27,7 +28,6 @@ import io.restassured.http.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.soat.planification_entretien.PlafinicationEntretienATest.*;
 import static io.restassured.RestAssured.*;
 import static org.assertj.core.api.Assertions.*;
 
@@ -110,7 +110,8 @@ public class ListingEntretienATest extends ATest {
         return Entretien.of(
                 savedCandidats.get(0),
                 savedRecruteurs.get(0),
-                LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+                LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
+                Status.valueOf(entry.get("status")));
     }
 
     @Quand("on liste les tous les entretiens")
@@ -142,6 +143,7 @@ public class ListingEntretienATest extends ATest {
                 entry.get("candidat"),
                 entry.get("recruteur"),
                 entry.get("language"),
-                LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+                LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
+                entry.get("status"));
     }
 }

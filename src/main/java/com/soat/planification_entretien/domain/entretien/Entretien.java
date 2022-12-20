@@ -10,18 +10,18 @@ public class Entretien implements IEntretien {
     private LocalDateTime horaireEntretien;
 
     private Recruteur recruteur;
+    private Status status = Status.PLANIFIE;
 
-    public Entretien(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
+    public Entretien(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire, Status status) {
         this.id = id;
         this.candidat = candidat;
         this.recruteur = recruteur;
         this.horaireEntretien = horaire;
+        this.status = status;
     }
 
-    private Entretien(Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
-        this.candidat = candidat;
-        this.recruteur = recruteur;
-        this.horaireEntretien = horaire;
+    private Entretien(Candidat candidat, Recruteur recruteur, LocalDateTime horaire, Status status) {
+        this(null, candidat, recruteur, horaire, status);
     }
 
     public Entretien(Candidat candidat, Recruteur recruteur) {
@@ -29,12 +29,12 @@ public class Entretien implements IEntretien {
         this.recruteur = recruteur;
     }
 
-    public static Entretien of(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
-        return new Entretien(id, candidat, recruteur, horaire);
+    public static Entretien of(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire, Status status) {
+        return new Entretien(id, candidat, recruteur, horaire, status);
     }
 
-    public static Entretien of(Candidat candidat, Recruteur recruteur, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
-        return new Entretien(candidat, recruteur, dateEtHeureDisponibiliteDuRecruteur);
+    public static Entretien of(Candidat candidat, Recruteur recruteur, LocalDateTime dateEtHeureDisponibiliteDuRecruteur, Status status) {
+        return new Entretien(candidat, recruteur, dateEtHeureDisponibiliteDuRecruteur, status);
     }
 
     public static Entretien of(Integer newId, Entretien entretien) {
@@ -87,5 +87,13 @@ public class Entretien implements IEntretien {
     @Override
     public LocalDateTime getHoraire() {
         return horaireEntretien;
+    }
+
+    public String getStatus() {
+        return status.name();
+    }
+
+    public int getStatusValue() {
+        return status.getValue();
     }
 }

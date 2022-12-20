@@ -2,9 +2,8 @@ package com.soat.planification_entretien.infrastructure.repository;
 
 import java.util.List;
 
-import com.soat.planification_entretien.domain.candidat.Candidat;
-import com.soat.planification_entretien.domain.recruteur.Recruteur;
 import com.soat.planification_entretien.domain.entretien.EntretienRepository;
+import com.soat.planification_entretien.domain.entretien.Status;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -26,7 +25,9 @@ public class HibernateEntretienRepository implements EntretienRepository {
         var jpaRecruteur = recruteurCrud.findById(entretien.getRecruteur().getId()).get();
 
         var jpaEntretien = Entretien.of(jpaCandidat,
-                jpaRecruteur, entretien.getHoraireEntretien());
+                jpaRecruteur,
+                entretien.getHoraireEntretien(),
+                entretien.getStatusValue());
         entretienCrud.save(jpaEntretien);
     }
 
@@ -51,6 +52,7 @@ public class HibernateEntretienRepository implements EntretienRepository {
                 jpaEntretien.getId(),
                 new com.soat.planification_entretien.domain.entretien.Candidat(jpaEntretien.getCandidat().getId(), jpaEntretien.getCandidat().getLanguage(), jpaEntretien.getCandidat().getEmail(), jpaEntretien.getCandidat().getExperienceInYears()),
                 new com.soat.planification_entretien.domain.entretien.Recruteur(jpaEntretien.getRecruteur().getId(), jpaEntretien.getRecruteur().getLanguage(), jpaEntretien.getRecruteur().getEmail(), jpaEntretien.getRecruteur().getExperienceInYears()),
-                jpaEntretien.getHoraireEntretien());
+                jpaEntretien.getHoraireEntretien(),
+                Status.values()[jpaEntretien.getStatus()]);
     }
 }

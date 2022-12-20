@@ -14,6 +14,7 @@ import com.soat.planification_entretien.domain.candidat.CandidatRepository;
 import com.soat.planification_entretien.domain.entretien.Entretien;
 import com.soat.planification_entretien.domain.entretien.EntretienRepository;
 import com.soat.planification_entretien.domain.entretien.EmailService;
+import com.soat.planification_entretien.domain.entretien.Status;
 import com.soat.planification_entretien.domain.recruteur.Recruteur;
 import com.soat.planification_entretien.domain.recruteur.RecruteurRepository;
 import io.cucumber.java.Before;
@@ -111,8 +112,8 @@ public class PlafinicationEntretienATest extends ATest {
         //@formatter:on
     }
 
-    @Alors("L’entretien est planifié")
-    public void lEntretienEstPlanifié() {
+    @Alors("L’entretien est planifié avec un status {string}")
+    public void lEntretienEstPlanifié(String status) {
         response.then()
                 .statusCode(HttpStatus.SC_CREATED);
 
@@ -120,7 +121,8 @@ public class PlafinicationEntretienATest extends ATest {
         Entretien expectedEntretien = Entretien.of(
                 convertToEntretienCandidat(candidat),
                 convertToEntretienRecruteur(recruteur),
-                disponibiliteDuCandidat);
+                disponibiliteDuCandidat,
+                Status.PLANIFIE);
         assertThat(entretien).usingRecursiveComparison()
                 .ignoringFields("id", "candidat.id", "recruteur.id")
                 .isEqualTo(expectedEntretien);

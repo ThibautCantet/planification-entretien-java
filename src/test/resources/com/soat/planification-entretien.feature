@@ -5,7 +5,7 @@ Fonctionnalité: Planifier un entretien de recrutement chez Soat
     Etant donné un candidat "Java" ("candidat@email.com") avec "2" ans d’expériences qui est disponible "15/04/2019" à "15:00"
     Et qu'un recruteur "Java" ("recruteur@soat.fr") qui a "6" ans d’XP qui est dispo "15/04/2019" à "15:00"
     Quand on tente une planification d’entretien
-    Alors L’entretien est planifié
+    Alors L’entretien est planifié avec un status "planifié"
     Et un mail de confirmation est envoyé au candidat et au recruteur
 
   Scénario: Recruteur ne peut pas tester le candidat car les dates ne correspondent pas
