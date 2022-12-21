@@ -48,7 +48,7 @@ public class CandidatController {
                 .filter(CandidatCrée.class::isInstance)
                 .map(CandidatCrée.class::cast)
                 .findFirst()
-                .map(CandidatCrée::id)
+                .map(CandidatCrée::value)
                 .orElse(null));
     }
 

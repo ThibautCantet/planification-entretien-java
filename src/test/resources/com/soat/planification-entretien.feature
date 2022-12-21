@@ -7,6 +7,7 @@ Fonctionnalité: Planifier un entretien de recrutement chez Soat
     Quand on tente une planification d’entretien
     Alors L’entretien est planifié avec un status "planifié"
     Et un mail de confirmation est envoyé au candidat et au recruteur
+    Et le recruteur "recruteur@soat.fr" n'est plus disponible
 
   Scénario: Recruteur ne peut pas tester le candidat car les dates ne correspondent pas
     Etant donné un candidat "Java" ("candidat@email.com") avec "2" ans d’expériences qui est disponible "16/04/2019" à "15:00"

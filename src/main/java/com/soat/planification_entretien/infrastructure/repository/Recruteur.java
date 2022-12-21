@@ -19,10 +19,14 @@ public class Recruteur {
     @Column
     private Integer experienceInYears;
 
+    @Column
+    private Boolean disponible;
+
     public Recruteur(String language, String email, int experienceInYears) {
         this.language = language;
         this.email = email;
         this.experienceInYears = experienceInYears;
+        this.disponible = true;
     }
 
     public Recruteur() {
@@ -31,6 +35,10 @@ public class Recruteur {
 
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getLanguage() {
@@ -43,5 +51,14 @@ public class Recruteur {
 
     public Integer getExperienceInYears() {
         return experienceInYears;
+    }
+
+
+    public Boolean getDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(Boolean disponible) {
+        this.disponible = disponible;
     }
 }

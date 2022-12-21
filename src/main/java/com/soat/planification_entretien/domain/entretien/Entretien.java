@@ -2,6 +2,8 @@ package com.soat.planification_entretien.domain.entretien;
 
 import java.time.LocalDateTime;
 
+import com.soat.planification_entretien.domain.Event;
+
 public class Entretien implements IEntretien {
     private Integer id;
 
@@ -58,15 +60,16 @@ public class Entretien implements IEntretien {
         return id;
     }
 
-    public boolean planifier(LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
+    public Event planifier(LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
         boolean planifiable = recruteur.estCompatible(candidat)
                 && dateEtHeureDisponibiliteDuCandidat.equals(dateEtHeureDisponibiliteDuRecruteur);
 
         if (planifiable) {
             horaireEntretien = dateEtHeureDisponibiliteDuCandidat;
+            return new EntretienCréé(id, recruteur.getId());
         }
 
-        return planifiable;
+        return new EntretienNonCréé();
     }
 
     public void valider() {

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
@@ -163,5 +164,12 @@ public class PlafinicationEntretienATest extends ATest {
     public void aucunMailDeConfirmationNEstEnvoyéAuCandidatOuAuRecruteur() {
         verify(emailService, never()).envoyerUnEmailDeConfirmationAuCandidat(candidat.getAdresseEmail(), disponibiliteDuCandidat);
         verify(emailService, never()).envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getAdresseEmail(), disponibiliteDuCandidat);
+    }
+
+    @Et("le recruteur {string} n'est plus disponible")
+    public void leRecruteurNEstPlusDisponible(String email) {
+        var recruteur = recruteurRepository.findByEmail(email).get();
+
+        assertThat(recruteur.estDisponible()).isFalse();
     }
 }
