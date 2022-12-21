@@ -63,4 +63,20 @@ public class Entretien {
     public int getStatus() {
         return status;
     }
+
+    public void setCandidat(Candidat candidat) {
+        this.candidat = candidat;
+    }
+
+    public void setHoraireEntretien(LocalDateTime horaireEntretien) {
+        this.horaireEntretien = horaireEntretien;
+    }
+
+    public void setRecruteur(Recruteur recruteur) {
+        this.recruteur = recruteur;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 }

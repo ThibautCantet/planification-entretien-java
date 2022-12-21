@@ -1,16 +1,21 @@
 package com.soat.planification_entretien.infrastructure.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.soat.planification_entretien.domain.entretien.Candidat;
 import com.soat.planification_entretien.domain.candidat.CandidatRepository;
+import com.soat.planification_entretien.domain.entretien.Entretien;
 import com.soat.planification_entretien.use_case.ListerEntretiens;
 import com.soat.planification_entretien.use_case.PlanifierEntretien;
 import com.soat.planification_entretien.domain.entretien.Recruteur;
 import com.soat.planification_entretien.domain.recruteur.RecruteurRepository;
+import com.soat.planification_entretien.use_case.ValiderEntretien;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,12 +32,14 @@ public class EntretienController {
     private final ListerEntretiens listerEntretiens;
     private final CandidatRepository candidatRepository;
     private final RecruteurRepository recruteurRepository;
+    private final ValiderEntretien validerEntretien;
 
-    public EntretienController(PlanifierEntretien planifierEntretien, ListerEntretiens listerEntretiens, CandidatRepository candidatRepository, RecruteurRepository recruteurRepository) {
+    public EntretienController(PlanifierEntretien planifierEntretien, ListerEntretiens listerEntretiens, CandidatRepository candidatRepository, RecruteurRepository recruteurRepository, ValiderEntretien validerEntretien) {
         this.planifierEntretien = planifierEntretien;
         this.listerEntretiens = listerEntretiens;
         this.candidatRepository = candidatRepository;
         this.recruteurRepository = recruteurRepository;
+        this.validerEntretien = validerEntretien;
     }
 
     @GetMapping("/")
@@ -65,6 +72,12 @@ public class EntretienController {
         } else {
             return badRequest().build();
         }
+    }
 
+    @PatchMapping("{id}/valider")
+    public ResponseEntity<Void> valider(@PathVariable("id") int id) {
+        Optional<Entretien> maybeEntretien = validerEntretien.execute(id);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

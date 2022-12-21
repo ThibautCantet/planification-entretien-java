@@ -69,6 +69,10 @@ public class Entretien implements IEntretien {
         return planifiable;
     }
 
+    public void valider() {
+        status = Status.VALIDE;
+    }
+
     @Override
     public String getEmailCandidat() {
         return candidat.getAdresseEmail();
@@ -95,5 +99,9 @@ public class Entretien implements IEntretien {
 
     public int getStatusValue() {
         return status.getValue();
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

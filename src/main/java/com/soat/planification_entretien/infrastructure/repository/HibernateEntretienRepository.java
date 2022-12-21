@@ -1,6 +1,7 @@
 package com.soat.planification_entretien.infrastructure.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.soat.planification_entretien.domain.entretien.EntretienRepository;
 import com.soat.planification_entretien.domain.entretien.Status;
@@ -24,11 +25,30 @@ public class HibernateEntretienRepository implements EntretienRepository {
         var jpaCandidat = candidatCrud.findById(entretien.getCandidat().getId()).get();
         var jpaRecruteur = recruteurCrud.findById(entretien.getRecruteur().getId()).get();
 
-        var jpaEntretien = Entretien.of(jpaCandidat,
-                jpaRecruteur,
-                entretien.getHoraireEntretien(),
-                entretien.getStatusValue());
-        entretienCrud.save(jpaEntretien);
+        if (entretien.getId() == null) {
+            var jpaEntretien = Entretien.of(jpaCandidat,
+                    jpaRecruteur,
+                    entretien.getHoraireEntretien(),
+                    entretien.getStatusValue());
+            entretienCrud.save(jpaEntretien);
+        } else {
+            Optional<Entretien> maybeEntretien = entretienCrud.findById(entretien.getId());
+
+            maybeEntretien.ifPresentOrElse(e -> {
+                        e.setCandidat(jpaCandidat);
+                        e.setRecruteur(jpaRecruteur);
+                        e.setStatus(entretien.getStatusValue());
+                        e.setHoraireEntretien(entretien.getHoraireEntretien());
+                        entretienCrud.save(e);
+                    },
+                    () -> {
+                        var jpaEntretien = Entretien.of(jpaCandidat,
+                                jpaRecruteur,
+                                entretien.getHoraireEntretien(),
+                                entretien.getStatusValue());
+                        entretienCrud.save(jpaEntretien);
+                    });
+        }
     }
 
     @Override
@@ -47,7 +67,15 @@ public class HibernateEntretienRepository implements EntretienRepository {
                 .orElse(null);
     }
 
-    private static com.soat.planification_entretien.domain.entretien.Entretien toEntretien(com.soat.planification_entretien.infrastructure.repository.Entretien jpaEntretien) {
+    @Override
+    public Optional<com.soat.planification_entretien.domain.entretien.Entretien> findById(int entretienId) {
+        var maybeEntretien = entretienCrud.findById(entretienId);
+
+        return maybeEntretien
+                .map(HibernateEntretienRepository::toEntretien);
+    }
+
+    public static com.soat.planification_entretien.domain.entretien.Entretien toEntretien(com.soat.planification_entretien.infrastructure.repository.Entretien jpaEntretien) {
         return com.soat.planification_entretien.domain.entretien.Entretien.of(
                 jpaEntretien.getId(),
                 new com.soat.planification_entretien.domain.entretien.Candidat(jpaEntretien.getCandidat().getId(), jpaEntretien.getCandidat().getLanguage(), jpaEntretien.getCandidat().getEmail(), jpaEntretien.getCandidat().getExperienceInYears()),

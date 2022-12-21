@@ -123,7 +123,6 @@ public class ListingEntretienATest extends ATest {
                 .when()
                         .get();
         //@formatter:on
-
     }
 
     @Alors("on récupères les entretiens suivants")

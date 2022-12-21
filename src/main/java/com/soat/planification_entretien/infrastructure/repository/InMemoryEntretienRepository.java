@@ -3,6 +3,7 @@ package com.soat.planification_entretien.infrastructure.repository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import com.soat.planification_entretien.domain.candidat.Candidat;
 import com.soat.planification_entretien.domain.entretien.Entretien;
@@ -32,5 +33,10 @@ public class InMemoryEntretienRepository implements EntretienRepository {
                 .filter(entretien -> entretien.getCandidat().getId().equals(candidatId))
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Override
+    public Optional<Entretien> findById(int entretienId) {
+        return Optional.ofNullable(cache.get(entretienId));
     }
 }
