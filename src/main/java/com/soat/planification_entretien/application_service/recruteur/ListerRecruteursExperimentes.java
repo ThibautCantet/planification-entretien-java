@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.use_case;
+package com.soat.planification_entretien.application_service.recruteur;
 
 import java.util.List;
 

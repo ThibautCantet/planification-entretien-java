@@ -6,4 +6,6 @@ public interface CandidatRepository {
     Optional<Candidat> findById(int candidatId);
 
     Candidat save(Candidat candidat);
+
+    Integer next();
 }

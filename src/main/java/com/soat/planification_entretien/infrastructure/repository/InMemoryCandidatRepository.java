@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import com.soat.planification_entretien.domain.candidat.Candidat;
 import com.soat.planification_entretien.domain.candidat.CandidatRepository;
-import org.springframework.stereotype.Repository;
 
 //@Repository
 public class InMemoryCandidatRepository implements CandidatRepository {
@@ -23,5 +22,10 @@ public class InMemoryCandidatRepository implements CandidatRepository {
         candidat = Candidat.of(newId, candidat);
         cache.put(newId, candidat);
         return candidat;
+    }
+
+    @Override
+    public Integer next() {
+        return cache.size() + 1;
     }
 }

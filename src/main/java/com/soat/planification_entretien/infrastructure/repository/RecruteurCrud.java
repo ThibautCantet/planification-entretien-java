@@ -18,6 +18,6 @@ public interface RecruteurCrud extends JpaRepository<Recruteur, Integer> {
     //             .toList();
     // }
 
-    // @Query(value = "SELECT e FROM Recruteur where e.experienceInYears >= 10")
+    // @Query(value = "SELECT event FROM Recruteur where event.experienceInYears >= 10")
     // List<Recruteur> find10AnsExperienceImpl();
 }

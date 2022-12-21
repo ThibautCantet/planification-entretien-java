@@ -67,7 +67,7 @@ public class CreationCandidatATest extends ATest {
         final Candidat candidat = candidatRepository.findById(candidatId).get();
         assertThat(candidat).usingRecursiveComparison()
                 .ignoringFields("id")
-                .isEqualTo(new Candidat(language, email, Integer.parseInt(experienceEnAnnees)));
+                .isEqualTo(new Candidat(candidatId, language, email, Integer.parseInt(experienceEnAnnees)));
     }
 
     @Alors("l'enregistrement est refusé")

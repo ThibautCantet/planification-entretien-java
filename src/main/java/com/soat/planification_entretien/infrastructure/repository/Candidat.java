@@ -9,7 +9,7 @@ import javax.persistence.Id;
 @Entity
 public class Candidat {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column
@@ -19,7 +19,8 @@ public class Candidat {
     @Column
     private Integer experienceInYears;
 
-    public Candidat(String language, String email, int experienceInYears) {
+    public Candidat(int id, String language, String email, int experienceInYears) {
+        this.id = id;
         this.language = language;
         this.email = email;
         this.experienceInYears = experienceInYears;

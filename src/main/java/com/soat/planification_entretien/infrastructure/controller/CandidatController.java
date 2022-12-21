@@ -2,7 +2,9 @@ package com.soat.planification_entretien.infrastructure.controller;
 
 import java.net.URI;
 
-import com.soat.planification_entretien.use_case.CreerCandidat;
+import com.soat.planification_entretien.application_service.candidat.CandidatNonSauvegardé;
+import com.soat.planification_entretien.domain.candidat.CandidatCrée;
+import com.soat.planification_entretien.application_service.candidat.CreerCandidat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,17 +30,26 @@ public class CandidatController {
         if (validExperience(candidatDto)) {
             return badRequest().build();
         }
-        Integer createdCandidatId = creerCandidat.execute(candidatDto.language(), candidatDto.email(), candidatDto.experienceEnAnnees());
-        if (createdCandidatId == null) {
+        var events = creerCandidat.execute(candidatDto.language(), candidatDto.email(), candidatDto.experienceEnAnnees());
+        if (events.stream().noneMatch(CandidatCrée.class::isInstance)) {
             return badRequest().build();
+        }
+
+        if (events.stream().anyMatch(CandidatNonSauvegardé.class::isInstance)) {
+            return internalServerError().build();
         }
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(createdCandidatId)
+                .buildAndExpand(events)
                 .toUri();
 
-        return created(location).body(createdCandidatId);
+        return created(location).body(events.stream()
+                .filter(CandidatCrée.class::isInstance)
+                .map(CandidatCrée.class::cast)
+                .findFirst()
+                .map(CandidatCrée::id)
+                .orElse(null));
     }
 
     private static boolean validExperience(CandidatDto candidatDto) {

@@ -2,8 +2,8 @@ package com.soat.planification_entretien.infrastructure.controller;
 
 import java.util.List;
 
-import com.soat.planification_entretien.use_case.CreerRecruteur;
-import com.soat.planification_entretien.use_case.ListerRecruteursExperimentes;
+import com.soat.planification_entretien.application_service.recruteur.CreerRecruteur;
+import com.soat.planification_entretien.application_service.recruteur.ListerRecruteursExperimentes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

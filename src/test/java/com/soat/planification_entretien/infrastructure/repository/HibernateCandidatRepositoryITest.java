@@ -23,11 +23,11 @@ class HibernateCandidatRepositoryITest {
 
     @Test
     void name() {
-        Candidat candidat = hibernateCandidatRepository.save(new Candidat("Java", "candidat@mail.com", 3));
+        Candidat candidat = hibernateCandidatRepository.save(new Candidat(1, "Java", "candidat@mail.com", 3));
 
         assertThat(candidat)
                 .usingRecursiveComparison()
                 .ignoringFields("id")
-                .isEqualTo(new Candidat("Java", "candidat@mail.com", 3));
+                .isEqualTo(new Candidat(1, "Java", "candidat@mail.com", 3));
     }
 }
