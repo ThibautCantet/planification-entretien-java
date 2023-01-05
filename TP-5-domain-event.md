@@ -79,3 +79,31 @@ Regrouper les use cases dans le package `application_service`.
 ### Question
 
 Qu'est-ce que cela change que le use case retourne une liste d'`Event` ?
+
+### Réponse
+
+Dans le `EntretienController`, il faut détecter les `Event` retournés par le use case pour savoir quel retour http
+faire :
+
+```java
+var events=creerCandidat.execute(candidatDto.language(),candidatDto.email(),candidatDto.experienceEnAnnees());
+        if(events.stream().noneMatch(CandidatCrée.class::isInstance)){
+        return badRequest().build();
+        }
+
+        if(events.stream().anyMatch(CandidatNonSauvegardé.class::isInstance)){
+        return internalServerError().build();
+        }
+
+        URI location=ServletUriComponentsBuilder.fromCurrentRequest()
+        .path("/{id}")
+        .buildAndExpand(events)
+        .toUri();
+
+        return created(location).body(events.stream()
+        .filter(CandidatCrée.class::isInstance)
+        .map(CandidatCrée.class::cast)
+        .findFirst()
+        .map(CandidatCrée::id)
+        .orElse(null));
+```
