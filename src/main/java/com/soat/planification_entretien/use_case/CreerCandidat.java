@@ -1,7 +1,7 @@
 package com.soat.planification_entretien.use_case;
 
-import com.soat.planification_entretien.domain.candidat.Candidat;
-import com.soat.planification_entretien.domain.candidat.CandidatRepository;
+import com.soat.planification_entretien.domain.Candidat;
+import com.soat.planification_entretien.domain.CandidatRepository;
 import org.springframework.stereotype.Service;
 
 @Service

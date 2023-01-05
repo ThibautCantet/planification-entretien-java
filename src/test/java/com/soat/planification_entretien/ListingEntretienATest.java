@@ -9,12 +9,12 @@ import java.util.Map;
 
 import com.soat.ATest;
 import com.soat.planification_entretien.infrastructure.controller.EntretienController;
-import com.soat.planification_entretien.domain.candidat.Candidat;
-import com.soat.planification_entretien.domain.candidat.CandidatRepository;
-import com.soat.planification_entretien.domain.entretien.Entretien;
-import com.soat.planification_entretien.domain.entretien.EntretienRepository;
-import com.soat.planification_entretien.domain.recruteur.Recruteur;
-import com.soat.planification_entretien.domain.recruteur.RecruteurRepository;
+import com.soat.planification_entretien.domain.Candidat;
+import com.soat.planification_entretien.domain.CandidatRepository;
+import com.soat.planification_entretien.domain.Entretien;
+import com.soat.planification_entretien.domain.EntretienRepository;
+import com.soat.planification_entretien.domain.Recruteur;
+import com.soat.planification_entretien.domain.RecruteurRepository;
 import com.soat.planification_entretien.infrastructure.controller.EntretienDetailDto;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;

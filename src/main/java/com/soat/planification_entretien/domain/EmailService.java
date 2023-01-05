@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.domain.entretien;
+package com.soat.planification_entretien.domain;
 
 import java.time.LocalDateTime;
 

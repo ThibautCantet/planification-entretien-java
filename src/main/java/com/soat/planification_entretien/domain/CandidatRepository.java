@@ -1,8 +1,6 @@
-package com.soat.planification_entretien.domain.candidat;
+package com.soat.planification_entretien.domain;
 
 import java.util.Optional;
-
-import com.soat.planification_entretien.domain.candidat.Candidat;
 
 
 public interface CandidatRepository {

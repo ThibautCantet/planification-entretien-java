@@ -1,8 +1,6 @@
-package com.soat.planification_entretien.domain.entretien;
+package com.soat.planification_entretien.domain;
 
 import java.util.List;
-
-import com.soat.planification_entretien.domain.candidat.Candidat;
 
 public interface EntretienRepository {
     void save(Entretien entretien);

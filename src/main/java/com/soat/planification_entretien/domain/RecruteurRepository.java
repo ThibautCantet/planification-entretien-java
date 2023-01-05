@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.domain.recruteur;
+package com.soat.planification_entretien.domain;
 
 import java.util.List;
 import java.util.Optional;
