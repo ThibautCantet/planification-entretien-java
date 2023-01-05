@@ -2,9 +2,9 @@ package com.soat.planification_entretien.infrastructure.repository;
 
 import java.util.List;
 
-import com.soat.planification_entretien.domain.Candidat;
-import com.soat.planification_entretien.domain.Recruteur;
-import com.soat.planification_entretien.domain.EntretienRepository;
+import com.soat.planification_entretien.domain.candidat.Candidat;
+import com.soat.planification_entretien.domain.recruteur.Recruteur;
+import com.soat.planification_entretien.domain.entretien.EntretienRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -20,7 +20,7 @@ public class HibernateEntretienRepository implements EntretienRepository {
     }
 
     @Override
-    public void save(com.soat.planification_entretien.domain.Entretien entretien) {
+    public void save(com.soat.planification_entretien.domain.entretien.Entretien entretien) {
 
         var jpaCandidat = candidatCrud.findById(entretien.getCandidat().getId()).get();
         var jpaRecruteur = recruteurCrud.findById(entretien.getRecruteur().getId()).get();
@@ -31,14 +31,14 @@ public class HibernateEntretienRepository implements EntretienRepository {
     }
 
     @Override
-    public List<com.soat.planification_entretien.domain.Entretien> findAll() {
+    public List<com.soat.planification_entretien.domain.entretien.Entretien> findAll() {
         return entretienCrud.findAll().stream()
                 .map(HibernateEntretienRepository::toEntretien)
                 .toList();
     }
 
     @Override
-    public com.soat.planification_entretien.domain.Entretien findByCandidat(Candidat candidat) {
+    public com.soat.planification_entretien.domain.entretien.Entretien findByCandidat(Candidat candidat) {
         var maybeEntretien = entretienCrud.findByCandidat_Email(candidat.getEmail());
 
         return maybeEntretien
@@ -46,10 +46,10 @@ public class HibernateEntretienRepository implements EntretienRepository {
                 .orElse(null);
     }
 
-    private static com.soat.planification_entretien.domain.Entretien toEntretien(com.soat.planification_entretien.infrastructure.repository.Entretien jpaEntretien) {
-        return com.soat.planification_entretien.domain.Entretien.of(
+    private static com.soat.planification_entretien.domain.entretien.Entretien toEntretien(com.soat.planification_entretien.infrastructure.repository.Entretien jpaEntretien) {
+        return com.soat.planification_entretien.domain.entretien.Entretien.of(
                 jpaEntretien.getId(),
-                new Candidat(jpaEntretien.getCandidat().getLanguage(), jpaEntretien.getCandidat().getEmail(), jpaEntretien.getCandidat().getExperienceInYears()),
+                new com.soat.planification_entretien.domain.candidat.Candidat(jpaEntretien.getCandidat().getLanguage(), jpaEntretien.getCandidat().getEmail(), jpaEntretien.getCandidat().getExperienceInYears()),
                 new Recruteur(jpaEntretien.getRecruteur().getLanguage(), jpaEntretien.getRecruteur().getEmail(), jpaEntretien.getRecruteur().getExperienceInYears()),
                 jpaEntretien.getHoraireEntretien());
     }

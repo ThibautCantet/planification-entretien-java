@@ -4,9 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.soat.planification_entretien.domain.Candidat;
-import com.soat.planification_entretien.domain.Entretien;
-import com.soat.planification_entretien.domain.EntretienRepository;
+import com.soat.planification_entretien.domain.candidat.Candidat;
+import com.soat.planification_entretien.domain.entretien.Entretien;
+import com.soat.planification_entretien.domain.entretien.EntretienRepository;
+import org.springframework.stereotype.Repository;
 
 //@Repository
 public class InMemoryEntretienRepository implements EntretienRepository {

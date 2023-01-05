@@ -2,7 +2,7 @@ package com.soat.planification_entretien.infrastructure.controller;
 
 import java.time.LocalDateTime;
 
-import com.soat.planification_entretien.domain.IEntretien;
+import com.soat.planification_entretien.domain.entretien.IEntretien;
 
 public record EntretienDetailDto(
         Integer id,

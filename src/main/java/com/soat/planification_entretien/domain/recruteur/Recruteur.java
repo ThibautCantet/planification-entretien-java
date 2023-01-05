@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.domain;
+package com.soat.planification_entretien.domain.recruteur;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

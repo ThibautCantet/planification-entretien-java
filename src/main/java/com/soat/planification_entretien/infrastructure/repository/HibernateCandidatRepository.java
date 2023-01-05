@@ -2,8 +2,8 @@ package com.soat.planification_entretien.infrastructure.repository;
 
 import java.util.Optional;
 
-import com.soat.planification_entretien.domain.Candidat;
-import com.soat.planification_entretien.domain.CandidatRepository;
+import com.soat.planification_entretien.domain.candidat.Candidat;
+import com.soat.planification_entretien.domain.candidat.CandidatRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -15,9 +15,9 @@ public class HibernateCandidatRepository implements CandidatRepository {
     }
 
     @Override
-    public Optional<Candidat> findById(int candidatId) {
+    public Optional<com.soat.planification_entretien.domain.candidat.Candidat> findById(int candidatId) {
         return candidatCrud.findById(candidatId).map(
-                candidat -> new Candidat(
+                candidat -> new com.soat.planification_entretien.domain.candidat.Candidat(
                         candidatId,
                         candidat.getLanguage(),
                         candidat.getEmail(),

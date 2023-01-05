@@ -1,7 +1,9 @@
-package com.soat.planification_entretien.domain;
+package com.soat.planification_entretien.domain.candidat;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static com.soat.planification_entretien.use_case.CreerCandidat.*;
 
 public class Candidat {
     private static final String EMAIL_REGEX = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
