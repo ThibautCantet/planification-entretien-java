@@ -68,3 +68,8 @@ public class EntretienCreeListener implements Listener<EntretienCréé> {
 ### Question
 
 Quels sont les intérêts de passer par des domain events ?
+
+### Réponse
+
+- Découplage
+- Open Close Principle
