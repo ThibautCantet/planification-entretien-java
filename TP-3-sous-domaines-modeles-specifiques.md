@@ -8,9 +8,17 @@ Séparer les modèles `Candidat` et `Recruteur` dans le sous-domaine `planificat
 
 Que constatez-vous avec ces nouveaux modèles ?
 
+### Réponse 1 :
+
+On n'a plus besoin de toutes les règles de validation lors de l'instanciation.
+
 ### Question 2 :
 
 Que constatez-vous avec dépendances ?
+
+### Réponse 2 :
+
+On n'a plus de dépendances dans le sous-domaine `planification_entretien` vers `candidat` ou `recruteur`.
 
 ### Etape 3.2
 
