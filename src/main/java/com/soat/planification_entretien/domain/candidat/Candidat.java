@@ -3,7 +3,7 @@ package com.soat.planification_entretien.domain.candidat;
 public class Candidat {
 
     private Integer id;
-    private String language;
+    private Langage language;
     private CandidatEmail email;
     private Experience experience;
 
@@ -12,11 +12,8 @@ public class Candidat {
     }
 
     public Candidat(Integer candidatId, String language, String email, Integer experienceInYears) {
-        if (language.isBlank() || experienceInYears < 0) {
-            throw new IllegalArgumentException();
-        }
         this.id = candidatId;
-        this.language = language;
+        this.language = new Langage(language);
         this.email = new CandidatEmail(email);
         this.experience = new Experience(experienceInYears);
     }
@@ -31,7 +28,7 @@ public class Candidat {
     }
 
     public String getLanguage() {
-        return language;
+        return language.nom();
     }
 
     public String getAdresseEmail() {

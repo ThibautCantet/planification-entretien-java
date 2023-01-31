@@ -4,7 +4,7 @@ public class Recruteur {
 
     private Integer id;
 
-    private String language;
+    private Langage language;
     private RecruteurEmail email;
     private Experience experience;
 
@@ -13,11 +13,8 @@ public class Recruteur {
     }
 
     public Recruteur(Integer recruteurId, String language, String email, Integer experienceInYears) {
-        if (language.isBlank()) {
-            throw new IllegalArgumentException();
-        }
         this.id = recruteurId;
-        this.language = language;
+        this.language = new Langage(language);
         this.email = new RecruteurEmail(email);
         this.experience = new Experience(experienceInYears);
     }
@@ -32,7 +29,7 @@ public class Recruteur {
     }
 
     public String getLanguage() {
-        return language;
+        return language.nom();
     }
 
     public String getAdresseEmail() {
