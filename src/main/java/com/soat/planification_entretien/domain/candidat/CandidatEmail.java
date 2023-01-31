@@ -6,11 +6,10 @@ import java.util.regex.Pattern;
 public record CandidatEmail(String adresse) {
     private static final String EMAIL_REGEX = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
 
-    public CandidatEmail(String adresse) {
+    public CandidatEmail {
         if (!isEmail(adresse) || adresse.endsWith("soat.fr")) {
             throw new IllegalArgumentException();
         }
-        this.adresse = adresse;
     }
 
     private static boolean isEmail(String adresse) {
