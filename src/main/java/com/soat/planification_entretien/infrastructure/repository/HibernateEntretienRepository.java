@@ -22,8 +22,8 @@ public class HibernateEntretienRepository implements EntretienRepository {
     @Override
     public void save(com.soat.planification_entretien.domain.entretien.Entretien entretien) {
 
-        var jpaCandidat = candidatCrud.findById(entretien.getCandidat().getId()).get();
-        var jpaRecruteur = recruteurCrud.findById(entretien.getRecruteur().getId()).get();
+        var jpaCandidat = candidatCrud.findById(entretien.getCandidat().id()).get();
+        var jpaRecruteur = recruteurCrud.findById(entretien.getRecruteur().id()).get();
 
         if (entretien.getId() == null) {
             var jpaEntretien = Entretien.of(jpaCandidat,

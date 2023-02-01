@@ -66,7 +66,7 @@ public class Entretien implements IEntretien {
 
         if (planifiable) {
             horaireEntretien = dateEtHeureDisponibiliteDuCandidat;
-            return new EntretienCréé(id, recruteur.getId());
+            return new EntretienCréé(id, recruteur.id());
         }
 
         return new EntretienNonCréé();
@@ -78,12 +78,12 @@ public class Entretien implements IEntretien {
 
     @Override
     public String getEmailCandidat() {
-        return candidat.getAdresseEmail();
+        return candidat.adresseEmail();
     }
 
     @Override
     public String getEmailRecruteur() {
-        return recruteur.getAdresseEmail();
+        return recruteur.adresseEmail();
     }
 
     @Override

@@ -30,7 +30,7 @@ public class InMemoryEntretienRepository implements EntretienRepository {
     @Override
     public Entretien findByCandidatId(int candidatId) {
         return cache.values().stream()
-                .filter(entretien -> entretien.getCandidat().getId().equals(candidatId))
+                .filter(entretien -> entretien.getCandidat().id().equals(candidatId))
                 .findFirst()
                 .orElse(null);
     }

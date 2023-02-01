@@ -1,37 +1,23 @@
 package com.soat.planification_entretien.domain.entretien;
 
-public class Candidat {
-    private final Integer id;
-    private final String adresseEmail;
-    private final Profil profil;
+public record Candidat(
+        Integer id,
+        String adresseEmail,
+        Profil profil) {
 
     public Candidat(
-        Integer id,
-        String language,
-        String adresseEmail,
-        int experienceInYears) {
-        this.id = id;
-        this.adresseEmail = adresseEmail;
-        this.profil = new Profil(language, experienceInYears);
+            Integer id,
+            String language,
+            String adresseEmail,
+            int experienceInYears) {
+        this(id, adresseEmail, new Profil(language, experienceInYears));
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public String getAdresseEmail() {
-        return adresseEmail;
-    }
-
-    public int getExperienceInYears() {
-        return profil.experienceInYears();
-    }
-
-    Profil getProfil() {
-        return profil;
-    }
-
-    public String getLanguage() {
+    public String language() {
         return profil.language();
+    }
+
+    public Integer experienceInYears() {
+        return profil.experienceInYears();
     }
 }

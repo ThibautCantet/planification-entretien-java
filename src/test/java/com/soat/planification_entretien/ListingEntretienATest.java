@@ -60,7 +60,7 @@ public class ListingEntretienATest extends ATest {
 
         for (Recruteur recruteur : recruteurs) {
             var saved = recruteurRepository.save(new com.soat.planification_entretien.domain.recruteur.Recruteur(recruteur.getLanguage(),
-                    recruteur.getAdresseEmail(),
+                    recruteur.adresseEmail(),
                     recruteur.getExperienceInYears()));
             recruteur = new Recruteur(saved.getId(), saved.getLanguage(), saved.getAdresseEmail(), saved.getExperienceInYears());
             savedRecruteurs.add(recruteur);
@@ -81,10 +81,10 @@ public class ListingEntretienATest extends ATest {
 
         for (Candidat candidat : candidats) {
             var saved = candidatRepository.save(new com.soat.planification_entretien.domain.candidat.Candidat(
-                    candidat.getId(),
-                    candidat.getLanguage(),
-                    candidat.getAdresseEmail(),
-                    candidat.getExperienceInYears()));
+                    candidat.id(),
+                    candidat.language(),
+                    candidat.adresseEmail(),
+                    candidat.experienceInYears()));
             candidat = new Candidat(saved.getId(), saved.getLanguage(), saved.getAdresseEmail(), saved.getExperienceInYears());
             savedCandidats.add(candidat);
         }

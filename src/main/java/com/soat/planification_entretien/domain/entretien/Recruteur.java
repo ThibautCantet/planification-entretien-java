@@ -1,30 +1,20 @@
 package com.soat.planification_entretien.domain.entretien;
 
-public class Recruteur {
-    private final Integer id;
-    private final String adresseEmail;
-    private final Profil profil;
+public record Recruteur(
+        Integer id,
+        String adresseEmail,
+        Profil profil) {
 
     public Recruteur(
             Integer id,
             String language,
             String adresseEmail,
             int experienceInYears) {
-        this.id = id;
-        this.adresseEmail = adresseEmail;
-        this.profil = new Profil(language, experienceInYears);
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getAdresseEmail() {
-        return adresseEmail;
+        this(id, adresseEmail, new Profil(language, experienceInYears));
     }
 
     public boolean estCompatible(Candidat candidat) {
-        return this.profil.estCompatible(candidat.getProfil());
+        return this.profil.estCompatible(candidat.profil());
     }
 
     public String getLanguage() {
