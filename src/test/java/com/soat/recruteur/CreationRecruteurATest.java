@@ -5,10 +5,10 @@ import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
-import com.soat.planification_entretien.infrastructure.controller.RecruteurController;
-import com.soat.planification_entretien.domain.recruteur.Recruteur;
-import com.soat.planification_entretien.domain.recruteur.RecruteurRepository;
-import com.soat.planification_entretien.infrastructure.controller.RecruteurDto;
+import com.soat.planification_entretien.recruteur.infrastructure.controller.RecruteurController;
+import com.soat.planification_entretien.recruteur.domain.Recruteur;
+import com.soat.planification_entretien.recruteur.domain.RecruteurRepository;
+import com.soat.planification_entretien.recruteur.infrastructure.controller.RecruteurDto;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;

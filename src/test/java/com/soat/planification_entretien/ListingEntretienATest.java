@@ -8,15 +8,15 @@ import java.util.List;
 import java.util.Map;
 
 import com.soat.ATest;
-import com.soat.planification_entretien.domain.entretien.Status;
-import com.soat.planification_entretien.infrastructure.controller.EntretienController;
-import com.soat.planification_entretien.domain.entretien.Candidat;
-import com.soat.planification_entretien.domain.candidat.CandidatRepository;
-import com.soat.planification_entretien.domain.entretien.Entretien;
-import com.soat.planification_entretien.domain.entretien.EntretienRepository;
-import com.soat.planification_entretien.domain.entretien.Recruteur;
-import com.soat.planification_entretien.domain.recruteur.RecruteurRepository;
-import com.soat.planification_entretien.infrastructure.controller.EntretienDetailDto;
+import com.soat.planification_entretien.entretien.domain.Status;
+import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienController;
+import com.soat.planification_entretien.entretien.domain.Candidat;
+import com.soat.planification_entretien.candidat.domain.CandidatRepository;
+import com.soat.planification_entretien.entretien.domain.Entretien;
+import com.soat.planification_entretien.entretien.domain.EntretienRepository;
+import com.soat.planification_entretien.entretien.domain.Recruteur;
+import com.soat.planification_entretien.recruteur.domain.RecruteurRepository;
+import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienDetailDto;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
@@ -59,7 +59,7 @@ public class ListingEntretienATest extends ATest {
         List<Recruteur> recruteurs = dataTableTransformEntries(dataTable, this::buildRecruteur);
 
         for (Recruteur recruteur : recruteurs) {
-            var saved = recruteurRepository.save(new com.soat.planification_entretien.domain.recruteur.Recruteur(recruteur.getLanguage(),
+            var saved = recruteurRepository.save(new com.soat.planification_entretien.recruteur.domain.Recruteur(recruteur.getLanguage(),
                     recruteur.adresseEmail(),
                     recruteur.getExperienceInYears()));
             recruteur = new Recruteur(saved.getId(), saved.getLanguage(), saved.getAdresseEmail(), saved.getExperienceInYears());
@@ -80,7 +80,7 @@ public class ListingEntretienATest extends ATest {
         List<Candidat> candidats = dataTableTransformEntries(dataTable, this::buildCandidat);
 
         for (Candidat candidat : candidats) {
-            var saved = candidatRepository.save(new com.soat.planification_entretien.domain.candidat.Candidat(
+            var saved = candidatRepository.save(new com.soat.planification_entretien.candidat.domain.Candidat(
                     candidat.id(),
                     candidat.language(),
                     candidat.adresseEmail(),
