@@ -12,12 +12,12 @@ import com.soat.planification_entretien.entretien.domain.Recruteur;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PlanifierEntretien {
+public class PlanifierEntretienCommandHandler {
     private final EntretienRepository entretienRepository;
     private final EmailService emailService;
     private final MessageBus messageBus;
 
-    public PlanifierEntretien(EntretienRepository entretienRepository, EmailService emailService, MessageBus messageBus) {
+    public PlanifierEntretienCommandHandler(EntretienRepository entretienRepository, EmailService emailService, MessageBus messageBus) {
         this.entretienRepository = entretienRepository;
         this.emailService = emailService;
         this.messageBus = messageBus;

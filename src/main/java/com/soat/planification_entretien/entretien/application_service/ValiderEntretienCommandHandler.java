@@ -7,10 +7,10 @@ import com.soat.planification_entretien.entretien.domain.EntretienRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ValiderEntretien {
+public class ValiderEntretienCommandHandler {
     private final EntretienRepository entretienRepository;
 
-    public ValiderEntretien(EntretienRepository entretienRepository) {
+    public ValiderEntretienCommandHandler(EntretienRepository entretienRepository) {
         this.entretienRepository = entretienRepository;
     }
 

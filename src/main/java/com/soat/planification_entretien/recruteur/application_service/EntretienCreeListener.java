@@ -7,17 +7,17 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EntretienCreeListener implements Listener<EntretienCréé> {
-    private final RendreRecruteurIndisponible rendreRecruteurIndisponible;
+    private final RendreRecruteurIndisponibleCommandHandler rendreRecruteurIndisponibleCommandHandler;
     private final MessageBus messageBus;
 
-    public EntretienCreeListener(RendreRecruteurIndisponible rendreRecruteurIndisponible, MessageBus messageBus) {
-        this.rendreRecruteurIndisponible = rendreRecruteurIndisponible;
+    public EntretienCreeListener(RendreRecruteurIndisponibleCommandHandler rendreRecruteurIndisponibleCommandHandler, MessageBus messageBus) {
+        this.rendreRecruteurIndisponibleCommandHandler = rendreRecruteurIndisponibleCommandHandler;
         this.messageBus = messageBus;
         this.messageBus.subscribe(this);
     }
 
     @Override
     public void onMessage(EntretienCréé entretienCréé) {
-        rendreRecruteurIndisponible.execute(entretienCréé.recruteurId());
+        rendreRecruteurIndisponibleCommandHandler.execute(entretienCréé.recruteurId());
     }
 }

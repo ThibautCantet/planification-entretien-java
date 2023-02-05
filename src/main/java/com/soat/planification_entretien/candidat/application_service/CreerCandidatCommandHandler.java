@@ -11,12 +11,12 @@ import com.soat.planification_entretien.common.domain_service.Result;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CreerCandidat {
+public class CreerCandidatCommandHandler {
 
     private final CandidatRepository candidatRepository;
     private final CandidatFactory candidatFactory;
 
-    public CreerCandidat(CandidatRepository candidatRepository, CandidatFactory candidatFactory) {
+    public CreerCandidatCommandHandler(CandidatRepository candidatRepository, CandidatFactory candidatFactory) {
         this.candidatRepository = candidatRepository;
         this.candidatFactory = candidatFactory;
     }

@@ -3,8 +3,8 @@ package com.soat.planification_entretien.candidat.infrastructure.controller;
 import java.net.URI;
 
 import com.soat.planification_entretien.candidat.application_service.CandidatNonSauvegardé;
+import com.soat.planification_entretien.candidat.application_service.CreerCandidatCommandHandler;
 import com.soat.planification_entretien.candidat.domain.CandidatCrée;
-import com.soat.planification_entretien.candidat.application_service.CreerCandidat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,10 +19,10 @@ import static org.springframework.http.ResponseEntity.*;
 public class CandidatController {
     public static final String PATH = "/api/candidat";
 
-    private final CreerCandidat creerCandidat;
+    private final CreerCandidatCommandHandler creerCandidatCommandHandler;
 
-    public CandidatController(CreerCandidat creerCandidat) {
-        this.creerCandidat = creerCandidat;
+    public CandidatController(CreerCandidatCommandHandler creerCandidatCommandHandler) {
+        this.creerCandidatCommandHandler = creerCandidatCommandHandler;
     }
 
     @PostMapping("")
@@ -30,7 +30,7 @@ public class CandidatController {
         if (validExperience(candidatDto)) {
             return badRequest().build();
         }
-        var events = creerCandidat.execute(candidatDto.language(), candidatDto.email(), candidatDto.experienceEnAnnees());
+        var events = creerCandidatCommandHandler.execute(candidatDto.language(), candidatDto.email(), candidatDto.experienceEnAnnees());
         if (events.stream().noneMatch(CandidatCrée.class::isInstance)) {
             return badRequest().build();
         }

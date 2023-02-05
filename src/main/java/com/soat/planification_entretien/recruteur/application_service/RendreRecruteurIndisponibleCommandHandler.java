@@ -4,10 +4,10 @@ import com.soat.planification_entretien.recruteur.domain.RecruteurRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RendreRecruteurIndisponible {
+public class RendreRecruteurIndisponibleCommandHandler {
     private final RecruteurRepository recruteurRepository;
 
-    public RendreRecruteurIndisponible(RecruteurRepository recruteurRepository) {
+    public RendreRecruteurIndisponibleCommandHandler(RecruteurRepository recruteurRepository) {
         this.recruteurRepository = recruteurRepository;
     }
 

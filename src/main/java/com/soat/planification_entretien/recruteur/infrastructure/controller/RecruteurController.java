@@ -2,8 +2,8 @@ package com.soat.planification_entretien.recruteur.infrastructure.controller;
 
 import java.util.List;
 
-import com.soat.planification_entretien.recruteur.application_service.CreerRecruteur;
-import com.soat.planification_entretien.recruteur.application_service.ListerRecruteursExperimentes;
+import com.soat.planification_entretien.recruteur.application_service.CreerRecruteurCommandHandler;
+import com.soat.planification_entretien.recruteur.application_service.ListerRecruteursExperimentesQueryHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +19,12 @@ import static org.springframework.http.ResponseEntity.*;
 public class RecruteurController {
     public static final String PATH = "/api/recruteur";
 
-    private final CreerRecruteur creerRecruteur;
-    private final ListerRecruteursExperimentes listerRecruteursExperimentes;
+    private final CreerRecruteurCommandHandler creerRecruteurCommandHandler;
+    private final ListerRecruteursExperimentesQueryHandler listerRecruteursExperimentesQueryHandler;
 
-    public RecruteurController(CreerRecruteur creerRecruteur, ListerRecruteursExperimentes listerRecruteursExperimentes) {
-        this.creerRecruteur = creerRecruteur;
-        this.listerRecruteursExperimentes = listerRecruteursExperimentes;
+    public RecruteurController(CreerRecruteurCommandHandler creerRecruteurCommandHandler, ListerRecruteursExperimentesQueryHandler listerRecruteursExperimentesQueryHandler) {
+        this.creerRecruteurCommandHandler = creerRecruteurCommandHandler;
+        this.listerRecruteursExperimentesQueryHandler = listerRecruteursExperimentesQueryHandler;
     }
 
     @PostMapping("")
@@ -32,7 +32,7 @@ public class RecruteurController {
         if (validExperience(recruteurDto)) {
             return badRequest().build();
         }
-        Integer createdRecruteurId = creerRecruteur.execute(recruteurDto.language(), recruteurDto.email(), recruteurDto.experienceEnAnnees());
+        Integer createdRecruteurId = creerRecruteurCommandHandler.execute(recruteurDto.language(), recruteurDto.email(), recruteurDto.experienceEnAnnees());
         if (createdRecruteurId == null) {
             return badRequest().build();
         }
@@ -42,7 +42,7 @@ public class RecruteurController {
 
     @GetMapping("")
     public ResponseEntity<List<RecruteurDetailDto>> lister() {
-        List<RecruteurDetailDto> recruteurs = listerRecruteursExperimentes.execute().stream()
+        List<RecruteurDetailDto> recruteurs = listerRecruteursExperimentesQueryHandler.execute().stream()
                 .map(e -> new RecruteurDetailDto(e.getId(), e.getLanguage(), e.getExperienceInYears(), e.getAdresseEmail()))
                 .toList();
 

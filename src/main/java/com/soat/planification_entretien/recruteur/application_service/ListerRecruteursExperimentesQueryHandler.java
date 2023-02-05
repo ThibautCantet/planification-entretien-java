@@ -7,10 +7,10 @@ import com.soat.planification_entretien.recruteur.domain.RecruteurRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ListerRecruteursExperimentes {
+public class ListerRecruteursExperimentesQueryHandler {
     private final RecruteurRepository recruteurRepository;
 
-    public ListerRecruteursExperimentes(RecruteurRepository recruteurRepository) {
+    public ListerRecruteursExperimentesQueryHandler(RecruteurRepository recruteurRepository) {
         this.recruteurRepository = recruteurRepository;
     }
 

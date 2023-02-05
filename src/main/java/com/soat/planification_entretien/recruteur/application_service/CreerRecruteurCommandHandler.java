@@ -5,11 +5,11 @@ import com.soat.planification_entretien.recruteur.domain.RecruteurRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CreerRecruteur {
+public class CreerRecruteurCommandHandler {
 
     private final RecruteurRepository recruteurRepository;
 
-    public CreerRecruteur(RecruteurRepository recruteurRepository) {
+    public CreerRecruteurCommandHandler(RecruteurRepository recruteurRepository) {
         this.recruteurRepository = recruteurRepository;
     }
 

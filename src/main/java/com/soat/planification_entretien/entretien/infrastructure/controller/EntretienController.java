@@ -6,11 +6,11 @@ import java.util.Optional;
 import com.soat.planification_entretien.entretien.domain.Candidat;
 import com.soat.planification_entretien.candidat.domain.CandidatRepository;
 import com.soat.planification_entretien.entretien.domain.Entretien;
-import com.soat.planification_entretien.entretien.application_service.ListerEntretiens;
-import com.soat.planification_entretien.entretien.application_service.PlanifierEntretien;
+import com.soat.planification_entretien.entretien.application_service.ListerEntretiensQueryHandler;
+import com.soat.planification_entretien.entretien.application_service.PlanifierEntretienCommandHandler;
 import com.soat.planification_entretien.entretien.domain.Recruteur;
 import com.soat.planification_entretien.recruteur.domain.RecruteurRepository;
-import com.soat.planification_entretien.entretien.application_service.ValiderEntretien;
+import com.soat.planification_entretien.entretien.application_service.ValiderEntretienCommandHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,23 +28,23 @@ import static org.springframework.http.ResponseEntity.*;
 public class EntretienController {
     public static final String PATH = "/api/entretien/";
 
-    private final PlanifierEntretien planifierEntretien;
-    private final ListerEntretiens listerEntretiens;
+    private final PlanifierEntretienCommandHandler planifierEntretienCommandHandler;
+    private final ListerEntretiensQueryHandler listerEntretiensQueryHandler;
     private final CandidatRepository candidatRepository;
     private final RecruteurRepository recruteurRepository;
-    private final ValiderEntretien validerEntretien;
+    private final ValiderEntretienCommandHandler validerEntretienCommandHandler;
 
-    public EntretienController(PlanifierEntretien planifierEntretien, ListerEntretiens listerEntretiens, CandidatRepository candidatRepository, RecruteurRepository recruteurRepository, ValiderEntretien validerEntretien) {
-        this.planifierEntretien = planifierEntretien;
-        this.listerEntretiens = listerEntretiens;
+    public EntretienController(PlanifierEntretienCommandHandler planifierEntretienCommandHandler, ListerEntretiensQueryHandler listerEntretiensQueryHandler, CandidatRepository candidatRepository, RecruteurRepository recruteurRepository, ValiderEntretienCommandHandler validerEntretienCommandHandler) {
+        this.planifierEntretienCommandHandler = planifierEntretienCommandHandler;
+        this.listerEntretiensQueryHandler = listerEntretiensQueryHandler;
         this.candidatRepository = candidatRepository;
         this.recruteurRepository = recruteurRepository;
-        this.validerEntretien = validerEntretien;
+        this.validerEntretienCommandHandler = validerEntretienCommandHandler;
     }
 
     @GetMapping("/")
     public ResponseEntity<List<EntretienDetailDto>> findAll() {
-        var entretiens = listerEntretiens.execute()
+        var entretiens = listerEntretiensQueryHandler.execute()
                 .stream()
                 .map(e -> new EntretienDetailDto(e.getId(), e.getEmailCandidat(), e.getEmailRecruteur(), e.getLanguage(), e.getHoraire(), e.getStatus()))
                 .toList();
@@ -65,7 +65,7 @@ public class EntretienController {
         if (recruteur.isEmpty()) {
             return badRequest().build();
         }
-        var planifie = planifierEntretien.execute(candidat.get(), recruteur.get(), entretienDto.disponibiliteDuCandidat(), entretienDto.disponibiliteDuRecruteur());
+        var planifie = planifierEntretienCommandHandler.execute(candidat.get(), recruteur.get(), entretienDto.disponibiliteDuCandidat(), entretienDto.disponibiliteDuRecruteur());
 
         if (planifie) {
             return created(null).build();
@@ -76,7 +76,7 @@ public class EntretienController {
 
     @PatchMapping("{id}/valider")
     public ResponseEntity<Void> valider(@PathVariable("id") int id) {
-        Optional<Entretien> maybeEntretien = validerEntretien.execute(id);
+        Optional<Entretien> maybeEntretien = validerEntretienCommandHandler.execute(id);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
