@@ -34,3 +34,7 @@ Déplacer `domain` dans le package `command`.
 ### Question
 
 Que remarquez-vous dans les `QueryHandler` ?
+
+### Réponse
+
+Il y a des références au package `command` pour les modèles et les `repository`
