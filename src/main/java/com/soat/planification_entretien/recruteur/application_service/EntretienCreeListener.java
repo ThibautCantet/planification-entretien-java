@@ -18,6 +18,6 @@ public class EntretienCreeListener implements Listener<EntretienCréé> {
 
     @Override
     public void onMessage(EntretienCréé entretienCréé) {
-        rendreRecruteurIndisponibleCommandHandler.execute(entretienCréé.recruteurId());
+        rendreRecruteurIndisponibleCommandHandler.handle(new RendreRecruteurIndisponibleCommand(entretienCréé.recruteurId()));
     }
 }

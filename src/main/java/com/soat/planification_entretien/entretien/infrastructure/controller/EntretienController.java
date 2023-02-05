@@ -3,6 +3,8 @@ package com.soat.planification_entretien.entretien.infrastructure.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.soat.planification_entretien.entretien.application_service.PlanifierEntretienCommand;
+import com.soat.planification_entretien.entretien.application_service.ValiderEntretienCommand;
 import com.soat.planification_entretien.entretien.domain.Candidat;
 import com.soat.planification_entretien.candidat.domain.CandidatRepository;
 import com.soat.planification_entretien.entretien.domain.Entretien;
@@ -44,7 +46,7 @@ public class EntretienController {
 
     @GetMapping("/")
     public ResponseEntity<List<EntretienDetailDto>> findAll() {
-        var entretiens = listerEntretiensQueryHandler.execute()
+        var entretiens = listerEntretiensQueryHandler.handle()
                 .stream()
                 .map(e -> new EntretienDetailDto(e.getId(), e.getEmailCandidat(), e.getEmailRecruteur(), e.getLanguage(), e.getHoraire(), e.getStatus()))
                 .toList();
@@ -65,7 +67,7 @@ public class EntretienController {
         if (recruteur.isEmpty()) {
             return badRequest().build();
         }
-        var planifie = planifierEntretienCommandHandler.execute(candidat.get(), recruteur.get(), entretienDto.disponibiliteDuCandidat(), entretienDto.disponibiliteDuRecruteur());
+        var planifie = planifierEntretienCommandHandler.handle(new PlanifierEntretienCommand(candidat.get(), recruteur.get(), entretienDto.disponibiliteDuCandidat(), entretienDto.disponibiliteDuRecruteur()));
 
         if (planifie) {
             return created(null).build();
@@ -76,7 +78,7 @@ public class EntretienController {
 
     @PatchMapping("{id}/valider")
     public ResponseEntity<Void> valider(@PathVariable("id") int id) {
-        Optional<Entretien> maybeEntretien = validerEntretienCommandHandler.execute(id);
+        Optional<Entretien> maybeEntretien = validerEntretienCommandHandler.handle(new ValiderEntretienCommand(id));
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

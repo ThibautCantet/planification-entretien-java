@@ -14,7 +14,7 @@ public class ListerRecruteursExperimentesQueryHandler {
         this.recruteurRepository = recruteurRepository;
     }
 
-    public List<Recruteur> execute() {
+    public List<Recruteur> handle() {
         return recruteurRepository.find10AnsExperience();
     }
 }

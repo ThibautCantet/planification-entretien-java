@@ -21,9 +21,9 @@ public class CreerCandidatCommandHandler {
         this.candidatFactory = candidatFactory;
     }
 
-    public List<Event> execute(String language, String email, String experienceEnAnnees) {
+    public List<Event> handle(CreerCandidatCommand creerCandidatCommand) {
         var candidatId = candidatRepository.next();
-        Result<Event, Candidat> eventCandidatResult = candidatFactory.create(candidatId, language, email, experienceEnAnnees);
+        Result<Event, Candidat> eventCandidatResult = candidatFactory.create(candidatId, creerCandidatCommand.language(), creerCandidatCommand.email(), creerCandidatCommand.experienceEnAnnees());
 
         if (eventCandidatResult.event() instanceof CandidatCrée) {
             candidatRepository.save(eventCandidatResult.value());

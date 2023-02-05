@@ -11,8 +11,8 @@ public class RendreRecruteurIndisponibleCommandHandler {
         this.recruteurRepository = recruteurRepository;
     }
 
-    public void execute(Integer recruteurId) {
-        var maybeRecruteur = recruteurRepository.findById(recruteurId);
+    public void handle(RendreRecruteurIndisponibleCommand rendreRecruteurIndisponibleCommand) {
+        var maybeRecruteur = recruteurRepository.findById(rendreRecruteurIndisponibleCommand.recruteurId());
         maybeRecruteur.ifPresent(recruteur -> {
             recruteur.rendreIndisponible();
             recruteurRepository.save(recruteur);

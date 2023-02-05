@@ -3,12 +3,10 @@ package com.soat.planification_entretien.entretien.application_service;
 import java.time.LocalDateTime;
 
 import com.soat.planification_entretien.common.application_service.MessageBus;
-import com.soat.planification_entretien.entretien.domain.Candidat;
 import com.soat.planification_entretien.entretien.domain.EmailService;
 import com.soat.planification_entretien.entretien.domain.Entretien;
 import com.soat.planification_entretien.entretien.domain.EntretienCréé;
 import com.soat.planification_entretien.entretien.domain.EntretienRepository;
-import com.soat.planification_entretien.entretien.domain.Recruteur;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,12 +21,12 @@ public class PlanifierEntretienCommandHandler {
         this.messageBus = messageBus;
     }
 
-    public boolean execute(Candidat candidat, Recruteur recruteur, LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
-        Entretien entretien = new Entretien(candidat, recruteur);
-        if (entretien.planifier(dateEtHeureDisponibiliteDuCandidat, dateEtHeureDisponibiliteDuRecruteur) instanceof EntretienCréé entretienCréé) {
+    public boolean handle(PlanifierEntretienCommand planifierEntretienCommand) {
+        Entretien entretien = new Entretien(planifierEntretienCommand.candidat(), planifierEntretienCommand.recruteur());
+        if (entretien.planifier(planifierEntretienCommand.dateEtHeureDisponibiliteDuCandidat(), planifierEntretienCommand.dateEtHeureDisponibiliteDuRecruteur()) instanceof EntretienCréé entretienCréé) {
             entretienRepository.save(entretien);
-            emailService.envoyerUnEmailDeConfirmationAuCandidat(candidat.adresseEmail(), dateEtHeureDisponibiliteDuCandidat);
-            emailService.envoyerUnEmailDeConfirmationAuRecruteur(recruteur.adresseEmail(), dateEtHeureDisponibiliteDuCandidat);
+            emailService.envoyerUnEmailDeConfirmationAuCandidat(planifierEntretienCommand.candidat().adresseEmail(), planifierEntretienCommand.dateEtHeureDisponibiliteDuCandidat());
+            emailService.envoyerUnEmailDeConfirmationAuRecruteur(planifierEntretienCommand.recruteur().adresseEmail(), planifierEntretienCommand.dateEtHeureDisponibiliteDuCandidat());
             messageBus.send(entretienCréé);
             return true;
         }

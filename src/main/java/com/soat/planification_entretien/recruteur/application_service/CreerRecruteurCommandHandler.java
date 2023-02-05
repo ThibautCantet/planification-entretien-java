@@ -13,9 +13,9 @@ public class CreerRecruteurCommandHandler {
         this.recruteurRepository = recruteurRepository;
     }
 
-    public Integer execute(String language, String email, String experienceEnAnnees) {
+    public Integer handle(CreerRecruteurCommand creerRecruteurCommand) {
         try {
-            Recruteur recruteur = new Recruteur(language, email, Integer.parseInt(experienceEnAnnees));
+            Recruteur recruteur = new Recruteur(creerRecruteurCommand.language(), creerRecruteurCommand.email(), Integer.parseInt(creerRecruteurCommand.experienceEnAnnees()));
             Recruteur savedRecruteur = recruteurRepository.save(recruteur);
 
             return savedRecruteur.getId();

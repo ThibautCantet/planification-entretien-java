@@ -2,6 +2,7 @@ package com.soat.planification_entretien.recruteur.infrastructure.controller;
 
 import java.util.List;
 
+import com.soat.planification_entretien.recruteur.application_service.CreerRecruteurCommand;
 import com.soat.planification_entretien.recruteur.application_service.CreerRecruteurCommandHandler;
 import com.soat.planification_entretien.recruteur.application_service.ListerRecruteursExperimentesQueryHandler;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,7 @@ public class RecruteurController {
         if (validExperience(recruteurDto)) {
             return badRequest().build();
         }
-        Integer createdRecruteurId = creerRecruteurCommandHandler.execute(recruteurDto.language(), recruteurDto.email(), recruteurDto.experienceEnAnnees());
+        Integer createdRecruteurId = creerRecruteurCommandHandler.handle(new CreerRecruteurCommand(recruteurDto.language(), recruteurDto.email(), recruteurDto.experienceEnAnnees()));
         if (createdRecruteurId == null) {
             return badRequest().build();
         }
@@ -42,7 +43,7 @@ public class RecruteurController {
 
     @GetMapping("")
     public ResponseEntity<List<RecruteurDetailDto>> lister() {
-        List<RecruteurDetailDto> recruteurs = listerRecruteursExperimentesQueryHandler.execute().stream()
+        List<RecruteurDetailDto> recruteurs = listerRecruteursExperimentesQueryHandler.handle().stream()
                 .map(e -> new RecruteurDetailDto(e.getId(), e.getLanguage(), e.getExperienceInYears(), e.getAdresseEmail()))
                 .toList();
 

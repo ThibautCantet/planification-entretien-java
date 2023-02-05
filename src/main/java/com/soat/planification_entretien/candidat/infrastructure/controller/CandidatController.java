@@ -3,6 +3,7 @@ package com.soat.planification_entretien.candidat.infrastructure.controller;
 import java.net.URI;
 
 import com.soat.planification_entretien.candidat.application_service.CandidatNonSauvegardé;
+import com.soat.planification_entretien.candidat.application_service.CreerCandidatCommand;
 import com.soat.planification_entretien.candidat.application_service.CreerCandidatCommandHandler;
 import com.soat.planification_entretien.candidat.domain.CandidatCrée;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class CandidatController {
         if (validExperience(candidatDto)) {
             return badRequest().build();
         }
-        var events = creerCandidatCommandHandler.execute(candidatDto.language(), candidatDto.email(), candidatDto.experienceEnAnnees());
+        var events = creerCandidatCommandHandler.handle(new CreerCandidatCommand(candidatDto.language(), candidatDto.email(), candidatDto.experienceEnAnnees()));
         if (events.stream().noneMatch(CandidatCrée.class::isInstance)) {
             return badRequest().build();
         }

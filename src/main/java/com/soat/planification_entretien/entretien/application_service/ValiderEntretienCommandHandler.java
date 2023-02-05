@@ -14,8 +14,8 @@ public class ValiderEntretienCommandHandler {
         this.entretienRepository = entretienRepository;
     }
 
-    public Optional<Entretien> execute(int entretienId) {
-        Optional<Entretien> maybeEntretien = entretienRepository.findById(entretienId);
+    public Optional<Entretien> handle(ValiderEntretienCommand validerEntretienCommand) {
+        Optional<Entretien> maybeEntretien = entretienRepository.findById(validerEntretienCommand.entretienId());
 
         maybeEntretien.ifPresent(entretien -> {
             entretien.valider();

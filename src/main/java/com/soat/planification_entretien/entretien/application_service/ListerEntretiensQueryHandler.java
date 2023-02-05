@@ -15,7 +15,7 @@ public class ListerEntretiensQueryHandler {
         this.entretienRepository = entretienRepository;
     }
 
-    public List<IEntretien> execute() {
+    public List<IEntretien> handle() {
         return entretienRepository.findAll().stream()
                 .map(IEntretien.class::cast)
                 .toList();
