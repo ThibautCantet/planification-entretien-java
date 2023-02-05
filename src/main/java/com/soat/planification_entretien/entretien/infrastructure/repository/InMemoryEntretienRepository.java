@@ -7,9 +7,12 @@ import java.util.Optional;
 
 import com.soat.planification_entretien.entretien.command.domain.Entretien;
 import com.soat.planification_entretien.entretien.command.domain.EntretienRepository;
+import com.soat.planification_entretien.entretien.command.domain.Status;
+import com.soat.planification_entretien.entretien.query.application.EntretienDao;
+import com.soat.planification_entretien.entretien.query.application.IEntretien;
 
 //@Repository
-public class InMemoryEntretienRepository implements EntretienRepository {
+public class InMemoryEntretienRepository implements EntretienRepository, EntretienDao {
 
     private final Map<Integer, Entretien> cache = new HashMap<>();
 
@@ -21,8 +24,18 @@ public class InMemoryEntretienRepository implements EntretienRepository {
     }
 
     @Override
-    public List<Entretien> findAll() {
-        return cache.values().stream().toList();
+    public List<IEntretien> findAll() {
+        return cache.values().stream()
+                .map(e -> new IEntretienImpl(
+                        e.getId(),
+                        e.getEmailCandidat(),
+                        e.getEmailRecruteur(),
+                        e.getLanguage(),
+                        e.getHoraireEntretien(),
+                        Status.valueOf(e.getStatus()))
+                )
+                .map(e -> (IEntretien) e)
+                .toList();
     }
 
     @Override

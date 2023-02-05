@@ -1,13 +1,13 @@
 package com.soat.planification_entretien.entretien.infrastructure.repository;
 
-import java.util.List;
 import java.util.Optional;
 
-import com.soat.planification_entretien.entretien.command.domain.EntretienRepository;
-import com.soat.planification_entretien.entretien.command.domain.Status;
-import com.soat.planification_entretien.entretien.command.domain.Candidat;
-import com.soat.planification_entretien.entretien.command.domain.Recruteur;
 import com.soat.planification_entretien.candidat.infrastructure.repository.CandidatCrud;
+import com.soat.planification_entretien.entretien.command.domain.Candidat;
+import com.soat.planification_entretien.entretien.command.domain.EntretienRepository;
+import com.soat.planification_entretien.entretien.command.domain.Recruteur;
+import com.soat.planification_entretien.entretien.command.domain.Status;
+import com.soat.planification_entretien.entretien.query.application.IEntretien;
 import com.soat.planification_entretien.recruteur.infrastructure.repository.RecruteurCrud;
 import org.springframework.stereotype.Repository;
 
@@ -56,13 +56,6 @@ public class HibernateEntretienRepository implements EntretienRepository {
     }
 
     @Override
-    public List<com.soat.planification_entretien.entretien.command.domain.Entretien> findAll() {
-        return entretienCrud.findAll().stream()
-                .map(HibernateEntretienRepository::toEntretien)
-                .toList();
-    }
-
-    @Override
     public com.soat.planification_entretien.entretien.command.domain.Entretien findByCandidatId(int candidatId) {
         var maybeEntretien = entretienCrud.findByCandidat_Id(candidatId);
 
@@ -84,6 +77,16 @@ public class HibernateEntretienRepository implements EntretienRepository {
                 jpaEntretien.getId(),
                 new Candidat(jpaEntretien.getCandidat().getId(), jpaEntretien.getCandidat().getLanguage(), jpaEntretien.getCandidat().getEmail(), jpaEntretien.getCandidat().getExperienceInYears()),
                 new Recruteur(jpaEntretien.getRecruteur().getId(), jpaEntretien.getRecruteur().getLanguage(), jpaEntretien.getRecruteur().getEmail(), jpaEntretien.getRecruteur().getExperienceInYears()),
+                jpaEntretien.getHoraireEntretien(),
+                Status.values()[jpaEntretien.getStatus()]);
+    }
+
+    public static IEntretien toIEntretien(Entretien jpaEntretien) {
+        return new IEntretienImpl(
+                jpaEntretien.getId(),
+                jpaEntretien.getCandidat().getEmail(),
+                jpaEntretien.getRecruteur().getEmail(),
+                jpaEntretien.getCandidat().getLanguage(),
                 jpaEntretien.getHoraireEntretien(),
                 Status.values()[jpaEntretien.getStatus()]);
     }

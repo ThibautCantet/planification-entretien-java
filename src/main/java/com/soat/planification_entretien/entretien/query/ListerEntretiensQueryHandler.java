@@ -2,23 +2,21 @@ package com.soat.planification_entretien.entretien.query;
 
 import java.util.List;
 
-import com.soat.planification_entretien.entretien.command.domain.EntretienRepository;
+import com.soat.planification_entretien.entretien.query.application.EntretienDao;
 import com.soat.planification_entretien.entretien.query.application.IEntretien;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ListerEntretiensQueryHandler {
 
-    private final EntretienRepository entretienRepository;
+    private final EntretienDao entretienDao;
 
-    public ListerEntretiensQueryHandler(EntretienRepository entretienRepository) {
-        this.entretienRepository = entretienRepository;
+    public ListerEntretiensQueryHandler(EntretienDao entretienDao) {
+        this.entretienDao = entretienDao;
     }
 
     public List<IEntretien> handle() {
-        return entretienRepository.findAll().stream()
-                .map(IEntretien.class::cast)
-                .toList();
+        return entretienDao.findAll();
     }
 
 }

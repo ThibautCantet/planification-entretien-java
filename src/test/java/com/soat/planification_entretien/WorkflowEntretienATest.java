@@ -6,12 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.soat.ATest;
-import com.soat.planification_entretien.entretien.command.domain.Candidat;
-import com.soat.planification_entretien.entretien.command.domain.Entretien;
-import com.soat.planification_entretien.entretien.command.domain.EntretienRepository;
-import com.soat.planification_entretien.entretien.command.domain.Recruteur;
 import com.soat.planification_entretien.entretien.command.domain.Status;
 import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienController;
+import com.soat.planification_entretien.entretien.infrastructure.repository.IEntretienImpl;
+import com.soat.planification_entretien.entretien.query.application.EntretienDao;
+import com.soat.planification_entretien.entretien.query.application.IEntretien;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
@@ -26,7 +25,7 @@ import static org.assertj.core.api.Assertions.*;
 public class WorkflowEntretienATest extends ATest {
 
     @Autowired
-    private EntretienRepository entretienRepository;
+    private EntretienDao entretienDao;
 
     @Before
     @Override
@@ -53,9 +52,9 @@ public class WorkflowEntretienATest extends ATest {
 
     @Alors("on récupères les entretiens suivants en base")
     public void onRécupèresLesEntretiensSuivantsEnBase(DataTable dataTable) {
-        List<Entretien> entretiens = dataTableTransformEntries(dataTable, this::buildEntretien);
+        List<IEntretien> entretiens = dataTableTransformEntries(dataTable, this::buildIEntretien);
 
-        List<Entretien> savedEntretiens = entretienRepository.findAll();
+        List<IEntretien> savedEntretiens = entretienDao.findAll();
 
         assertThat(savedEntretiens)
                 .usingRecursiveFieldByFieldElementComparatorIgnoringFields("candidat.id",
@@ -64,14 +63,15 @@ public class WorkflowEntretienATest extends ATest {
                         "recruteur.id",
                         "recruteur.experienceInYears",
                         "recruteur.profil")
-                .containsExactlyInAnyOrder(entretiens.toArray(Entretien[]::new));
+                .containsExactlyInAnyOrder(entretiens.toArray(IEntretien[]::new));
     }
 
-    private Entretien buildEntretien(Map<String, String> entry) {
-        return new Entretien(
+    private IEntretien buildIEntretien(Map<String, String> entry) {
+        return new IEntretienImpl(
                 Integer.parseInt(entry.get("id")),
-                new Candidat(null, entry.get("language"), entry.get("candidat"), 0),
-                new Recruteur(null, entry.get("language"), entry.get("recruteur"), 0),
+                entry.get("candidat"),
+                entry.get("recruteur"),
+                entry.get("language"),
                 LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
                 Status.valueOf(entry.get("status")));
     }
