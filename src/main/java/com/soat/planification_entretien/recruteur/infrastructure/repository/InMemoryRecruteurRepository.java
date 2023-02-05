@@ -7,9 +7,11 @@ import java.util.Optional;
 
 import com.soat.planification_entretien.recruteur.command.domain.Recruteur;
 import com.soat.planification_entretien.recruteur.command.domain.RecruteurRepository;
+import com.soat.planification_entretien.recruteur.query.application.IRecruteurDetail;
+import com.soat.planification_entretien.recruteur.query.application.RecruteurDao;
 
 //@Repository
-public class InMemoryRecruteurRepository implements RecruteurRepository {
+public class InMemoryRecruteurRepository implements RecruteurRepository, RecruteurDao {
     private final Map<Integer, Recruteur> cache = new HashMap<>();
 
     @Override
@@ -26,9 +28,15 @@ public class InMemoryRecruteurRepository implements RecruteurRepository {
     }
 
     @Override
-    public List<Recruteur> find10AnsExperience() {
+    public List<IRecruteurDetail> find10AnsExperience() {
         return cache.values().stream()
                 .filter(recruteur -> recruteur.getExperienceInYears() >= 10)
+                .map(recruteur -> new IRecruteurDetailImpl(
+                        recruteur.getId(),
+                        recruteur.getLanguage(),
+                        recruteur.getExperienceInYears(),
+                        recruteur.getAdresseEmail()))
+                .map(r -> (IRecruteurDetail) r)
                 .toList();
     }
 

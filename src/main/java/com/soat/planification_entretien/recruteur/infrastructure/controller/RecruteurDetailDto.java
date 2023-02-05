@@ -1,12 +1,9 @@
 package com.soat.planification_entretien.recruteur.infrastructure.controller;
 
+import com.soat.planification_entretien.recruteur.query.application.IRecruteurDetail;
+
 public record RecruteurDetailDto(
         int id,
         String competence,
-        String email) {
-
-
-    public RecruteurDetailDto(int id, String language, Integer experienceInYears, String email) {
-        this(id, String.format("%s %s ans XP", language, experienceInYears), email);
-    }
+        String email) implements IRecruteurDetail {
 }
