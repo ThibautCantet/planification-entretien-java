@@ -2,7 +2,7 @@ package com.soat.planification_entretien.recruteur.command;
 
 import com.soat.planification_entretien.common.application_service.Listener;
 import com.soat.planification_entretien.common.application_service.MessageBus;
-import com.soat.planification_entretien.entretien.domain.EntretienCréé;
+import com.soat.planification_entretien.entretien.command.domain.EntretienCréé;
 import org.springframework.stereotype.Service;
 
 @Service

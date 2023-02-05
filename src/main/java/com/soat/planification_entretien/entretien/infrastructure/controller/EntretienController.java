@@ -5,13 +5,13 @@ import java.util.Optional;
 
 import com.soat.planification_entretien.entretien.command.PlanifierEntretienCommand;
 import com.soat.planification_entretien.entretien.command.ValiderEntretienCommand;
-import com.soat.planification_entretien.entretien.domain.Candidat;
-import com.soat.planification_entretien.candidat.domain.CandidatRepository;
-import com.soat.planification_entretien.entretien.domain.Entretien;
+import com.soat.planification_entretien.entretien.command.domain.Candidat;
+import com.soat.planification_entretien.candidat.command.domain.CandidatRepository;
+import com.soat.planification_entretien.entretien.command.domain.Entretien;
 import com.soat.planification_entretien.entretien.query.ListerEntretiensQueryHandler;
 import com.soat.planification_entretien.entretien.command.PlanifierEntretienCommandHandler;
-import com.soat.planification_entretien.entretien.domain.Recruteur;
-import com.soat.planification_entretien.recruteur.domain.RecruteurRepository;
+import com.soat.planification_entretien.entretien.command.domain.Recruteur;
+import com.soat.planification_entretien.recruteur.command.domain.RecruteurRepository;
 import com.soat.planification_entretien.entretien.command.ValiderEntretienCommandHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

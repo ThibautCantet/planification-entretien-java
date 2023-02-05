@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import com.soat.planification_entretien.candidat.domain.Candidat;
-import com.soat.planification_entretien.candidat.domain.CandidatRepository;
+import com.soat.planification_entretien.candidat.command.domain.Candidat;
+import com.soat.planification_entretien.candidat.command.domain.CandidatRepository;
 
 //@Repository
 public class InMemoryCandidatRepository implements CandidatRepository {

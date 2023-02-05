@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.recruteur.domain;
+package com.soat.planification_entretien.recruteur.command.domain;
 
 public record Experience(Integer annee) {
     private static final int MINIMUM_XP_REQUISE = 3;

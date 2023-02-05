@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import com.soat.planification_entretien.recruteur.domain.Recruteur;
-import com.soat.planification_entretien.recruteur.domain.RecruteurRepository;
+import com.soat.planification_entretien.recruteur.command.domain.Recruteur;
+import com.soat.planification_entretien.recruteur.command.domain.RecruteurRepository;
 
 //@Repository
 public class InMemoryRecruteurRepository implements RecruteurRepository {

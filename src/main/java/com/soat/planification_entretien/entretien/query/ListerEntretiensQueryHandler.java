@@ -2,8 +2,8 @@ package com.soat.planification_entretien.entretien.query;
 
 import java.util.List;
 
-import com.soat.planification_entretien.entretien.domain.EntretienRepository;
-import com.soat.planification_entretien.entretien.domain.IEntretien;
+import com.soat.planification_entretien.entretien.command.domain.EntretienRepository;
+import com.soat.planification_entretien.entretien.query.application.IEntretien;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import com.soat.planification_entretien.entretien.domain.Entretien;
-import com.soat.planification_entretien.entretien.domain.EntretienRepository;
+import com.soat.planification_entretien.entretien.command.domain.Entretien;
+import com.soat.planification_entretien.entretien.command.domain.EntretienRepository;
 
 //@Repository
 public class InMemoryEntretienRepository implements EntretienRepository {

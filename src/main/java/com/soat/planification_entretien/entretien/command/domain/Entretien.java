@@ -1,6 +1,8 @@
-package com.soat.planification_entretien.entretien.domain;
+package com.soat.planification_entretien.entretien.command.domain;
 
 import java.time.LocalDateTime;
+
+import com.soat.planification_entretien.entretien.query.application.IEntretien;
 
 import com.soat.planification_entretien.common.domain.Event;
 

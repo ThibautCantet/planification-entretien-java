@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.recruteur.domain;
+package com.soat.planification_entretien.recruteur.command.domain;
 
 public record Langage(String nom) {
     public Langage {

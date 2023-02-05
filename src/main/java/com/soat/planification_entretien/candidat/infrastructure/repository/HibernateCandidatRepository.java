@@ -2,8 +2,8 @@ package com.soat.planification_entretien.candidat.infrastructure.repository;
 
 import java.util.Optional;
 
-import com.soat.planification_entretien.candidat.domain.Candidat;
-import com.soat.planification_entretien.candidat.domain.CandidatRepository;
+import com.soat.planification_entretien.candidat.command.domain.Candidat;
+import com.soat.planification_entretien.candidat.command.domain.CandidatRepository;
 import com.soat.planification_entretien.recruteur.infrastructure.repository.RecruteurCrud;
 import org.springframework.stereotype.Repository;
 

@@ -5,7 +5,7 @@ import java.net.URI;
 import com.soat.planification_entretien.candidat.command.CandidatNonSauvegardé;
 import com.soat.planification_entretien.candidat.command.CreerCandidatCommand;
 import com.soat.planification_entretien.candidat.command.CreerCandidatCommandHandler;
-import com.soat.planification_entretien.candidat.domain.CandidatCrée;
+import com.soat.planification_entretien.candidat.command.domain.CandidatCrée;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

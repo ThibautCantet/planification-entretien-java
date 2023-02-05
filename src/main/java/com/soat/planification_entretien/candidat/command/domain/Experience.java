@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.candidat.domain;
+package com.soat.planification_entretien.candidat.command.domain;
 
 public record Experience(Integer annee) {
     public Experience(Integer annee) {
