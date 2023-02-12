@@ -16,13 +16,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import static org.springframework.http.ResponseEntity.*;
 
 @RestController
-@RequestMapping(CandidatController.PATH)
-public class CandidatController {
+@RequestMapping(CandidatCommandController.PATH)
+public class CandidatCommandController {
     public static final String PATH = "/api/candidat";
 
     private final CreerCandidatCommandHandler creerCandidatCommandHandler;
 
-    public CandidatController(CreerCandidatCommandHandler creerCandidatCommandHandler) {
+    public CandidatCommandController(CreerCandidatCommandHandler creerCandidatCommandHandler) {
         this.creerCandidatCommandHandler = creerCandidatCommandHandler;
     }
 
