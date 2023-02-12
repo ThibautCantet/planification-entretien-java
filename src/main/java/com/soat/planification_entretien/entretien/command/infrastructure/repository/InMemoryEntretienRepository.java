@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.entretien.infrastructure.repository;
+package com.soat.planification_entretien.entretien.command.infrastructure.repository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +10,7 @@ import com.soat.planification_entretien.entretien.command.domain.EntretienReposi
 import com.soat.planification_entretien.entretien.command.domain.Status;
 import com.soat.planification_entretien.entretien.query.application.EntretienDao;
 import com.soat.planification_entretien.entretien.query.application.IEntretien;
+import com.soat.planification_entretien.entretien.query.infrastructure.IEntretienImpl;
 
 //@Repository
 public class InMemoryEntretienRepository implements EntretienRepository, EntretienDao {

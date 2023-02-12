@@ -8,7 +8,7 @@ import java.util.Map;
 import com.soat.ATest;
 import com.soat.planification_entretien.entretien.command.domain.Status;
 import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienController;
-import com.soat.planification_entretien.entretien.infrastructure.repository.IEntretienImpl;
+import com.soat.planification_entretien.entretien.query.infrastructure.dao.IEntretienImpl;
 import com.soat.planification_entretien.entretien.query.application.EntretienDao;
 import com.soat.planification_entretien.entretien.query.application.IEntretien;
 import io.cucumber.datatable.DataTable;
