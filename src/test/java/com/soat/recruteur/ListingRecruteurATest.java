@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.soat.ATest;
-import com.soat.planification_entretien.recruteur.infrastructure.controller.RecruteurController;
-import com.soat.planification_entretien.recruteur.infrastructure.controller.RecruteurDetailDto;
+import com.soat.planification_entretien.recruteur.command.infrastucture.controller.RecruteurCommandController;
+import com.soat.planification_entretien.recruteur.query.infrastructure.controller.RecruteurDetailDto;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
@@ -30,7 +30,7 @@ public class ListingRecruteurATest extends ATest {
 
     @Override
     protected void initPath() {
-        RestAssured.basePath = RecruteurController.PATH;
+        RestAssured.basePath = RecruteurCommandController.PATH;
     }
 
 

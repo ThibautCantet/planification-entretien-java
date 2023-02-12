@@ -1,13 +1,8 @@
-package com.soat.planification_entretien.recruteur.infrastructure.controller;
-
-import java.util.List;
+package com.soat.planification_entretien.recruteur.command.infrastucture.controller;
 
 import com.soat.planification_entretien.recruteur.command.CreerRecruteurCommand;
 import com.soat.planification_entretien.recruteur.command.CreerRecruteurCommandHandler;
-import com.soat.planification_entretien.recruteur.query.ListerRecruteursExperimentesQueryHandler;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,16 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 import static org.springframework.http.ResponseEntity.*;
 
 @RestController
-@RequestMapping(RecruteurController.PATH)
-public class RecruteurController {
+@RequestMapping(RecruteurCommandController.PATH)
+public class RecruteurCommandController {
     public static final String PATH = "/api/recruteur";
 
     private final CreerRecruteurCommandHandler creerRecruteurCommandHandler;
-    private final ListerRecruteursExperimentesQueryHandler listerRecruteursExperimentesQueryHandler;
 
-    public RecruteurController(CreerRecruteurCommandHandler creerRecruteurCommandHandler, ListerRecruteursExperimentesQueryHandler listerRecruteursExperimentesQueryHandler) {
+    public RecruteurCommandController(CreerRecruteurCommandHandler creerRecruteurCommandHandler) {
         this.creerRecruteurCommandHandler = creerRecruteurCommandHandler;
-        this.listerRecruteursExperimentesQueryHandler = listerRecruteursExperimentesQueryHandler;
     }
 
     @PostMapping("")
@@ -39,15 +32,6 @@ public class RecruteurController {
         }
 
         return created(null).body(createdRecruteurId);
-    }
-
-    @GetMapping("")
-    public ResponseEntity<List<RecruteurDetailDto>> lister() {
-        List<RecruteurDetailDto> recruteurs = listerRecruteursExperimentesQueryHandler.handle().stream()
-                .map(e -> new RecruteurDetailDto(e.id(), e.competence(), e.email()))
-                .toList();
-
-        return new ResponseEntity<>(recruteurs, HttpStatus.OK);
     }
 
     private static boolean validExperience(RecruteurDto candidatDto) {

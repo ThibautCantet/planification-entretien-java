@@ -5,10 +5,10 @@ import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
-import com.soat.planification_entretien.recruteur.infrastructure.controller.RecruteurController;
+import com.soat.planification_entretien.recruteur.command.infrastucture.controller.RecruteurCommandController;
 import com.soat.planification_entretien.recruteur.command.domain.Recruteur;
 import com.soat.planification_entretien.recruteur.command.domain.RecruteurRepository;
-import com.soat.planification_entretien.recruteur.infrastructure.controller.RecruteurDto;
+import com.soat.planification_entretien.recruteur.command.infrastucture.controller.RecruteurDto;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;
@@ -38,7 +38,7 @@ public class CreationRecruteurATest extends ATest {
 
     @Override
     protected void initPath() {
-        RestAssured.basePath = RecruteurController.PATH;
+        RestAssured.basePath = RecruteurCommandController.PATH;
     }
 
     @Etantdonné("un recruteur {string} \\({string}) avec {string} ans d’expériences")

@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.recruteur.infrastructure.controller;
+package com.soat.planification_entretien.recruteur.query.infrastructure.controller;
 
 import com.soat.planification_entretien.recruteur.query.application.IRecruteurDetail;
 
