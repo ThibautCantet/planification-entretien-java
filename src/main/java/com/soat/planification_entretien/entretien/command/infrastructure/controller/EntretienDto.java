@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.entretien.infrastructure.controller;
+package com.soat.planification_entretien.entretien.command.infrastructure.controller;
 
 import java.time.LocalDateTime;
 

@@ -9,14 +9,14 @@ import java.util.Map;
 
 import com.soat.ATest;
 import com.soat.planification_entretien.entretien.command.domain.Status;
-import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienController;
+import com.soat.planification_entretien.entretien.command.infrastructure.controller.EntretienCommandController;
 import com.soat.planification_entretien.entretien.command.domain.Candidat;
 import com.soat.planification_entretien.candidat.command.domain.CandidatRepository;
 import com.soat.planification_entretien.entretien.command.domain.Entretien;
 import com.soat.planification_entretien.entretien.command.domain.EntretienRepository;
 import com.soat.planification_entretien.entretien.command.domain.Recruteur;
 import com.soat.planification_entretien.recruteur.command.domain.RecruteurRepository;
-import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienDetailDto;
+import com.soat.planification_entretien.entretien.query.infrastructure.controller.EntretienDetailDto;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
@@ -51,7 +51,7 @@ public class ListingEntretienATest extends ATest {
 
     @Override
     protected void initPath() {
-        RestAssured.basePath = EntretienController.PATH;
+        RestAssured.basePath = EntretienCommandController.PATH;
     }
 
     @Etantdonné("les recruteurs existants")

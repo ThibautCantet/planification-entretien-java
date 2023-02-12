@@ -1,21 +1,18 @@
-package com.soat.planification_entretien.entretien.infrastructure.controller;
+package com.soat.planification_entretien.entretien.command.infrastructure.controller;
 
-import java.util.List;
 import java.util.Optional;
 
-import com.soat.planification_entretien.entretien.command.PlanifierEntretienCommand;
-import com.soat.planification_entretien.entretien.command.ValiderEntretienCommand;
-import com.soat.planification_entretien.entretien.command.domain.Candidat;
 import com.soat.planification_entretien.candidat.command.domain.CandidatRepository;
-import com.soat.planification_entretien.entretien.command.domain.Entretien;
-import com.soat.planification_entretien.entretien.query.ListerEntretiensQueryHandler;
+import com.soat.planification_entretien.entretien.command.PlanifierEntretienCommand;
 import com.soat.planification_entretien.entretien.command.PlanifierEntretienCommandHandler;
+import com.soat.planification_entretien.entretien.command.ValiderEntretienCommand;
+import com.soat.planification_entretien.entretien.command.ValiderEntretienCommandHandler;
+import com.soat.planification_entretien.entretien.command.domain.Candidat;
+import com.soat.planification_entretien.entretien.command.domain.Entretien;
 import com.soat.planification_entretien.entretien.command.domain.Recruteur;
 import com.soat.planification_entretien.recruteur.command.domain.RecruteurRepository;
-import com.soat.planification_entretien.entretien.command.ValiderEntretienCommandHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,31 +23,20 @@ import org.springframework.web.bind.annotation.RestController;
 import static org.springframework.http.ResponseEntity.*;
 
 @RestController
-@RequestMapping(EntretienController.PATH)
-public class EntretienController {
+@RequestMapping(EntretienCommandController.PATH)
+public class EntretienCommandController {
     public static final String PATH = "/api/entretien/";
 
     private final PlanifierEntretienCommandHandler planifierEntretienCommandHandler;
-    private final ListerEntretiensQueryHandler listerEntretiensQueryHandler;
     private final CandidatRepository candidatRepository;
     private final RecruteurRepository recruteurRepository;
     private final ValiderEntretienCommandHandler validerEntretienCommandHandler;
 
-    public EntretienController(PlanifierEntretienCommandHandler planifierEntretienCommandHandler, ListerEntretiensQueryHandler listerEntretiensQueryHandler, CandidatRepository candidatRepository, RecruteurRepository recruteurRepository, ValiderEntretienCommandHandler validerEntretienCommandHandler) {
+    public EntretienCommandController(PlanifierEntretienCommandHandler planifierEntretienCommandHandler, CandidatRepository candidatRepository, RecruteurRepository recruteurRepository, ValiderEntretienCommandHandler validerEntretienCommandHandler) {
         this.planifierEntretienCommandHandler = planifierEntretienCommandHandler;
-        this.listerEntretiensQueryHandler = listerEntretiensQueryHandler;
         this.candidatRepository = candidatRepository;
         this.recruteurRepository = recruteurRepository;
         this.validerEntretienCommandHandler = validerEntretienCommandHandler;
-    }
-
-    @GetMapping("/")
-    public ResponseEntity<List<EntretienDetailDto>> findAll() {
-        var entretiens = listerEntretiensQueryHandler.handle()
-                .stream()
-                .map(e -> new EntretienDetailDto(e.getId(), e.getEmailCandidat(), e.getEmailRecruteur(), e.getLanguage(), e.getHoraire(), e.getStatus()))
-                .toList();
-        return new ResponseEntity<>(entretiens, HttpStatus.OK);
     }
 
     @PostMapping("planifier")
