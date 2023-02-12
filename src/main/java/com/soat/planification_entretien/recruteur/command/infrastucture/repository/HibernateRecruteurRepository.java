@@ -1,8 +1,10 @@
-package com.soat.planification_entretien.recruteur.infrastructure.repository;
+package com.soat.planification_entretien.recruteur.command.infrastucture.repository;
 
 import java.util.Optional;
 
 import com.soat.planification_entretien.recruteur.command.domain.RecruteurRepository;
+import com.soat.planification_entretien.recruteur.infrastructure.repository.Recruteur;
+import com.soat.planification_entretien.recruteur.infrastructure.repository.RecruteurCrud;
 import org.springframework.stereotype.Repository;
 
 @Repository

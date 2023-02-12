@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.recruteur.infrastructure.repository;
+package com.soat.planification_entretien.recruteur.query.infrastructure.dao;
 
 import com.soat.planification_entretien.recruteur.query.application.IRecruteurDetail;
 

@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.recruteur.infrastructure.repository;
+package com.soat.planification_entretien.recruteur.command.infrastucture.repository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import com.soat.planification_entretien.recruteur.command.domain.Recruteur;
 import com.soat.planification_entretien.recruteur.command.domain.RecruteurRepository;
+import com.soat.planification_entretien.recruteur.query.infrastructure.dao.IRecruteurDetailImpl;
 import com.soat.planification_entretien.recruteur.query.application.IRecruteurDetail;
 import com.soat.planification_entretien.recruteur.query.application.RecruteurDao;
 

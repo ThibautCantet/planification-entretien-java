@@ -1,7 +1,8 @@
-package com.soat.planification_entretien.recruteur.infrastructure.repository;
+package com.soat.planification_entretien.recruteur.query.infrastructure.dao;
 
 import java.util.List;
 
+import com.soat.planification_entretien.recruteur.infrastructure.repository.RecruteurCrud;
 import com.soat.planification_entretien.recruteur.query.application.IRecruteurDetail;
 import com.soat.planification_entretien.recruteur.query.application.RecruteurDao;
 import org.springframework.stereotype.Repository;
