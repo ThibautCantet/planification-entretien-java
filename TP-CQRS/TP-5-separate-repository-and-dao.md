@@ -27,3 +27,11 @@ entretien :
 ### Question
 
 Quels problèmes / questions sont apparus ?
+
+### Réponse
+
+Que fait-on du code commun utilisé par les 2 adapters récupérant les vraies données ?
+
+Exemple : `entretien.infrastructure.repository.EntretienCrud`
+
+Est-ce qu'il ne faudrait aussi mettre aussi les controller http dans les infrastructures des `command` et `query` ?
