@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.candidat.infrastructure.repository;
+package com.soat.planification_entretien.candidat.command.infrastructure.repository;
 
 import java.util.HashMap;
 import java.util.Map;

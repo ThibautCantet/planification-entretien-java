@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.soat.planification_entretien.candidat.infrastructure.repository.Candidat;
+import com.soat.planification_entretien.candidat.command.infrastructure.repository.Candidat;
 import com.soat.planification_entretien.recruteur.infrastructure.repository.Recruteur;
 
 @Entity

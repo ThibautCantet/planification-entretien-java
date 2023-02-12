@@ -2,7 +2,7 @@ package com.soat.planification_entretien.entretien.command.infrastructure.reposi
 
 import java.util.Optional;
 
-import com.soat.planification_entretien.candidat.infrastructure.repository.CandidatCrud;
+import com.soat.planification_entretien.candidat.command.infrastructure.repository.CandidatCrud;
 import com.soat.planification_entretien.entretien.command.domain.Candidat;
 import com.soat.planification_entretien.entretien.command.domain.EntretienRepository;
 import com.soat.planification_entretien.entretien.command.domain.Recruteur;

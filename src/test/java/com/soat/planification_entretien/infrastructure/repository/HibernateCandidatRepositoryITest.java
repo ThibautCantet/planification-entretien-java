@@ -1,8 +1,8 @@
 package com.soat.planification_entretien.infrastructure.repository;
 
 import com.soat.planification_entretien.candidat.command.domain.Candidat;
-import com.soat.planification_entretien.candidat.infrastructure.repository.CandidatCrud;
-import com.soat.planification_entretien.candidat.infrastructure.repository.HibernateCandidatRepository;
+import com.soat.planification_entretien.candidat.command.infrastructure.repository.CandidatCrud;
+import com.soat.planification_entretien.candidat.command.infrastructure.repository.HibernateCandidatRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;

@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.candidat.infrastructure.controller;
+package com.soat.planification_entretien.candidat.command.infrastructure.controller;
 
 import java.net.URI;
 

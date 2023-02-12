@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.candidat.infrastructure.repository;
+package com.soat.planification_entretien.candidat.command.infrastructure.repository;
 
 import java.util.Optional;
 
@@ -32,7 +32,7 @@ public class HibernateCandidatRepository implements CandidatRepository {
 
     @Override
     public Candidat save(Candidat candidat) {
-        var toSave = new com.soat.planification_entretien.candidat.infrastructure.repository.Candidat(
+        var toSave = new com.soat.planification_entretien.candidat.command.infrastructure.repository.Candidat(
                 candidat.getId(),
                 candidat.getLanguage(),
                 candidat.getAdresseEmail(),

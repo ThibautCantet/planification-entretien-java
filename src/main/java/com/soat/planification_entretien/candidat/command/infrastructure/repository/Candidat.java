@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.candidat.infrastructure.repository;
+package com.soat.planification_entretien.candidat.command.infrastructure.repository;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
