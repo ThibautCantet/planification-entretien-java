@@ -27,3 +27,8 @@ entretien :
 ### Question
 
 Que constatez-vous dans les nouveaux `controller` ?
+
+### Réponse
+
+En supprimant les use cases inutiles, on réduit les dépendances et spécialise les `controller`. Les `dto` sont bien avec
+les `controller` les utilisant.
