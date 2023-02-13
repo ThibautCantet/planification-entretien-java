@@ -10,7 +10,7 @@ import com.soat.planification_entretien.entretien.command.domain.EntretienReposi
 import com.soat.planification_entretien.entretien.command.domain.Status;
 import com.soat.planification_entretien.entretien.query.application.EntretienDao;
 import com.soat.planification_entretien.entretien.query.application.IEntretien;
-import com.soat.planification_entretien.entretien.query.infrastructure.IEntretienImpl;
+import com.soat.planification_entretien.entretien.query.infrastructure.dao.IEntretienImpl;
 
 //@Repository
 public class InMemoryEntretienRepository implements EntretienRepository, EntretienDao {

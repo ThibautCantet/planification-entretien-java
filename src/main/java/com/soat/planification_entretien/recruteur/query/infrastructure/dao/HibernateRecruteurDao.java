@@ -2,29 +2,33 @@ package com.soat.planification_entretien.recruteur.query.infrastructure.dao;
 
 import java.util.List;
 
-import com.soat.planification_entretien.recruteur.infrastructure.repository.RecruteurCrud;
-import com.soat.planification_entretien.recruteur.query.application.IRecruteurDetail;
 import com.soat.planification_entretien.recruteur.query.application.RecruteurDao;
+import com.soat.planification_entretien.recruteur.query.application.RecruteurDetail;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class HibernateRecruteurDao implements RecruteurDao {
-    private final RecruteurCrud recruteurCrud;
+    private final RecruteurDetailCrud recruteurDetailCrud;
 
-    public HibernateRecruteurDao(RecruteurCrud recruteurCrud) {
-        this.recruteurCrud = recruteurCrud;
+    public HibernateRecruteurDao(RecruteurDetailCrud recruteurDetailCrud) {
+        this.recruteurDetailCrud = recruteurDetailCrud;
     }
 
     @Override
-    public List<IRecruteurDetail> find10AnsExperience() {
-        return recruteurCrud.findAll()
-                .stream().filter(r -> r.getExperienceInYears() >= 10)
-                .map(recruteur -> new IRecruteurDetailImpl(
-                        recruteur.getId(),
-                        recruteur.getLanguage(),
-                        recruteur.getExperienceInYears(),
+    public List<RecruteurDetail> find10AnsExperience() {
+        return recruteurDetailCrud.findAll()
+                .stream()
+                .map(recruteur -> new RecruteurDetail(recruteur.getId(),
+                        recruteur.getCompetence(),
                         recruteur.getEmail()))
-                .map(r -> (IRecruteurDetail) r)
                 .toList();
+    }
+
+    @Override
+    public void addExperimente(RecruteurDetail recruteurDetail) {
+        var recruteur = new JpaRecruteurDetail(recruteurDetail.id(),
+                recruteurDetail.competence(),
+                recruteurDetail.email());
+        recruteurDetailCrud.save(recruteur);
     }
 }

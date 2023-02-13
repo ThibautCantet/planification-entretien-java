@@ -8,15 +8,16 @@ import java.util.List;
 import java.util.Map;
 
 import com.soat.ATest;
-import com.soat.planification_entretien.entretien.command.domain.Status;
-import com.soat.planification_entretien.entretien.command.infrastructure.controller.EntretienCommandController;
-import com.soat.planification_entretien.entretien.command.domain.Candidat;
 import com.soat.planification_entretien.candidat.command.domain.CandidatRepository;
+import com.soat.planification_entretien.entretien.command.domain.Candidat;
 import com.soat.planification_entretien.entretien.command.domain.Entretien;
 import com.soat.planification_entretien.entretien.command.domain.EntretienRepository;
 import com.soat.planification_entretien.entretien.command.domain.Recruteur;
-import com.soat.planification_entretien.recruteur.command.domain.RecruteurRepository;
+import com.soat.planification_entretien.entretien.command.domain.Status;
+import com.soat.planification_entretien.entretien.command.infrastructure.controller.EntretienCommandController;
 import com.soat.planification_entretien.entretien.query.infrastructure.controller.EntretienDetailDto;
+import com.soat.planification_entretien.recruteur.command.CreerRecruteurCommand;
+import com.soat.planification_entretien.recruteur.command.CreerRecruteurCommandHandler;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
@@ -39,9 +40,10 @@ public class ListingEntretienATest extends ATest {
     @Autowired
     private CandidatRepository candidatRepository;
     @Autowired
-    private RecruteurRepository recruteurRepository;
-    @Autowired
     private EntretienRepository entretienRepository;
+
+    @Autowired
+    private CreerRecruteurCommandHandler creerRecruteurCommandHandler;
 
     @Before
     @Override
@@ -59,10 +61,11 @@ public class ListingEntretienATest extends ATest {
         List<Recruteur> recruteurs = dataTableTransformEntries(dataTable, this::buildRecruteur);
 
         for (Recruteur recruteur : recruteurs) {
-            var saved = recruteurRepository.save(new com.soat.planification_entretien.recruteur.command.domain.Recruteur(recruteur.getLanguage(),
+            Integer id = creerRecruteurCommandHandler.handle(new CreerRecruteurCommand(
+                    recruteur.getLanguage(),
                     recruteur.adresseEmail(),
-                    recruteur.getExperienceInYears()));
-            recruteur = new Recruteur(saved.getId(), saved.getLanguage(), saved.getAdresseEmail(), saved.getExperienceInYears());
+                    String.valueOf(recruteur.getExperienceInYears())));
+            recruteur = new Recruteur(id, recruteur.getLanguage(), recruteur.adresseEmail(), recruteur.getExperienceInYears());
             savedRecruteurs.add(recruteur);
         }
     }

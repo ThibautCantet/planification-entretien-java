@@ -4,5 +4,7 @@ import java.util.List;
 
 public interface RecruteurDao {
 
-    List<IRecruteurDetail> find10AnsExperience();
+    List<RecruteurDetail> find10AnsExperience();
+
+    void addExperimente(RecruteurDetail recruteurDetail);
 }
