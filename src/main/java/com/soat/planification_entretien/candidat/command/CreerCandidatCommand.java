@@ -1,4 +1,6 @@
 package com.soat.planification_entretien.candidat.command;
 
-public record CreerCandidatCommand(String language, String email, String experienceEnAnnees) {
+import com.soat.planification_entretien.common.cqrs.command.Command;
+
+public record CreerCandidatCommand(String language, String email, String experienceEnAnnees) implements Command {
 }

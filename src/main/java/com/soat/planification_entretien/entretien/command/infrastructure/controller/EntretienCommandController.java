@@ -9,6 +9,7 @@ import com.soat.planification_entretien.entretien.command.ValiderEntretienComman
 import com.soat.planification_entretien.entretien.command.ValiderEntretienCommandHandler;
 import com.soat.planification_entretien.entretien.command.domain.Candidat;
 import com.soat.planification_entretien.entretien.command.domain.Entretien;
+import com.soat.planification_entretien.entretien.command.domain.EntretienCréé;
 import com.soat.planification_entretien.entretien.command.domain.Recruteur;
 import com.soat.planification_entretien.recruteur.command.domain.RecruteurRepository;
 import org.springframework.http.HttpStatus;

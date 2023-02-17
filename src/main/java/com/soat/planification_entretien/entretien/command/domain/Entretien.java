@@ -2,9 +2,8 @@ package com.soat.planification_entretien.entretien.command.domain;
 
 import java.time.LocalDateTime;
 
+import com.soat.planification_entretien.common.cqrs.event.Event;
 import com.soat.planification_entretien.entretien.query.application.IEntretien;
-
-import com.soat.planification_entretien.common.domain.Event;
 
 
 public class Entretien implements IEntretien {

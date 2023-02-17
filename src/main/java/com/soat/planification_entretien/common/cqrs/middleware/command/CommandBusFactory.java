@@ -2,22 +2,33 @@ package com.soat.planification_entretien.common.cqrs.middleware.command;
 
 import java.util.List;
 
+import com.soat.planification_entretien.candidat.command.CreerCandidatCommandHandler;
+import com.soat.planification_entretien.candidat.command.domain.CandidatRepository;
+import com.soat.planification_entretien.candidat.command.domain_service.CandidatFactory;
+import com.soat.planification_entretien.common.application_service.MessageBus;
 import com.soat.planification_entretien.common.cqrs.command.CommandHandler;
 import com.soat.planification_entretien.common.cqrs.event.Event;
 import com.soat.planification_entretien.common.cqrs.event.EventHandler;
 import com.soat.planification_entretien.common.cqrs.middleware.event.EventBus;
 import com.soat.planification_entretien.common.cqrs.middleware.event.EventBusFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CommandBusFactory {
 
-    public CommandBusFactory() {
+    private final MessageBus messsageBus;
+    private final CandidatRepository candidatRepository;
+    private final CandidatFactory candidatFactory;
+
+    public CommandBusFactory(MessageBus messsageBus, CandidatRepository candidatRepository, CandidatFactory candidatFactory) {
+        this.messsageBus = messsageBus;
+        this.candidatRepository = candidatRepository;
+        this.candidatFactory = candidatFactory;
     }
 
     protected List<CommandHandler> getCommandHandlers() {
         return List.of(
+                new CreerCandidatCommandHandler(candidatRepository, candidatFactory)
         );
     }
 

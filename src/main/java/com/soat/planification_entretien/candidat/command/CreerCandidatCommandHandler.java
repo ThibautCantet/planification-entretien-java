@@ -6,12 +6,12 @@ import com.soat.planification_entretien.candidat.command.domain.Candidat;
 import com.soat.planification_entretien.candidat.command.domain.CandidatCrée;
 import com.soat.planification_entretien.candidat.command.domain.CandidatRepository;
 import com.soat.planification_entretien.candidat.command.domain_service.CandidatFactory;
+import com.soat.planification_entretien.common.cqrs.command.CommandHandler;
+import com.soat.planification_entretien.common.cqrs.command.CommandResponse;
 import com.soat.planification_entretien.common.cqrs.event.Event;
 import com.soat.planification_entretien.common.domain_service.Result;
-import org.springframework.stereotype.Service;
 
-@Service
-public class CreerCandidatCommandHandler {
+public class CreerCandidatCommandHandler implements CommandHandler<CreerCandidatCommand, CommandResponse<Event>> {
 
     private final CandidatRepository candidatRepository;
     private final CandidatFactory candidatFactory;
@@ -21,7 +21,8 @@ public class CreerCandidatCommandHandler {
         this.candidatFactory = candidatFactory;
     }
 
-    public List<Event> handle(CreerCandidatCommand creerCandidatCommand) {
+    @Override
+    public CommandResponse handle(CreerCandidatCommand creerCandidatCommand) {
         var candidatId = candidatRepository.next();
         Result<Event, Candidat> eventCandidatResult = candidatFactory.create(candidatId, creerCandidatCommand.language(), creerCandidatCommand.email(), creerCandidatCommand.experienceEnAnnees());
 
@@ -29,8 +30,11 @@ public class CreerCandidatCommandHandler {
             candidatRepository.save(eventCandidatResult.value());
         }
 
-        return List.of(eventCandidatResult.event());
+        return new CommandResponse(List.of(eventCandidatResult.event()));
     }
 
-
+    @Override
+    public Class listenTo() {
+        return CreerCandidatCommand.class;
+    }
 }

@@ -1,11 +1,13 @@
 package com.soat.planification_entretien.candidat.command.infrastructure.controller;
 
 import java.net.URI;
+import java.util.Optional;
 
 import com.soat.planification_entretien.candidat.command.CandidatNonSauvegardé;
 import com.soat.planification_entretien.candidat.command.CreerCandidatCommand;
-import com.soat.planification_entretien.candidat.command.CreerCandidatCommandHandler;
 import com.soat.planification_entretien.candidat.command.domain.CandidatCrée;
+import com.soat.planification_entretien.common.cqrs.application.CommandController;
+import com.soat.planification_entretien.common.cqrs.middleware.command.CommandBusFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,13 +19,12 @@ import static org.springframework.http.ResponseEntity.*;
 
 @RestController
 @RequestMapping(CandidatCommandController.PATH)
-public class CandidatCommandController {
+public class CandidatCommandController extends CommandController {
     public static final String PATH = "/api/candidat";
 
-    private final CreerCandidatCommandHandler creerCandidatCommandHandler;
 
-    public CandidatCommandController(CreerCandidatCommandHandler creerCandidatCommandHandler) {
-        this.creerCandidatCommandHandler = creerCandidatCommandHandler;
+    public CandidatCommandController(CommandBusFactory commandBusFactory) {
+        super(commandBusFactory);
     }
 
     @PostMapping("")
@@ -31,24 +32,21 @@ public class CandidatCommandController {
         if (validExperience(candidatDto)) {
             return badRequest().build();
         }
-        var events = creerCandidatCommandHandler.handle(new CreerCandidatCommand(candidatDto.language(), candidatDto.email(), candidatDto.experienceEnAnnees()));
-        if (events.stream().noneMatch(CandidatCrée.class::isInstance)) {
+        var commandResponse = getCommandBus().dispatch(new CreerCandidatCommand(candidatDto.language(), candidatDto.email(), candidatDto.experienceEnAnnees()));
+        if (commandResponse.findFirst(CandidatCrée.class).isEmpty()) {
             return badRequest().build();
         }
 
-        if (events.stream().anyMatch(CandidatNonSauvegardé.class::isInstance)) {
+        if (commandResponse.findFirst(CandidatNonSauvegardé.class).isPresent()) {
             return internalServerError().build();
         }
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(events)
+                .buildAndExpand(commandResponse)
                 .toUri();
 
-        return created(location).body(events.stream()
-                .filter(CandidatCrée.class::isInstance)
-                .map(CandidatCrée.class::cast)
-                .findFirst()
+        return created(location).body(((Optional<CandidatCrée>) commandResponse.findFirst(CandidatCrée.class))
                 .map(CandidatCrée::value)
                 .orElse(null));
     }
