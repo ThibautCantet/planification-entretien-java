@@ -2,11 +2,11 @@ package com.soat.planification_entretien.candidat.command;
 
 import java.util.List;
 
-import com.soat.planification_entretien.common.domain.Event;
 import com.soat.planification_entretien.candidat.command.domain.Candidat;
 import com.soat.planification_entretien.candidat.command.domain.CandidatCrée;
 import com.soat.planification_entretien.candidat.command.domain.CandidatRepository;
 import com.soat.planification_entretien.candidat.command.domain_service.CandidatFactory;
+import com.soat.planification_entretien.common.cqrs.event.Event;
 import com.soat.planification_entretien.common.domain_service.Result;
 import org.springframework.stereotype.Service;
 

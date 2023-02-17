@@ -3,7 +3,7 @@ package com.soat.planification_entretien.common.application_service;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.soat.planification_entretien.common.domain.Event;
+import com.soat.planification_entretien.common.cqrs.event.Event;
 import org.springframework.stereotype.Service;
 
 @Service

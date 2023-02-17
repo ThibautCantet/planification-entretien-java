@@ -2,7 +2,7 @@ package com.soat.planification_entretien.recruteur.query.application;
 
 import com.soat.planification_entretien.common.application_service.Listener;
 import com.soat.planification_entretien.common.application_service.MessageBus;
-import com.soat.planification_entretien.common.domain.Event;
+import com.soat.planification_entretien.common.cqrs.event.Event;
 import com.soat.planification_entretien.recruteur.command.domain.RecruteurCrée;
 import org.springframework.stereotype.Service;
 

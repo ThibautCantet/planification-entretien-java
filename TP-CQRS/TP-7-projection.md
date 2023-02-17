@@ -159,6 +159,10 @@ public void lesRecruteursExistants(DataTable dataTable){
 
 Quels avantages voyez vous avez les projections ?
 
-### Réponses
+### Réponse
 
-On retourne directement ce qu'on souhaite sans avoir à traduire quoi que ce soit.
+On stocke directement ce qui sera retourné.
+
+Moins de mapping car on a déjà ce qu'on veut retourner.
+
+On sépare les modélisations entre source of truth à l'écriture et à la lecture.
