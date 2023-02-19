@@ -74,8 +74,10 @@ public class Entretien implements IEntretien {
         return new EntretienNonCréé();
     }
 
-    public void valider() {
+    public Event valider() {
         status = Status.VALIDE;
+
+        return new EntretienValidé(id);
     }
 
     @Override

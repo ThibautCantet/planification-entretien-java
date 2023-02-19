@@ -12,6 +12,7 @@ import com.soat.planification_entretien.common.cqrs.event.EventHandler;
 import com.soat.planification_entretien.common.cqrs.middleware.event.EventBus;
 import com.soat.planification_entretien.common.cqrs.middleware.event.EventBusFactory;
 import com.soat.planification_entretien.entretien.command.PlanifierEntretienCommandHandler;
+import com.soat.planification_entretien.entretien.command.ValiderEntretienCommandHandler;
 import com.soat.planification_entretien.entretien.command.domain.EmailService;
 import com.soat.planification_entretien.entretien.command.domain.EntretienRepository;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,8 @@ public class CommandBusFactory {
     protected List<CommandHandler> getCommandHandlers() {
         return List.of(
                 new PlanifierEntretienCommandHandler(entretienRepository, emailService, messsageBus),
-                new CreerCandidatCommandHandler(candidatRepository, candidatFactory)
+                new CreerCandidatCommandHandler(candidatRepository, candidatFactory),
+                new ValiderEntretienCommandHandler(entretienRepository)
         );
     }
 

@@ -1,26 +1,38 @@
 package com.soat.planification_entretien.entretien.command;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
+import com.soat.planification_entretien.common.cqrs.command.CommandHandler;
+import com.soat.planification_entretien.common.cqrs.command.CommandResponse;
+import com.soat.planification_entretien.common.cqrs.event.Event;
 import com.soat.planification_entretien.entretien.command.domain.Entretien;
 import com.soat.planification_entretien.entretien.command.domain.EntretienRepository;
-import org.springframework.stereotype.Service;
+import com.soat.planification_entretien.entretien.command.domain.NonEntretienValidé;
 
-@Service
-public class ValiderEntretienCommandHandler {
+public class ValiderEntretienCommandHandler implements CommandHandler<ValiderEntretienCommand, CommandResponse<Event>> {
     private final EntretienRepository entretienRepository;
 
     public ValiderEntretienCommandHandler(EntretienRepository entretienRepository) {
         this.entretienRepository = entretienRepository;
     }
 
-    public Optional<Entretien> handle(ValiderEntretienCommand validerEntretienCommand) {
+    @Override
+    public CommandResponse<Event> handle(ValiderEntretienCommand validerEntretienCommand) {
         Optional<Entretien> maybeEntretien = entretienRepository.findById(validerEntretienCommand.entretienId());
 
+        AtomicReference<Event> event = new AtomicReference<>(new NonEntretienValidé());
         maybeEntretien.ifPresent(entretien -> {
-            entretien.valider();
+            event.set(entretien.valider());
             entretienRepository.save(entretien);
         });
-        return maybeEntretien;
+
+        return new CommandResponse<>(List.of(event.get()));
+    }
+
+    @Override
+    public Class listenTo() {
+        return ValiderEntretienCommand.class;
     }
 }
