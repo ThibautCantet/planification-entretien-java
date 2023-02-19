@@ -3,8 +3,9 @@ package com.soat.planification_entretien.entretien.command.infrastructure.contro
 import java.util.Optional;
 
 import com.soat.planification_entretien.candidat.command.domain.CandidatRepository;
+import com.soat.planification_entretien.common.cqrs.application.CommandController;
+import com.soat.planification_entretien.common.cqrs.middleware.command.CommandBusFactory;
 import com.soat.planification_entretien.entretien.command.PlanifierEntretienCommand;
-import com.soat.planification_entretien.entretien.command.PlanifierEntretienCommandHandler;
 import com.soat.planification_entretien.entretien.command.ValiderEntretienCommand;
 import com.soat.planification_entretien.entretien.command.ValiderEntretienCommandHandler;
 import com.soat.planification_entretien.entretien.command.domain.Candidat;
@@ -25,16 +26,15 @@ import static org.springframework.http.ResponseEntity.*;
 
 @RestController
 @RequestMapping(EntretienCommandController.PATH)
-public class EntretienCommandController {
+public class EntretienCommandController extends CommandController {
     public static final String PATH = "/api/entretien/";
 
-    private final PlanifierEntretienCommandHandler planifierEntretienCommandHandler;
     private final CandidatRepository candidatRepository;
     private final RecruteurRepository recruteurRepository;
     private final ValiderEntretienCommandHandler validerEntretienCommandHandler;
 
-    public EntretienCommandController(PlanifierEntretienCommandHandler planifierEntretienCommandHandler, CandidatRepository candidatRepository, RecruteurRepository recruteurRepository, ValiderEntretienCommandHandler validerEntretienCommandHandler) {
-        this.planifierEntretienCommandHandler = planifierEntretienCommandHandler;
+    public EntretienCommandController(CommandBusFactory commandBusFactory, CandidatRepository candidatRepository, RecruteurRepository recruteurRepository, ValiderEntretienCommandHandler validerEntretienCommandHandler) {
+        super(commandBusFactory);
         this.candidatRepository = candidatRepository;
         this.recruteurRepository = recruteurRepository;
         this.validerEntretienCommandHandler = validerEntretienCommandHandler;
@@ -54,9 +54,10 @@ public class EntretienCommandController {
         if (recruteur.isEmpty()) {
             return badRequest().build();
         }
-        var planifie = planifierEntretienCommandHandler.handle(new PlanifierEntretienCommand(candidat.get(), recruteur.get(), entretienDto.disponibiliteDuCandidat(), entretienDto.disponibiliteDuRecruteur()));
 
-        if (planifie) {
+        var commandResponse = getCommandBus().dispatch(new PlanifierEntretienCommand(candidat.get(), recruteur.get(), entretienDto.disponibiliteDuCandidat(), entretienDto.disponibiliteDuRecruteur()));
+
+        if (commandResponse.findFirst(EntretienCréé.class).isPresent()) {
             return created(null).build();
         } else {
             return badRequest().build();
