@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.entretien.application_service;
+package com.soat.planification_entretien.entretien.command;
 
 import java.util.Optional;
 

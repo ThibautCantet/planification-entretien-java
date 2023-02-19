@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.candidat.application_service;
+package com.soat.planification_entretien.candidat.command;
 
 import java.util.List;
 

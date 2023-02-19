@@ -1,6 +1,4 @@
-package com.soat.planification_entretien.entretien.application_service;
-
-import java.time.LocalDateTime;
+package com.soat.planification_entretien.entretien.command;
 
 import com.soat.planification_entretien.common.application_service.MessageBus;
 import com.soat.planification_entretien.entretien.domain.EmailService;

@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.recruteur.application_service;
+package com.soat.planification_entretien.recruteur.command;
 
 public record RendreRecruteurIndisponibleCommand(Integer recruteurId) {
 }

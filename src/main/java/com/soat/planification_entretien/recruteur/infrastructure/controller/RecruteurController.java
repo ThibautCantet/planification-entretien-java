@@ -2,9 +2,9 @@ package com.soat.planification_entretien.recruteur.infrastructure.controller;
 
 import java.util.List;
 
-import com.soat.planification_entretien.recruteur.application_service.CreerRecruteurCommand;
-import com.soat.planification_entretien.recruteur.application_service.CreerRecruteurCommandHandler;
-import com.soat.planification_entretien.recruteur.application_service.ListerRecruteursExperimentesQueryHandler;
+import com.soat.planification_entretien.recruteur.command.CreerRecruteurCommand;
+import com.soat.planification_entretien.recruteur.command.CreerRecruteurCommandHandler;
+import com.soat.planification_entretien.recruteur.query.ListerRecruteursExperimentesQueryHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

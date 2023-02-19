@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.recruteur.application_service;
+package com.soat.planification_entretien.recruteur.command;
 
 import com.soat.planification_entretien.common.application_service.Listener;
 import com.soat.planification_entretien.common.application_service.MessageBus;

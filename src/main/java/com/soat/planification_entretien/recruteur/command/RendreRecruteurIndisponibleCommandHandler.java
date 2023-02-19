@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.recruteur.application_service;
+package com.soat.planification_entretien.recruteur.command;
 
 import com.soat.planification_entretien.recruteur.domain.RecruteurRepository;
 import org.springframework.stereotype.Service;
