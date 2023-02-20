@@ -158,3 +158,7 @@ public void lesRecruteursExistants(DataTable dataTable){
 ### Question
 
 Quels avantages voyez vous avez les projections ?
+
+### Réponses
+
+On retourne directement ce qu'on souhaite sans avoir à traduire quoi que ce soit.
