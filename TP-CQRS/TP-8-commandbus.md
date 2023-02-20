@@ -84,3 +84,10 @@ var commandResponse=creerRecruteurCommandHandler.handle(new CreerRecruteurComman
 ### Question
 
 Qu'est-ce que cela change de passer par un `command bus` ?
+
+### Réponse
+
+Cela permet de :
+
+- découpler les `controller` des `commandHandler`.
+- factoriser toute la gestion des `command` en utilisant un même `commandBus` (logs, events...)
