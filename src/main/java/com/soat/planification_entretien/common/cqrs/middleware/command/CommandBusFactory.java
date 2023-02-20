@@ -15,6 +15,8 @@ import com.soat.planification_entretien.entretien.command.PlanifierEntretienComm
 import com.soat.planification_entretien.entretien.command.ValiderEntretienCommandHandler;
 import com.soat.planification_entretien.entretien.command.domain.EmailService;
 import com.soat.planification_entretien.entretien.command.domain.EntretienRepository;
+import com.soat.planification_entretien.recruteur.command.CreerRecruteurCommandHandler;
+import com.soat.planification_entretien.recruteur.command.domain.RecruteurRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,20 +27,23 @@ public class CommandBusFactory {
     private final MessageBus messsageBus;
     private final CandidatRepository candidatRepository;
     private final CandidatFactory candidatFactory;
+    private final RecruteurRepository recruteurRepository;
 
-    public CommandBusFactory(EntretienRepository entretienRepository, EmailService emailService, MessageBus messsageBus, CandidatRepository candidatRepository, CandidatFactory candidatFactory) {
+    public CommandBusFactory(EntretienRepository entretienRepository, EmailService emailService, MessageBus messsageBus, CandidatRepository candidatRepository, CandidatFactory candidatFactory, RecruteurRepository recruteurRepository) {
         this.entretienRepository = entretienRepository;
         this.emailService = emailService;
         this.messsageBus = messsageBus;
         this.candidatRepository = candidatRepository;
         this.candidatFactory = candidatFactory;
+        this.recruteurRepository = recruteurRepository;
     }
 
     protected List<CommandHandler> getCommandHandlers() {
         return List.of(
                 new PlanifierEntretienCommandHandler(entretienRepository, emailService, messsageBus),
                 new CreerCandidatCommandHandler(candidatRepository, candidatFactory),
-                new ValiderEntretienCommandHandler(entretienRepository)
+                new ValiderEntretienCommandHandler(entretienRepository),
+                new CreerRecruteurCommandHandler(recruteurRepository, messsageBus)
         );
     }
 

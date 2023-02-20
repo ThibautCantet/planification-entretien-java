@@ -9,6 +9,7 @@ import java.util.Map;
 
 import com.soat.ATest;
 import com.soat.planification_entretien.candidat.command.domain.CandidatRepository;
+import com.soat.planification_entretien.common.application_service.MessageBus;
 import com.soat.planification_entretien.entretien.command.domain.Candidat;
 import com.soat.planification_entretien.entretien.command.domain.Entretien;
 import com.soat.planification_entretien.entretien.command.domain.EntretienRepository;
@@ -18,6 +19,8 @@ import com.soat.planification_entretien.entretien.command.infrastructure.control
 import com.soat.planification_entretien.entretien.query.infrastructure.controller.EntretienDetailDto;
 import com.soat.planification_entretien.recruteur.command.CreerRecruteurCommand;
 import com.soat.planification_entretien.recruteur.command.CreerRecruteurCommandHandler;
+import com.soat.planification_entretien.recruteur.command.domain.RecruteurCrée;
+import com.soat.planification_entretien.recruteur.command.domain.RecruteurRepository;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
@@ -41,14 +44,17 @@ public class ListingEntretienATest extends ATest {
     private CandidatRepository candidatRepository;
     @Autowired
     private EntretienRepository entretienRepository;
-
     @Autowired
+    private RecruteurRepository recruteurRepository;
+    @Autowired
+    private MessageBus messsageBus;
     private CreerRecruteurCommandHandler creerRecruteurCommandHandler;
 
     @Before
     @Override
     public void setUp() {
         initIntegrationTest();
+        creerRecruteurCommandHandler = new CreerRecruteurCommandHandler(recruteurRepository, messsageBus);
     }
 
     @Override
@@ -61,10 +67,15 @@ public class ListingEntretienATest extends ATest {
         List<Recruteur> recruteurs = dataTableTransformEntries(dataTable, this::buildRecruteur);
 
         for (Recruteur recruteur : recruteurs) {
-            Integer id = creerRecruteurCommandHandler.handle(new CreerRecruteurCommand(
+            var commandResponse = creerRecruteurCommandHandler.handle(new CreerRecruteurCommand(
                     recruteur.getLanguage(),
                     recruteur.adresseEmail(),
                     String.valueOf(recruteur.getExperienceInYears())));
+            Integer id = commandResponse
+                    .findFirst(RecruteurCrée.class)
+                    .map(RecruteurCrée.class::cast)
+                    .map(RecruteurCrée::id)
+                    .orElse(-1);
             recruteur = new Recruteur(id, recruteur.getLanguage(), recruteur.adresseEmail(), recruteur.getExperienceInYears());
             savedRecruteurs.add(recruteur);
         }

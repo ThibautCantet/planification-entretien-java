@@ -1,7 +1,12 @@
 package com.soat.planification_entretien.recruteur.command.infrastucture.controller;
 
+import java.util.Optional;
+
+import com.soat.planification_entretien.common.cqrs.application.CommandController;
+import com.soat.planification_entretien.common.cqrs.command.CommandResponse;
+import com.soat.planification_entretien.common.cqrs.middleware.command.CommandBusFactory;
 import com.soat.planification_entretien.recruteur.command.CreerRecruteurCommand;
-import com.soat.planification_entretien.recruteur.command.CreerRecruteurCommandHandler;
+import com.soat.planification_entretien.recruteur.command.domain.RecruteurCrée;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,13 +17,11 @@ import static org.springframework.http.ResponseEntity.*;
 
 @RestController
 @RequestMapping(RecruteurCommandController.PATH)
-public class RecruteurCommandController {
+public class RecruteurCommandController extends CommandController {
     public static final String PATH = "/api/recruteur";
 
-    private final CreerRecruteurCommandHandler creerRecruteurCommandHandler;
-
-    public RecruteurCommandController(CreerRecruteurCommandHandler creerRecruteurCommandHandler) {
-        this.creerRecruteurCommandHandler = creerRecruteurCommandHandler;
+    public RecruteurCommandController(CommandBusFactory commandBusFactory) {
+        super(commandBusFactory);
     }
 
     @PostMapping("")
@@ -26,12 +29,15 @@ public class RecruteurCommandController {
         if (validExperience(recruteurDto)) {
             return badRequest().build();
         }
-        Integer createdRecruteurId = creerRecruteurCommandHandler.handle(new CreerRecruteurCommand(recruteurDto.language(), recruteurDto.email(), recruteurDto.experienceEnAnnees()));
-        if (createdRecruteurId == null) {
-            return badRequest().build();
-        }
 
-        return created(null).body(createdRecruteurId);
+        CommandResponse commandResponse = getCommandBus().dispatch(new CreerRecruteurCommand(recruteurDto.language(), recruteurDto.email(), recruteurDto.experienceEnAnnees()));
+        Optional<Integer> maybeNewId = commandResponse.findFirst(RecruteurCrée.class)
+                .map(event -> ((RecruteurCrée) event).id());
+        if (maybeNewId.isPresent()) {
+            return created(null).body(maybeNewId.get());
+        }
+        return badRequest().build();
+
     }
 
     private static boolean validExperience(RecruteurDto candidatDto) {
