@@ -1,9 +1,7 @@
 package com.soat.planification_entretien.recruteur.command;
 
 import com.soat.planification_entretien.recruteur.command.domain.RecruteurRepository;
-import org.springframework.stereotype.Service;
 
-@Service
 public class RendreRecruteurIndisponibleCommandHandler {
     private final RecruteurRepository recruteurRepository;
 

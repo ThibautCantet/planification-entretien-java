@@ -1,26 +1,22 @@
 package com.soat.planification_entretien.recruteur.command;
 
-import com.soat.planification_entretien.common.application_service.Listener;
-import com.soat.planification_entretien.common.application_service.MessageBus;
-import com.soat.planification_entretien.common.cqrs.event.Event;
+import com.soat.planification_entretien.common.cqrs.event.EventHandlerVoid;
 import com.soat.planification_entretien.entretien.command.domain.EntretienCréé;
-import org.springframework.stereotype.Service;
 
-@Service
-public class EntretienCreeListener implements Listener<Event> {
+public class EntretienCreeListener extends EventHandlerVoid<EntretienCréé> {
     private final RendreRecruteurIndisponibleCommandHandler rendreRecruteurIndisponibleCommandHandler;
-    private final MessageBus messageBus;
 
-    public EntretienCreeListener(RendreRecruteurIndisponibleCommandHandler rendreRecruteurIndisponibleCommandHandler, MessageBus messageBus) {
+    public EntretienCreeListener(RendreRecruteurIndisponibleCommandHandler rendreRecruteurIndisponibleCommandHandler) {
         this.rendreRecruteurIndisponibleCommandHandler = rendreRecruteurIndisponibleCommandHandler;
-        this.messageBus = messageBus;
-        this.messageBus.subscribe(this);
     }
 
     @Override
-    public void onMessage(Event entretienCréé) {
-        if (entretienCréé instanceof EntretienCréé e) {
-            rendreRecruteurIndisponibleCommandHandler.handle(new RendreRecruteurIndisponibleCommand(e.recruteurId()));
-        }
+    public void handle(EntretienCréé event) {
+        rendreRecruteurIndisponibleCommandHandler.handle(new RendreRecruteurIndisponibleCommand(event.recruteurId()));
+    }
+
+    @Override
+    public Class listenTo() {
+        return EntretienCréé.class;
     }
 }

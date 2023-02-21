@@ -16,6 +16,8 @@ import com.soat.planification_entretien.entretien.command.ValiderEntretienComman
 import com.soat.planification_entretien.entretien.command.domain.EmailService;
 import com.soat.planification_entretien.entretien.command.domain.EntretienRepository;
 import com.soat.planification_entretien.recruteur.command.CreerRecruteurCommandHandler;
+import com.soat.planification_entretien.recruteur.command.EntretienCreeListener;
+import com.soat.planification_entretien.recruteur.command.RendreRecruteurIndisponibleCommandHandler;
 import com.soat.planification_entretien.recruteur.command.domain.RecruteurRepository;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +50,9 @@ public class CommandBusFactory {
     }
 
     protected List<EventHandler<? extends Event>> getEventHandlers() {
-        return List.of();
+        return List.of(
+                new EntretienCreeListener(new RendreRecruteurIndisponibleCommandHandler(recruteurRepository))
+        );
     }
 
     public CommandBus build() {
