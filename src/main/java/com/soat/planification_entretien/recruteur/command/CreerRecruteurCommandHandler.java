@@ -1,6 +1,5 @@
 package com.soat.planification_entretien.recruteur.command;
 
-import com.soat.planification_entretien.common.application_service.MessageBus;
 import com.soat.planification_entretien.common.cqrs.command.CommandHandler;
 import com.soat.planification_entretien.common.cqrs.command.CommandResponse;
 import com.soat.planification_entretien.common.cqrs.event.Event;
@@ -12,11 +11,9 @@ import com.soat.planification_entretien.recruteur.command.domain.RecruteurReposi
 public class CreerRecruteurCommandHandler implements CommandHandler<CreerRecruteurCommand, CommandResponse<Event>> {
 
     private final RecruteurRepository recruteurRepository;
-    private final MessageBus messageBus;
 
-    public CreerRecruteurCommandHandler(RecruteurRepository recruteurRepository, MessageBus messageBus) {
+    public CreerRecruteurCommandHandler(RecruteurRepository recruteurRepository) {
         this.recruteurRepository = recruteurRepository;
-        this.messageBus = messageBus;
     }
 
     @Override
@@ -30,11 +27,10 @@ public class CreerRecruteurCommandHandler implements CommandHandler<CreerRecrute
                     savedRecruteur.getExperienceInYears(),
                     savedRecruteur.getAdresseEmail()
             );
-            messageBus.send(recruteurCrée);
 
             return new CommandResponse<>(recruteurCrée);
         } catch (IllegalArgumentException e) {
-            return new CommandResponse<Event>(new RecruteurNonCrée());
+            return new CommandResponse<>(new RecruteurNonCrée());
         }
     }
 

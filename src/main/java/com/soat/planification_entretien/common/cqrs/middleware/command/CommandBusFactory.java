@@ -5,7 +5,6 @@ import java.util.List;
 import com.soat.planification_entretien.candidat.command.CreerCandidatCommandHandler;
 import com.soat.planification_entretien.candidat.command.domain.CandidatRepository;
 import com.soat.planification_entretien.candidat.command.domain_service.CandidatFactory;
-import com.soat.planification_entretien.common.application_service.MessageBus;
 import com.soat.planification_entretien.common.cqrs.command.CommandHandler;
 import com.soat.planification_entretien.common.cqrs.event.Event;
 import com.soat.planification_entretien.common.cqrs.event.EventHandler;
@@ -28,16 +27,14 @@ public class CommandBusFactory {
 
     private final EntretienRepository entretienRepository;
     private final EmailService emailService;
-    private final MessageBus messsageBus;
     private final CandidatRepository candidatRepository;
     private final CandidatFactory candidatFactory;
     private final RecruteurRepository recruteurRepository;
     private final RecruteurDao recruteurDao;
 
-    public CommandBusFactory(EntretienRepository entretienRepository, EmailService emailService, MessageBus messsageBus, CandidatRepository candidatRepository, CandidatFactory candidatFactory, RecruteurRepository recruteurRepository, RecruteurDao recruteurDao) {
+    public CommandBusFactory(EntretienRepository entretienRepository, EmailService emailService, CandidatRepository candidatRepository, CandidatFactory candidatFactory, RecruteurRepository recruteurRepository, RecruteurDao recruteurDao) {
         this.entretienRepository = entretienRepository;
         this.emailService = emailService;
-        this.messsageBus = messsageBus;
         this.candidatRepository = candidatRepository;
         this.candidatFactory = candidatFactory;
         this.recruteurRepository = recruteurRepository;
@@ -46,10 +43,10 @@ public class CommandBusFactory {
 
     protected List<CommandHandler> getCommandHandlers() {
         return List.of(
-                new PlanifierEntretienCommandHandler(entretienRepository, emailService, messsageBus),
+                new PlanifierEntretienCommandHandler(entretienRepository, emailService),
                 new CreerCandidatCommandHandler(candidatRepository, candidatFactory),
                 new ValiderEntretienCommandHandler(entretienRepository),
-                new CreerRecruteurCommandHandler(recruteurRepository, messsageBus)
+                new CreerRecruteurCommandHandler(recruteurRepository)
         );
     }
 

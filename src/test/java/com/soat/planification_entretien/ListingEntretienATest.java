@@ -9,7 +9,6 @@ import java.util.Map;
 
 import com.soat.ATest;
 import com.soat.planification_entretien.candidat.command.domain.CandidatRepository;
-import com.soat.planification_entretien.common.application_service.MessageBus;
 import com.soat.planification_entretien.common.cqrs.command.CommandResponse;
 import com.soat.planification_entretien.common.cqrs.event.Event;
 import com.soat.planification_entretien.common.cqrs.middleware.command.CommandBus;

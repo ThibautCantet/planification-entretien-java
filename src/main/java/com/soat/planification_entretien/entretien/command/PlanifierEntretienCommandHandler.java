@@ -1,6 +1,5 @@
 package com.soat.planification_entretien.entretien.command;
 
-import com.soat.planification_entretien.common.application_service.MessageBus;
 import com.soat.planification_entretien.common.cqrs.command.CommandHandler;
 import com.soat.planification_entretien.common.cqrs.command.CommandResponse;
 import com.soat.planification_entretien.common.cqrs.event.Event;
@@ -12,12 +11,10 @@ import com.soat.planification_entretien.entretien.command.domain.EntretienReposi
 public class PlanifierEntretienCommandHandler implements CommandHandler<PlanifierEntretienCommand, CommandResponse<Event>> {
     private final EntretienRepository entretienRepository;
     private final EmailService emailService;
-    private final MessageBus messageBus;
 
-    public PlanifierEntretienCommandHandler(EntretienRepository entretienRepository, EmailService emailService, MessageBus messageBus) {
+    public PlanifierEntretienCommandHandler(EntretienRepository entretienRepository, EmailService emailService) {
         this.entretienRepository = entretienRepository;
         this.emailService = emailService;
-        this.messageBus = messageBus;
     }
 
     @Override
@@ -28,7 +25,6 @@ public class PlanifierEntretienCommandHandler implements CommandHandler<Planifie
             entretienRepository.save(entretien);
             emailService.envoyerUnEmailDeConfirmationAuCandidat(planifierEntretienCommand.candidat().adresseEmail(), planifierEntretienCommand.dateEtHeureDisponibiliteDuCandidat());
             emailService.envoyerUnEmailDeConfirmationAuRecruteur(planifierEntretienCommand.recruteur().adresseEmail(), planifierEntretienCommand.dateEtHeureDisponibiliteDuCandidat());
-            messageBus.send(entretienCréé);
             return new CommandResponse<>(entretienCréé);
         }
         return new CommandResponse<>(event);
