@@ -19,6 +19,8 @@ import com.soat.planification_entretien.recruteur.command.CreerRecruteurCommandH
 import com.soat.planification_entretien.recruteur.command.EntretienCreeListener;
 import com.soat.planification_entretien.recruteur.command.RendreRecruteurIndisponibleCommandHandler;
 import com.soat.planification_entretien.recruteur.command.domain.RecruteurRepository;
+import com.soat.planification_entretien.recruteur.query.application.RecruteurCréeListener;
+import com.soat.planification_entretien.recruteur.query.application.RecruteurDao;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,14 +32,16 @@ public class CommandBusFactory {
     private final CandidatRepository candidatRepository;
     private final CandidatFactory candidatFactory;
     private final RecruteurRepository recruteurRepository;
+    private final RecruteurDao recruteurDao;
 
-    public CommandBusFactory(EntretienRepository entretienRepository, EmailService emailService, MessageBus messsageBus, CandidatRepository candidatRepository, CandidatFactory candidatFactory, RecruteurRepository recruteurRepository) {
+    public CommandBusFactory(EntretienRepository entretienRepository, EmailService emailService, MessageBus messsageBus, CandidatRepository candidatRepository, CandidatFactory candidatFactory, RecruteurRepository recruteurRepository, RecruteurDao recruteurDao) {
         this.entretienRepository = entretienRepository;
         this.emailService = emailService;
         this.messsageBus = messsageBus;
         this.candidatRepository = candidatRepository;
         this.candidatFactory = candidatFactory;
         this.recruteurRepository = recruteurRepository;
+        this.recruteurDao = recruteurDao;
     }
 
     protected List<CommandHandler> getCommandHandlers() {
@@ -51,7 +55,8 @@ public class CommandBusFactory {
 
     protected List<EventHandler<? extends Event>> getEventHandlers() {
         return List.of(
-                new EntretienCreeListener(new RendreRecruteurIndisponibleCommandHandler(recruteurRepository))
+                new EntretienCreeListener(new RendreRecruteurIndisponibleCommandHandler(recruteurRepository)),
+                new RecruteurCréeListener(recruteurDao)
         );
     }
 

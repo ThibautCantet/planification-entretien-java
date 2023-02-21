@@ -10,6 +10,10 @@ import java.util.Map;
 import com.soat.ATest;
 import com.soat.planification_entretien.candidat.command.domain.CandidatRepository;
 import com.soat.planification_entretien.common.application_service.MessageBus;
+import com.soat.planification_entretien.common.cqrs.command.CommandResponse;
+import com.soat.planification_entretien.common.cqrs.event.Event;
+import com.soat.planification_entretien.common.cqrs.middleware.command.CommandBus;
+import com.soat.planification_entretien.common.cqrs.middleware.command.CommandBusFactory;
 import com.soat.planification_entretien.entretien.command.domain.Candidat;
 import com.soat.planification_entretien.entretien.command.domain.Entretien;
 import com.soat.planification_entretien.entretien.command.domain.EntretienRepository;
@@ -47,14 +51,12 @@ public class ListingEntretienATest extends ATest {
     @Autowired
     private RecruteurRepository recruteurRepository;
     @Autowired
-    private MessageBus messsageBus;
-    private CreerRecruteurCommandHandler creerRecruteurCommandHandler;
+    private CommandBusFactory commandBusFactory;
 
     @Before
     @Override
     public void setUp() {
         initIntegrationTest();
-        creerRecruteurCommandHandler = new CreerRecruteurCommandHandler(recruteurRepository, messsageBus);
     }
 
     @Override
@@ -67,7 +69,9 @@ public class ListingEntretienATest extends ATest {
         List<Recruteur> recruteurs = dataTableTransformEntries(dataTable, this::buildRecruteur);
 
         for (Recruteur recruteur : recruteurs) {
-            var commandResponse = creerRecruteurCommandHandler.handle(new CreerRecruteurCommand(
+
+            CommandBus commandBus = commandBusFactory.build();
+            CommandResponse<Event> commandResponse = commandBus.dispatch(new CreerRecruteurCommand(
                     recruteur.getLanguage(),
                     recruteur.adresseEmail(),
                     String.valueOf(recruteur.getExperienceInYears())));
