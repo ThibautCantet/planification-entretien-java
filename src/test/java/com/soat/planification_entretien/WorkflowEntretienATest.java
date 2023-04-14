@@ -93,10 +93,23 @@ public class WorkflowEntretienATest extends ATest {
         //@formatter:on
     }
 
-    @Et("le nombre d'entretiens annulé est incrémenté à {int}")
-    public void leNombreDEntretiensAnnuléEstIncrémentéÀ(int count) {
-        int entretiensAnnules = entretienProjectionDao.entretiensAnnules();
+    @Quand("on récupère le nombre d'entretiens annulés")
+    public void onRécupèreLeNombreDEntretiensAnnulés() {
+        initPath();
+        //@formatter:off
+        response = given()
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/annule");
+        //@formatter:on
+    }
 
+    @Et("le nombre d'entretiens annulé est égal à {int}")
+    public void leNombreDEntretiensAnnuléEstEgalÀ(int count) {
+        Integer result = response.then().extract().as(Integer.class);
+        assertThat(result).isEqualTo(count);
+
+        int entretiensAnnules = entretienProjectionDao.entretiensAnnules();
         assertThat(entretiensAnnules).isEqualTo(count);
     }
 }

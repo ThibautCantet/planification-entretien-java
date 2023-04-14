@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.soat.planification_entretien.common.cqrs.application.QueryController;
 import com.soat.planification_entretien.common.cqrs.middleware.queries.QueryBusFactory;
+import com.soat.planification_entretien.entretien.query.CompterEntretiensAnnulesQuery;
 import com.soat.planification_entretien.entretien.query.ListerEntretiensQuery;
 import com.soat.planification_entretien.entretien.query.application.IEntretien;
 import org.springframework.http.HttpStatus;
@@ -30,5 +31,13 @@ public class EntretienQueryController extends QueryController {
                 .map(e -> new EntretienDetailDto(e.getId(), e.getEmailCandidat(), e.getEmailRecruteur(), e.getLanguage(), e.getHoraire(), e.getStatus()))
                 .toList();
         return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @GetMapping("/annule")
+    public ResponseEntity<Integer> countAnnules() {
+        var count = (Integer) getQueryBus().dispatch(new CompterEntretiensAnnulesQuery())
+                .value();
+
+        return new ResponseEntity<>(count, HttpStatus.OK);
     }
 }
