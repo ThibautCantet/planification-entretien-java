@@ -2,7 +2,8 @@ package com.soat.planification_entretien.entretien.command.domain;
 
 public enum Status {
     PLANIFIE(0),
-    VALIDE(1);
+    VALIDE(1),
+    ANNULE(2);
 
     private int value;
 

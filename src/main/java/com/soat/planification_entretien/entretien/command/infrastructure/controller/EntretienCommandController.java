@@ -6,11 +6,13 @@ import com.soat.planification_entretien.candidat.command.domain.CandidatReposito
 import com.soat.planification_entretien.common.cqrs.application.CommandController;
 import com.soat.planification_entretien.common.cqrs.command.CommandResponse;
 import com.soat.planification_entretien.common.cqrs.middleware.command.CommandBusFactory;
+import com.soat.planification_entretien.entretien.command.AnnulerEntretienCommand;
 import com.soat.planification_entretien.entretien.command.PlanifierEntretienCommand;
 import com.soat.planification_entretien.entretien.command.ValiderEntretienCommand;
 import com.soat.planification_entretien.entretien.command.ValiderEntretienCommandHandler;
 import com.soat.planification_entretien.entretien.command.domain.Candidat;
 import com.soat.planification_entretien.entretien.command.domain.Entretien;
+import com.soat.planification_entretien.entretien.command.domain.EntretienAnnulé;
 import com.soat.planification_entretien.entretien.command.domain.EntretienCréé;
 import com.soat.planification_entretien.entretien.command.domain.EntretienValidé;
 import com.soat.planification_entretien.entretien.command.domain.Recruteur;
@@ -68,6 +70,15 @@ public class EntretienCommandController extends CommandController {
     public ResponseEntity<Void> valider(@PathVariable("id") int id) {
         var commandResponse = getCommandBus().dispatch(new ValiderEntretienCommand(id));
         if (commandResponse.findFirst(EntretienValidé.class).isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PatchMapping("{id}/annuler")
+    public ResponseEntity<Void> annuler(@PathVariable("id") int id) {
+        var commandResponse = getCommandBus().dispatch(new AnnulerEntretienCommand(id));
+        if (commandResponse.findFirst(EntretienAnnulé.class).isPresent()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -80,6 +80,12 @@ public class Entretien implements IEntretien {
         return new EntretienValidé(id);
     }
 
+    public Event annuler() {
+        status = Status.ANNULE;
+
+        return new EntretienAnnulé(id);
+    }
+
     @Override
     public String getEmailCandidat() {
         return candidat.adresseEmail();

@@ -75,4 +75,16 @@ public class WorkflowEntretienATest extends ATest {
                 LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
                 Status.valueOf(entry.get("status")));
     }
+
+    @Quand("on annule l'entretien {int}")
+    public void onAnnuleLEntretien(int entretienId) {
+        initPath();
+        //@formatter:off
+        response = given()
+                .log().all()
+                .header("Content-Type", ContentType.JSON)
+                .when()
+                .patch(entretienId + "/annuler");
+        //@formatter:on
+    }
 }
