@@ -30,3 +30,4 @@ Fonctionnalité: Workflow d'un entretien de recrutement chez Soat
     Alors on récupères les entretiens suivants en base
       | id | recruteur         | candidat          | language | horaire          | status |
       | 1  | recruteur@soat.fr | candidat@mail.com | Java     | 16/04/2019 15:00 | ANNULE |
+    Et le nombre d'entretiens annulé est incrémenté à 1

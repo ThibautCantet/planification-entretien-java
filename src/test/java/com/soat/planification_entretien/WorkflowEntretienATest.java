@@ -8,12 +8,14 @@ import java.util.Map;
 import com.soat.ATest;
 import com.soat.planification_entretien.entretien.command.domain.Status;
 import com.soat.planification_entretien.entretien.command.infrastructure.controller.EntretienCommandController;
+import com.soat.planification_entretien.entretien.query.application.EntretienProjectionDao;
 import com.soat.planification_entretien.entretien.query.infrastructure.dao.IEntretienImpl;
 import com.soat.planification_entretien.entretien.query.application.EntretienDao;
 import com.soat.planification_entretien.entretien.query.application.IEntretien;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
+import io.cucumber.java.fr.Et;
 import io.cucumber.java.fr.Quand;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -26,6 +28,9 @@ public class WorkflowEntretienATest extends ATest {
 
     @Autowired
     private EntretienDao entretienDao;
+
+    @Autowired
+    private EntretienProjectionDao entretienProjectionDao;
 
     @Before
     @Override
@@ -86,5 +91,12 @@ public class WorkflowEntretienATest extends ATest {
                 .when()
                 .patch(entretienId + "/annuler");
         //@formatter:on
+    }
+
+    @Et("le nombre d'entretiens annulé est incrémenté à {int}")
+    public void leNombreDEntretiensAnnuléEstIncrémentéÀ(int count) {
+        int entretiensAnnules = entretienProjectionDao.entretiensAnnules();
+
+        assertThat(entretiensAnnules).isEqualTo(count);
     }
 }
