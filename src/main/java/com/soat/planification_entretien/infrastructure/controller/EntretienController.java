@@ -2,7 +2,6 @@ package com.soat.planification_entretien.infrastructure.controller;
 
 import java.util.List;
 
-import com.soat.planification_entretien.domain.EntretienDetail;
 import com.soat.planification_entretien.use_case.ListerEntretiens;
 import com.soat.planification_entretien.use_case.PlanifierEntretien;
 import org.springframework.http.HttpStatus;

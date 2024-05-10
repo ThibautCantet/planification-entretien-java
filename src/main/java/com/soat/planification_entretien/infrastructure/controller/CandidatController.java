@@ -19,7 +19,7 @@ import static org.springframework.http.ResponseEntity.*;
 public class CandidatController {
     private static final String EMAIL_REGEX = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
 
-    public static final String PATH = "/api/candidat";
+    public static final String PATH = "/api/candidat/";
 
     private final CreerCandidat creerCandidat;
 
@@ -27,12 +27,14 @@ public class CandidatController {
         this.creerCandidat = creerCandidat;
     }
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<Integer> creer(@RequestBody CandidatDto candidatDto) {
 
         Candidat candidat = creerCandidat.execute(candidatDto.language(), candidatDto.email(), candidatDto.experienceEnAnnees());
-        return ofNullable(candidat).map(c -> created(null).body(c.getId()))
-                .orElse(badRequest().build());
+        if (candidat != null) {
+            return created(null).body(candidat.getId());
+        }
+        return badRequest().build();
     }
 
     private static boolean isEmail(String adresse) {

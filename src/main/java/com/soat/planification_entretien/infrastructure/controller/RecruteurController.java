@@ -15,14 +15,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static java.util.Optional.*;
 import static org.springframework.http.ResponseEntity.*;
 
 @RestController
 @RequestMapping(RecruteurController.PATH)
 public class RecruteurController {
     private static final String EMAIL_REGEX = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
-    public static final String PATH = "/api/recruteur";
+    public static final String PATH = "/api/recruteur/";
 
     private final CreerRecruteur creerRecruteur;
     private final ListerRecruteursExperimentes listerRecruteursExperimentes;
@@ -32,14 +31,16 @@ public class RecruteurController {
         this.listerRecruteursExperimentes = listerRecruteursExperimentes;
     }
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<Integer> creer(@RequestBody RecruteurDto recruteurDto) {
         Recruteur recruteur = creerRecruteur.execute(recruteurDto.language(), recruteurDto.email(), recruteurDto.experienceEnAnnees());
-        return ofNullable(recruteur).map(c -> created(null).body(c.getId()))
-                .orElse(badRequest().build());
+        if (recruteur != null) {
+            return created(null).body(recruteur.getId());
+        }
+        return badRequest().build();
     }
 
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<List<RecruteurDetailDto>> findAll() {
         List<RecruteurDetailDto> entretienDetails = listerRecruteursExperimentes.execute().stream()
                 .map(r -> new RecruteurDetailDto(r.id(), r.email(), r.competence()))

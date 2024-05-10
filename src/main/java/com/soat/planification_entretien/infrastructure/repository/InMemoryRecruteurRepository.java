@@ -9,6 +9,8 @@ import com.soat.planification_entretien.domain.Recruteur;
 import com.soat.planification_entretien.domain.RecruteurRepository;
 import org.springframework.stereotype.Repository;
 
+import static java.util.Optional.*;
+
 @Repository
 public class InMemoryRecruteurRepository implements RecruteurRepository {
     private final Map<Integer, Recruteur> map = new HashMap<>();
@@ -23,7 +25,11 @@ public class InMemoryRecruteurRepository implements RecruteurRepository {
 
     @Override
     public Optional<Recruteur> findById(int recruteurId) {
-        return Optional.of(map.get(recruteurId));
+        var recruteur = map.get(recruteurId);
+        if (recruteur != null) {
+            return Optional.of(recruteur);
+        }
+        return Optional.empty();
     }
 
     @Override
