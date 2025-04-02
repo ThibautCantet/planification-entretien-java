@@ -9,9 +9,8 @@ public class Recruteur {
 
     private Integer id;
 
-    private String language;
     private String email;
-    private Integer experienceInYears;
+    private Profil profil;
 
     public Recruteur(String language, String email, int experienceInYears) {
         this(null, language, email, experienceInYears);
@@ -22,9 +21,8 @@ public class Recruteur {
             throw new IllegalArgumentException();
         }
         this.id = recruteurId;
-        this.language = language;
         this.email = email;
-        this.experienceInYears = experienceInYears;
+        this.profil = new Profil(experienceInYears, language);
     }
 
     public static Recruteur of(Integer id, Recruteur recruteur) {
@@ -43,7 +41,7 @@ public class Recruteur {
     }
 
     public String getLanguage() {
-        return language;
+        return profil.language();
     }
 
     public String getEmail() {
@@ -51,6 +49,10 @@ public class Recruteur {
     }
 
     public Integer getExperienceInYears() {
-        return experienceInYears;
+        return profil.experienceInYears();
+    }
+
+    public boolean estCompatible(Candidat candidat) {
+        return this.profil.estCompatibe(candidat.profil());
     }
 }

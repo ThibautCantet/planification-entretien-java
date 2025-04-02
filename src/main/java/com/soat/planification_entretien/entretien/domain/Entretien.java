@@ -62,8 +62,7 @@ public class Entretien implements IEntretien {
     }
 
     public boolean planifier(LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
-        boolean planifiable = recruteur.getLanguage().equals(candidat.getLanguage())
-                && recruteur.getExperienceInYears() > candidat.getExperienceInYears()
+        boolean planifiable = recruteur.estCompatible(candidat)
                 && dateEtHeureDisponibiliteDuCandidat.equals(dateEtHeureDisponibiliteDuRecruteur);
 
         if (planifiable) {

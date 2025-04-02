@@ -8,9 +8,8 @@ public class Candidat {
 
     private Integer id;
 
-    private String language;
     private String email;
-    private Integer experienceInYears;
+    private Profil profil;
 
     public Candidat(String language, String email, int experienceInYears) {
         this(null, language, email, experienceInYears);
@@ -21,9 +20,8 @@ public class Candidat {
             throw new IllegalArgumentException();
         }
         this.id = candidatId;
-        this.language = language;
+        this.profil = new Profil(experienceInYears, language);
         this.email = email;
-        this.experienceInYears = experienceInYears;
     }
 
     public static Candidat of(Integer id, Candidat candidat) {
@@ -42,7 +40,7 @@ public class Candidat {
     }
 
     public String getLanguage() {
-        return language;
+        return profil.language();
     }
 
     public String getEmail() {
@@ -50,6 +48,10 @@ public class Candidat {
     }
 
     public Integer getExperienceInYears() {
-        return experienceInYears;
+        return profil.experienceInYears();
+    }
+
+    Profil profil() {
+        return profil;
     }
 }
