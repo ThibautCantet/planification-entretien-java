@@ -6,7 +6,7 @@ import com.soat.planification_entretien.profil.domain.Candidat;
 import com.soat.planification_entretien.profil.domain.Recruteur;
 
 public class Entretien implements IEntretien {
-    private Integer id;
+    private EntretienId id;
 
     private Candidat candidat;
 
@@ -15,7 +15,7 @@ public class Entretien implements IEntretien {
     private Recruteur recruteur;
 
     public Entretien(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
-        this.id = id;
+        this.id = new EntretienId(id);
         this.candidat = candidat;
         this.recruteur = recruteur;
         this.horaireEntretien = horaire;
@@ -41,7 +41,7 @@ public class Entretien implements IEntretien {
     }
 
     public static Entretien of(Integer newId, Entretien entretien) {
-        entretien.id = newId;
+        entretien.id = new EntretienId(newId);
         return entretien;
     }
 
@@ -58,7 +58,7 @@ public class Entretien implements IEntretien {
     }
 
     public Integer getId() {
-        return id;
+        return id.value();
     }
 
     public boolean planifier(LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
