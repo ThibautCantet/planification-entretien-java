@@ -28,7 +28,8 @@ public class HibernateEntretienRepository implements EntretienRepository {
         var jpaRecruteur = recruteurCrud.findById(entretien.getRecruteur().id()).get();
 
         var jpaEntretien = Entretien.of(jpaCandidat,
-                jpaRecruteur, entretien.getHoraireEntretien());
+                jpaRecruteur, entretien.getHoraireEntretien(), entretien.getStatus());
+
         entretienCrud.save(jpaEntretien);
     }
 
@@ -53,6 +54,6 @@ public class HibernateEntretienRepository implements EntretienRepository {
                 jpaEntretien.getId(),
                 new Candidat(jpaEntretien.getCandidat().getUuid(), jpaEntretien.getCandidat().getLanguage(), jpaEntretien.getCandidat().getEmail(), jpaEntretien.getCandidat().getExperienceInYears()),
                 new ConsultantRecruteur(jpaEntretien.getId(), jpaEntretien.getRecruteur().getLanguage(), jpaEntretien.getRecruteur().getEmail(), jpaEntretien.getRecruteur().getExperienceInYears()),
-                jpaEntretien.getHoraireEntretien());
+                jpaEntretien.getHoraireEntretien(), jpaEntretien.getStatus());
     }
 }

@@ -10,12 +10,14 @@ public class Entretien implements IEntretien {
     private LocalDateTime horaireEntretien;
 
     private ConsultantRecruteur recruteur;
+    private Status status;
 
-    public Entretien(Integer id, Candidat prospect, ConsultantRecruteur recruteur, LocalDateTime horaire) {
+    public Entretien(Integer id, Candidat prospect, ConsultantRecruteur recruteur, LocalDateTime horaire, Status status) {
         this.id = new EntretienId(id);
         this.prospect = prospect;
         this.recruteur = recruteur;
         this.horaireEntretien = horaire;
+        this.status = status;
     }
 
     private Entretien(Candidat prospect, ConsultantRecruteur recruteur, LocalDateTime horaire) {
@@ -29,8 +31,8 @@ public class Entretien implements IEntretien {
         this.recruteur = recruteur;
     }
 
-    public static Entretien of(Integer id, Candidat prospect, ConsultantRecruteur recruteur, LocalDateTime horaire) {
-        return new Entretien(id, prospect, recruteur, horaire);
+    public static Entretien of(Integer id, Candidat prospect, ConsultantRecruteur recruteur, LocalDateTime horaire, Status status) {
+        return new Entretien(id, prospect, recruteur, horaire, status);
     }
 
     public static Entretien of(Candidat prospect, ConsultantRecruteur recruteur, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
@@ -60,10 +62,11 @@ public class Entretien implements IEntretien {
 
     public boolean planifier(LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
         boolean planifiable = recruteur.estCompatible(prospect)
-                && dateEtHeureDisponibiliteDuCandidat.equals(dateEtHeureDisponibiliteDuRecruteur);
+                              && dateEtHeureDisponibiliteDuCandidat.equals(dateEtHeureDisponibiliteDuRecruteur);
 
         if (planifiable) {
             horaireEntretien = dateEtHeureDisponibiliteDuCandidat;
+            status = Status.PLANIFIE;
         }
 
         return planifiable;
@@ -87,5 +90,9 @@ public class Entretien implements IEntretien {
     @Override
     public LocalDateTime getHoraire() {
         return horaireEntretien;
+    }
+
+    public Status getStatus() {
+        return status;
     }
 }

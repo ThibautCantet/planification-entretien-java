@@ -11,6 +11,7 @@ import java.util.UUID;
 import com.soat.ATest;
 import com.soat.planification_entretien.entretien.domain.Candidat;
 import com.soat.planification_entretien.entretien.domain.ConsultantRecruteur;
+import com.soat.planification_entretien.entretien.domain.Status;
 import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienController;
 import com.soat.planification_entretien.profil.domain.Prospect;
 import com.soat.planification_entretien.profil.domain.ProspectRepository;
@@ -107,9 +108,11 @@ public class ListingEntretienATest extends ATest {
         Prospect prospect = savedProspects.get(0);
         Recruteur recruteur = savedRecruteurs.get(0);
         return Entretien.of(
+                Integer.parseInt(entry.get("id")),
                 new Candidat(prospect.getId(), prospect.getLanguage(), prospect.getEmail(), prospect.getExperienceInYears()),
                 new ConsultantRecruteur(recruteur.getId(), recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears()),
-                LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+                LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
+                Status.valueOf(entry.get("status")));
     }
 
     @Quand("on liste les tous les entretiens")
