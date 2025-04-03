@@ -1,6 +1,8 @@
 package com.soat.planification_entretien.profil.infrastructure.repository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.soat.planification_entretien.profil.domain.Prospect;
 import com.soat.planification_entretien.profil.domain.ProspectRepository;
@@ -15,10 +17,11 @@ public class HibernateProspectRepository implements ProspectRepository {
     }
 
     @Override
-    public Optional<Prospect> findById(int candidatId) {
-        return candidatCrud.findById(candidatId).map(
+    public Optional<Prospect> findById(UUID candidatId) {
+        return candidatCrud.findByUuid(candidatId).map(
                 candidat -> new Prospect(
-                        candidatId,
+                        candidat.getId(),
+                        candidat.getUuid(),
                         candidat.getLanguage(),
                         candidat.getEmail(),
                         candidat.getExperienceInYears()
@@ -28,8 +31,26 @@ public class HibernateProspectRepository implements ProspectRepository {
 
     @Override
     public Prospect save(Prospect prospect) {
-        var toSave = new com.soat.planification_entretien.profil.infrastructure.repository.Candidat(prospect.getLanguage(), prospect.getEmail(), prospect.getExperienceInYears());
+        var toSave = new com.soat.planification_entretien.profil.infrastructure.repository.Candidat(
+                prospect.getId(),
+                prospect.getLanguage(),
+                prospect.getEmail(),
+                prospect.getExperienceInYears());
         var saved = candidatCrud.save(toSave);
         return Prospect.of(saved.getId(), prospect);
+    }
+
+    @Override
+    public List<Prospect> findAll() {
+        return candidatCrud.findAll()
+                .stream()
+                .map(c -> new Prospect(
+                        c.getId(),
+                        c.getUuid(),
+                        c.getLanguage(),
+                        c.getEmail(),
+                        c.getExperienceInYears()
+                ))
+                .toList();
     }
 }

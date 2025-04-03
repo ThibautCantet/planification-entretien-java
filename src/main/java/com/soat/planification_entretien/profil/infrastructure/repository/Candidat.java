@@ -1,5 +1,6 @@
 package com.soat.planification_entretien.profil.infrastructure.repository;
 
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,13 +14,17 @@ public class Candidat {
     private Integer id;
 
     @Column
+    private UUID uuid;
+
+    @Column
     private String language;
     @Column
     private String email;
     @Column
     private Integer experienceInYears;
 
-    public Candidat(String language, String email, int experienceInYears) {
+    public Candidat(UUID id, String language, String email, int experienceInYears) {
+        this.uuid = id;
         this.language = language;
         this.email = email;
         this.experienceInYears = experienceInYears;
@@ -31,6 +36,10 @@ public class Candidat {
 
     public Integer getId() {
         return id;
+    }
+
+    public UUID getUuid() {
+        return uuid;
     }
 
     public String getLanguage() {

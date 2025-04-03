@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import com.soat.ATest;
 import com.soat.planification_entretien.entretien.domain.Candidat;
@@ -86,6 +87,7 @@ public class ListingEntretienATest extends ATest {
 
     private Prospect buildCandidat(Map<String, String> entry) {
         return new Prospect(
+                UUID.randomUUID(),
                 entry.get("language"),
                 entry.get("email"),
                 Integer.parseInt(entry.get("xp")));

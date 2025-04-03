@@ -1,5 +1,7 @@
 package com.soat.planification_entretien.infrastructure.repository;
 
+import java.util.UUID;
+
 import com.soat.planification_entretien.profil.domain.Prospect;
 import com.soat.planification_entretien.profil.infrastructure.repository.CandidatCrud;
 import com.soat.planification_entretien.profil.infrastructure.repository.HibernateProspectRepository;
@@ -25,11 +27,12 @@ class HibernateProspectRepositoryITest {
 
     @Test
     void name() {
-        Prospect prospect = hibernateCandidatRepository.save(new Prospect("Java", "candidat@mail.com", 3));
+        UUID id = UUID.randomUUID();
+        Prospect prospect = hibernateCandidatRepository.save(new Prospect(id, "Java", "candidat@mail.com", 3));
 
         assertThat(prospect)
                 .usingRecursiveComparison()
                 .ignoringFields("id")
-                .isEqualTo(new Prospect("Java", "candidat@mail.com", 3));
+                .isEqualTo(new Prospect(id, "Java", "candidat@mail.com", 3));
     }
 }

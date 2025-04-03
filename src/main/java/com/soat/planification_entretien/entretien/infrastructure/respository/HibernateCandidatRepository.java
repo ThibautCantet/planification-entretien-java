@@ -1,6 +1,7 @@
 package com.soat.planification_entretien.entretien.infrastructure.respository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import com.soat.planification_entretien.entretien.domain.Candidat;
 import com.soat.planification_entretien.entretien.domain.CandidatRepository;
@@ -16,9 +17,9 @@ public class HibernateCandidatRepository implements CandidatRepository {
     }
 
     @Override
-    public Optional<Candidat> findById(int id) {
-        return candidatCrud.findById(id)
-                .map(candidat -> new Candidat(candidat.getId(),
+    public Optional<Candidat> findById(UUID id) {
+        return candidatCrud.findByUuid(id)
+                .map(candidat -> new Candidat(candidat.getUuid(),
                         candidat.getLanguage(),
                         candidat.getEmail(),
                         candidat.getExperienceInYears()));

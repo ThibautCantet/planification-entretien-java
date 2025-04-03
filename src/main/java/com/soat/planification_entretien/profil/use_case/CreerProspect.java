@@ -1,5 +1,7 @@
 package com.soat.planification_entretien.profil.use_case;
 
+import java.util.UUID;
+
 import com.soat.planification_entretien.profil.domain.Prospect;
 import com.soat.planification_entretien.profil.domain.ProspectRepository;
 import org.springframework.stereotype.Service;
@@ -13,9 +15,9 @@ public class CreerProspect {
         this.prospectRepository = prospectRepository;
     }
 
-    public Integer execute(String language, String email, String experienceEnAnnees) {
+    public UUID execute(String language, String email, String experienceEnAnnees) {
         try {
-            Prospect prospect = new Prospect(language, email, Integer.parseInt(experienceEnAnnees));
+            Prospect prospect = new Prospect(UUID.randomUUID(), language, email, Integer.parseInt(experienceEnAnnees));
 
             Prospect savedProspect = prospectRepository.save(prospect);
 

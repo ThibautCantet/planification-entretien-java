@@ -1,6 +1,7 @@
 package com.soat.candidat;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
@@ -63,11 +64,13 @@ public class CreationCandidatATest extends ATest {
     public void leCandidatEstCorrectementEnregistréAvecSesInformationsEtAnsDExpériences(String language, String email, String experienceEnAnnees) {
         response.then()
                 .statusCode(HttpStatus.SC_CREATED);
+        var newProspectId = response.as(UUID.class);
 
-        final Prospect prospect = prospectRepository.findById(candidatId).get();
-        assertThat(prospect).usingRecursiveComparison()
-                .ignoringFields("id")
-                .isEqualTo(new Prospect(language, email, Integer.parseInt(experienceEnAnnees)));
+        final Prospect prospect = prospectRepository.findById(newProspectId).get();
+        assertThat(prospect)
+                .extracting(Prospect::getLanguage, Prospect::getEmail, Prospect::getExperienceInYears)
+                .containsExactly(language, email, Integer.parseInt(experienceEnAnnees));
+        assertThat(prospect.getId()).isNotNull();
     }
 
     @Alors("l'enregistrement est refusé")
@@ -78,7 +81,7 @@ public class CreationCandidatATest extends ATest {
 
     @Et("le candidat n'est pas enregistré")
     public void leCandidatNEstPasEnregistré() {
-        final Optional<Prospect> candidat = prospectRepository.findById(candidatId);
-        assertThat(candidat).isEmpty();
+        final var prospects = prospectRepository.findAll();
+        assertThat(prospects).isEmpty();
     }
 }

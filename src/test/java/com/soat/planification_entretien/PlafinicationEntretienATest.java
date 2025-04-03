@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
@@ -84,7 +85,7 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Etantdonné("un candidat {string} \\({string}) avec {string} ans d’expériences qui est disponible {string} à {string}")
     public void unCandidatAvecAnsDExpériencesQuiEstDisponibleÀ(String language, String email, String experienceInYears, String date, String time) {
-        prospect = new Prospect(1, language, email, Integer.parseInt(experienceInYears));
+        prospect = new Prospect(UUID.randomUUID(), language, email, Integer.parseInt(experienceInYears));
         //entityManager.persist(candidat);
         prospectRepository.save(prospect);
         disponibiliteDuCandidat = LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));

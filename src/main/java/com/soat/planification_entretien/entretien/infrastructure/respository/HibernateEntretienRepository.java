@@ -24,7 +24,7 @@ public class HibernateEntretienRepository implements EntretienRepository {
     @Override
     public void save(com.soat.planification_entretien.entretien.domain.Entretien entretien) {
 
-        var jpaCandidat = candidatCrud.findById(entretien.getCandidat().id()).get();
+        var jpaCandidat = candidatCrud.findByUuid(entretien.getCandidat().id()).get();
         var jpaRecruteur = recruteurCrud.findById(entretien.getRecruteur().id()).get();
 
         var jpaEntretien = Entretien.of(jpaCandidat,
@@ -51,7 +51,7 @@ public class HibernateEntretienRepository implements EntretienRepository {
     private static com.soat.planification_entretien.entretien.domain.Entretien toEntretien(Entretien jpaEntretien) {
         return com.soat.planification_entretien.entretien.domain.Entretien.of(
                 jpaEntretien.getId(),
-                new Candidat(jpaEntretien.getId(), jpaEntretien.getCandidat().getLanguage(), jpaEntretien.getCandidat().getEmail(), jpaEntretien.getCandidat().getExperienceInYears()),
+                new Candidat(jpaEntretien.getCandidat().getUuid(), jpaEntretien.getCandidat().getLanguage(), jpaEntretien.getCandidat().getEmail(), jpaEntretien.getCandidat().getExperienceInYears()),
                 new ConsultantRecruteur(jpaEntretien.getId(), jpaEntretien.getRecruteur().getLanguage(), jpaEntretien.getRecruteur().getEmail(), jpaEntretien.getRecruteur().getExperienceInYears()),
                 jpaEntretien.getHoraireEntretien());
     }

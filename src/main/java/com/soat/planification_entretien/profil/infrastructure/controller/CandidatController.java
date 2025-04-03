@@ -1,6 +1,7 @@
 package com.soat.planification_entretien.profil.infrastructure.controller;
 
 import java.net.URI;
+import java.util.UUID;
 
 import com.soat.planification_entretien.profil.use_case.CreerProspect;
 import org.springframework.http.ResponseEntity;
@@ -24,11 +25,11 @@ public class CandidatController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Integer> creer(@RequestBody CandidatDto candidatDto) {
+    public ResponseEntity<UUID> creer(@RequestBody CandidatDto candidatDto) {
         if (validExperience(candidatDto)) {
             return badRequest().build();
         }
-        Integer createdCandidatId = creerProspect.execute(candidatDto.language(), candidatDto.email(), candidatDto.experienceEnAnnees());
+        var createdCandidatId = creerProspect.execute(candidatDto.language(), candidatDto.email(), candidatDto.experienceEnAnnees());
         if (createdCandidatId == null) {
             return badRequest().build();
         }

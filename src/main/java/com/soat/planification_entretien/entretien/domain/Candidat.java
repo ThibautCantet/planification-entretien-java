@@ -1,6 +1,8 @@
 package com.soat.planification_entretien.entretien.domain;
 
-public record Candidat(int id, String language, String email, int experienceInYears) {
+import java.util.UUID;
+
+public record Candidat(UUID id, String language, String email, int experienceInYears) {
     Profil profil() {
         return new Profil(experienceInYears, language);
     }

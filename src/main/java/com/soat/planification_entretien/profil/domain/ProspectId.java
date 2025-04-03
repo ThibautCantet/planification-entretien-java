@@ -1,4 +1,6 @@
 package com.soat.planification_entretien.profil.domain;
 
-record ProspectId(Integer value) {
+import java.util.UUID;
+
+record ProspectId(Integer surrogate, UUID id) {
 }
