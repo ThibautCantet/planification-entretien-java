@@ -14,6 +14,11 @@ public class InMemoryProspectRepository implements ProspectRepository {
     private final Map<UUID, Prospect> cache = new HashMap<>();
 
     @Override
+    public UUID next() {
+        return UUID.randomUUID();
+    }
+
+    @Override
     public Optional<Prospect> findById(UUID candidatId) {
         return Optional.ofNullable(cache.get(candidatId));
     }

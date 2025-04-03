@@ -6,6 +6,7 @@ import java.util.UUID;
 
 
 public interface ProspectRepository {
+    UUID next();
     Optional<Prospect> findById(UUID candidatId);
 
     Prospect save(Prospect prospect);

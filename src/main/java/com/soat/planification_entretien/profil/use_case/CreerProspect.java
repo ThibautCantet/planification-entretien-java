@@ -17,7 +17,7 @@ public class CreerProspect {
 
     public UUID execute(String language, String email, String experienceEnAnnees) {
         try {
-            Prospect prospect = new Prospect(UUID.randomUUID(), language, email, Integer.parseInt(experienceEnAnnees));
+            Prospect prospect = new Prospect(prospectRepository.next(), language, email, Integer.parseInt(experienceEnAnnees));
 
             Prospect savedProspect = prospectRepository.save(prospect);
 

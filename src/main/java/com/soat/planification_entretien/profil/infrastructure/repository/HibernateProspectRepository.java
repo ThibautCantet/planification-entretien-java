@@ -41,6 +41,9 @@ public class HibernateProspectRepository implements ProspectRepository {
     }
 
     @Override
+    public UUID next() { return UUID.randomUUID() ;}
+
+    @Override
     public List<Prospect> findAll() {
         return candidatCrud.findAll()
                 .stream()
