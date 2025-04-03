@@ -1,8 +1,8 @@
 package com.soat.planification_entretien.infrastructure.repository;
 
-import com.soat.planification_entretien.profil.domain.Candidat;
+import com.soat.planification_entretien.profil.domain.Prospect;
 import com.soat.planification_entretien.profil.infrastructure.repository.CandidatCrud;
-import com.soat.planification_entretien.profil.infrastructure.repository.HibernateCandidatRepository;
+import com.soat.planification_entretien.profil.infrastructure.repository.HibernateProspectRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
@@ -15,21 +15,21 @@ import static org.assertj.core.api.AssertionsForClassTypes.*;
 @AutoConfigureDataJpa
 @EnableJpaRepositories
 @SpringBootTest
-class HibernateCandidatRepositoryITest {
+class HibernateProspectRepositoryITest {
 
     @Autowired
     private CandidatCrud candidatCrud;
 
     @Autowired
-    private HibernateCandidatRepository hibernateCandidatRepository;
+    private HibernateProspectRepository hibernateCandidatRepository;
 
     @Test
     void name() {
-        Candidat candidat = hibernateCandidatRepository.save(new Candidat("Java", "candidat@mail.com", 3));
+        Prospect prospect = hibernateCandidatRepository.save(new Prospect("Java", "candidat@mail.com", 3));
 
-        assertThat(candidat)
+        assertThat(prospect)
                 .usingRecursiveComparison()
                 .ignoringFields("id")
-                .isEqualTo(new Candidat("Java", "candidat@mail.com", 3));
+                .isEqualTo(new Prospect("Java", "candidat@mail.com", 3));
     }
 }

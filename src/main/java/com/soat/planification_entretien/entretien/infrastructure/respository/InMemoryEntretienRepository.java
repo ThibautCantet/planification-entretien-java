@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.soat.planification_entretien.profil.domain.Candidat;
 import com.soat.planification_entretien.entretien.domain.Entretien;
 import com.soat.planification_entretien.entretien.domain.EntretienRepository;
 
@@ -25,9 +24,10 @@ public class InMemoryEntretienRepository implements EntretienRepository {
         return cache.values().stream().toList();
     }
 
-    public Entretien findByCandidat(Candidat candidat) {
+    @Override
+    public Entretien findByEmail(String email) {
         return cache.values().stream()
-                .filter(entretien -> entretien.getCandidat().getId().equals(candidat.getId()))
+                .filter(entretien -> entretien.getCandidat().email() == email)
                 .findFirst()
                 .orElse(null);
     }

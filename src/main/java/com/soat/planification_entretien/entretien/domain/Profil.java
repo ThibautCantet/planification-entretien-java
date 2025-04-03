@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.profil.domain;
+package com.soat.planification_entretien.entretien.domain;
 
 public record Profil(Integer experienceInYears, String language) {
     boolean estCompatibe(Profil profil) {

@@ -1,6 +1,6 @@
 # Planification d'entretien
 
-Planification d'entretien entre un recruteur et un candidat
+Planification d'entretien entre un recruteur et un prospect
 
 ### Requirement
 

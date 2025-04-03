@@ -3,12 +3,12 @@ package com.soat.planification_entretien.entretien.infrastructure.controller;
 import java.util.List;
 import java.util.Optional;
 
-import com.soat.planification_entretien.profil.domain.Candidat;
-import com.soat.planification_entretien.profil.domain.CandidatRepository;
+import com.soat.planification_entretien.entretien.domain.Candidat;
+import com.soat.planification_entretien.entretien.domain.CandidatRepository;
+import com.soat.planification_entretien.entretien.domain.ConsultantRecruteur;
+import com.soat.planification_entretien.entretien.domain.ConsultantRecruteurRepository;
 import com.soat.planification_entretien.entretien.use_case.ListerEntretiens;
 import com.soat.planification_entretien.entretien.use_case.PlanifierEntretien;
-import com.soat.planification_entretien.profil.domain.Recruteur;
-import com.soat.planification_entretien.profil.domain.RecruteurRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,9 +27,12 @@ public class EntretienController {
     private final PlanifierEntretien planifierEntretien;
     private final ListerEntretiens listerEntretiens;
     private final CandidatRepository candidatRepository;
-    private final RecruteurRepository recruteurRepository;
+    private final ConsultantRecruteurRepository recruteurRepository;
 
-    public EntretienController(PlanifierEntretien planifierEntretien, ListerEntretiens listerEntretiens, CandidatRepository candidatRepository, RecruteurRepository recruteurRepository) {
+    public EntretienController(PlanifierEntretien planifierEntretien,
+                               ListerEntretiens listerEntretiens,
+                               CandidatRepository candidatRepository,
+                               ConsultantRecruteurRepository recruteurRepository) {
         this.planifierEntretien = planifierEntretien;
         this.listerEntretiens = listerEntretiens;
         this.candidatRepository = candidatRepository;
@@ -52,7 +55,7 @@ public class EntretienController {
         if (candidat.isEmpty()) {
             return badRequest().build();
         }
-        Optional<Recruteur> recruteur = recruteurRepository.findById(entretienDto.recruteurId());
+        Optional<ConsultantRecruteur> recruteur = recruteurRepository.findById(entretienDto.recruteurId());
         if (recruteur.isEmpty()) {
             return badRequest().build();
         }

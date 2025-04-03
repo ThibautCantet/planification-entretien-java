@@ -2,42 +2,39 @@ package com.soat.planification_entretien.entretien.domain;
 
 import java.time.LocalDateTime;
 
-import com.soat.planification_entretien.profil.domain.Candidat;
-import com.soat.planification_entretien.profil.domain.Recruteur;
-
 public class Entretien implements IEntretien {
     private EntretienId id;
 
-    private Candidat candidat;
+    private Candidat prospect;
 
     private LocalDateTime horaireEntretien;
 
-    private Recruteur recruteur;
+    private ConsultantRecruteur recruteur;
 
-    public Entretien(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
+    public Entretien(Integer id, Candidat prospect, ConsultantRecruteur recruteur, LocalDateTime horaire) {
         this.id = new EntretienId(id);
-        this.candidat = candidat;
+        this.prospect = prospect;
         this.recruteur = recruteur;
         this.horaireEntretien = horaire;
     }
 
-    private Entretien(Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
-        this.candidat = candidat;
+    private Entretien(Candidat prospect, ConsultantRecruteur recruteur, LocalDateTime horaire) {
+        this.prospect = prospect;
         this.recruteur = recruteur;
         this.horaireEntretien = horaire;
     }
 
-    public Entretien(Candidat candidat, Recruteur recruteur) {
-        this.candidat = candidat;
+    public Entretien(Candidat prospect, ConsultantRecruteur recruteur) {
+        this.prospect = prospect;
         this.recruteur = recruteur;
     }
 
-    public static Entretien of(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
-        return new Entretien(id, candidat, recruteur, horaire);
+    public static Entretien of(Integer id, Candidat prospect, ConsultantRecruteur recruteur, LocalDateTime horaire) {
+        return new Entretien(id, prospect, recruteur, horaire);
     }
 
-    public static Entretien of(Candidat candidat, Recruteur recruteur, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
-        return new Entretien(candidat, recruteur, dateEtHeureDisponibiliteDuRecruteur);
+    public static Entretien of(Candidat prospect, ConsultantRecruteur recruteur, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
+        return new Entretien(prospect, recruteur, dateEtHeureDisponibiliteDuRecruteur);
     }
 
     public static Entretien of(Integer newId, Entretien entretien) {
@@ -46,10 +43,10 @@ public class Entretien implements IEntretien {
     }
 
     public Candidat getCandidat() {
-        return candidat;
+        return prospect;
     }
 
-    public Recruteur getRecruteur() {
+    public ConsultantRecruteur getRecruteur() {
         return recruteur;
     }
 
@@ -62,7 +59,7 @@ public class Entretien implements IEntretien {
     }
 
     public boolean planifier(LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
-        boolean planifiable = recruteur.estCompatible(candidat)
+        boolean planifiable = recruteur.estCompatible(prospect)
                 && dateEtHeureDisponibiliteDuCandidat.equals(dateEtHeureDisponibiliteDuRecruteur);
 
         if (planifiable) {
@@ -74,17 +71,17 @@ public class Entretien implements IEntretien {
 
     @Override
     public String getEmailCandidat() {
-        return candidat.getEmail();
+        return prospect.email();
     }
 
     @Override
     public String getEmailRecruteur() {
-        return recruteur.getEmail();
+        return recruteur.email();
     }
 
     @Override
     public String getLanguage() {
-        return recruteur.getLanguage();
+        return recruteur.language();
     }
 
     @Override

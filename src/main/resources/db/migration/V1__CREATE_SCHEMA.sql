@@ -1,4 +1,4 @@
-create table candidat
+create table prospect
 (
     id                int          not null primary key,
     language          varchar(255) not null,

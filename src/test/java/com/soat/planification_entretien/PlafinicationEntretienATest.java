@@ -7,10 +7,12 @@ import java.time.format.DateTimeFormatter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
+import com.soat.planification_entretien.entretien.domain.Candidat;
+import com.soat.planification_entretien.entretien.domain.ConsultantRecruteur;
 import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienController;
 import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienDto;
-import com.soat.planification_entretien.profil.domain.Candidat;
-import com.soat.planification_entretien.profil.domain.CandidatRepository;
+import com.soat.planification_entretien.profil.domain.Prospect;
+import com.soat.planification_entretien.profil.domain.ProspectRepository;
 import com.soat.planification_entretien.entretien.domain.Entretien;
 import com.soat.planification_entretien.entretien.domain.EntretienRepository;
 import com.soat.planification_entretien.entretien.domain.EmailService;
@@ -54,7 +56,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @ActiveProfiles("AcceptanceTest")
 public class PlafinicationEntretienATest extends ATest {
 
-    private Candidat candidat;
+    private Prospect prospect;
     private LocalDateTime disponibiliteDuCandidat;
     private Recruteur recruteur;
     private LocalDateTime disponibiliteDuRecruteur;
@@ -62,7 +64,7 @@ public class PlafinicationEntretienATest extends ATest {
     @Autowired
     private EntretienRepository entretienRepository;
     @Autowired
-    private CandidatRepository candidatRepository;
+    private ProspectRepository prospectRepository;
     @Autowired
     private RecruteurRepository recruteurRepository;
 
@@ -82,9 +84,9 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Etantdonné("un candidat {string} \\({string}) avec {string} ans d’expériences qui est disponible {string} à {string}")
     public void unCandidatAvecAnsDExpériencesQuiEstDisponibleÀ(String language, String email, String experienceInYears, String date, String time) {
-        candidat = new Candidat(1, language, email, Integer.parseInt(experienceInYears));
+        prospect = new Prospect(1, language, email, Integer.parseInt(experienceInYears));
         //entityManager.persist(candidat);
-        candidatRepository.save(candidat);
+        prospectRepository.save(prospect);
         disponibiliteDuCandidat = LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));
     }
 
@@ -98,7 +100,7 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Quand("on tente une planification d’entretien")
     public void onTenteUnePlanificationDEntretien() throws JsonProcessingException {
-        EntretienDto entretienDto = new EntretienDto(candidat.getId(), recruteur.getId(), disponibiliteDuCandidat, disponibiliteDuRecruteur);
+        EntretienDto entretienDto = new EntretienDto(prospect.getId(), recruteur.getId(), disponibiliteDuCandidat, disponibiliteDuRecruteur);
         String body = objectMapper.writeValueAsString(entretienDto);
         initPath();
         //@formatter:off
@@ -116,8 +118,11 @@ public class PlafinicationEntretienATest extends ATest {
         response.then()
                 .statusCode(HttpStatus.SC_CREATED);
 
-        Entretien entretien = entretienRepository.findByCandidat(candidat);
-        Entretien expectedEntretien = Entretien.of(candidat, recruteur, disponibiliteDuCandidat);
+        Entretien entretien = entretienRepository.findByEmail(prospect.getEmail());
+        Entretien expectedEntretien = Entretien.of(
+                new Candidat(prospect.getId(), prospect.getLanguage(), prospect.getEmail(), prospect.getExperienceInYears()),
+                new ConsultantRecruteur(recruteur.getId(), recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears()),
+                disponibiliteDuCandidat);
         assertThat(entretien).usingRecursiveComparison()
                 .ignoringFields("id", "candidat.id", "recruteur.id")
                 .isEqualTo(expectedEntretien);
@@ -125,7 +130,7 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Et("un mail de confirmation est envoyé au candidat et au recruteur")
     public void unMailDeConfirmationEstEnvoyéAuCandidatEtAuRecruteur() {
-        verify(emailService).envoyerUnEmailDeConfirmationAuCandidat(candidat.getEmail(), disponibiliteDuCandidat);
+        verify(emailService).envoyerUnEmailDeConfirmationAuCandidat(prospect.getEmail(), disponibiliteDuCandidat);
         verify(emailService).envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), disponibiliteDuCandidat);
     }
 
@@ -134,13 +139,13 @@ public class PlafinicationEntretienATest extends ATest {
         response.then()
                 .statusCode(HttpStatus.SC_BAD_REQUEST);
 
-        Entretien entretien = entretienRepository.findByCandidat(candidat);
+        Entretien entretien = entretienRepository.findByEmail(prospect.getEmail());
         assertThat(entretien).isNull();
     }
 
     @Et("aucun mail de confirmation n'est envoyé au candidat ou au recruteur")
     public void aucunMailDeConfirmationNEstEnvoyéAuCandidatOuAuRecruteur() {
-        verify(emailService, never()).envoyerUnEmailDeConfirmationAuCandidat(candidat.getEmail(), disponibiliteDuCandidat);
+        verify(emailService, never()).envoyerUnEmailDeConfirmationAuCandidat(prospect.getEmail(), disponibiliteDuCandidat);
         verify(emailService, never()).envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), disponibiliteDuCandidat);
     }
 }

@@ -3,14 +3,17 @@ package com.soat.planification_entretien.profil.domain;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.soat.planification_entretien.entretien.domain.Profil;
+
 public class Recruteur {
     private static final String EMAIL_REGEX = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
     private static final int MINIMUM_XP_REQUISE = 3;
 
     private Integer id;
 
+    private String language;
     private String email;
-    private Profil profil;
+    private Integer experienceInYears;
 
     public Recruteur(String language, String email, int experienceInYears) {
         this(null, language, email, experienceInYears);
@@ -21,8 +24,9 @@ public class Recruteur {
             throw new IllegalArgumentException();
         }
         this.id = recruteurId;
+        this.language = language;
+        this.experienceInYears = experienceInYears;
         this.email = email;
-        this.profil = new Profil(experienceInYears, language);
     }
 
     public static Recruteur of(Integer id, Recruteur recruteur) {
@@ -41,7 +45,7 @@ public class Recruteur {
     }
 
     public String getLanguage() {
-        return profil.language();
+        return language;
     }
 
     public String getEmail() {
@@ -49,10 +53,7 @@ public class Recruteur {
     }
 
     public Integer getExperienceInYears() {
-        return profil.experienceInYears();
+        return experienceInYears;
     }
 
-    public boolean estCompatible(Candidat candidat) {
-        return this.profil.estCompatibe(candidat.profil());
-    }
 }

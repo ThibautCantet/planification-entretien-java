@@ -8,9 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.soat.ATest;
+import com.soat.planification_entretien.entretien.domain.Candidat;
+import com.soat.planification_entretien.entretien.domain.ConsultantRecruteur;
 import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienController;
-import com.soat.planification_entretien.profil.domain.Candidat;
-import com.soat.planification_entretien.profil.domain.CandidatRepository;
+import com.soat.planification_entretien.profil.domain.Prospect;
+import com.soat.planification_entretien.profil.domain.ProspectRepository;
 import com.soat.planification_entretien.entretien.domain.Entretien;
 import com.soat.planification_entretien.entretien.domain.EntretienRepository;
 import com.soat.planification_entretien.profil.domain.Recruteur;
@@ -33,10 +35,10 @@ import static org.assertj.core.api.Assertions.*;
 @Transactional
 public class ListingEntretienATest extends ATest {
 
-    private List<Candidat> savedCandidats = new ArrayList<>();
+    private List<Prospect> savedProspects = new ArrayList<>();
     private List<Recruteur> savedRecruteurs = new ArrayList<>();
     @Autowired
-    private CandidatRepository candidatRepository;
+    private ProspectRepository prospectRepository;
     @Autowired
     private RecruteurRepository recruteurRepository;
     @Autowired
@@ -73,17 +75,17 @@ public class ListingEntretienATest extends ATest {
 
     @Et("les candidats existants")
     public void lesCandidatsExistants(DataTable dataTable) {
-        List<Candidat> candidats = dataTableTransformEntries(dataTable, this::buildCandidat);
+        List<Prospect> prospects = dataTableTransformEntries(dataTable, this::buildCandidat);
 
-        for (Candidat candidat : candidats) {
+        for (Prospect prospect : prospects) {
             //Candidat saved = entityManager.persist(candidat);
-            candidatRepository.save(candidat);
-            savedCandidats.add(candidat);
+            prospectRepository.save(prospect);
+            savedProspects.add(prospect);
         }
     }
 
-    private Candidat buildCandidat(Map<String, String> entry) {
-        return new Candidat(
+    private Prospect buildCandidat(Map<String, String> entry) {
+        return new Prospect(
                 entry.get("language"),
                 entry.get("email"),
                 Integer.parseInt(entry.get("xp")));
@@ -100,9 +102,11 @@ public class ListingEntretienATest extends ATest {
     }
 
     private Entretien buildEntretien(Map<String, String> entry) {
+        Prospect prospect = savedProspects.get(0);
+        Recruteur recruteur = savedRecruteurs.get(0);
         return Entretien.of(
-                savedCandidats.get(0),
-                savedRecruteurs.get(0),
+                new Candidat(prospect.getId(), prospect.getLanguage(), prospect.getEmail(), prospect.getExperienceInYears()),
+                new ConsultantRecruteur(recruteur.getId(), recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears()),
                 LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
     }
 

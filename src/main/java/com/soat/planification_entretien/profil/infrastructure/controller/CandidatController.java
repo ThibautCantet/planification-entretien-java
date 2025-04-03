@@ -2,7 +2,7 @@ package com.soat.planification_entretien.profil.infrastructure.controller;
 
 import java.net.URI;
 
-import com.soat.planification_entretien.profil.use_case.CreerCandidat;
+import com.soat.planification_entretien.profil.use_case.CreerProspect;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,10 +17,10 @@ import static org.springframework.http.ResponseEntity.*;
 public class CandidatController {
     public static final String PATH = "/api/candidat";
 
-    private final CreerCandidat creerCandidat;
+    private final CreerProspect creerProspect;
 
-    public CandidatController(CreerCandidat creerCandidat) {
-        this.creerCandidat = creerCandidat;
+    public CandidatController(CreerProspect creerProspect) {
+        this.creerProspect = creerProspect;
     }
 
     @PostMapping("")
@@ -28,7 +28,7 @@ public class CandidatController {
         if (validExperience(candidatDto)) {
             return badRequest().build();
         }
-        Integer createdCandidatId = creerCandidat.execute(candidatDto.language(), candidatDto.email(), candidatDto.experienceEnAnnees());
+        Integer createdCandidatId = creerProspect.execute(candidatDto.language(), candidatDto.email(), candidatDto.experienceEnAnnees());
         if (createdCandidatId == null) {
             return badRequest().build();
         }
