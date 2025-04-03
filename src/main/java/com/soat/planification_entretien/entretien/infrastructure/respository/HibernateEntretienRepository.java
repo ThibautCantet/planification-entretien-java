@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.soat.planification_entretien.entretien.domain.Candidat;
 import com.soat.planification_entretien.entretien.domain.ConsultantRecruteur;
+import com.soat.planification_entretien.entretien.domain.EntretienId;
 import com.soat.planification_entretien.entretien.domain.EntretienRepository;
 import com.soat.planification_entretien.profil.infrastructure.repository.CandidatCrud;
 import com.soat.planification_entretien.profil.infrastructure.repository.RecruteurCrud;
@@ -30,7 +31,18 @@ public class HibernateEntretienRepository implements EntretienRepository {
         var jpaEntretien = Entretien.of(jpaCandidat,
                 jpaRecruteur, entretien.getHoraireEntretien(), entretien.getStatus());
 
+        if (entretien.getId() != null) {
+            jpaEntretien.setId(entretien.getId());
+        }
+
         entretienCrud.save(jpaEntretien);
+    }
+
+    @Override
+    public com.soat.planification_entretien.entretien.domain.Entretien findById(EntretienId entretienId) {
+        return entretienCrud.findById(entretienId.value())
+                .map(HibernateEntretienRepository::toEntretien)
+                .orElse(null);
     }
 
     @Override

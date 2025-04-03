@@ -40,6 +40,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.soat.planification_entretien.entretien.domain.Status.*;
 import static io.restassured.RestAssured.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -120,10 +121,10 @@ public class PlafinicationEntretienATest extends ATest {
                 .statusCode(HttpStatus.SC_CREATED);
 
         Entretien entretien = entretienRepository.findByEmail(prospect.getEmail());
-        Entretien expectedEntretien = Entretien.of(
+        Entretien expectedEntretien = Entretien.of(0,
                 new Candidat(prospect.getId(), prospect.getLanguage(), prospect.getEmail(), prospect.getExperienceInYears()),
-                new ConsultantRecruteur(recruteur.getId(), recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears()),
-                disponibiliteDuCandidat);
+                new ConsultantRecruteur(recruteur.getId(), recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears())
+                , disponibiliteDuRecruteur, PLANIFIE);
         assertThat(entretien).usingRecursiveComparison()
                 .ignoringFields("id", "candidat.id", "recruteur.id")
                 .isEqualTo(expectedEntretien);

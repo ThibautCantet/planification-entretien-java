@@ -7,11 +7,15 @@ import com.soat.planification_entretien.entretien.domain.Candidat;
 import com.soat.planification_entretien.entretien.domain.CandidatRepository;
 import com.soat.planification_entretien.entretien.domain.ConsultantRecruteur;
 import com.soat.planification_entretien.entretien.domain.ConsultantRecruteurRepository;
+import com.soat.planification_entretien.entretien.domain.EntretienId;
 import com.soat.planification_entretien.entretien.use_case.ListerEntretiens;
 import com.soat.planification_entretien.entretien.use_case.PlanifierEntretien;
+import com.soat.planification_entretien.entretien.use_case.ValiderEntretien;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,15 +32,17 @@ public class EntretienController {
     private final ListerEntretiens listerEntretiens;
     private final CandidatRepository candidatRepository;
     private final ConsultantRecruteurRepository recruteurRepository;
+    private final ValiderEntretien validerEntretien;
 
     public EntretienController(PlanifierEntretien planifierEntretien,
                                ListerEntretiens listerEntretiens,
                                CandidatRepository candidatRepository,
-                               ConsultantRecruteurRepository recruteurRepository) {
+                               ConsultantRecruteurRepository recruteurRepository, ValiderEntretien validerEntretien) {
         this.planifierEntretien = planifierEntretien;
         this.listerEntretiens = listerEntretiens;
         this.candidatRepository = candidatRepository;
         this.recruteurRepository = recruteurRepository;
+        this.validerEntretien = validerEntretien;
     }
 
     @GetMapping("/")
@@ -46,6 +52,12 @@ public class EntretienController {
                 .map(e -> new EntretienDetailDto(e.getId(), e.getEmailCandidat(), e.getEmailRecruteur(), e.getLanguage(), e.getHoraire()))
                 .toList();
         return new ResponseEntity<>(entretiens, HttpStatus.OK);
+    }
+
+    @PatchMapping("{id}/valider")
+    public void valider(@PathVariable("id") int id) {
+
+        validerEntretien.execute(new EntretienId(id));
     }
 
     @PostMapping("planifier")

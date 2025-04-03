@@ -60,9 +60,9 @@ public class WorkflowEntretienATest extends ATest {
         List<Entretien> savedEntretiens = entretienRepository.findAll();
 
         assertThat(savedEntretiens)
-                .usingRecursiveFieldByFieldElementComparatorIgnoringFields("candidat.id",
-                        "candidat.experienceInYears",
-                        "candidat.profil",
+                .usingRecursiveFieldByFieldElementComparatorIgnoringFields("prospect.id",
+                        "prospect.experienceInYears",
+                        "prospect.profil",
                         "recruteur.id",
                         "recruteur.experienceInYears",
                         "recruteur.profil")

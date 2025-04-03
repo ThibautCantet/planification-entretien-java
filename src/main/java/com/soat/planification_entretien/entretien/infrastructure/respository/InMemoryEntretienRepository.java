@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.soat.planification_entretien.entretien.domain.Entretien;
+import com.soat.planification_entretien.entretien.domain.EntretienId;
 import com.soat.planification_entretien.entretien.domain.EntretienRepository;
 
 //@Repository
@@ -17,6 +18,11 @@ public class InMemoryEntretienRepository implements EntretienRepository {
         Integer newId = cache.size() + 1;
         entretien = Entretien.of(newId, entretien);
         cache.put(entretien.getId(), entretien);
+    }
+
+    @Override
+    public Entretien findById(EntretienId entretienId) {
+        return null;
     }
 
     @Override

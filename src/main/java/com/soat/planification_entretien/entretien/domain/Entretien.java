@@ -2,6 +2,8 @@ package com.soat.planification_entretien.entretien.domain;
 
 import java.time.LocalDateTime;
 
+import static com.soat.planification_entretien.entretien.domain.Status.*;
+
 public class Entretien implements IEntretien {
     private EntretienId id;
 
@@ -94,5 +96,20 @@ public class Entretien implements IEntretien {
 
     public Status getStatus() {
         return status;
+    }
+
+    public void valider() {
+        status = VALIDE;
+    }
+
+    @Override
+    public String toString() {
+        return "Entretien{" +
+               "horaireEntretien=" + horaireEntretien +
+               ", id=" + id +
+               ", prospect=" + prospect +
+               ", recruteur=" + recruteur +
+               ", status=" + status +
+               '}';
     }
 }

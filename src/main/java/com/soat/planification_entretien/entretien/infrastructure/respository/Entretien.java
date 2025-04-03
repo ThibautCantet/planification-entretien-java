@@ -69,4 +69,8 @@ public class Entretien {
     public Status getStatus() {
         return status;
     }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }
