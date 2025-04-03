@@ -1,44 +1,34 @@
 package com.soat.planification_entretien.profil.domain;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class Prospect {
-    private static final String EMAIL_REGEX = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
 
-    private Integer id;
+    private ProspectId id;
 
-    private String language;
-    private String email;
-    private Integer experienceInYears;
+    private final String language;
+    private final EmailProspect email;
+    private final Integer experienceInYears;
 
     public Prospect(String language, String email, int experienceInYears) {
         this(null, language, email, experienceInYears);
     }
 
-    public Prospect(Integer candidatId, String language, String email, Integer experienceInYears) {
-        if (language.isBlank() || !isEmail(email) || email.endsWith("soat.fr") || experienceInYears < 0) {
+    public Prospect(Integer prospectId, String language, String email, Integer experienceInYears) {
+        if (language.isBlank() || experienceInYears < 0) {
             throw new IllegalArgumentException();
         }
-        this.id = candidatId;
+        this.id = new ProspectId(prospectId);
         this.language = language;
         this.experienceInYears = experienceInYears;
-        this.email = email;
+        this.email = new EmailProspect(email);
     }
 
     public static Prospect of(Integer id, Prospect prospect) {
-        prospect.id = id;
+        prospect.id = new ProspectId(id);
         return prospect;
     }
 
-    private static boolean isEmail(String adresse) {
-        final Pattern r = Pattern.compile(EMAIL_REGEX);
-        final Matcher m = r.matcher(adresse);
-        return m.matches();
-    }
-
     public Integer getId() {
-        return id;
+        return id.value();
     }
 
     public String getLanguage() {
@@ -46,7 +36,7 @@ public class Prospect {
     }
 
     public String getEmail() {
-        return email;
+        return email.addresse();
     }
 
     public Integer getExperienceInYears() {
