@@ -114,6 +114,9 @@ public class Entretien implements IEntretien {
     }
 
     public void annuler() {
+        if (status == VALIDE) {
+            throw new IllegalStateException("Impossible d'annuler un entretien déjà validé");
+        }
         this.status = ANNULE;
     }
 }

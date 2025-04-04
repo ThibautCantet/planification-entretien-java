@@ -17,6 +17,7 @@ import com.soat.planification_entretien.profil.domain.Recruteur;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
+import io.cucumber.java.fr.Et;
 import io.cucumber.java.fr.Quand;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -55,7 +56,6 @@ public class WorkflowEntretienATest extends ATest {
 
     @Alors("on récupères les entretiens suivants en base")
     public void onRécupèresLesEntretiensSuivantsEnBase(DataTable dataTable) {
-        response.then().statusCode(200);
         List<Entretien> entretiens = dataTableTransformEntries(dataTable, this::buildEntretien);
 
         List<Entretien> savedEntretiens = entretienRepository.findAll();
@@ -89,5 +89,15 @@ public class WorkflowEntretienATest extends ATest {
                 .when()
                 .patch(entretienId + "/annuler");
         //@formatter:on
+    }
+
+    @Alors("l'opération est validée")
+    public void lOpérationEstValidée() {
+        response.then().statusCode(200);
+    }
+
+    @Alors("l'opération est refusée")
+    public void lOpérationEstRefusée() {
+        response.then().statusCode(400);
     }
 }

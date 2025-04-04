@@ -64,9 +64,13 @@ public class EntretienController {
     }
 
     @PatchMapping("{id}/annuler")
-    public void annuler(@PathVariable("id") int id) {
-
-        annulerEntretien.execute(new EntretienId(id));
+    public ResponseEntity annuler(@PathVariable("id") int id) {
+        try {
+            annulerEntretien.execute(new EntretienId(id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("planifier")

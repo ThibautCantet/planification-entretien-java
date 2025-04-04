@@ -27,6 +27,23 @@ Fonctionnalité: Workflow d'un entretien de recrutement chez Soat
       | id | recruteur | candidat | horaire          | status   |
       | 1  | 1         | 1        | 16/04/2019 15:00 | PLANIFIE |
     Quand on annule l'entretien 1
-    Alors on récupères les entretiens suivants en base
+    Alors l'opération est validée
+    Et on récupères les entretiens suivants en base
       | id | recruteur         | candidat          | language | horaire          | status |
       | 1  | recruteur@soat.fr | candidat@mail.com | Java     | 16/04/2019 15:00 | ANNULE |
+
+  Scénario: Annuler un entretien validé est refusé
+    Etant donné les recruteurs existants
+      | id | email             | language | xp |
+      | 1  | recruteur@soat.fr | Java     | 10 |
+    Et les candidats existants
+      | id | email             | language | xp |
+      | 1  | candidat@mail.com | Java     | 5  |
+    Et les entretiens existants
+      | id | recruteur | candidat | horaire          | status   |
+      | 1  | 1         | 1        | 16/04/2019 15:00 | VALIDE |
+    Quand on annule l'entretien 1
+    Alors l'opération est refusée
+    Et on récupères les entretiens suivants en base
+      | id | recruteur         | candidat          | language | horaire          | status |
+      | 1  | recruteur@soat.fr | candidat@mail.com | Java     | 16/04/2019 15:00 | VALIDE |
