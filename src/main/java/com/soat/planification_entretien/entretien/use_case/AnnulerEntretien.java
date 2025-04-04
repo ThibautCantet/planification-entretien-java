@@ -3,7 +3,6 @@ package com.soat.planification_entretien.entretien.use_case;
 import com.soat.planification_entretien.entretien.domain.Entretien;
 import com.soat.planification_entretien.entretien.domain.EntretienId;
 import com.soat.planification_entretien.entretien.domain.EntretienRepository;
-import com.soat.planification_entretien.profil.domain.ProspectRepository;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,26 +1,24 @@
-package com.soat.planification_entretien.entretien.use_case;
+package com.soat.planification_entretien.profil.infrastructure;
 
 import com.soat.planification_entretien.common.Listener;
 import com.soat.planification_entretien.common.MessageBus;
 import com.soat.planification_entretien.entretien.domain.EntretienPlanifié;
-import com.soat.planification_entretien.profil.domain.RecruteurRepository;
+import com.soat.planification_entretien.profil.use_case.RendreIndisponibleRecruteur;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EntretienPlanifieListener implements Listener<EntretienPlanifié> {
     private final MessageBus messageBus;
-    private RecruteurRepository recruteurRepository;
+    private RendreIndisponibleRecruteur rendreIndisponibleRecruteur;
 
-    public EntretienPlanifieListener(MessageBus messageBus, RecruteurRepository recruteurRepository) {
+    public EntretienPlanifieListener(MessageBus messageBus, RendreIndisponibleRecruteur rendreIndisponibleRecruteur) {
         this.messageBus = messageBus;
+        this.rendreIndisponibleRecruteur = rendreIndisponibleRecruteur;
         this.messageBus.subscribe(this);
-        this.recruteurRepository = recruteurRepository;
     }
 
     @Override
     public void onMessage(EntretienPlanifié entretienPlanifié) {
-        var recruteur = recruteurRepository.findById(entretienPlanifié.recruteurId()).get();
-        recruteur.rendreIndisponible();
-        recruteurRepository.save(recruteur);
+        rendreIndisponibleRecruteur.execute(entretienPlanifié.recruteurId());
     }
 }

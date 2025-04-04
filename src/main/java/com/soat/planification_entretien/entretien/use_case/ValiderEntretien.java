@@ -1,6 +1,5 @@
 package com.soat.planification_entretien.entretien.use_case;
 
-import com.soat.planification_entretien.entretien.domain.CandidatRepository;
 import com.soat.planification_entretien.entretien.domain.Entretien;
 import com.soat.planification_entretien.entretien.domain.EntretienId;
 import com.soat.planification_entretien.entretien.domain.EntretienRepository;
