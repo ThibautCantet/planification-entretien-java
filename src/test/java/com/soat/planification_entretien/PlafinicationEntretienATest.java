@@ -102,7 +102,7 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Quand("on tente une planification d’entretien")
     public void onTenteUnePlanificationDEntretien() throws JsonProcessingException {
-        EntretienDto entretienDto = new EntretienDto(prospect.getId(), recruteur.getId(), disponibiliteDuCandidat, disponibiliteDuRecruteur);
+        EntretienDto entretienDto = new EntretienDto(prospect.getId(), disponibiliteDuCandidat);
         String body = objectMapper.writeValueAsString(entretienDto);
         initPath();
         //@formatter:off
@@ -123,8 +123,9 @@ public class PlafinicationEntretienATest extends ATest {
         Entretien entretien = entretienRepository.findByEmail(prospect.getEmail());
         Entretien expectedEntretien = Entretien.of(0,
                 new Candidat(prospect.getId(), prospect.getLanguage(), prospect.getEmail(), prospect.getExperienceInYears()),
-                new ConsultantRecruteur(recruteur.getId(), recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears())
-                , disponibiliteDuRecruteur, PLANIFIE);
+                new ConsultantRecruteur(5, "Java", "recruteur7@soat.fr", 10, false),
+                disponibiliteDuCandidat,
+                PLANIFIE);
         assertThat(entretien).usingRecursiveComparison()
                 .ignoringFields("id", "candidat.id", "recruteur.id")
                 .isEqualTo(expectedEntretien);
@@ -153,7 +154,14 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Et("le recruteur n'est plus disponible")
     public void leRecruteurNEstPlusDisponible() {
-        Recruteur recruteur = recruteurRepository.findById(1).get();
-        assertThat(recruteur.isDisponible()).isTrue();
+        Recruteur recruteur = recruteurRepository.findById(5).get();
+        assertThat(recruteur.isDisponible()).isFalse();
+    }
+
+    @Et("un mail de confirmation est envoyé au candidat et au recruteur {string}")
+    public void unMailDeConfirmationEstEnvoyéAuCandidatEtAuRecruteur(String recruteurEmail) {
+
+        verify(emailService).envoyerUnEmailDeConfirmationAuCandidat(prospect.getEmail(), disponibiliteDuCandidat);
+        verify(emailService).envoyerUnEmailDeConfirmationAuRecruteur(recruteurEmail, disponibiliteDuCandidat);
     }
 }

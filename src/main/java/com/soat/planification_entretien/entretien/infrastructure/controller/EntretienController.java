@@ -80,11 +80,7 @@ public class EntretienController {
         if (candidat.isEmpty()) {
             return badRequest().build();
         }
-        Optional<ConsultantRecruteur> recruteur = recruteurRepository.findById(entretienDto.recruteurId());
-        if (recruteur.isEmpty()) {
-            return badRequest().build();
-        }
-        var planifie = planifierEntretien.execute(candidat.get(), recruteur.get(), entretienDto.disponibiliteDuCandidat(), entretienDto.disponibiliteDuRecruteur());
+        var planifie = planifierEntretien.execute(candidat.get(), entretienDto.disponibiliteDuCandidat());
 
         if (planifie) {
             return created(null).build();

@@ -112,7 +112,7 @@ public class ListingEntretienATest extends ATest {
         return Entretien.of(
                 Integer.parseInt(entry.get("id")),
                 new Candidat(prospect.getId(), prospect.getLanguage(), prospect.getEmail(), prospect.getExperienceInYears()),
-                new ConsultantRecruteur(recruteur.getId(), recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears()),
+                new ConsultantRecruteur(recruteur.getId(), recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears(), true),
                 LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
                 Status.valueOf(entry.get("status")));
     }

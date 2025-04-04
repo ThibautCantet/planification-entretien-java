@@ -51,4 +51,8 @@ public class Recruteur {
     public boolean isDisponible() {
         return disponible;
     }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }

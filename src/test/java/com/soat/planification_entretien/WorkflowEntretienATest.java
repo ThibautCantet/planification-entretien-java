@@ -74,7 +74,7 @@ public class WorkflowEntretienATest extends ATest {
         return new Entretien(
                 Integer.parseInt(entry.get("id")),
                 new Candidat(null, entry.get("language"), entry.get("candidat"), 0),
-                new ConsultantRecruteur(0, entry.get("language"), entry.get("recruteur"), 0),
+                new ConsultantRecruteur(0, entry.get("language"), entry.get("recruteur"), 0, true),
                 LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
                 Status.valueOf(entry.get("status")));
     }

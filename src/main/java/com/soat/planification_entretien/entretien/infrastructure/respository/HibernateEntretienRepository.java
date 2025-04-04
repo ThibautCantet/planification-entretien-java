@@ -65,7 +65,8 @@ public class HibernateEntretienRepository implements EntretienRepository {
         return com.soat.planification_entretien.entretien.domain.Entretien.of(
                 jpaEntretien.getId(),
                 new Candidat(jpaEntretien.getCandidat().getUuid(), jpaEntretien.getCandidat().getLanguage(), jpaEntretien.getCandidat().getEmail(), jpaEntretien.getCandidat().getExperienceInYears()),
-                new ConsultantRecruteur(jpaEntretien.getId(), jpaEntretien.getRecruteur().getLanguage(), jpaEntretien.getRecruteur().getEmail(), jpaEntretien.getRecruteur().getExperienceInYears()),
-                jpaEntretien.getHoraireEntretien(), jpaEntretien.getStatus());
+                new ConsultantRecruteur(jpaEntretien.getId(), jpaEntretien.getRecruteur().getLanguage(), jpaEntretien.getRecruteur().getEmail(), jpaEntretien.getRecruteur().getExperienceInYears(), jpaEntretien.getRecruteur().isDisponible()),
+                jpaEntretien.getHoraireEntretien(),
+                jpaEntretien.getStatus());
     }
 }
