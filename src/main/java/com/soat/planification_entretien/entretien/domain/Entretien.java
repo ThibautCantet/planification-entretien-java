@@ -59,6 +59,9 @@ public class Entretien implements IEntretien {
     }
 
     public Integer getId() {
+        if (id == null) {
+            return null;
+        }
         return id.value();
     }
 
@@ -69,7 +72,7 @@ public class Entretien implements IEntretien {
         if (planifiable) {
             horaireEntretien = dateEtHeureDisponibiliteDuCandidat;
             status = Status.PLANIFIE;
-            return new EntretienPlanifié();
+            return new EntretienPlanifié(recruteur.id());
         }
 
         return new EntretienNonPlanifié();

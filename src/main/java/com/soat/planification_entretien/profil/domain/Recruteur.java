@@ -59,4 +59,8 @@ public class Recruteur {
     public boolean isDisponible() {
         return disponible;
     }
+
+    public void rendreIndisponible() {
+        disponible = false;
+    }
 }
