@@ -70,9 +70,11 @@ public class ListingEntretienATest extends ATest {
 
     private Recruteur buildRecruteur(Map<String, String> entry) {
         return new Recruteur(
+                Integer.parseInt(entry.get("id")),
                 entry.get("language"),
                 entry.get("email"),
-                Integer.parseInt(entry.get("xp")));
+                Integer.parseInt(entry.get("xp")),
+                Boolean.parseBoolean(entry.get("disponible")));
     }
 
     @Et("les candidats existants")

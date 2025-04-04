@@ -61,7 +61,8 @@ public class ListingRecruteurATest extends ATest {
         return new RecruteurDetailDto(
                 Integer.parseInt(entry.get("id")),
                 entry.get("competence"),
-                entry.get("email")
+                entry.get("email"),
+                Boolean.parseBoolean(entry.get("disponible"))
         );
     }
 }
