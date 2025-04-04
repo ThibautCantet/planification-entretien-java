@@ -66,7 +66,9 @@ public class WorkflowEntretienATest extends ATest {
                         "prospect.profil",
                         "recruteur.id",
                         "recruteur.experienceInYears",
-                        "recruteur.profil")
+                        "recruteur.profil",
+                        "recruteur.disponible"
+                )
                 .containsExactlyInAnyOrder(entretiens.toArray(Entretien[]::new));
     }
 

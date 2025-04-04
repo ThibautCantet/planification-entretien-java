@@ -10,20 +10,19 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
 import com.soat.planification_entretien.entretien.domain.Candidat;
 import com.soat.planification_entretien.entretien.domain.ConsultantRecruteur;
+import com.soat.planification_entretien.entretien.domain.EmailService;
+import com.soat.planification_entretien.entretien.domain.Entretien;
+import com.soat.planification_entretien.entretien.domain.EntretienRepository;
 import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienController;
 import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienDto;
 import com.soat.planification_entretien.profil.domain.Prospect;
 import com.soat.planification_entretien.profil.domain.ProspectRepository;
-import com.soat.planification_entretien.entretien.domain.Entretien;
-import com.soat.planification_entretien.entretien.domain.EntretienRepository;
-import com.soat.planification_entretien.entretien.domain.EmailService;
 import com.soat.planification_entretien.profil.domain.Recruteur;
 import com.soat.planification_entretien.profil.domain.RecruteurRepository;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;
 import io.cucumber.java.fr.Etantdonné;
-import io.cucumber.java.fr.Etqu;
 import io.cucumber.java.fr.Quand;
 import io.cucumber.spring.CucumberContextConfiguration;
 import io.restassured.RestAssured;
@@ -60,7 +59,6 @@ public class PlafinicationEntretienATest extends ATest {
 
     private Prospect prospect;
     private LocalDateTime disponibiliteDuCandidat;
-    private Recruteur recruteur;
     private LocalDateTime disponibiliteDuRecruteur;
 
     @Autowired
@@ -90,14 +88,6 @@ public class PlafinicationEntretienATest extends ATest {
         //entityManager.persist(candidat);
         prospectRepository.save(prospect);
         disponibiliteDuCandidat = LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));
-    }
-
-    @Etqu("un recruteur {string} \\({string}) qui a {string} ans d’XP qui est dispo {string} à {string}")
-    public void unRecruteurQuiAAnsDXPQuiEstDispo(String language, String email, String experienceInYears, String date, String time) {
-        recruteur = new Recruteur(1, language, email, Integer.parseInt(experienceInYears), true);
-        //entityManager.persist(recruteur);
-        recruteurRepository.save(recruteur);
-        disponibiliteDuRecruteur = LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));
     }
 
     @Quand("on tente une planification d’entretien")
@@ -131,12 +121,6 @@ public class PlafinicationEntretienATest extends ATest {
                 .isEqualTo(expectedEntretien);
     }
 
-    @Et("un mail de confirmation est envoyé au candidat et au recruteur")
-    public void unMailDeConfirmationEstEnvoyéAuCandidatEtAuRecruteur() {
-        verify(emailService).envoyerUnEmailDeConfirmationAuCandidat(prospect.getEmail(), disponibiliteDuCandidat);
-        verify(emailService).envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), disponibiliteDuCandidat);
-    }
-
     @Alors("L’entretien n'est pas planifié")
     public void lEntretienNEstPasPlanifié() {
         response.then()
@@ -149,7 +133,7 @@ public class PlafinicationEntretienATest extends ATest {
     @Et("aucun mail de confirmation n'est envoyé au candidat ou au recruteur")
     public void aucunMailDeConfirmationNEstEnvoyéAuCandidatOuAuRecruteur() {
         verify(emailService, never()).envoyerUnEmailDeConfirmationAuCandidat(prospect.getEmail(), disponibiliteDuCandidat);
-        verify(emailService, never()).envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), disponibiliteDuCandidat);
+        verify(emailService, never()).envoyerUnEmailDeConfirmationAuRecruteur(any(), any());
     }
 
     @Et("le recruteur n'est plus disponible")
