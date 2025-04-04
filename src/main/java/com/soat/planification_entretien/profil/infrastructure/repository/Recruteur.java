@@ -18,11 +18,14 @@ public class Recruteur {
     private String email;
     @Column
     private Integer experienceInYears;
+    @Column
+    private boolean disponible;
 
-    public Recruteur(String language, String email, int experienceInYears) {
+    public Recruteur(String language, String email, int experienceInYears, boolean disponible) {
         this.language = language;
         this.email = email;
         this.experienceInYears = experienceInYears;
+        this.disponible = disponible;
     }
 
     public Recruteur() {
@@ -43,5 +46,9 @@ public class Recruteur {
 
     public Integer getExperienceInYears() {
         return experienceInYears;
+    }
+
+    public boolean isDisponible() {
+        return disponible;
     }
 }

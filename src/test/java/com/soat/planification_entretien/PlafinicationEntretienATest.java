@@ -94,7 +94,7 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Etqu("un recruteur {string} \\({string}) qui a {string} ans d’XP qui est dispo {string} à {string}")
     public void unRecruteurQuiAAnsDXPQuiEstDispo(String language, String email, String experienceInYears, String date, String time) {
-        recruteur = new Recruteur(1, language, email, Integer.parseInt(experienceInYears));
+        recruteur = new Recruteur(1, language, email, Integer.parseInt(experienceInYears), true);
         //entityManager.persist(recruteur);
         recruteurRepository.save(recruteur);
         disponibiliteDuRecruteur = LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));
@@ -149,5 +149,11 @@ public class PlafinicationEntretienATest extends ATest {
     public void aucunMailDeConfirmationNEstEnvoyéAuCandidatOuAuRecruteur() {
         verify(emailService, never()).envoyerUnEmailDeConfirmationAuCandidat(prospect.getEmail(), disponibiliteDuCandidat);
         verify(emailService, never()).envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), disponibiliteDuCandidat);
+    }
+
+    @Et("le recruteur n'est plus disponible")
+    public void leRecruteurNEstPlusDisponible() {
+        Recruteur recruteur = recruteurRepository.findById(1).get();
+        assertThat(recruteur.isDisponible()).isTrue();
     }
 }
