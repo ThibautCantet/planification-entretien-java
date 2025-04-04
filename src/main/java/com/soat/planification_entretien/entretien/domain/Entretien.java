@@ -62,16 +62,17 @@ public class Entretien implements IEntretien {
         return id.value();
     }
 
-    public boolean planifier(LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
+    public EntretienEvent planifier(LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
         boolean planifiable = recruteur.estCompatible(prospect)
                               && dateEtHeureDisponibiliteDuCandidat.equals(dateEtHeureDisponibiliteDuRecruteur);
 
         if (planifiable) {
             horaireEntretien = dateEtHeureDisponibiliteDuCandidat;
             status = Status.PLANIFIE;
+            return new EntretienPlanifié();
         }
 
-        return planifiable;
+        return new EntretienNonPlanifié();
     }
 
     @Override
