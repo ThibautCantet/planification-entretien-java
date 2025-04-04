@@ -8,6 +8,7 @@ import com.soat.planification_entretien.entretien.domain.CandidatRepository;
 import com.soat.planification_entretien.entretien.domain.ConsultantRecruteur;
 import com.soat.planification_entretien.entretien.domain.ConsultantRecruteurRepository;
 import com.soat.planification_entretien.entretien.domain.EntretienId;
+import com.soat.planification_entretien.entretien.use_case.AnnulerEntretien;
 import com.soat.planification_entretien.entretien.use_case.ListerEntretiens;
 import com.soat.planification_entretien.entretien.use_case.PlanifierEntretien;
 import com.soat.planification_entretien.entretien.use_case.ValiderEntretien;
@@ -33,16 +34,18 @@ public class EntretienController {
     private final CandidatRepository candidatRepository;
     private final ConsultantRecruteurRepository recruteurRepository;
     private final ValiderEntretien validerEntretien;
+    private AnnulerEntretien annulerEntretien;
 
     public EntretienController(PlanifierEntretien planifierEntretien,
                                ListerEntretiens listerEntretiens,
                                CandidatRepository candidatRepository,
-                               ConsultantRecruteurRepository recruteurRepository, ValiderEntretien validerEntretien) {
+                               ConsultantRecruteurRepository recruteurRepository, ValiderEntretien validerEntretien, AnnulerEntretien annulerEntretien) {
         this.planifierEntretien = planifierEntretien;
         this.listerEntretiens = listerEntretiens;
         this.candidatRepository = candidatRepository;
         this.recruteurRepository = recruteurRepository;
         this.validerEntretien = validerEntretien;
+        this.annulerEntretien = annulerEntretien;
     }
 
     @GetMapping("/")
@@ -58,6 +61,12 @@ public class EntretienController {
     public void valider(@PathVariable("id") int id) {
 
         validerEntretien.execute(new EntretienId(id));
+    }
+
+    @PatchMapping("{id}/annuler")
+    public void annuler(@PathVariable("id") int id) {
+
+        annulerEntretien.execute(new EntretienId(id));
     }
 
     @PostMapping("planifier")

@@ -112,4 +112,8 @@ public class Entretien implements IEntretien {
                ", status=" + status +
                '}';
     }
+
+    public void annuler() {
+        this.status = ANNULE;
+    }
 }

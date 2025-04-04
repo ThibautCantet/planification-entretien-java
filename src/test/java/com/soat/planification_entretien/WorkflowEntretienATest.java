@@ -55,6 +55,7 @@ public class WorkflowEntretienATest extends ATest {
 
     @Alors("on récupères les entretiens suivants en base")
     public void onRécupèresLesEntretiensSuivantsEnBase(DataTable dataTable) {
+        response.then().statusCode(200);
         List<Entretien> entretiens = dataTableTransformEntries(dataTable, this::buildEntretien);
 
         List<Entretien> savedEntretiens = entretienRepository.findAll();
@@ -76,5 +77,17 @@ public class WorkflowEntretienATest extends ATest {
                 new ConsultantRecruteur(0, entry.get("language"), entry.get("recruteur"), 0),
                 LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
                 Status.valueOf(entry.get("status")));
+    }
+
+    @Quand("on annule l'entretien {int}")
+    public void onAnnuleLEntretien(int entretienId) {
+        initPath();
+        //@formatter:off
+        response = given()
+                .log().all()
+                .header("Content-Type", ContentType.JSON)
+                .when()
+                .patch(entretienId + "/annuler");
+        //@formatter:on
     }
 }
