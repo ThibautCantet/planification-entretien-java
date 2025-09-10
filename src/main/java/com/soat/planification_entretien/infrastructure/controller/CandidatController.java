@@ -15,7 +15,7 @@ import static org.springframework.http.ResponseEntity.*;
 @RestController
 @RequestMapping(CandidatController.PATH)
 public class CandidatController {
-    public static final String PATH = "/api/candidat";
+    public static final String PATH = "/api/candidat/";
 
     private final CreerCandidat creerCandidat;
 
@@ -23,7 +23,7 @@ public class CandidatController {
         this.creerCandidat = creerCandidat;
     }
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<Integer> creer(@RequestBody CandidatDto candidatDto) {
         if (validExperience(candidatDto)) {
             return badRequest().build();

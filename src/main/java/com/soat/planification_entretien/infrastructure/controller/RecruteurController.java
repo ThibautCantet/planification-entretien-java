@@ -17,7 +17,7 @@ import static org.springframework.http.ResponseEntity.*;
 @RestController
 @RequestMapping(RecruteurController.PATH)
 public class RecruteurController {
-    public static final String PATH = "/api/recruteur";
+    public static final String PATH = "/api/recruteur/";
 
     private final CreerRecruteur creerRecruteur;
     private final ListerRecruteursExperimentes listerRecruteursExperimentes;
@@ -27,7 +27,7 @@ public class RecruteurController {
         this.listerRecruteursExperimentes = listerRecruteursExperimentes;
     }
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<Integer> creer(@RequestBody RecruteurDto recruteurDto) {
         if (validExperience(recruteurDto)) {
             return badRequest().build();
@@ -40,7 +40,7 @@ public class RecruteurController {
         return created(null).body(createdRecruteurId);
     }
 
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<List<RecruteurDetailDto>> lister() {
         List<RecruteurDetailDto> recruteurs = listerRecruteursExperimentes.execute().stream()
                 .map(e -> new RecruteurDetailDto(e.getId(), e.getLanguage(), e.getExperienceInYears(), e.getEmail()))
