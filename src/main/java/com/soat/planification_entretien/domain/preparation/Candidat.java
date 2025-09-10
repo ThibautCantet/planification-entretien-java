@@ -13,7 +13,7 @@ public class Candidat {
     }
 
     public Candidat(Integer candidatId, String language, String email, Integer experienceInYears) {
-        this.id = candidatId;
+        this.id = new CandidatId(candidatId).value();
         this.language = language;
         this.email = Email.of(email).adresse();
         this.experienceInYears = experienceInYears;

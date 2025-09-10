@@ -15,7 +15,7 @@ public class Recruteur {
     }
 
     public Recruteur(Integer recruteurId, String language, String email, Integer experienceInYears) {
-        this.id = recruteurId;
+        this.id = new RecruteurId(recruteurId).value();
         this.language = language;
         this.email = email;
         this.experienceInYears = experienceInYears;
