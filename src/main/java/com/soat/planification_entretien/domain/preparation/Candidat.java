@@ -14,9 +14,9 @@ public class Candidat {
 
     public Candidat(Integer candidatId, String language, String email, Integer experienceInYears) {
         this.id = new CandidatId(candidatId).value();
-        this.language = language;
+        this.language = new Langage(language).value();
         this.email = Email.of(email).adresse();
-        this.experienceInYears = experienceInYears;
+        this.experienceInYears = new AnnéeExperience(experienceInYears).value();
     }
 
     public static Candidat of(Integer id, Candidat candidat) {
@@ -25,9 +25,6 @@ public class Candidat {
     }
 
     public static Candidat create(String language, String email, int anneesExperience) {
-        if (language.isBlank() || anneesExperience < 0) {
-            throw new IllegalArgumentException();
-        }
         return new Candidat(language, email, anneesExperience);
     }
 

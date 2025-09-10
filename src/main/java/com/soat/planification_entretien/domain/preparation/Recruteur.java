@@ -1,5 +1,7 @@
 package com.soat.planification_entretien.domain.preparation;
 
+import static com.soat.planification_entretien.domain.preparation.AnnéeExperience.*;
+
 public class Recruteur {
 
     private static final int MINIMUM_XP_REQUISE = 3;
@@ -14,11 +16,15 @@ public class Recruteur {
         this(null, language, email, experienceInYears);
     }
 
-    public Recruteur(Integer recruteurId, String language, String email, Integer experienceInYears) {
+    public Recruteur(Integer recruteurId, String language, String email, Integer anneesExperience) {
         this.id = new RecruteurId(recruteurId).value();
-        this.language = language;
-        this.email = email;
-        this.experienceInYears = experienceInYears;
+        this.language = new Langage(language).value();
+        this.email = Email.of(email).adresse();
+        var annéeExperience = new AnnéeExperience(anneesExperience);
+        if (annéeExperience.estInférieur(MINIMUM_XP_REQUISE)) {
+            throw new IllegalArgumentException();
+        }
+        this.experienceInYears = annéeExperience.value();
     }
 
     public static Recruteur of(Integer id, Recruteur recruteur) {
@@ -27,11 +33,7 @@ public class Recruteur {
     }
 
     public static Recruteur of(String language, String email, int anneesExperience) {
-        if (language.isBlank() || anneesExperience < MINIMUM_XP_REQUISE) {
-            throw new IllegalArgumentException();
-        }
-
-        return new Recruteur(language, Email.of(email).adresse(), anneesExperience);
+        return new Recruteur(language, email, anneesExperience);
     }
 
     public Integer getId() {
