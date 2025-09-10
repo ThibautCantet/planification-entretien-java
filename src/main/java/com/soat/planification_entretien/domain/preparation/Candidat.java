@@ -15,7 +15,7 @@ public class Candidat {
     public Candidat(Integer candidatId, String language, String email, Integer experienceInYears) {
         this.id = candidatId;
         this.language = language;
-        this.email = email;
+        this.email = Email.of(email).adresse();
         this.experienceInYears = experienceInYears;
     }
 
