@@ -100,10 +100,12 @@ public class ListingEntretienATest extends ATest {
     }
 
     private Entretien buildEntretien(Map<String, String> entry) {
+        var horaire = LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
         return Entretien.of(
                 savedCandidats.get(0),
                 savedRecruteurs.get(0),
-                LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+                horaire,
+                horaire);
     }
 
     @Quand("on liste les tous les entretiens")

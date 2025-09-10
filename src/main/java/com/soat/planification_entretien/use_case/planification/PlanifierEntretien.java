@@ -20,16 +20,15 @@ public class PlanifierEntretien {
     }
 
     public boolean execute(Candidat candidat, Recruteur recruteur, LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
-        if (recruteur.getLanguage().equals(candidat.getLanguage())
-            && recruteur.getExperienceInYears() > candidat.getExperienceInYears()
-            && dateEtHeureDisponibiliteDuCandidat.equals(dateEtHeureDisponibiliteDuRecruteur)) {
-            var entretien = Entretien.of(candidat, recruteur, dateEtHeureDisponibiliteDuRecruteur);
+        try {
+            var entretien = Entretien.of(candidat, recruteur, dateEtHeureDisponibiliteDuRecruteur, dateEtHeureDisponibiliteDuCandidat);
             entretienRepository.save(entretien);
             emailService.envoyerUnEmailDeConfirmationAuCandidat(candidat.getEmail(), dateEtHeureDisponibiliteDuCandidat);
             emailService.envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), dateEtHeureDisponibiliteDuCandidat);
             return true;
+        } catch (Exception e) {
+            return false;
         }
-        return false;
     }
 
 }

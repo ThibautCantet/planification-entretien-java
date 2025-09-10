@@ -31,8 +31,13 @@ public class Entretien implements IEntretien {
         return new Entretien(id, candidat, recruteur, horaire);
     }
 
-    public static Entretien of(Candidat candidat, Recruteur recruteur, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
-        return new Entretien(candidat, recruteur, dateEtHeureDisponibiliteDuRecruteur);
+    public static Entretien of(Candidat candidat, Recruteur recruteur, LocalDateTime dateEtHeureDisponibiliteDuRecruteur, LocalDateTime dateEtHeureDisponibiliteDuCandidat) {
+        if (!recruteur.estCompatible(candidat)
+            || !dateEtHeureDisponibiliteDuCandidat.equals(dateEtHeureDisponibiliteDuRecruteur)) {
+            throw new IllegalArgumentException("Le recruteur n'est pas compatible avec le candidat ou les horaires ne correspondent pas.");
+        } else {
+            return new Entretien(candidat, recruteur, dateEtHeureDisponibiliteDuRecruteur);
+        }
     }
 
     public static Entretien of(Integer newId, Entretien entretien) {
