@@ -24,6 +24,13 @@ public class Candidat {
         return candidat;
     }
 
+    public static Candidat create(String language, String email, int anneesExperience) {
+        if (language.isBlank() || anneesExperience < 0) {
+            throw new IllegalArgumentException();
+        }
+        return new Candidat(language, email, anneesExperience);
+    }
+
     public Integer getId() {
         return id;
     }

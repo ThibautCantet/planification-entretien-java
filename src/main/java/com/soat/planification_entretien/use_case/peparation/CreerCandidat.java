@@ -15,10 +15,7 @@ public class CreerCandidat {
 
     public Integer execute(String language, String email, String experienceEnAnnees) {
         try {
-            if (language.isBlank() || Integer.parseInt(experienceEnAnnees) < 0) {
-                throw new IllegalArgumentException();
-            }
-            Candidat candidat = new Candidat(language, email, Integer.parseInt(experienceEnAnnees));
+            var candidat = Candidat.create(language, email, Integer.parseInt(experienceEnAnnees));
 
             Candidat savedCandidat = candidatRepository.save(candidat);
 

@@ -2,6 +2,8 @@ package com.soat.planification_entretien.domain.preparation;
 
 public class Recruteur {
 
+    private static final int MINIMUM_XP_REQUISE = 3;
+
     private Integer id;
 
     private String language;
@@ -22,6 +24,14 @@ public class Recruteur {
     public static Recruteur of(Integer id, Recruteur recruteur) {
         recruteur.id = id;
         return recruteur;
+    }
+
+    public static Recruteur of(String language, String email, int anneesExperience) {
+        if (language.isBlank() || anneesExperience < MINIMUM_XP_REQUISE) {
+            throw new IllegalArgumentException();
+        }
+
+        return new Recruteur(language, Email.of(email).adresse(), anneesExperience);
     }
 
     public Integer getId() {
