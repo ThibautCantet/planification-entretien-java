@@ -107,14 +107,15 @@ public class ListingEntretienATest extends ATest {
         var candidat = savedCandidats.get(0);
         var recruteur = savedRecruteurs.get(0);
         return Entretien.of(
+                null,
                 new CandidatSuivi(candidat.getId(),
                         candidat.getEmail(),
                         new Profil(candidat.getLanguage(), candidat.getExperienceInYears())),
                 new RecruteurEngagé(recruteur.getId(),
                         recruteur.getEmail(),
                         new Profil(recruteur.getLanguage(), recruteur.getExperienceInYears())),
-                horaire,
-                horaire);
+                horaire
+        );
     }
 
     @Quand("on liste les tous les entretiens")

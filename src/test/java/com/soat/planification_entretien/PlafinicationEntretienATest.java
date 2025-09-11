@@ -124,7 +124,7 @@ public class PlafinicationEntretienATest extends ATest {
         var recruteurEngagé = new RecruteurEngagé(recruteur.getId(),
                 recruteur.getEmail(), new Profil(recruteur.getLanguage(), recruteur.getExperienceInYears()));
         Entretien entretien = entretienRepository.findByCandidat(candidatSuivi);
-        Entretien expectedEntretien = Entretien.of(candidatSuivi, recruteurEngagé, disponibiliteDuCandidat, disponibiliteDuRecruteur);
+        Entretien expectedEntretien = Entretien.of(candidatSuivi, recruteurEngagé);
         assertThat(entretien).usingRecursiveComparison()
                 .ignoringFields("id", "candidat.id", "recruteur.id")
                 .isEqualTo(expectedEntretien);
