@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
 import com.soat.planification_entretien.domain.Profil;
 import com.soat.planification_entretien.domain.planification.CandidatSuivi;
+import com.soat.planification_entretien.domain.planification.EtatEntretien;
 import com.soat.planification_entretien.domain.planification.RecruteurEngagé;
 import com.soat.planification_entretien.infrastructure.planification.controller.EntretienController;
 import com.soat.planification_entretien.infrastructure.planification.controller.EntretienDto;
@@ -114,8 +115,8 @@ public class PlafinicationEntretienATest extends ATest {
         //@formatter:on
     }
 
-    @Alors("L’entretien est planifié")
-    public void lEntretienEstPlanifié() {
+    @Alors("L’entretien est planifié avec un status {string}")
+    public void lEntretienEstPlanifié(String status) {
         response.then()
                 .statusCode(HttpStatus.SC_CREATED);
 
@@ -124,7 +125,7 @@ public class PlafinicationEntretienATest extends ATest {
         var recruteurEngagé = new RecruteurEngagé(recruteur.getId(),
                 recruteur.getEmail(), new Profil(recruteur.getLanguage(), recruteur.getExperienceInYears()));
         Entretien entretien = entretienRepository.findByCandidat(candidatSuivi);
-        Entretien expectedEntretien = Entretien.of(candidatSuivi, recruteurEngagé);
+        Entretien expectedEntretien = Entretien.of(null, candidatSuivi, recruteurEngagé, disponibiliteDuCandidat, EtatEntretien.valueOf(status.toUpperCase()));
         assertThat(entretien).usingRecursiveComparison()
                 .ignoringFields("id", "candidat.id", "recruteur.id")
                 .isEqualTo(expectedEntretien);

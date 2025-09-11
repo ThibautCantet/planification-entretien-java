@@ -10,6 +10,7 @@ import java.util.Map;
 import com.soat.ATest;
 import com.soat.planification_entretien.domain.Profil;
 import com.soat.planification_entretien.domain.planification.CandidatSuivi;
+import com.soat.planification_entretien.domain.planification.EtatEntretien;
 import com.soat.planification_entretien.domain.planification.RecruteurEngagé;
 import com.soat.planification_entretien.infrastructure.planification.controller.EntretienController;
 import com.soat.planification_entretien.domain.preparation.Candidat;
@@ -114,8 +115,8 @@ public class ListingEntretienATest extends ATest {
                 new RecruteurEngagé(recruteur.getId(),
                         recruteur.getEmail(),
                         new Profil(recruteur.getLanguage(), recruteur.getExperienceInYears())),
-                horaire
-        );
+                horaire,
+                EtatEntretien.valueOf(entry.get("status")));
     }
 
     @Quand("on liste les tous les entretiens")
@@ -147,6 +148,7 @@ public class ListingEntretienATest extends ATest {
                 entry.get("candidat"),
                 entry.get("recruteur"),
                 entry.get("language"),
-                LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+                LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
+                entry.get("status"));
     }
 }

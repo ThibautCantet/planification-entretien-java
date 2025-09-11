@@ -21,7 +21,7 @@ public class PlanifierEntretien {
 
     public boolean execute(CandidatSuivi candidat, RecruteurEngagé recruteur, LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
         try {
-            var entretien = Entretien.of(candidat, recruteur);
+            var entretien = Entretien.create(candidat, recruteur);
             entretien.planifier(dateEtHeureDisponibiliteDuCandidat, dateEtHeureDisponibiliteDuRecruteur);
             entretienRepository.save(entretien);
             emailService.envoyerUnEmailDeConfirmationAuCandidat(candidat.email(), dateEtHeureDisponibiliteDuCandidat);

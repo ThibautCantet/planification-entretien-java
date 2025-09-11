@@ -5,6 +5,7 @@ import java.util.List;
 import com.soat.planification_entretien.domain.Profil;
 import com.soat.planification_entretien.domain.planification.CandidatSuivi;
 import com.soat.planification_entretien.domain.planification.EntretienRepository;
+import com.soat.planification_entretien.domain.planification.EtatEntretien;
 import com.soat.planification_entretien.domain.planification.RecruteurEngagé;
 import com.soat.planification_entretien.infrastructure.planification.repository.Entretien;
 import com.soat.planification_entretien.infrastructure.planification.repository.EntretienCrud;
@@ -54,6 +55,6 @@ public class HibernateEntretienRepository implements EntretienRepository {
                 jpaEntretien.getId(),
                 new CandidatSuivi(jpaEntretien.getCandidat().getId(), jpaEntretien.getCandidat().getEmail(), new Profil(jpaEntretien.getCandidat().getLanguage(), jpaEntretien.getCandidat().getExperienceInYears())),
                 new RecruteurEngagé(jpaEntretien.getRecruteur().getId(), jpaEntretien.getRecruteur().getEmail(), new Profil(jpaEntretien.getRecruteur().getLanguage(), jpaEntretien.getRecruteur().getExperienceInYears())),
-                jpaEntretien.getHoraireEntretien());
+                jpaEntretien.getHoraireEntretien(), EtatEntretien.PLANIFIE);
     }
 }

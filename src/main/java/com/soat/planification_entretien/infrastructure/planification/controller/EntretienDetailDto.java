@@ -9,7 +9,8 @@ public record EntretienDetailDto(
         String emailCandidat,
         String emailRecruteur,
         String language,
-        LocalDateTime horaire) implements IEntretien {
+        LocalDateTime horaire,
+        String status) implements IEntretien {
 
     @Override
     public Integer getId() {
@@ -35,4 +36,10 @@ public record EntretienDetailDto(
     public LocalDateTime getHoraire() {
         return horaire;
     }
+
+    @Override
+    public String getStatus() {
+        return status;
+    }
+
 }
