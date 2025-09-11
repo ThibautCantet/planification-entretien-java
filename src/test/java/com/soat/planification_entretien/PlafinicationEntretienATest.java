@@ -7,6 +7,9 @@ import java.time.format.DateTimeFormatter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
+import com.soat.planification_entretien.domain.Profil;
+import com.soat.planification_entretien.domain.planification.CandidatSuivi;
+import com.soat.planification_entretien.domain.planification.RecruteurEngagé;
 import com.soat.planification_entretien.infrastructure.planification.controller.EntretienController;
 import com.soat.planification_entretien.infrastructure.planification.controller.EntretienDto;
 import com.soat.planification_entretien.domain.preparation.Candidat;
@@ -116,8 +119,12 @@ public class PlafinicationEntretienATest extends ATest {
         response.then()
                 .statusCode(HttpStatus.SC_CREATED);
 
-        Entretien entretien = entretienRepository.findByCandidat(candidat);
-        Entretien expectedEntretien = Entretien.of(candidat, recruteur, disponibiliteDuCandidat, disponibiliteDuRecruteur);
+        var candidatSuivi = new CandidatSuivi(candidat.getId(),
+                candidat.getEmail(), new Profil(candidat.getLanguage(), candidat.getExperienceInYears()));
+        var recruteurEngagé = new RecruteurEngagé(recruteur.getId(),
+                recruteur.getEmail(), new Profil(recruteur.getLanguage(), recruteur.getExperienceInYears()));
+        Entretien entretien = entretienRepository.findByCandidat(candidatSuivi);
+        Entretien expectedEntretien = Entretien.of(candidatSuivi, recruteurEngagé, disponibiliteDuCandidat, disponibiliteDuRecruteur);
         assertThat(entretien).usingRecursiveComparison()
                 .ignoringFields("id", "candidat.id", "recruteur.id")
                 .isEqualTo(expectedEntretien);
@@ -134,7 +141,9 @@ public class PlafinicationEntretienATest extends ATest {
         response.then()
                 .statusCode(HttpStatus.SC_BAD_REQUEST);
 
-        Entretien entretien = entretienRepository.findByCandidat(candidat);
+        var candidatSuivi = new CandidatSuivi(candidat.getId(),
+                candidat.getEmail(), new Profil(candidat.getLanguage(), candidat.getExperienceInYears()));
+        Entretien entretien = entretienRepository.findByCandidat(candidatSuivi);
         assertThat(entretien).isNull();
     }
 

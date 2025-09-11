@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.soat.ATest;
+import com.soat.planification_entretien.domain.Profil;
+import com.soat.planification_entretien.domain.planification.CandidatSuivi;
+import com.soat.planification_entretien.domain.planification.RecruteurEngagé;
 import com.soat.planification_entretien.infrastructure.planification.controller.EntretienController;
 import com.soat.planification_entretien.domain.preparation.Candidat;
 import com.soat.planification_entretien.domain.preparation.CandidatRepository;
@@ -101,9 +104,15 @@ public class ListingEntretienATest extends ATest {
 
     private Entretien buildEntretien(Map<String, String> entry) {
         var horaire = LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+        var candidat = savedCandidats.get(0);
+        var recruteur = savedRecruteurs.get(0);
         return Entretien.of(
-                savedCandidats.get(0),
-                savedRecruteurs.get(0),
+                new CandidatSuivi(candidat.getId(),
+                        candidat.getEmail(),
+                        new Profil(candidat.getLanguage(), candidat.getExperienceInYears())),
+                new RecruteurEngagé(recruteur.getId(),
+                        recruteur.getEmail(),
+                        new Profil(recruteur.getLanguage(), recruteur.getExperienceInYears())),
                 horaire,
                 horaire);
     }

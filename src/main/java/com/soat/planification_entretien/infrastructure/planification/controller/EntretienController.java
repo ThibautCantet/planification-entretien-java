@@ -1,14 +1,14 @@
 package com.soat.planification_entretien.infrastructure.planification.controller;
 
 import java.util.List;
-import java.util.Optional;
 
-import com.soat.planification_entretien.domain.preparation.Candidat;
+import com.soat.planification_entretien.domain.Profil;
+import com.soat.planification_entretien.domain.planification.CandidatSuivi;
+import com.soat.planification_entretien.domain.planification.RecruteurEngagé;
 import com.soat.planification_entretien.domain.preparation.CandidatRepository;
+import com.soat.planification_entretien.domain.preparation.RecruteurRepository;
 import com.soat.planification_entretien.use_case.planification.ListerEntretiens;
 import com.soat.planification_entretien.use_case.planification.PlanifierEntretien;
-import com.soat.planification_entretien.domain.preparation.Recruteur;
-import com.soat.planification_entretien.domain.preparation.RecruteurRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,11 +48,15 @@ public class EntretienController {
     @PostMapping("planifier")
     public ResponseEntity<Void> planifier(@RequestBody EntretienDto entretienDto) {
 
-        Optional<Candidat> candidat = candidatRepository.findById(entretienDto.candidatId());
+        var candidat = candidatRepository.findById(entretienDto.candidatId())
+                .map(c -> new CandidatSuivi(c.getId(),
+                        c.getEmail(), new Profil(c.getLanguage(), c.getExperienceInYears())));
         if (candidat.isEmpty()) {
             return badRequest().build();
         }
-        Optional<Recruteur> recruteur = recruteurRepository.findById(entretienDto.recruteurId());
+        var recruteur = recruteurRepository.findById(entretienDto.recruteurId())
+                .map(r -> new RecruteurEngagé(r.getId(),
+                        r.getEmail(), new Profil(r.getLanguage(), r.getExperienceInYears())));;
         if (recruteur.isEmpty()) {
             return badRequest().build();
         }

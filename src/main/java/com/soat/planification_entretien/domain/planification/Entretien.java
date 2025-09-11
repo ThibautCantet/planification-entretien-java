@@ -2,37 +2,35 @@ package com.soat.planification_entretien.domain.planification;
 
 import java.time.LocalDateTime;
 
-import com.soat.planification_entretien.domain.preparation.Candidat;
-import com.soat.planification_entretien.domain.preparation.Recruteur;
 
 public class Entretien implements IEntretien {
     private Integer id;
 
-    private Candidat candidat;
+    private CandidatSuivi candidat;
 
     private LocalDateTime horaireEntretien;
 
-    private Recruteur recruteur;
+    private RecruteurEngagé recruteur;
 
-    public Entretien(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
+    public Entretien(Integer id, CandidatSuivi candidat, RecruteurEngagé recruteur, LocalDateTime horaire) {
         this.id = id;
         this.candidat = candidat;
         this.recruteur = recruteur;
         this.horaireEntretien = horaire;
     }
 
-    private Entretien(Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
+    private Entretien(CandidatSuivi candidat, RecruteurEngagé recruteur, LocalDateTime horaire) {
         this.candidat = candidat;
         this.recruteur = recruteur;
         this.horaireEntretien = horaire;
     }
 
-    public static Entretien of(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
+    public static Entretien of(Integer id, CandidatSuivi candidat, RecruteurEngagé recruteur, LocalDateTime horaire) {
         return new Entretien(id, candidat, recruteur, horaire);
     }
 
-    public static Entretien of(Candidat candidat, Recruteur recruteur, LocalDateTime dateEtHeureDisponibiliteDuRecruteur, LocalDateTime dateEtHeureDisponibiliteDuCandidat) {
-        if (!recruteur.estCompatible(candidat)
+    public static Entretien of(CandidatSuivi candidat, RecruteurEngagé recruteur, LocalDateTime dateEtHeureDisponibiliteDuRecruteur, LocalDateTime dateEtHeureDisponibiliteDuCandidat) {
+        if (!recruteur.peutEvaluer(candidat)
             || !dateEtHeureDisponibiliteDuCandidat.equals(dateEtHeureDisponibiliteDuRecruteur)) {
             throw new IllegalArgumentException("Le recruteur n'est pas compatible avec le candidat ou les horaires ne correspondent pas.");
         } else {
@@ -45,11 +43,11 @@ public class Entretien implements IEntretien {
         return entretien;
     }
 
-    public Candidat getCandidat() {
+    public CandidatSuivi getCandidat() {
         return candidat;
     }
 
-    public Recruteur getRecruteur() {
+    public RecruteurEngagé getRecruteur() {
         return recruteur;
     }
 
@@ -63,17 +61,17 @@ public class Entretien implements IEntretien {
 
     @Override
     public String getEmailCandidat() {
-        return candidat.getEmail();
+        return candidat.email();
     }
 
     @Override
     public String getEmailRecruteur() {
-        return recruteur.getEmail();
+        return recruteur.email();
     }
 
     @Override
     public String getLanguage() {
-        return recruteur.getLanguage();
+        return recruteur.profil().langage();
     }
 
     @Override
