@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.infrastructure.preparation.repository;
+package com.soat.planification_entretien.infrastructure.planification.repository;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ import com.soat.planification_entretien.domain.planification.CandidatSuivi;
 import com.soat.planification_entretien.domain.planification.EntretienRepository;
 import com.soat.planification_entretien.domain.planification.EtatEntretien;
 import com.soat.planification_entretien.domain.planification.RecruteurEngagé;
-import com.soat.planification_entretien.infrastructure.planification.repository.Entretien;
-import com.soat.planification_entretien.infrastructure.planification.repository.EntretienCrud;
+import com.soat.planification_entretien.infrastructure.preparation.repository.CandidatCrud;
+import com.soat.planification_entretien.infrastructure.preparation.repository.RecruteurCrud;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -29,8 +29,12 @@ public class HibernateEntretienRepository implements EntretienRepository {
         var jpaCandidat = candidatCrud.findById(entretien.getCandidat().id()).get();
         var jpaRecruteur = recruteurCrud.findById(entretien.getRecruteur().id()).get();
 
-        var jpaEntretien = Entretien.of(jpaCandidat,
-                jpaRecruteur, entretien.getHoraireEntretien());
+        var jpaEntretien = Entretien.of(
+                entretien.getId(),
+                jpaCandidat,
+                jpaRecruteur,
+                entretien.getHoraireEntretien(),
+                entretien.getStatus());
         entretienCrud.save(jpaEntretien);
     }
 
@@ -50,11 +54,19 @@ public class HibernateEntretienRepository implements EntretienRepository {
                 .orElse(null);
     }
 
+    @Override
+    public com.soat.planification_entretien.domain.planification.Entretien findById(int id) {
+        return entretienCrud.findById(id)
+                .map(HibernateEntretienRepository::toEntretien)
+                .orElse(null);
+    }
+
     private static com.soat.planification_entretien.domain.planification.Entretien toEntretien(Entretien jpaEntretien) {
         return com.soat.planification_entretien.domain.planification.Entretien.of(
                 jpaEntretien.getId(),
                 new CandidatSuivi(jpaEntretien.getCandidat().getId(), jpaEntretien.getCandidat().getEmail(), new Profil(jpaEntretien.getCandidat().getLanguage(), jpaEntretien.getCandidat().getExperienceInYears())),
                 new RecruteurEngagé(jpaEntretien.getRecruteur().getId(), jpaEntretien.getRecruteur().getEmail(), new Profil(jpaEntretien.getRecruteur().getLanguage(), jpaEntretien.getRecruteur().getExperienceInYears())),
-                jpaEntretien.getHoraireEntretien(), EtatEntretien.PLANIFIE);
+                jpaEntretien.getHoraireEntretien(),
+                EtatEntretien.valueOf(jpaEntretien.getEtatEntretien()));
     }
 }

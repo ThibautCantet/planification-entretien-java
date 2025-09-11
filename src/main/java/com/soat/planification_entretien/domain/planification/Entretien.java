@@ -49,6 +49,10 @@ public class Entretien implements IEntretien {
         this.horaireEntretien = dateEtHeureDisponibiliteDuRecruteur;
     }
 
+    public void valider() {
+        this.changementEtat(EtatEntretien.VALIDE);
+    }
+
     private void changementEtat(EtatEntretien nouvelEtat) {
         if (!etat.peutEvoluerVers(nouvelEtat)) {
             throw new IllegalStateException("L'entretien ne peut pas évoluer vers l'état " + nouvelEtat + " depuis l'état " + etat);

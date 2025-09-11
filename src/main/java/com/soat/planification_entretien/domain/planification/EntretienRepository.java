@@ -8,4 +8,7 @@ public interface EntretienRepository {
     List<Entretien> findAll();
 
     Entretien findByCandidat(CandidatSuivi candidat);
+
+    Entretien findById(int id);
+
 }

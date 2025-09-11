@@ -31,4 +31,8 @@ public class InMemoryEntretienRepository implements EntretienRepository {
                 .findFirst()
                 .orElse(null);
     }
+
+    public Entretien findById(int id) {
+        return cache.get(id);
+    }
 }
