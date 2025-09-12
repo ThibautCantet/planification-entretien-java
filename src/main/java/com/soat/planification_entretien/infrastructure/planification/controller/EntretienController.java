@@ -31,16 +31,13 @@ public class EntretienController {
     private final PlanifierEntretien planifierEntretien;
     private final ValiderEntretien validerEntretien;
     private final ListerEntretiens listerEntretiens;
-    private final CandidatRepository candidatRepository;
-    private final RecruteurRepository recruteurRepository;
+
     private final EntretienRepository entretienRepository;
 
-    public EntretienController(PlanifierEntretien planifierEntretien, ValiderEntretien validerEntretien, ListerEntretiens listerEntretiens, CandidatRepository candidatRepository, RecruteurRepository recruteurRepository, EntretienRepository entretienRepository) {
+    public EntretienController(PlanifierEntretien planifierEntretien, ValiderEntretien validerEntretien, ListerEntretiens listerEntretiens, EntretienRepository entretienRepository) {
         this.planifierEntretien = planifierEntretien;
         this.validerEntretien = validerEntretien;
         this.listerEntretiens = listerEntretiens;
-        this.candidatRepository = candidatRepository;
-        this.recruteurRepository = recruteurRepository;
         this.entretienRepository = entretienRepository;
     }
 
@@ -55,27 +52,13 @@ public class EntretienController {
 
     @PostMapping("planifier")
     public ResponseEntity<Void> planifier(@RequestBody EntretienDto entretienDto) {
-
-        var candidat = candidatRepository.findById(entretienDto.candidatId())
-                .map(c -> new CandidatSuivi(c.getId(),
-                        c.getEmail(), new Profil(c.getLanguage(), c.getExperienceInYears())));
-        if (candidat.isEmpty()) {
-            return badRequest().build();
-        }
-        var recruteur = recruteurRepository.findById(entretienDto.recruteurId())
-                .map(r -> new RecruteurEngagé(r.getId(),
-                        r.getEmail(), new Profil(r.getLanguage(), r.getExperienceInYears())));;
-        if (recruteur.isEmpty()) {
-            return badRequest().build();
-        }
-        var planifie = planifierEntretien.execute(candidat.get(), recruteur.get(), entretienDto.disponibiliteDuCandidat(), entretienDto.disponibiliteDuRecruteur());
+        var planifie = planifierEntretien.execute(entretienDto.candidatId(), entretienDto.recruteurId(), entretienDto.disponibiliteDuCandidat(), entretienDto.disponibiliteDuRecruteur());
 
         if (planifie) {
             return created(null).build();
         } else {
             return badRequest().build();
         }
-
     }
 
     @PatchMapping("/{entretienId}/valider")

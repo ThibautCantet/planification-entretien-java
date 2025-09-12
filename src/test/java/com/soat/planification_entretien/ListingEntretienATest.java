@@ -72,7 +72,8 @@ public class ListingEntretienATest extends ATest {
         return new Recruteur(
                 entry.get("language"),
                 entry.get("email"),
-                Integer.parseInt(entry.get("xp")));
+                Integer.parseInt(entry.get("xp")),
+                Boolean.parseBoolean(entry.get("disponible")));
     }
 
     @Et("les candidats existants")

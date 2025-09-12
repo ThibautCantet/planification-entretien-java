@@ -94,7 +94,7 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Etqu("un recruteur {string} \\({string}) qui a {string} ans d’XP qui est dispo {string} à {string}")
     public void unRecruteurQuiAAnsDXPQuiEstDispo(String language, String email, String experienceInYears, String date, String time) {
-        recruteur = new Recruteur(null, language, email, Integer.parseInt(experienceInYears));
+        recruteur = new Recruteur(null, language, email, Integer.parseInt(experienceInYears), true);
         //entityManager.persist(recruteur);
         var saved = recruteurRepository.save(recruteur);
         recruteur = Recruteur.of(saved.getId(), recruteur);

@@ -3,6 +3,7 @@ package com.soat.planification_entretien.infrastructure.preparation.repository;
 import java.util.List;
 import java.util.Optional;
 
+import com.soat.planification_entretien.domain.preparation.EtatRecruteur;
 import com.soat.planification_entretien.domain.preparation.RecruteurRepository;
 import org.springframework.stereotype.Repository;
 
@@ -21,8 +22,8 @@ public class HibernateRecruteurRepository implements RecruteurRepository {
                         recruteurId,
                         recruteur.getLanguage(),
                         recruteur.getEmail(),
-                        recruteur.getExperienceInYears()
-                )
+                        recruteur.getExperienceInYears(),
+                        recruteur.estDisponible())
         );
     }
 
@@ -31,7 +32,8 @@ public class HibernateRecruteurRepository implements RecruteurRepository {
         var toSave = new Recruteur(recruteur.getId(),
                 recruteur.getLanguage(),
                 recruteur.getEmail(),
-                recruteur.getExperienceInYears());
+                recruteur.getExperienceInYears(),
+                recruteur.getEtat() == EtatRecruteur.DISPONIBLE);
         var saved = recruteurCrud.save(toSave);
         return com.soat.planification_entretien.domain.preparation.Recruteur.of(saved.getId(), recruteur);
     }
@@ -44,7 +46,8 @@ public class HibernateRecruteurRepository implements RecruteurRepository {
                         recruteur.getId(),
                         recruteur.getLanguage(),
                         recruteur.getEmail(),
-                        recruteur.getExperienceInYears()))
+                        recruteur.getExperienceInYears(),
+                        recruteur.estDisponible()))
                 .toList();
     }
 
@@ -58,7 +61,7 @@ public class HibernateRecruteurRepository implements RecruteurRepository {
                 recruteur.getId(),
                 recruteur.getLanguage(),
                 recruteur.getEmail(),
-                recruteur.getExperienceInYears()
-        );
+                recruteur.getExperienceInYears(),
+                recruteur.estDisponible());
     }
 }

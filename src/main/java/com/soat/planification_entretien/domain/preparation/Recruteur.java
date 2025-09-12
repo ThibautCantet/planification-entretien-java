@@ -1,7 +1,5 @@
 package com.soat.planification_entretien.domain.preparation;
 
-import static com.soat.planification_entretien.domain.preparation.AnnéeExperience.*;
-
 public class Recruteur {
 
     private static final int MINIMUM_XP_REQUISE = 3;
@@ -13,11 +11,11 @@ public class Recruteur {
     private Integer experienceInYears;
     private EtatRecruteur etat;
 
-    public Recruteur(String language, String email, int experienceInYears) {
-        this(null, language, email, experienceInYears);
+    public Recruteur(String language, String email, int experienceInYears, boolean disponible) {
+        this(null, language, email, experienceInYears, disponible);
     }
 
-    public Recruteur(Integer recruteurId, String language, String email, Integer anneesExperience) {
+    public Recruteur(Integer recruteurId, String language, String email, Integer anneesExperience, boolean disponible) {
         this.id = new RecruteurId(recruteurId).value();
         this.language = new Langage(language).value();
         this.email = Email.of(email).adresse();
@@ -26,6 +24,7 @@ public class Recruteur {
             throw new IllegalArgumentException();
         }
         this.experienceInYears = annéeExperience.value();
+        etat = disponible ? EtatRecruteur.DISPONIBLE : EtatRecruteur.INDISPONIBLE;
     }
 
     public static Recruteur of(Integer id, Recruteur recruteur) {
@@ -34,7 +33,7 @@ public class Recruteur {
     }
 
     public static Recruteur of(String language, String email, int anneesExperience) {
-        return new Recruteur(language, email, anneesExperience);
+        return new Recruteur(language, email, anneesExperience, true);
     }
 
     public Integer getId() {

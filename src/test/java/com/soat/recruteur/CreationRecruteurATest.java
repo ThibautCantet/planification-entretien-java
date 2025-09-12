@@ -68,7 +68,7 @@ public class CreationRecruteurATest extends ATest {
         final Recruteur recruteur = recruteurRepository.findById(recruteurId).get();
         assertThat(recruteur).usingRecursiveComparison()
                 .ignoringFields("id")
-                .isEqualTo(new Recruteur(language, email, Integer.parseInt(experienceEnAnnees)));
+                .isEqualTo(new Recruteur(language, email, Integer.parseInt(experienceEnAnnees), true));
     }
 
     @Alors("l'enregistrement du recruteur est refusé")

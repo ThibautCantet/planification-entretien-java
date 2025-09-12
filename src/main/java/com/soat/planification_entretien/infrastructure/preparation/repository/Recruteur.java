@@ -1,6 +1,5 @@
 package com.soat.planification_entretien.infrastructure.preparation.repository;
 
-import com.soat.planification_entretien.domain.preparation.EtatRecruteur;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,16 +20,17 @@ public class Recruteur {
     private Integer experienceInYears;
 
     @Column
-    private String etat;
+    private boolean disponible;
 
     public Recruteur() {
     }
 
-    public Recruteur(Integer id, String language, String email, int experienceInYears) {
+    public Recruteur(Integer id, String language, String email, int experienceInYears,boolean disponible) {
         this.id = id;
         this.language = language;
         this.email = email;
         this.experienceInYears = experienceInYears;
+        this.disponible = disponible;
     }
 
     public Integer getId() {
@@ -49,7 +49,7 @@ public class Recruteur {
         return experienceInYears;
     }
 
-    public String getEtat() {
-        return etat;
+    public boolean estDisponible() {
+        return disponible;
     }
 }
