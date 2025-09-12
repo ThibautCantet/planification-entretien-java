@@ -11,6 +11,7 @@ public class Recruteur {
     private String language;
     private String email;
     private Integer experienceInYears;
+    private EtatRecruteur etat;
 
     public Recruteur(String language, String email, int experienceInYears) {
         this(null, language, email, experienceInYears);
@@ -55,5 +56,21 @@ public class Recruteur {
     public boolean estCompatible(Candidat candidat) {
         return language.equals(candidat.getLanguage())
                && experienceInYears > candidat.getExperienceInYears();
+    }
+
+    public EtatRecruteur getEtat() {
+        return etat;
+    }
+
+    public void rendreDisponible() {
+        this.etat = EtatRecruteur.DISPONIBLE;
+    }
+
+    public void rendreIndisponible() {
+        this.etat = EtatRecruteur.INDISPONIBLE;
+    }
+
+    public boolean estDisponible() {
+        return this.etat == EtatRecruteur.DISPONIBLE;
     }
 }

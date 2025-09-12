@@ -2,6 +2,8 @@ package com.soat.planification_entretien.domain.planification;
 
 import java.time.LocalDateTime;
 
+import com.soat.planification_entretien.common.application_service.MessageBus;
+
 
 public class Entretien implements IEntretien {
     private Integer id;
@@ -47,6 +49,7 @@ public class Entretien implements IEntretien {
         }
         changementEtat(EtatEntretien.PLANIFIE);
         this.horaireEntretien = dateEtHeureDisponibiliteDuRecruteur;
+        MessageBus.instance().send(new EntretienPlanifié(this.recruteur.id()));
     }
 
     public void valider() {

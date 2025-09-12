@@ -3,14 +3,11 @@ package com.soat.planification_entretien.infrastructure.planification.repository
 import java.time.LocalDateTime;
 
 import com.soat.planification_entretien.infrastructure.preparation.repository.Candidat;
-import com.soat.planification_entretien.infrastructure.preparation.repository.Recruteur;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Entretien {
@@ -18,24 +15,22 @@ public class Entretien {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "candidat_id")
-    private Candidat candidat;
+    @Column()
+    private Integer candidatId;
 
     @Column
     private LocalDateTime horaireEntretien;
 
-    @ManyToOne
-    @JoinColumn(name = "recruteur_id")
-    private Recruteur recruteur;
+    @Column
+    private Integer recruteurId;
 
     @Column
     private String etatEntretien;
 
-    private Entretien(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire, String etatEntretien) {
+    private Entretien(Integer id, Integer candidatId, Integer recruteurId, LocalDateTime horaire, String etatEntretien) {
         this.id = id;
-        this.candidat = candidat;
-        this.recruteur = recruteur;
+        this.candidatId = candidatId;
+        this.recruteurId = recruteurId;
         this.horaireEntretien = horaire;
         this.etatEntretien = etatEntretien;
     }
@@ -44,17 +39,18 @@ public class Entretien {
 
     }
 
-    public static Entretien of(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire, String etatEntretien) {
-        return new Entretien(id, candidat, recruteur, horaire, etatEntretien);
+    public static Entretien of(Integer id, Integer candidatId, Integer recruteurId, LocalDateTime horaire, String etatEntretien) {
+        return new Entretien(id, candidatId, recruteurId, horaire, etatEntretien);
     }
 
-    public Candidat getCandidat() {
-        return candidat;
+    public Integer getCandidatId() {
+        return candidatId;
     }
 
-    public Recruteur getRecruteur() {
-        return recruteur;
+    public Integer getRecruteurId() {
+        return recruteurId;
     }
+
 
     public LocalDateTime getHoraireEntretien() {
         return horaireEntretien;

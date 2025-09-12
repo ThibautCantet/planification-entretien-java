@@ -28,7 +28,10 @@ public class HibernateRecruteurRepository implements RecruteurRepository {
 
     @Override
     public com.soat.planification_entretien.domain.preparation.Recruteur save(com.soat.planification_entretien.domain.preparation.Recruteur recruteur) {
-        var toSave = new Recruteur(recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears());
+        var toSave = new Recruteur(recruteur.getId(),
+                recruteur.getLanguage(),
+                recruteur.getEmail(),
+                recruteur.getExperienceInYears());
         var saved = recruteurCrud.save(toSave);
         return com.soat.planification_entretien.domain.preparation.Recruteur.of(saved.getId(), recruteur);
     }
@@ -43,5 +46,19 @@ public class HibernateRecruteurRepository implements RecruteurRepository {
                         recruteur.getEmail(),
                         recruteur.getExperienceInYears()))
                 .toList();
+    }
+
+    @Override
+    public com.soat.planification_entretien.domain.preparation.Recruteur findByEmail(String email){
+        var recruteur = recruteurCrud.findByEmail(email);
+        if (recruteur == null) {
+            return null;
+        }
+        return new com.soat.planification_entretien.domain.preparation.Recruteur(
+                recruteur.getId(),
+                recruteur.getLanguage(),
+                recruteur.getEmail(),
+                recruteur.getExperienceInYears()
+        );
     }
 }

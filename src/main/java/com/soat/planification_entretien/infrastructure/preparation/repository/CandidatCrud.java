@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CandidatCrud extends JpaRepository<Candidat, Integer> {
+    Candidat findByEmail(String name);
 }
