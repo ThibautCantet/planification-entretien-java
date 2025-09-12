@@ -52,6 +52,19 @@ public class HibernateRecruteurRepository implements RecruteurRepository {
     }
 
     @Override
+    public List<com.soat.planification_entretien.domain.preparation.Recruteur> findAll() {
+        return recruteurCrud.findAll()
+                .stream()
+                .map(recruteur -> new com.soat.planification_entretien.domain.preparation.Recruteur(
+                        recruteur.getId(),
+                        recruteur.getLanguage(),
+                        recruteur.getEmail(),
+                        recruteur.getExperienceInYears(),
+                        recruteur.estDisponible()))
+                .toList();
+    }
+
+    @Override
     public com.soat.planification_entretien.domain.preparation.Recruteur findByEmail(String email){
         var recruteur = recruteurCrud.findByEmail(email);
         if (recruteur == null) {

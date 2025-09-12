@@ -11,4 +11,6 @@ public interface RecruteurRepository {
     List<Recruteur> find10AnsExperience();
 
     Recruteur findByEmail(String email);
+
+    List<Recruteur> findAll();
 }

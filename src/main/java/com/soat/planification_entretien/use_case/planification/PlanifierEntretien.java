@@ -7,7 +7,8 @@ import com.soat.planification_entretien.domain.planification.CandidatSuivi;
 import com.soat.planification_entretien.domain.planification.EmailService;
 import com.soat.planification_entretien.domain.planification.Entretien;
 import com.soat.planification_entretien.domain.planification.EntretienRepository;
-import com.soat.planification_entretien.domain.planification.RecruteurEngagé;
+import com.soat.planification_entretien.domain.planification.RecruteurPossible;
+import com.soat.planification_entretien.domain.planification.TrouverRecruteurDisponibleService;
 import com.soat.planification_entretien.domain.preparation.CandidatRepository;
 import com.soat.planification_entretien.domain.preparation.RecruteurRepository;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class PlanifierEntretien {
         this.emailService = emailService;
     }
 
-    public boolean execute(Integer candidatId, Integer recruteurId, LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
+    public boolean execute(Integer candidatId, LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
         try {
             var candidatOpt = candidatRepository.findById(candidatId)
                     .map(c -> new CandidatSuivi(c.getId(),
@@ -38,17 +39,15 @@ public class PlanifierEntretien {
             if (candidatOpt.isEmpty()) {
                 return false;
             }
-            var recruteurOpt = recruteurRepository.findById(recruteurId)
-                    .map(r -> new RecruteurEngagé(r.getId(),
-                            r.getEmail(), new Profil(r.getLanguage(), r.getExperienceInYears())));
-            if (recruteurOpt.isEmpty()) {
-                return false;
-            }
-
             var candidat = candidatOpt.get();
-            var recruteur = recruteurOpt.get();
-            var entretien = Entretien.create(candidat, recruteur);
-            entretien.planifier(dateEtHeureDisponibiliteDuCandidat, dateEtHeureDisponibiliteDuRecruteur);
+
+            var recruteur = new TrouverRecruteurDisponibleService().trouver(candidat, recruteurRepository.findAll().stream().map(
+                            r -> new RecruteurPossible(r.getId(), r.getEmail(), new Profil(r.getLanguage(), r.getExperienceInYears()), r.estDisponible()
+                            ))
+                    .toList()
+            ).get();
+            var entretien = Entretien.create(candidat);
+            entretien.planifier(recruteur, dateEtHeureDisponibiliteDuRecruteur);
             entretienRepository.save(entretien);
             emailService.envoyerUnEmailDeConfirmationAuCandidat(candidat.email(), dateEtHeureDisponibiliteDuCandidat);
             emailService.envoyerUnEmailDeConfirmationAuRecruteur(recruteur.email(), dateEtHeureDisponibiliteDuCandidat);

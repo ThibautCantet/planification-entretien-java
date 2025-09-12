@@ -6,7 +6,7 @@ import com.soat.planification_entretien.domain.Profil;
 import com.soat.planification_entretien.domain.planification.CandidatSuivi;
 import com.soat.planification_entretien.domain.planification.EntretienRepository;
 import com.soat.planification_entretien.domain.planification.EtatEntretien;
-import com.soat.planification_entretien.domain.planification.RecruteurEngagé;
+import com.soat.planification_entretien.domain.planification.RecruteurPossible;
 import com.soat.planification_entretien.infrastructure.preparation.repository.CandidatCrud;
 import com.soat.planification_entretien.infrastructure.preparation.repository.RecruteurCrud;
 import org.springframework.stereotype.Repository;
@@ -69,7 +69,9 @@ public class HibernateEntretienRepository implements EntretienRepository {
         return com.soat.planification_entretien.domain.planification.Entretien.of(
                 jpaEntretien.getId(),
                 new CandidatSuivi(jpaEntretien.getCandidatId(), candidat.getEmail(), new Profil(candidat.getLanguage(), candidat.getExperienceInYears())),
-                new RecruteurEngagé(jpaEntretien.getRecruteurId(), recruteur.getEmail(), new Profil(recruteur.getLanguage(), recruteur.getExperienceInYears())),
+                new RecruteurPossible(jpaEntretien.getRecruteurId(), recruteur.getEmail(),
+                        new Profil(recruteur.getLanguage(), recruteur.getExperienceInYears()),
+                        recruteur.estDisponible()),
                 jpaEntretien.getHoraireEntretien(),
                 EtatEntretien.valueOf(jpaEntretien.getEtatEntretien()));
     }

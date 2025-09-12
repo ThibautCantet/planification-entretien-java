@@ -33,6 +33,11 @@ public class InMemoryRecruteurRepository implements RecruteurRepository {
     }
 
     @Override
+    public List<Recruteur> findAll() {
+        return cache.values().stream().toList();
+    }
+
+    @Override
     public Recruteur findByEmail(String email){
         return cache.values().stream()
                 .filter(recruteur -> recruteur.getEmail().equals(email))

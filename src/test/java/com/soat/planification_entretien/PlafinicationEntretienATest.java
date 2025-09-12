@@ -10,7 +10,7 @@ import com.soat.ATest;
 import com.soat.planification_entretien.domain.Profil;
 import com.soat.planification_entretien.domain.planification.CandidatSuivi;
 import com.soat.planification_entretien.domain.planification.EtatEntretien;
-import com.soat.planification_entretien.domain.planification.RecruteurEngagé;
+import com.soat.planification_entretien.domain.planification.RecruteurPossible;
 import com.soat.planification_entretien.infrastructure.planification.controller.EntretienController;
 import com.soat.planification_entretien.infrastructure.planification.controller.EntretienDto;
 import com.soat.planification_entretien.domain.preparation.Candidat;
@@ -103,7 +103,7 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Quand("on tente une planification d’entretien")
     public void onTenteUnePlanificationDEntretien() throws JsonProcessingException {
-        EntretienDto entretienDto = new EntretienDto(candidat.getId(), recruteur.getId(), disponibiliteDuCandidat, disponibiliteDuRecruteur);
+        EntretienDto entretienDto = new EntretienDto(candidat.getId(), disponibiliteDuCandidat, disponibiliteDuRecruteur);
         String body = objectMapper.writeValueAsString(entretienDto);
         initPath();
         //@formatter:off
@@ -123,8 +123,8 @@ public class PlafinicationEntretienATest extends ATest {
 
         var candidatSuivi = new CandidatSuivi(candidat.getId(),
                 candidat.getEmail(), new Profil(candidat.getLanguage(), candidat.getExperienceInYears()));
-        var recruteurEngagé = new RecruteurEngagé(recruteur.getId(),
-                recruteur.getEmail(), new Profil(recruteur.getLanguage(), recruteur.getExperienceInYears()));
+        var recruteurEngagé = new RecruteurPossible(null,
+                recruteur.getEmail(), new Profil(recruteur.getLanguage(), recruteur.getExperienceInYears()), true);
         Entretien entretien = entretienRepository.findByCandidat(candidatSuivi);
         Entretien expectedEntretien = Entretien.of(null, candidatSuivi, recruteurEngagé, disponibiliteDuCandidat, EtatEntretien.valueOf(status.toUpperCase()));
         assertThat(entretien).usingRecursiveComparison()

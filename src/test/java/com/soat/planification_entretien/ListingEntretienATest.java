@@ -11,7 +11,7 @@ import com.soat.ATest;
 import com.soat.planification_entretien.domain.Profil;
 import com.soat.planification_entretien.domain.planification.CandidatSuivi;
 import com.soat.planification_entretien.domain.planification.EtatEntretien;
-import com.soat.planification_entretien.domain.planification.RecruteurEngagé;
+import com.soat.planification_entretien.domain.planification.RecruteurPossible;
 import com.soat.planification_entretien.infrastructure.planification.controller.EntretienController;
 import com.soat.planification_entretien.domain.preparation.Candidat;
 import com.soat.planification_entretien.domain.preparation.CandidatRepository;
@@ -113,9 +113,10 @@ public class ListingEntretienATest extends ATest {
                 new CandidatSuivi(candidat.getId(),
                         candidat.getEmail(),
                         new Profil(candidat.getLanguage(), candidat.getExperienceInYears())),
-                new RecruteurEngagé(recruteur.getId(),
+                new RecruteurPossible(recruteur.getId(),
                         recruteur.getEmail(),
-                        new Profil(recruteur.getLanguage(), recruteur.getExperienceInYears())),
+                        new Profil(recruteur.getLanguage(), recruteur.getExperienceInYears()),
+                        true),
                 horaire,
                 EtatEntretien.valueOf(entry.get("status")));
     }

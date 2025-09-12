@@ -2,12 +2,7 @@ package com.soat.planification_entretien.infrastructure.planification.controller
 
 import java.util.List;
 
-import com.soat.planification_entretien.domain.Profil;
-import com.soat.planification_entretien.domain.planification.CandidatSuivi;
 import com.soat.planification_entretien.domain.planification.EntretienRepository;
-import com.soat.planification_entretien.domain.planification.RecruteurEngagé;
-import com.soat.planification_entretien.domain.preparation.CandidatRepository;
-import com.soat.planification_entretien.domain.preparation.RecruteurRepository;
 import com.soat.planification_entretien.use_case.planification.ListerEntretiens;
 import com.soat.planification_entretien.use_case.planification.PlanifierEntretien;
 import com.soat.planification_entretien.use_case.planification.ValiderEntretien;
@@ -52,7 +47,7 @@ public class EntretienController {
 
     @PostMapping("planifier")
     public ResponseEntity<Void> planifier(@RequestBody EntretienDto entretienDto) {
-        var planifie = planifierEntretien.execute(entretienDto.candidatId(), entretienDto.recruteurId(), entretienDto.disponibiliteDuCandidat(), entretienDto.disponibiliteDuRecruteur());
+        var planifie = planifierEntretien.execute(entretienDto.candidatId(), entretienDto.disponibiliteDuCandidat(), entretienDto.disponibiliteDuRecruteur());
 
         if (planifie) {
             return created(null).build();

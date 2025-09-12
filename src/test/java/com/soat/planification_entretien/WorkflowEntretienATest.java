@@ -2,7 +2,6 @@ package com.soat.planification_entretien;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +11,7 @@ import com.soat.planification_entretien.domain.planification.CandidatSuivi;
 import com.soat.planification_entretien.domain.planification.Entretien;
 import com.soat.planification_entretien.domain.planification.EntretienRepository;
 import com.soat.planification_entretien.domain.planification.EtatEntretien;
-import com.soat.planification_entretien.domain.planification.RecruteurEngagé;
+import com.soat.planification_entretien.domain.planification.RecruteurPossible;
 import com.soat.planification_entretien.infrastructure.planification.controller.EntretienController;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
@@ -73,7 +72,7 @@ public class WorkflowEntretienATest extends ATest {
         return Entretien.of(
                 Integer.parseInt(entry.get("id")),
                 new CandidatSuivi(null, entry.get("candidat"), new Profil(entry.get("language"), 0)),
-                new RecruteurEngagé(null, entry.get("recruteur"), new Profil(entry.get("language"), 0)),
+                new RecruteurPossible(null, entry.get("recruteur"), new Profil(entry.get("language"), 0), true),
                 LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
                 EtatEntretien.valueOf(entry.get("status")));
     }

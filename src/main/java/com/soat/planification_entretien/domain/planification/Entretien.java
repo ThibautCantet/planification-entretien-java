@@ -12,11 +12,11 @@ public class Entretien implements IEntretien {
 
     private LocalDateTime horaireEntretien;
 
-    private RecruteurEngagé recruteur;
+    private RecruteurPossible recruteur;
 
     private EtatEntretien etat;
 
-    private Entretien(Integer id, CandidatSuivi candidat, RecruteurEngagé recruteur, LocalDateTime horaire,EtatEntretien etat) {
+    private Entretien(Integer id, CandidatSuivi candidat, RecruteurPossible recruteur, LocalDateTime horaire, EtatEntretien etat) {
         this.id = id;
         this.candidat = candidat;
         this.recruteur = recruteur;
@@ -25,15 +25,15 @@ public class Entretien implements IEntretien {
     }
 
 
-    public static Entretien of(Integer id, CandidatSuivi candidat, RecruteurEngagé recruteur, LocalDateTime horaire, EtatEntretien etat) {
+    public static Entretien of(Integer id, CandidatSuivi candidat, RecruteurPossible recruteur, LocalDateTime horaire, EtatEntretien etat) {
         return new Entretien(id, candidat, recruteur, horaire, etat);
     }
 
-    public static Entretien create(CandidatSuivi candidat, RecruteurEngagé recruteur) {
-        return new Entretien(null, candidat, recruteur, null, EtatEntretien.BROUILLON);
+    public static Entretien create(CandidatSuivi candidat) {
+        return new Entretien(null, candidat, null, null, EtatEntretien.BROUILLON);
     }
 
-    public static Entretien of(CandidatSuivi candidat, RecruteurEngagé recruteur, LocalDateTime horaireEntretien, EtatEntretien etat) {
+    public static Entretien of(CandidatSuivi candidat, RecruteurPossible recruteur, LocalDateTime horaireEntretien, EtatEntretien etat) {
         return new Entretien(null, candidat, recruteur, horaireEntretien, etat);
     }
 
@@ -42,12 +42,9 @@ public class Entretien implements IEntretien {
         return entretien;
     }
 
-    public void planifier(LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
-        if (!recruteur.peutEvaluer(candidat)
-            || !dateEtHeureDisponibiliteDuCandidat.equals(dateEtHeureDisponibiliteDuRecruteur)) {
-            throw new IllegalArgumentException("Le recruteur n'est pas compatible avec le candidat ou les horaires ne correspondent pas.");
-        }
+    public void planifier(RecruteurPossible recruteur, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
         changementEtat(EtatEntretien.PLANIFIE);
+        this.recruteur = recruteur;
         this.horaireEntretien = dateEtHeureDisponibiliteDuRecruteur;
         MessageBus.instance().send(new EntretienPlanifié(this.recruteur.id()));
     }
@@ -67,7 +64,7 @@ public class Entretien implements IEntretien {
         return candidat;
     }
 
-    public RecruteurEngagé getRecruteur() {
+    public RecruteurPossible getRecruteur() {
         return recruteur;
     }
 
