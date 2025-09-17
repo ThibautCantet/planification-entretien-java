@@ -11,7 +11,7 @@ import com.soat.ATest;
 import com.soat.planification_entretien.entretien.domain.Status;
 import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienController;
 import com.soat.planification_entretien.entretien.domain.Candidat;
-import com.soat.planification_entretien.candidat.domain.CandidatRepository;
+import com.soat.planification_entretien.candidat.domain.repository.CandidatRepository;
 import com.soat.planification_entretien.entretien.domain.Entretien;
 import com.soat.planification_entretien.entretien.domain.EntretienRepository;
 import com.soat.planification_entretien.entretien.domain.Recruteur;
@@ -80,7 +80,7 @@ public class ListingEntretienATest extends ATest {
         List<Candidat> candidats = dataTableTransformEntries(dataTable, this::buildCandidat);
 
         for (Candidat candidat : candidats) {
-            var saved = candidatRepository.save(new com.soat.planification_entretien.candidat.domain.Candidat(
+            var saved = candidatRepository.save(new com.soat.planification_entretien.candidat.domain.model.Candidat(
                     candidat.id(),
                     candidat.language(),
                     candidat.adresseEmail(),

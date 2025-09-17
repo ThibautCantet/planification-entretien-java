@@ -1,9 +1,9 @@
 package com.soat.planification_entretien.candidat.domain_service;
 
 import com.soat.planification_entretien.common.domain.Event;
-import com.soat.planification_entretien.candidat.domain.Candidat;
-import com.soat.planification_entretien.candidat.domain.CandidatCrée;
-import com.soat.planification_entretien.candidat.domain.CandidatNonCrée;
+import com.soat.planification_entretien.candidat.domain.model.Candidat;
+import com.soat.planification_entretien.candidat.domain.event.CandidatCrée;
+import com.soat.planification_entretien.candidat.domain.event.CandidatNonCrée;
 import com.soat.planification_entretien.common.domain_service.Result;
 import org.springframework.stereotype.Service;
 

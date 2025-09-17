@@ -1,11 +1,12 @@
-package com.soat.planification_entretien.candidat.application_service;
+package com.soat.planification_entretien.candidat.application_service.command;
 
 import java.util.List;
 
+import com.soat.planification_entretien.candidat.application_service.command.event.CandidatNonSauvegardé;
 import com.soat.planification_entretien.common.domain.Event;
-import com.soat.planification_entretien.candidat.domain.Candidat;
-import com.soat.planification_entretien.candidat.domain.CandidatCrée;
-import com.soat.planification_entretien.candidat.domain.CandidatRepository;
+import com.soat.planification_entretien.candidat.domain.model.Candidat;
+import com.soat.planification_entretien.candidat.domain.event.CandidatCrée;
+import com.soat.planification_entretien.candidat.domain.repository.CandidatRepository;
 import com.soat.planification_entretien.candidat.domain_service.CandidatFactory;
 import com.soat.planification_entretien.common.domain_service.Result;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,11 @@ public class CreerCandidatCommandHandler {
         Result<Event, Candidat> eventCandidatResult = candidatFactory.create(candidatId, command.language(), command.email(), command.experienceEnAnnees());
 
         if (eventCandidatResult.event() instanceof CandidatCrée) {
-            candidatRepository.save(eventCandidatResult.value());
+            try {
+                candidatRepository.save(eventCandidatResult.value());
+            } catch (Exception e) {
+                return List.of(new CandidatNonSauvegardé());
+            }
         }
 
         return List.of(eventCandidatResult.event());

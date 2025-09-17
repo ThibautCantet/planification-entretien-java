@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.candidat.domain;
+package com.soat.planification_entretien.candidat.domain.event;
 
 import com.soat.planification_entretien.common.domain.Event;
 

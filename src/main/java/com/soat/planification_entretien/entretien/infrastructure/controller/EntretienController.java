@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.soat.planification_entretien.entretien.domain.Candidat;
-import com.soat.planification_entretien.candidat.domain.CandidatRepository;
+import com.soat.planification_entretien.candidat.domain.repository.CandidatRepository;
 import com.soat.planification_entretien.entretien.domain.Entretien;
 import com.soat.planification_entretien.entretien.application_service.ListerEntretiensQueryHandler;
 import com.soat.planification_entretien.entretien.application_service.PlanifierEntretienCommandHandler;

@@ -1,6 +1,8 @@
-package com.soat.planification_entretien.candidat.domain;
+package com.soat.planification_entretien.candidat.domain.repository;
 
 import java.util.Optional;
+
+import com.soat.planification_entretien.candidat.domain.model.Candidat;
 
 public interface CandidatRepository {
     Optional<Candidat> findById(int candidatId);
