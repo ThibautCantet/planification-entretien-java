@@ -2,19 +2,19 @@ package com.soat.planification_entretien.recruteur.query.application_service;
 
 import java.util.List;
 
-import com.soat.planification_entretien.recruteur.command.domain.model.Recruteur;
-import com.soat.planification_entretien.recruteur.command.domain.port.repository.RecruteurRepository;
+import com.soat.planification_entretien.recruteur.query.domain.repository.RecruteurDao;
+import com.soat.planification_entretien.recruteur.query.domain.model.Recruteur;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ListerRecruteursExperimentesQueryHandler {
-    private final RecruteurRepository recruteurRepository;
+    private final RecruteurDao recruteurDao;
 
-    public ListerRecruteursExperimentesQueryHandler(RecruteurRepository recruteurRepository) {
-        this.recruteurRepository = recruteurRepository;
+    public ListerRecruteursExperimentesQueryHandler(RecruteurDao recruteurDao) {
+        this.recruteurDao = recruteurDao;
     }
 
     public List<Recruteur> handle() {
-        return recruteurRepository.find10AnsExperience();
+        return recruteurDao.find10AnsExperience();
     }
 }

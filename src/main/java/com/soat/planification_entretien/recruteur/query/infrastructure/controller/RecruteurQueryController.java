@@ -23,7 +23,7 @@ public class RecruteurQueryController {
     @GetMapping
     public ResponseEntity<List<RecruteurDetailDto>> lister() {
         List<RecruteurDetailDto> recruteurs = listerRecruteursExperimentesQueryHandler.handle().stream()
-                .map(e -> new RecruteurDetailDto(e.getId(), e.getLanguage(), e.getExperienceInYears(), e.getAdresseEmail()))
+                .map(e -> new RecruteurDetailDto(e.id(), e.language(), e.experience(), e.email()))
                 .toList();
 
         return new ResponseEntity<>(recruteurs, HttpStatus.OK);
