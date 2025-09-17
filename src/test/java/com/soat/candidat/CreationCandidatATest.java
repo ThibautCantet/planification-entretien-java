@@ -4,10 +4,10 @@ import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
-import com.soat.planification_entretien.candidat.infrastructure.controller.CandidatDto;
-import com.soat.planification_entretien.candidat.infrastructure.controller.CandidatController;
-import com.soat.planification_entretien.candidat.domain.model.Candidat;
-import com.soat.planification_entretien.candidat.domain.port.repository.CandidatRepository;
+import com.soat.planification_entretien.candidat.command.infrastructure.controller.CandidatDto;
+import com.soat.planification_entretien.candidat.command.infrastructure.controller.CandidatController;
+import com.soat.planification_entretien.candidat.command.domain.model.Candidat;
+import com.soat.planification_entretien.candidat.command.domain.port.repository.CandidatRepository;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;

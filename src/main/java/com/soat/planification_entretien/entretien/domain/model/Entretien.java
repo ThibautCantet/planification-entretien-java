@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import com.soat.planification_entretien.common.domain.Event;
 import com.soat.planification_entretien.entretien.domain.event.EntretienCréé;
 import com.soat.planification_entretien.entretien.domain.event.EntretienNonCréé;
-import com.soat.planification_entretien.entretien.domain.port.client.IEntretien;
+import com.soat.planification_entretien.entretien.query.domain.port.client.IEntretien;
 
 
 public class Entretien implements IEntretien {

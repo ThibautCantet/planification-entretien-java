@@ -9,14 +9,14 @@ import java.util.Map;
 
 import com.soat.ATest;
 import com.soat.planification_entretien.entretien.domain.model.Status;
-import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienController;
+import com.soat.planification_entretien.entretien.command.infrastructure.controller.EntretienCommandController;
 import com.soat.planification_entretien.entretien.domain.model.Candidat;
-import com.soat.planification_entretien.candidat.domain.port.repository.CandidatRepository;
+import com.soat.planification_entretien.candidat.command.domain.port.repository.CandidatRepository;
 import com.soat.planification_entretien.entretien.domain.model.Entretien;
 import com.soat.planification_entretien.entretien.domain.port.repository.EntretienRepository;
 import com.soat.planification_entretien.entretien.domain.model.Recruteur;
 import com.soat.planification_entretien.recruteur.domain.port.repository.RecruteurRepository;
-import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienDetailDto;
+import com.soat.planification_entretien.entretien.query.infrastructure.controller.EntretienDetailDto;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
@@ -51,7 +51,7 @@ public class ListingEntretienATest extends ATest {
 
     @Override
     protected void initPath() {
-        RestAssured.basePath = EntretienController.PATH;
+        RestAssured.basePath = EntretienCommandController.PATH;
     }
 
     @Etantdonné("les recruteurs existants")
@@ -80,7 +80,7 @@ public class ListingEntretienATest extends ATest {
         List<Candidat> candidats = dataTableTransformEntries(dataTable, this::buildCandidat);
 
         for (Candidat candidat : candidats) {
-            var saved = candidatRepository.save(new com.soat.planification_entretien.candidat.domain.model.Candidat(
+            var saved = candidatRepository.save(new com.soat.planification_entretien.candidat.command.domain.model.Candidat(
                     candidat.id(),
                     candidat.language(),
                     candidat.adresseEmail(),

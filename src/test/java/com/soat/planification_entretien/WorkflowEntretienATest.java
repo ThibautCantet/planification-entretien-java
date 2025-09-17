@@ -11,7 +11,7 @@ import com.soat.planification_entretien.entretien.domain.model.Entretien;
 import com.soat.planification_entretien.entretien.domain.port.repository.EntretienRepository;
 import com.soat.planification_entretien.entretien.domain.model.Recruteur;
 import com.soat.planification_entretien.entretien.domain.model.Status;
-import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienController;
+import com.soat.planification_entretien.entretien.command.infrastructure.controller.EntretienCommandController;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
@@ -36,7 +36,7 @@ public class WorkflowEntretienATest extends ATest {
 
     @Override
     protected void initPath() {
-        RestAssured.basePath = EntretienController.PATH;
+        RestAssured.basePath = EntretienCommandController.PATH;
     }
 
     @Quand("on valide l'entretien {int}")

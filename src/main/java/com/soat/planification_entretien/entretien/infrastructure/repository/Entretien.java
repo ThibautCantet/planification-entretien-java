@@ -9,7 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
-import com.soat.planification_entretien.candidat.infrastructure.repository.Candidat;
+import com.soat.planification_entretien.candidat.command.infrastructure.repository.Candidat;
 import com.soat.planification_entretien.recruteur.infrastructure.repository.Recruteur;
 
 @Entity

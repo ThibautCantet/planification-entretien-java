@@ -1,0 +1,30 @@
+package com.soat.planification_entretien.entretien.command.application_service;
+
+import java.util.Optional;
+
+import com.soat.planification_entretien.entretien.domain.model.Entretien;
+import com.soat.planification_entretien.entretien.domain.port.repository.EntretienRepository;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ValiderEntretienCommandHandler {
+    private final EntretienRepository entretienRepository;
+
+    public ValiderEntretienCommandHandler(EntretienRepository entretienRepository) {
+        this.entretienRepository = entretienRepository;
+    }
+
+    public Optional<Entretien> handle(ValiderEntretienCommand command) {
+        Optional<Entretien> maybeEntretien = entretienRepository.findById(command.entretienId());
+
+        maybeEntretien.ifPresent(entretien -> {
+            entretien.valider();
+            entretienRepository.save(entretien);
+        });
+        return maybeEntretien;
+    }
+
+    public record ValiderEntretienCommand(int entretienId) {
+    }
+
+}

@@ -1,6 +1,6 @@
 package com.soat.planification_entretien;
 
-import com.soat.planification_entretien.entretien.domain.port.service.EmailService;
+import com.soat.planification_entretien.entretien.query.domain.port.service.EmailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;

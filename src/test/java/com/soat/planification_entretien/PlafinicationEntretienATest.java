@@ -7,13 +7,13 @@ import java.time.format.DateTimeFormatter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
-import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienController;
-import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienDto;
-import com.soat.planification_entretien.candidat.domain.model.Candidat;
-import com.soat.planification_entretien.candidat.domain.port.repository.CandidatRepository;
+import com.soat.planification_entretien.entretien.command.infrastructure.controller.EntretienCommandController;
+import com.soat.planification_entretien.entretien.command.infrastructure.controller.EntretienDto;
+import com.soat.planification_entretien.candidat.command.domain.model.Candidat;
+import com.soat.planification_entretien.candidat.command.domain.port.repository.CandidatRepository;
 import com.soat.planification_entretien.entretien.domain.model.Entretien;
 import com.soat.planification_entretien.entretien.domain.port.repository.EntretienRepository;
-import com.soat.planification_entretien.entretien.domain.port.service.EmailService;
+import com.soat.planification_entretien.entretien.query.domain.port.service.EmailService;
 import com.soat.planification_entretien.entretien.domain.model.Status;
 import com.soat.planification_entretien.recruteur.domain.model.Recruteur;
 import com.soat.planification_entretien.recruteur.domain.port.repository.RecruteurRepository;
@@ -78,7 +78,7 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Override
     protected void initPath() {
-        RestAssured.basePath = EntretienController.PATH;
+        RestAssured.basePath = EntretienCommandController.PATH;
     }
 
     @Etantdonné("un candidat {string} \\({string}) avec {string} ans d’expériences qui est disponible {string} à {string}")
