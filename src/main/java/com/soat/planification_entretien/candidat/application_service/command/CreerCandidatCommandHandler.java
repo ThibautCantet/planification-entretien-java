@@ -6,7 +6,7 @@ import com.soat.planification_entretien.candidat.application_service.command.eve
 import com.soat.planification_entretien.common.domain.Event;
 import com.soat.planification_entretien.candidat.domain.model.Candidat;
 import com.soat.planification_entretien.candidat.domain.event.CandidatCrée;
-import com.soat.planification_entretien.candidat.domain.repository.CandidatRepository;
+import com.soat.planification_entretien.candidat.domain.port.repository.CandidatRepository;
 import com.soat.planification_entretien.candidat.domain_service.CandidatFactory;
 import com.soat.planification_entretien.common.domain_service.Result;
 import org.springframework.stereotype.Service;

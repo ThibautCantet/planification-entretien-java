@@ -10,13 +10,13 @@ import com.soat.ATest;
 import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienController;
 import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienDto;
 import com.soat.planification_entretien.candidat.domain.model.Candidat;
-import com.soat.planification_entretien.candidat.domain.repository.CandidatRepository;
-import com.soat.planification_entretien.entretien.domain.Entretien;
-import com.soat.planification_entretien.entretien.domain.EntretienRepository;
-import com.soat.planification_entretien.entretien.domain.EmailService;
-import com.soat.planification_entretien.entretien.domain.Status;
-import com.soat.planification_entretien.recruteur.domain.Recruteur;
-import com.soat.planification_entretien.recruteur.domain.RecruteurRepository;
+import com.soat.planification_entretien.candidat.domain.port.repository.CandidatRepository;
+import com.soat.planification_entretien.entretien.domain.model.Entretien;
+import com.soat.planification_entretien.entretien.domain.port.repository.EntretienRepository;
+import com.soat.planification_entretien.entretien.domain.port.service.EmailService;
+import com.soat.planification_entretien.entretien.domain.model.Status;
+import com.soat.planification_entretien.recruteur.domain.model.Recruteur;
+import com.soat.planification_entretien.recruteur.domain.port.repository.RecruteurRepository;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;
@@ -126,16 +126,16 @@ public class PlafinicationEntretienATest extends ATest {
                 .isEqualTo(expectedEntretien);
     }
 
-    static com.soat.planification_entretien.entretien.domain.Candidat convertToEntretienCandidat(Candidat candidat) {
-        return new com.soat.planification_entretien.entretien.domain.Candidat(
+    static com.soat.planification_entretien.entretien.domain.model.Candidat convertToEntretienCandidat(Candidat candidat) {
+        return new com.soat.planification_entretien.entretien.domain.model.Candidat(
                 candidat.getId(),
                 candidat.getLanguage(),
                 candidat.getAdresseEmail(),
                 candidat.getExperienceInYears());
     }
 
-    static com.soat.planification_entretien.entretien.domain.Recruteur convertToEntretienRecruteur(Recruteur candidat) {
-        return new com.soat.planification_entretien.entretien.domain.Recruteur(
+    static com.soat.planification_entretien.entretien.domain.model.Recruteur convertToEntretienRecruteur(Recruteur candidat) {
+        return new com.soat.planification_entretien.entretien.domain.model.Recruteur(
                 candidat.getId(),
                 candidat.getLanguage(),
                 candidat.getAdresseEmail(),

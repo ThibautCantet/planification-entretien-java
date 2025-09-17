@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.entretien.domain;
+package com.soat.planification_entretien.entretien.domain.model;
 
 public record Profil(String language, int experienceInYears) {
 

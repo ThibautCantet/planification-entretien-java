@@ -1,9 +1,9 @@
-package com.soat.planification_entretien.entretien.application_service;
+package com.soat.planification_entretien.entretien.application_service.command;
 
 import java.util.Optional;
 
-import com.soat.planification_entretien.entretien.domain.Entretien;
-import com.soat.planification_entretien.entretien.domain.EntretienRepository;
+import com.soat.planification_entretien.entretien.domain.model.Entretien;
+import com.soat.planification_entretien.entretien.domain.port.repository.EntretienRepository;
 import org.springframework.stereotype.Service;
 
 @Service

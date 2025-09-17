@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.soat.planification_entretien.candidat.domain.model.Candidat;
-import com.soat.planification_entretien.candidat.domain.repository.CandidatRepository;
+import com.soat.planification_entretien.candidat.domain.port.repository.CandidatRepository;
 
 //@Repository
 public class InMemoryCandidatRepository implements CandidatRepository {

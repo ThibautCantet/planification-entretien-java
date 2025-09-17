@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.soat.ATest;
-import com.soat.planification_entretien.entretien.domain.Status;
+import com.soat.planification_entretien.entretien.domain.model.Status;
 import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienController;
-import com.soat.planification_entretien.entretien.domain.Candidat;
-import com.soat.planification_entretien.candidat.domain.repository.CandidatRepository;
-import com.soat.planification_entretien.entretien.domain.Entretien;
-import com.soat.planification_entretien.entretien.domain.EntretienRepository;
-import com.soat.planification_entretien.entretien.domain.Recruteur;
-import com.soat.planification_entretien.recruteur.domain.RecruteurRepository;
+import com.soat.planification_entretien.entretien.domain.model.Candidat;
+import com.soat.planification_entretien.candidat.domain.port.repository.CandidatRepository;
+import com.soat.planification_entretien.entretien.domain.model.Entretien;
+import com.soat.planification_entretien.entretien.domain.port.repository.EntretienRepository;
+import com.soat.planification_entretien.entretien.domain.model.Recruteur;
+import com.soat.planification_entretien.recruteur.domain.port.repository.RecruteurRepository;
 import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienDetailDto;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
@@ -59,7 +59,7 @@ public class ListingEntretienATest extends ATest {
         List<Recruteur> recruteurs = dataTableTransformEntries(dataTable, this::buildRecruteur);
 
         for (Recruteur recruteur : recruteurs) {
-            var saved = recruteurRepository.save(new com.soat.planification_entretien.recruteur.domain.Recruteur(recruteur.getLanguage(),
+            var saved = recruteurRepository.save(new com.soat.planification_entretien.recruteur.domain.model.Recruteur(recruteur.getLanguage(),
                     recruteur.adresseEmail(),
                     recruteur.getExperienceInYears()));
             recruteur = new Recruteur(saved.getId(), saved.getLanguage(), saved.getAdresseEmail(), saved.getExperienceInYears());

@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.entretien.domain;
+package com.soat.planification_entretien.entretien.domain.model;
 
 public enum Status {
     PLANIFIE(0),

@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RecruteurCrud extends JpaRepository<Recruteur, Integer> {
     Optional<Recruteur> findByEmail(String email);
-    // default List<com.soat.planification_entretien.recruteur.domain.Recruteur> find10AnsExperience() {
+    // default List<com.soat.planification_entretien.recruteur.domain.model.Recruteur> find10AnsExperience() {
     //     return find10AnsExperienceImpl().stream()
-    //             .map(recruteur -> new com.soat.planification_entretien.recruteur.domain.Recruteur(
+    //             .map(recruteur -> new com.soat.planification_entretien.recruteur.domain.model.Recruteur(
     //                     recruteur.getId(),
     //                     recruteur.getLanguage(),
     //                     recruteur.getEmail(),

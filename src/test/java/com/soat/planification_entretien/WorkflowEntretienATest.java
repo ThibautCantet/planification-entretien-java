@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.soat.ATest;
-import com.soat.planification_entretien.entretien.domain.Candidat;
-import com.soat.planification_entretien.entretien.domain.Entretien;
-import com.soat.planification_entretien.entretien.domain.EntretienRepository;
-import com.soat.planification_entretien.entretien.domain.Recruteur;
-import com.soat.planification_entretien.entretien.domain.Status;
+import com.soat.planification_entretien.entretien.domain.model.Candidat;
+import com.soat.planification_entretien.entretien.domain.model.Entretien;
+import com.soat.planification_entretien.entretien.domain.port.repository.EntretienRepository;
+import com.soat.planification_entretien.entretien.domain.model.Recruteur;
+import com.soat.planification_entretien.entretien.domain.model.Status;
 import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienController;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;

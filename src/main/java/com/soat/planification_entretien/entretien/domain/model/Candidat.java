@@ -1,11 +1,11 @@
-package com.soat.planification_entretien.entretien.domain;
+package com.soat.planification_entretien.entretien.domain.model;
 
-public record Recruteur(
+public record Candidat(
         Integer id,
         String adresseEmail,
         Profil profil) {
 
-    public Recruteur(
+    public Candidat(
             Integer id,
             String language,
             String adresseEmail,
@@ -13,15 +13,11 @@ public record Recruteur(
         this(id, adresseEmail, new Profil(language, experienceInYears));
     }
 
-    public boolean estCompatible(Candidat candidat) {
-        return this.profil.estCompatible(candidat.profil());
-    }
-
-    public String getLanguage() {
+    public String language() {
         return profil.language();
     }
 
-    public int getExperienceInYears() {
+    public Integer experienceInYears() {
         return profil.experienceInYears();
     }
 }

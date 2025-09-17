@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.candidat.domain.repository;
+package com.soat.planification_entretien.candidat.domain.port.repository;
 
 import java.util.Optional;
 

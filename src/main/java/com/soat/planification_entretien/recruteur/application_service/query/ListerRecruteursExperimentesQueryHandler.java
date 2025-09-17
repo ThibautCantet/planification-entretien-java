@@ -1,9 +1,9 @@
-package com.soat.planification_entretien.recruteur.application_service;
+package com.soat.planification_entretien.recruteur.application_service.query;
 
 import java.util.List;
 
-import com.soat.planification_entretien.recruteur.domain.Recruteur;
-import com.soat.planification_entretien.recruteur.domain.RecruteurRepository;
+import com.soat.planification_entretien.recruteur.domain.model.Recruteur;
+import com.soat.planification_entretien.recruteur.domain.port.repository.RecruteurRepository;
 import org.springframework.stereotype.Service;
 
 @Service

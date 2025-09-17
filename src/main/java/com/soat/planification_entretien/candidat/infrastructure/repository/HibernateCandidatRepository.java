@@ -3,7 +3,7 @@ package com.soat.planification_entretien.candidat.infrastructure.repository;
 import java.util.Optional;
 
 import com.soat.planification_entretien.candidat.domain.model.Candidat;
-import com.soat.planification_entretien.candidat.domain.repository.CandidatRepository;
+import com.soat.planification_entretien.candidat.domain.port.repository.CandidatRepository;
 import com.soat.planification_entretien.recruteur.infrastructure.repository.RecruteurCrud;
 import org.springframework.stereotype.Repository;
 
