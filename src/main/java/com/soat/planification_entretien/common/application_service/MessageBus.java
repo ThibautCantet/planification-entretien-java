@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MessageBus {
-    private List<Listener> subs = new ArrayList<>();
+    private List<Listener<Event>> subs = new ArrayList<>();
 
     public void subscribe(Listener l) {
         this.subs.add(l);

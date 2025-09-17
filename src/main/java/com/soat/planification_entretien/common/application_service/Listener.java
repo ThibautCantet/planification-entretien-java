@@ -1,5 +1,7 @@
 package com.soat.planification_entretien.common.application_service;
 
-public interface Listener<E> {
+import com.soat.planification_entretien.common.domain.Event;
+
+public interface Listener<E extends Event> {
     void onMessage(E msg);
 }
