@@ -8,7 +8,7 @@ import com.soat.planification_entretien.entretien.domain.model.Status;
 import com.soat.planification_entretien.entretien.domain.model.Candidat;
 import com.soat.planification_entretien.entretien.domain.model.Recruteur;
 import com.soat.planification_entretien.candidat.command.infrastructure.repository.CandidatCrud;
-import com.soat.planification_entretien.recruteur.infrastructure.repository.RecruteurCrud;
+import com.soat.planification_entretien.recruteur.command.infrastructure.repository.RecruteurCrud;
 import org.springframework.stereotype.Repository;
 
 @Repository

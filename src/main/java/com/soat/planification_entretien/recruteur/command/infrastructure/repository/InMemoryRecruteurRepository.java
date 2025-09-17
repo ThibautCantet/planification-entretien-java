@@ -1,12 +1,12 @@
-package com.soat.planification_entretien.recruteur.infrastructure.repository;
+package com.soat.planification_entretien.recruteur.command.infrastructure.repository;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import com.soat.planification_entretien.recruteur.domain.model.Recruteur;
-import com.soat.planification_entretien.recruteur.domain.port.repository.RecruteurRepository;
+import com.soat.planification_entretien.recruteur.command.domain.model.Recruteur;
+import com.soat.planification_entretien.recruteur.command.domain.port.repository.RecruteurRepository;
 
 //@Repository
 public class InMemoryRecruteurRepository implements RecruteurRepository {

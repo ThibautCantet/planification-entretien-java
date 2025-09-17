@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.recruteur.infrastructure.repository;
+package com.soat.planification_entretien.recruteur.command.infrastructure.repository;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

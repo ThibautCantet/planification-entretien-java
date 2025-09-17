@@ -10,7 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 import com.soat.planification_entretien.candidat.command.infrastructure.repository.Candidat;
-import com.soat.planification_entretien.recruteur.infrastructure.repository.Recruteur;
+import com.soat.planification_entretien.recruteur.command.infrastructure.repository.Recruteur;
 
 @Entity
 public class Entretien {

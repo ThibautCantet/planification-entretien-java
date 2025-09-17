@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import com.soat.planification_entretien.candidat.command.domain.model.Candidat;
 import com.soat.planification_entretien.candidat.command.domain.port.repository.CandidatRepository;
-import com.soat.planification_entretien.recruteur.infrastructure.repository.RecruteurCrud;
+import com.soat.planification_entretien.recruteur.command.infrastructure.repository.RecruteurCrud;
 import org.springframework.stereotype.Repository;
 
 @Repository

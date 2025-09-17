@@ -8,7 +8,7 @@ import com.soat.planification_entretien.entretien.command.application_service.Va
 import com.soat.planification_entretien.entretien.domain.model.Candidat;
 import com.soat.planification_entretien.entretien.domain.model.Entretien;
 import com.soat.planification_entretien.entretien.domain.model.Recruteur;
-import com.soat.planification_entretien.recruteur.domain.port.repository.RecruteurRepository;
+import com.soat.planification_entretien.recruteur.command.domain.port.repository.RecruteurRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;

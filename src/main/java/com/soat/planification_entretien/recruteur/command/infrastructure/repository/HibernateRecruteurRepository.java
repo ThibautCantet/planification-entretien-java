@@ -1,9 +1,9 @@
-package com.soat.planification_entretien.recruteur.infrastructure.repository;
+package com.soat.planification_entretien.recruteur.command.infrastructure.repository;
 
 import java.util.List;
 import java.util.Optional;
 
-import com.soat.planification_entretien.recruteur.domain.port.repository.RecruteurRepository;
+import com.soat.planification_entretien.recruteur.command.domain.port.repository.RecruteurRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -15,9 +15,9 @@ public class HibernateRecruteurRepository implements RecruteurRepository {
     }
 
     @Override
-    public Optional<com.soat.planification_entretien.recruteur.domain.model.Recruteur> findById(int recruteurId) {
+    public Optional<com.soat.planification_entretien.recruteur.command.domain.model.Recruteur> findById(int recruteurId) {
         return recruteurCrud.findById(recruteurId).map(
-                recruteur -> new com.soat.planification_entretien.recruteur.domain.model.Recruteur(
+                recruteur -> new com.soat.planification_entretien.recruteur.command.domain.model.Recruteur(
                         recruteurId,
                         recruteur.getLanguage(),
                         recruteur.getEmail(),
@@ -27,21 +27,21 @@ public class HibernateRecruteurRepository implements RecruteurRepository {
     }
 
     @Override
-    public com.soat.planification_entretien.recruteur.domain.model.Recruteur save(com.soat.planification_entretien.recruteur.domain.model.Recruteur recruteur) {
+    public com.soat.planification_entretien.recruteur.command.domain.model.Recruteur save(com.soat.planification_entretien.recruteur.command.domain.model.Recruteur recruteur) {
         var toSave = new Recruteur(recruteur.getLanguage(), recruteur.getAdresseEmail(), recruteur.getExperienceInYears());
         if (recruteur.getId() != null) {
             toSave.setId(recruteur.getId());
         }
         toSave.setDisponible(recruteur.estDisponible());
         var saved = recruteurCrud.save(toSave);
-        return com.soat.planification_entretien.recruteur.domain.model.Recruteur.of(saved.getId(), recruteur);
+        return com.soat.planification_entretien.recruteur.command.domain.model.Recruteur.of(saved.getId(), recruteur);
     }
 
     @Override
-    public List<com.soat.planification_entretien.recruteur.domain.model.Recruteur> find10AnsExperience() {
+    public List<com.soat.planification_entretien.recruteur.command.domain.model.Recruteur> find10AnsExperience() {
         return recruteurCrud.findAll()
                 .stream().filter(r -> r.getExperienceInYears() >= 10)
-                .map(recruteur -> new com.soat.planification_entretien.recruteur.domain.model.Recruteur(
+                .map(recruteur -> new com.soat.planification_entretien.recruteur.command.domain.model.Recruteur(
                         recruteur.getId(),
                         recruteur.getLanguage(),
                         recruteur.getEmail(),
@@ -50,9 +50,9 @@ public class HibernateRecruteurRepository implements RecruteurRepository {
     }
 
     @Override
-    public Optional<com.soat.planification_entretien.recruteur.domain.model.Recruteur> findByEmail(String email) {
+    public Optional<com.soat.planification_entretien.recruteur.command.domain.model.Recruteur> findByEmail(String email) {
         return recruteurCrud.findByEmail(email).map(
-                recruteur -> new com.soat.planification_entretien.recruteur.domain.model.Recruteur(
+                recruteur -> new com.soat.planification_entretien.recruteur.command.domain.model.Recruteur(
                         recruteur.getId(),
                         recruteur.getLanguage(),
                         recruteur.getEmail(),

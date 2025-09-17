@@ -15,7 +15,7 @@ import com.soat.planification_entretien.candidat.command.domain.port.repository.
 import com.soat.planification_entretien.entretien.domain.model.Entretien;
 import com.soat.planification_entretien.entretien.domain.port.repository.EntretienRepository;
 import com.soat.planification_entretien.entretien.domain.model.Recruteur;
-import com.soat.planification_entretien.recruteur.domain.port.repository.RecruteurRepository;
+import com.soat.planification_entretien.recruteur.command.domain.port.repository.RecruteurRepository;
 import com.soat.planification_entretien.entretien.query.infrastructure.controller.EntretienDetailDto;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
@@ -59,7 +59,7 @@ public class ListingEntretienATest extends ATest {
         List<Recruteur> recruteurs = dataTableTransformEntries(dataTable, this::buildRecruteur);
 
         for (Recruteur recruteur : recruteurs) {
-            var saved = recruteurRepository.save(new com.soat.planification_entretien.recruteur.domain.model.Recruteur(recruteur.getLanguage(),
+            var saved = recruteurRepository.save(new com.soat.planification_entretien.recruteur.command.domain.model.Recruteur(recruteur.getLanguage(),
                     recruteur.adresseEmail(),
                     recruteur.getExperienceInYears()));
             recruteur = new Recruteur(saved.getId(), saved.getLanguage(), saved.getAdresseEmail(), saved.getExperienceInYears());
