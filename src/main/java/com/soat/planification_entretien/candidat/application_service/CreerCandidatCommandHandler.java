@@ -11,19 +11,19 @@ import com.soat.planification_entretien.common.domain_service.Result;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CreerCandidat {
+public class CreerCandidatCommandHandler {
 
     private final CandidatRepository candidatRepository;
     private final CandidatFactory candidatFactory;
 
-    public CreerCandidat(CandidatRepository candidatRepository, CandidatFactory candidatFactory) {
+    public CreerCandidatCommandHandler(CandidatRepository candidatRepository, CandidatFactory candidatFactory) {
         this.candidatRepository = candidatRepository;
         this.candidatFactory = candidatFactory;
     }
 
-    public List<Event> execute(String language, String email, String experienceEnAnnees) {
+    public List<Event> handle(CreerCandidatCommand command) {
         var candidatId = candidatRepository.next();
-        Result<Event, Candidat> eventCandidatResult = candidatFactory.create(candidatId, language, email, experienceEnAnnees);
+        Result<Event, Candidat> eventCandidatResult = candidatFactory.create(candidatId, command.language(), command.email(), command.experienceEnAnnees());
 
         if (eventCandidatResult.event() instanceof CandidatCrée) {
             candidatRepository.save(eventCandidatResult.value());
@@ -32,5 +32,6 @@ public class CreerCandidat {
         return List.of(eventCandidatResult.event());
     }
 
-
+    public record CreerCandidatCommand(String language, String email, String experienceEnAnnees) {
+    }
 }

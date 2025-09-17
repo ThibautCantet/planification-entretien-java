@@ -4,18 +4,21 @@ import com.soat.planification_entretien.recruteur.domain.RecruteurRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RendreRecruteurIndisponible {
+public class RendreRecruteurIndisponibleCommandHandler {
     private final RecruteurRepository recruteurRepository;
 
-    public RendreRecruteurIndisponible(RecruteurRepository recruteurRepository) {
+    public RendreRecruteurIndisponibleCommandHandler(RecruteurRepository recruteurRepository) {
         this.recruteurRepository = recruteurRepository;
     }
 
-    public void execute(Integer recruteurId) {
-        var maybeRecruteur = recruteurRepository.findById(recruteurId);
+    public void handle(RendreRecruteurIndisponibleCommand command) {
+        var maybeRecruteur = recruteurRepository.findById(command.recruteurId());
         maybeRecruteur.ifPresent(recruteur -> {
             recruteur.rendreIndisponible();
             recruteurRepository.save(recruteur);
         });
+    }
+
+    public record RendreRecruteurIndisponibleCommand(Integer recruteurId) {
     }
 }

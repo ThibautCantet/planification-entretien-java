@@ -7,15 +7,15 @@ import com.soat.planification_entretien.entretien.domain.IEntretien;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ListerEntretiens {
+public class ListerEntretiensQueryHandler {
 
     private final EntretienRepository entretienRepository;
 
-    public ListerEntretiens(EntretienRepository entretienRepository) {
+    public ListerEntretiensQueryHandler(EntretienRepository entretienRepository) {
         this.entretienRepository = entretienRepository;
     }
 
-    public List<IEntretien> execute() {
+    public List<IEntretien> handle() {
         return entretienRepository.findAll().stream()
                 .map(IEntretien.class::cast)
                 .toList();

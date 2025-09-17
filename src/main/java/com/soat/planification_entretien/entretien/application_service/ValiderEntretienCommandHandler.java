@@ -7,15 +7,15 @@ import com.soat.planification_entretien.entretien.domain.EntretienRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ValiderEntretien {
+public class ValiderEntretienCommandHandler {
     private final EntretienRepository entretienRepository;
 
-    public ValiderEntretien(EntretienRepository entretienRepository) {
+    public ValiderEntretienCommandHandler(EntretienRepository entretienRepository) {
         this.entretienRepository = entretienRepository;
     }
 
-    public Optional<Entretien> execute(int entretienId) {
-        Optional<Entretien> maybeEntretien = entretienRepository.findById(entretienId);
+    public Optional<Entretien> handle(ValiderEntretienCommand command) {
+        Optional<Entretien> maybeEntretien = entretienRepository.findById(command.entretienId());
 
         maybeEntretien.ifPresent(entretien -> {
             entretien.valider();
@@ -23,4 +23,8 @@ public class ValiderEntretien {
         });
         return maybeEntretien;
     }
+
+    public record ValiderEntretienCommand(int entretienId) {
+    }
+
 }
