@@ -2,7 +2,7 @@ package com.soat.planification_entretien.recruteur.command.infrastructure.listen
 
 import com.soat.planification_entretien.common.application_service.Listener;
 import com.soat.planification_entretien.common.application_service.MessageBus;
-import com.soat.planification_entretien.entretien.domain.event.EntretienCréé;
+import com.soat.planification_entretien.entretien.command.domain.event.EntretienCréé;
 import com.soat.planification_entretien.recruteur.command.application_service.RendreRecruteurIndisponibleCommandHandler;
 import org.springframework.stereotype.Service;
 

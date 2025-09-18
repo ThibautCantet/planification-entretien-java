@@ -21,18 +21,7 @@ public class HibernateRecruteurRead {
     @Column
     private Integer experienceInYears;
 
-    @Column
-    private Boolean disponible;
-
-    public HibernateRecruteurRead(String language, String email, int experienceInYears) {
-        this.language = language;
-        this.email = email;
-        this.experienceInYears = experienceInYears;
-        this.disponible = true;
-    }
-
     public HibernateRecruteurRead() {
-
     }
 
     public Integer getId() {
@@ -55,12 +44,4 @@ public class HibernateRecruteurRead {
         return experienceInYears;
     }
 
-
-    public Boolean getDisponible() {
-        return disponible;
-    }
-
-    public void setDisponible(Boolean disponible) {
-        this.disponible = disponible;
-    }
 }

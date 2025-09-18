@@ -11,10 +11,10 @@ import com.soat.planification_entretien.entretien.command.infrastructure.control
 import com.soat.planification_entretien.entretien.command.infrastructure.controller.EntretienDto;
 import com.soat.planification_entretien.candidat.command.domain.model.Candidat;
 import com.soat.planification_entretien.candidat.command.domain.port.repository.CandidatRepository;
-import com.soat.planification_entretien.entretien.domain.model.Entretien;
-import com.soat.planification_entretien.entretien.domain.port.repository.EntretienRepository;
+import com.soat.planification_entretien.entretien.command.domain.model.Entretien;
+import com.soat.planification_entretien.entretien.command.domain.port.repository.EntretienRepository;
 import com.soat.planification_entretien.entretien.query.domain.port.service.EmailService;
-import com.soat.planification_entretien.entretien.domain.model.Status;
+import com.soat.planification_entretien.entretien.command.domain.model.Status;
 import com.soat.planification_entretien.recruteur.command.domain.model.Recruteur;
 import com.soat.planification_entretien.recruteur.command.domain.port.repository.RecruteurRepository;
 import io.cucumber.java.Before;
@@ -126,16 +126,16 @@ public class PlafinicationEntretienATest extends ATest {
                 .isEqualTo(expectedEntretien);
     }
 
-    static com.soat.planification_entretien.entretien.domain.model.Candidat convertToEntretienCandidat(Candidat candidat) {
-        return new com.soat.planification_entretien.entretien.domain.model.Candidat(
+    static com.soat.planification_entretien.entretien.command.domain.model.Candidat convertToEntretienCandidat(Candidat candidat) {
+        return new com.soat.planification_entretien.entretien.command.domain.model.Candidat(
                 candidat.getId(),
                 candidat.getLanguage(),
                 candidat.getAdresseEmail(),
                 candidat.getExperienceInYears());
     }
 
-    static com.soat.planification_entretien.entretien.domain.model.Recruteur convertToEntretienRecruteur(Recruteur candidat) {
-        return new com.soat.planification_entretien.entretien.domain.model.Recruteur(
+    static com.soat.planification_entretien.entretien.command.domain.model.Recruteur convertToEntretienRecruteur(Recruteur candidat) {
+        return new com.soat.planification_entretien.entretien.command.domain.model.Recruteur(
                 candidat.getId(),
                 candidat.getLanguage(),
                 candidat.getAdresseEmail(),

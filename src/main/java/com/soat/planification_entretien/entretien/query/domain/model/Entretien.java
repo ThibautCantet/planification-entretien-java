@@ -1,0 +1,41 @@
+package com.soat.planification_entretien.entretien.query.domain.model;
+
+import java.time.LocalDateTime;
+
+import com.soat.planification_entretien.entretien.query.domain.port.client.IEntretien;
+
+
+public record Entretien(Integer id, String emailCandidat, String emailRecruteur, String language, LocalDateTime horaire,
+                        String status) implements IEntretien {
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public String getEmailCandidat() {
+        return emailCandidat;
+    }
+
+    @Override
+    public String getEmailRecruteur() {
+        return emailRecruteur;
+    }
+
+    @Override
+    public String getLanguage() {
+        return language;
+    }
+
+    @Override
+    public LocalDateTime getHoraire() {
+        return horaire;
+    }
+
+    @Override
+    public String getStatus() {
+        return status;
+    }
+
+}

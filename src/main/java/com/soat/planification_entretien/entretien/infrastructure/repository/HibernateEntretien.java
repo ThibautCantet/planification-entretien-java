@@ -11,9 +11,11 @@ import jakarta.persistence.ManyToOne;
 
 import com.soat.planification_entretien.candidat.command.infrastructure.repository.Candidat;
 import com.soat.planification_entretien.recruteur.command.infrastructure.repository.Recruteur;
+import jakarta.persistence.Table;
 
 @Entity
-public class Entretien {
+@Table(name = "entretien")
+public class HibernateEntretien {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -32,19 +34,19 @@ public class Entretien {
     @Column
     private int status;
 
-    private Entretien(Candidat candidat, Recruteur recruteur, LocalDateTime horaire, int status) {
+    private HibernateEntretien(Candidat candidat, Recruteur recruteur, LocalDateTime horaire, int status) {
         this.candidat = candidat;
         this.recruteur = recruteur;
         this.horaireEntretien = horaire;
         this.status = status;
     }
 
-    public Entretien() {
+    public HibernateEntretien() {
 
     }
 
-    public static Entretien of(Candidat candidat, Recruteur recruteur, LocalDateTime horaire, int status) {
-        return new Entretien(candidat, recruteur, horaire, status);
+    public static HibernateEntretien of(Candidat candidat, Recruteur recruteur, LocalDateTime horaire, int status) {
+        return new HibernateEntretien(candidat, recruteur, horaire, status);
     }
 
     public Candidat getCandidat() {

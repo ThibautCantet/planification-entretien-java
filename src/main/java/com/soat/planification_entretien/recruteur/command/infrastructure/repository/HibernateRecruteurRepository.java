@@ -1,6 +1,5 @@
 package com.soat.planification_entretien.recruteur.command.infrastructure.repository;
 
-import java.util.List;
 import java.util.Optional;
 
 import com.soat.planification_entretien.recruteur.command.domain.port.repository.RecruteurRepository;
@@ -35,18 +34,6 @@ public class HibernateRecruteurRepository implements RecruteurRepository {
         toSave.setDisponible(recruteur.estDisponible());
         var saved = recruteurCrud.save(toSave);
         return com.soat.planification_entretien.recruteur.command.domain.model.Recruteur.of(saved.getId(), recruteur);
-    }
-
-    @Override
-    public List<com.soat.planification_entretien.recruteur.command.domain.model.Recruteur> find10AnsExperience() {
-        return recruteurCrud.findAll()
-                .stream().filter(r -> r.getExperienceInYears() >= 10)
-                .map(recruteur -> new com.soat.planification_entretien.recruteur.command.domain.model.Recruteur(
-                        recruteur.getId(),
-                        recruteur.getLanguage(),
-                        recruteur.getEmail(),
-                        recruteur.getExperienceInYears()))
-                .toList();
     }
 
     @Override

@@ -12,6 +12,6 @@ Fonctionnalité: Workflow d'un entretien de recrutement chez Soat
       | id | recruteur | candidat | horaire          | status   |
       | 1  | 1         | 1        | 16/04/2019 15:00 | PLANIFIE |
     Quand on valide l'entretien 1
-    Alors on récupères les entretiens suivants en base
+    Alors on récupères les entretiens après validation
       | id | recruteur         | candidat          | language | horaire          | status |
       | 1  | recruteur@soat.fr | candidat@mail.com | Java     | 16/04/2019 15:00 | VALIDE |

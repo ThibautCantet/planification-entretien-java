@@ -1,17 +1,12 @@
 package com.soat.planification_entretien;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
 
 import com.soat.ATest;
-import com.soat.planification_entretien.entretien.domain.model.Candidat;
-import com.soat.planification_entretien.entretien.domain.model.Entretien;
-import com.soat.planification_entretien.entretien.domain.port.repository.EntretienRepository;
-import com.soat.planification_entretien.entretien.domain.model.Recruteur;
-import com.soat.planification_entretien.entretien.domain.model.Status;
 import com.soat.planification_entretien.entretien.command.infrastructure.controller.EntretienCommandController;
+import com.soat.planification_entretien.entretien.query.domain.model.Entretien;
+import com.soat.planification_entretien.entretien.query.domain.port.repository.EntretienDao;
+import com.soat.planification_entretien.entretien.query.infrastructure.controller.EntretienDetailDto;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
@@ -26,7 +21,7 @@ import static org.assertj.core.api.Assertions.*;
 public class WorkflowEntretienATest extends ATest {
 
     @Autowired
-    private EntretienRepository entretienRepository;
+    private EntretienDao entretienDao;
 
     @Before
     @Override
@@ -51,28 +46,21 @@ public class WorkflowEntretienATest extends ATest {
         //@formatter:on
     }
 
-    @Alors("on récupères les entretiens suivants en base")
-    public void onRécupèresLesEntretiensSuivantsEnBase(DataTable dataTable) {
-        List<Entretien> entretiens = dataTableTransformEntries(dataTable, this::buildEntretien);
+    @Alors("on récupères les entretiens après validation")
+    public void onRécupèresLesEntretiensSuivants(DataTable dataTable) {
+        List<EntretienDetailDto> entretiens = dataTableTransformEntries(dataTable, ListingEntretienATest::buildEntretienDetail);
 
-        List<Entretien> savedEntretiens = entretienRepository.findAll();
+        var detailDtos = entretienDao.findAll().stream()
+                .map(entretien -> new EntretienDetailDto(
+                        entretien.id(),
+                        entretien.getEmailCandidat(),
+                        entretien.getEmailRecruteur(),
+                        entretien.language(),
+                        entretien.getHoraire(),
+                        entretien.status()))
+                .toList();
 
-        assertThat(savedEntretiens)
-                .usingRecursiveFieldByFieldElementComparatorIgnoringFields("candidat.id",
-                        "candidat.experienceInYears",
-                        "candidat.profil",
-                        "recruteur.id",
-                        "recruteur.experienceInYears",
-                        "recruteur.profil")
-                .containsExactlyInAnyOrder(entretiens.toArray(Entretien[]::new));
-    }
-
-    private Entretien buildEntretien(Map<String, String> entry) {
-        return new Entretien(
-                Integer.parseInt(entry.get("id")),
-                new Candidat(null, entry.get("language"), entry.get("candidat"), 0),
-                new Recruteur(null, entry.get("language"), entry.get("recruteur"), 0),
-                LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
-                Status.valueOf(entry.get("status")));
+        assertThat(detailDtos.toArray())
+                .containsExactlyInAnyOrder(entretiens.toArray(EntretienDetailDto[]::new));
     }
 }

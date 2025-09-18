@@ -3,7 +3,7 @@ package com.soat.planification_entretien.recruteur.query.infrastructure.reposito
 import java.util.List;
 
 import com.soat.planification_entretien.recruteur.query.domain.model.Recruteur;
-import com.soat.planification_entretien.recruteur.query.domain.repository.RecruteurDao;
+import com.soat.planification_entretien.recruteur.query.domain.port.repository.RecruteurDao;
 import org.springframework.stereotype.Repository;
 
 @Repository

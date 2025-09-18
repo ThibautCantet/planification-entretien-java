@@ -1,10 +1,10 @@
-package com.soat.planification_entretien.entretien.domain.model;
+package com.soat.planification_entretien.entretien.command.domain.model;
 
 import java.time.LocalDateTime;
 
 import com.soat.planification_entretien.common.domain.Event;
-import com.soat.planification_entretien.entretien.domain.event.EntretienCréé;
-import com.soat.planification_entretien.entretien.domain.event.EntretienNonCréé;
+import com.soat.planification_entretien.entretien.command.domain.event.EntretienCréé;
+import com.soat.planification_entretien.entretien.command.domain.event.EntretienNonCréé;
 import com.soat.planification_entretien.entretien.query.domain.port.client.IEntretien;
 
 

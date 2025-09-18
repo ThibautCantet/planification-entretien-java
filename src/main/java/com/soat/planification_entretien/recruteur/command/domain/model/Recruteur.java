@@ -3,7 +3,6 @@ package com.soat.planification_entretien.recruteur.command.domain.model;
 public class Recruteur {
 
     private Integer id;
-
     private Langage language;
     private RecruteurEmail email;
     private Experience experience;

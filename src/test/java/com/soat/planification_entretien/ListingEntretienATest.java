@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.soat.ATest;
-import com.soat.planification_entretien.entretien.domain.model.Status;
+import com.soat.planification_entretien.entretien.command.domain.model.Status;
 import com.soat.planification_entretien.entretien.command.infrastructure.controller.EntretienCommandController;
-import com.soat.planification_entretien.entretien.domain.model.Candidat;
+import com.soat.planification_entretien.entretien.command.domain.model.Candidat;
 import com.soat.planification_entretien.candidat.command.domain.port.repository.CandidatRepository;
-import com.soat.planification_entretien.entretien.domain.model.Entretien;
-import com.soat.planification_entretien.entretien.domain.port.repository.EntretienRepository;
-import com.soat.planification_entretien.entretien.domain.model.Recruteur;
+import com.soat.planification_entretien.entretien.command.domain.model.Entretien;
+import com.soat.planification_entretien.entretien.command.domain.port.repository.EntretienRepository;
+import com.soat.planification_entretien.entretien.command.domain.model.Recruteur;
 import com.soat.planification_entretien.recruteur.command.domain.port.repository.RecruteurRepository;
 import com.soat.planification_entretien.entretien.query.infrastructure.controller.EntretienDetailDto;
 import io.cucumber.datatable.DataTable;
@@ -129,7 +129,7 @@ public class ListingEntretienATest extends ATest {
 
     @Alors("on récupères les entretiens suivants")
     public void onRécupèresLesEntretiensSuivants(DataTable dataTable) {
-        List<EntretienDetailDto> entretiens = dataTableTransformEntries(dataTable, this::buildEntretienDetail);
+        List<EntretienDetailDto> entretiens = dataTableTransformEntries(dataTable, ListingEntretienATest::buildEntretienDetail);
 
         var detailDtos = response.then().extract()
                 .as(EntretienDetailDto[].class);
@@ -138,7 +138,7 @@ public class ListingEntretienATest extends ATest {
                 .containsExactlyInAnyOrder(entretiens.toArray(EntretienDetailDto[]::new));
     }
 
-    private EntretienDetailDto buildEntretienDetail(Map<String, String> entry) {
+    public static EntretienDetailDto buildEntretienDetail(Map<String, String> entry) {
         return new EntretienDetailDto(
                 Integer.parseInt(entry.get("id")),
                 entry.get("candidat"),

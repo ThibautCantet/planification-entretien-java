@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.recruteur.query.domain.repository;
+package com.soat.planification_entretien.recruteur.query.domain.port.repository;
 
 import java.util.List;
 

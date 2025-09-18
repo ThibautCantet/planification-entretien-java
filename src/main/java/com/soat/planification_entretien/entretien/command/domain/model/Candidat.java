@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.entretien.domain.model;
+package com.soat.planification_entretien.entretien.command.domain.model;
 
 public record Candidat(
         Integer id,
