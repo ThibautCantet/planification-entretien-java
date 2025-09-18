@@ -2,7 +2,7 @@ package com.soat.planification_entretien.entretien.command.domain.model;
 
 import java.time.LocalDateTime;
 
-import com.soat.planification_entretien.common.domain.Event;
+import com.soat.planification_entretien.common.cqrs.event.Event;
 import com.soat.planification_entretien.entretien.command.domain.event.EntretienCréé;
 import com.soat.planification_entretien.entretien.command.domain.event.EntretienNonCréé;
 

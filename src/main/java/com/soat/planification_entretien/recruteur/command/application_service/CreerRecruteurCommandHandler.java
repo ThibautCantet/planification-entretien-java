@@ -1,13 +1,17 @@
 package com.soat.planification_entretien.recruteur.command.application_service;
 
+import java.util.List;
+
 import com.soat.planification_entretien.common.application_service.MessageBus;
+import com.soat.planification_entretien.common.cqrs.command.Command;
+import com.soat.planification_entretien.common.cqrs.command.CommandHandler;
+import com.soat.planification_entretien.common.cqrs.command.CommandResponse;
+import com.soat.planification_entretien.common.cqrs.event.Event;
 import com.soat.planification_entretien.recruteur.command.domain.event.RecruteurCree;
 import com.soat.planification_entretien.recruteur.command.domain.model.Recruteur;
 import com.soat.planification_entretien.recruteur.command.domain.port.repository.RecruteurRepository;
-import org.springframework.stereotype.Service;
 
-@Service
-public class CreerRecruteurCommandHandler {
+public class CreerRecruteurCommandHandler implements CommandHandler<CreerRecruteurCommandHandler.CreerRecruteurCommand, CommandResponse<Event>> {
 
     private final RecruteurRepository recruteurRepository;
     private final MessageBus messageBus;
@@ -17,19 +21,25 @@ public class CreerRecruteurCommandHandler {
         this.messageBus = messageBus;
     }
 
-    public Integer handle(CreerRecruteurCommand command) {
+    public CommandResponse<Event> handle(CreerRecruteurCommand command) {
         try {
             Recruteur recruteur = new Recruteur(command.language(), command.email(), Integer.parseInt(command.experienceEnAnnees()));
             Recruteur savedRecruteur = recruteurRepository.save(recruteur);
 
-            messageBus.send(new RecruteurCree(savedRecruteur.getId(), recruteur.getLanguage(), recruteur.getExperienceInYears(), recruteur.getAdresseEmail()));
+            var recruteurCree = new RecruteurCree(savedRecruteur.getId(), recruteur.getLanguage(), recruteur.getExperienceInYears(), recruteur.getAdresseEmail());
+            messageBus.send(recruteurCree);
 
-            return savedRecruteur.getId();
+            return new CommandResponse<>(recruteurCree);
         } catch (IllegalArgumentException e) {
-            return null;
+            return new CommandResponse<>(List.of());
         }
     }
 
-    public record CreerRecruteurCommand(String language, String email, String experienceEnAnnees) {
+    @Override
+    public Class listenTo() {
+        return CreerRecruteurCommandHandler.CreerRecruteurCommand.class;
+    }
+
+    public record CreerRecruteurCommand(String language, String email, String experienceEnAnnees) implements Command {
     }
 }

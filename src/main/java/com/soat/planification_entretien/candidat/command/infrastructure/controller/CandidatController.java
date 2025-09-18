@@ -5,6 +5,10 @@ import java.net.URI;
 import com.soat.planification_entretien.candidat.command.application_service.event.CandidatNonSauvegardé;
 import com.soat.planification_entretien.candidat.command.application_service.CreerCandidatCommandHandler;
 import com.soat.planification_entretien.candidat.command.domain.event.CandidatCrée;
+import com.soat.planification_entretien.common.cqrs.application.CommandController;
+import com.soat.planification_entretien.common.cqrs.command.CommandResponse;
+import com.soat.planification_entretien.common.cqrs.event.Event;
+import com.soat.planification_entretien.common.cqrs.middleware.command.CommandBusFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,13 +20,11 @@ import static org.springframework.http.ResponseEntity.*;
 
 @RestController
 @RequestMapping(CandidatController.PATH)
-public class CandidatController {
+public class CandidatController extends CommandController {
     public static final String PATH = "/api/candidat/";
 
-    private final CreerCandidatCommandHandler creerCandidatCommandHandler;
-
-    public CandidatController(CreerCandidatCommandHandler creerCandidatCommandHandler) {
-        this.creerCandidatCommandHandler = creerCandidatCommandHandler;
+    public CandidatController(CommandBusFactory commandBusFactory) {
+        super(commandBusFactory);
     }
 
     @PostMapping
@@ -30,12 +32,12 @@ public class CandidatController {
         if (validExperience(candidatDto)) {
             return badRequest().build();
         }
-        var events = creerCandidatCommandHandler.handle(new CreerCandidatCommandHandler.CreerCandidatCommand(candidatDto.language(), candidatDto.email(), candidatDto.experienceEnAnnees()));
-        if (events.stream().noneMatch(CandidatCrée.class::isInstance)) {
+        CommandResponse<Event> events = getCommandBus().dispatch(new CreerCandidatCommandHandler.CreerCandidatCommand(candidatDto.language(), candidatDto.email(), candidatDto.experienceEnAnnees()));
+        if (events.events().stream().noneMatch(CandidatCrée.class::isInstance)) {
             return badRequest().build();
         }
 
-        if (events.stream().anyMatch(CandidatNonSauvegardé.class::isInstance)) {
+        if (events.events().stream().anyMatch(CandidatNonSauvegardé.class::isInstance)) {
             return internalServerError().build();
         }
 
@@ -44,11 +46,9 @@ public class CandidatController {
                 .buildAndExpand(events)
                 .toUri();
 
-        return created(location).body(events.stream()
-                .filter(CandidatCrée.class::isInstance)
-                .map(CandidatCrée.class::cast)
-                .findFirst()
-                .map(CandidatCrée::value)
+        return created(location).body(events.findFirst(CandidatCrée.class)
+                        .map(e -> (CandidatCrée) e)
+                        .map(e -> e.value())
                 .orElse(null));
     }
 
