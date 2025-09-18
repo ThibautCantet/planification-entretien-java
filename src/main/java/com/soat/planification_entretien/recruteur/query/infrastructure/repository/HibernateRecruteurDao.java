@@ -1,5 +1,6 @@
 package com.soat.planification_entretien.recruteur.query.infrastructure.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.soat.planification_entretien.recruteur.query.domain.model.Recruteur;
@@ -9,6 +10,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class HibernateRecruteurDao implements RecruteurDao {
+
+    private static final List<RecruteurDetail> recruteursExperimentes = new ArrayList<>();
+
     private final RecruteurRead recruteurRead;
 
     public HibernateRecruteurDao(RecruteurRead recruteurRead) {
@@ -29,7 +33,11 @@ public class HibernateRecruteurDao implements RecruteurDao {
 
     @Override
     public void addExperimente(RecruteurDetail recruteurDetail) {
-        //TODO
+        recruteursExperimentes.add(recruteurDetail);
+    }
+
+    public static List<RecruteurDetail> getRecruteursExperimentes() {
+        return recruteursExperimentes;
     }
 
 }
