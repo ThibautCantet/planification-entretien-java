@@ -23,8 +23,8 @@ public class QueryBusFactory {
 
     protected List<QueryHandler<? extends Query, ? extends Object>> getQueryHandlers() {
         return List.of(
-//                new ListerEntretiensQueryHandler(entretienDao),
-//                new ListerRecruteursExperimentesQueryHandler(recruteurDao)
+                new ListerEntretiensQueryHandler(entretienDao),
+                new ListerRecruteursExperimentesQueryHandler(recruteurDao)
         );
     }
 

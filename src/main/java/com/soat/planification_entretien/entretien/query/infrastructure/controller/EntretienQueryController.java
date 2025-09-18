@@ -2,6 +2,9 @@ package com.soat.planification_entretien.entretien.query.infrastructure.controll
 
 import java.util.List;
 
+import com.soat.planification_entretien.common.cqrs.application.QueryController;
+import com.soat.planification_entretien.common.cqrs.middleware.queries.QueryBusFactory;
+import com.soat.planification_entretien.common.cqrs.query.QueryResponse;
 import com.soat.planification_entretien.entretien.query.application_service.ListerEntretiensQueryHandler;
 import com.soat.planification_entretien.entretien.query.domain.model.EntretienInQuery;
 import org.springframework.http.HttpStatus;
@@ -12,18 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(EntretienQueryController.PATH)
-public class EntretienQueryController {
+public class EntretienQueryController extends QueryController {
     public static final String PATH = "/api/entretien/";
 
-    private final ListerEntretiensQueryHandler listerEntretiensQueryHandler;
-
-    public EntretienQueryController(ListerEntretiensQueryHandler listerEntretiensQueryHandler) {
-        this.listerEntretiensQueryHandler = listerEntretiensQueryHandler;
+    public EntretienQueryController(QueryBusFactory queryBusFactory) {
+        super(queryBusFactory);
     }
 
     @GetMapping("/")
     public ResponseEntity<List<EntretienInQuery>> findAll() {
-        var entretiens = listerEntretiensQueryHandler.handle();
-        return new ResponseEntity<>(entretiens, HttpStatus.OK);
+        QueryResponse<List<EntretienInQuery>> queryResponse = getQueryBus().dispatch(new ListerEntretiensQueryHandler.ListerEntretienQuery());
+        return new ResponseEntity<>(queryResponse.value(), HttpStatus.OK);
     }
 }

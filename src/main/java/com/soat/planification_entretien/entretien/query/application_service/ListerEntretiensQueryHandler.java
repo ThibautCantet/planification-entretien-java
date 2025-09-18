@@ -2,12 +2,13 @@ package com.soat.planification_entretien.entretien.query.application_service;
 
 import java.util.List;
 
+import com.soat.planification_entretien.common.cqrs.query.Query;
+import com.soat.planification_entretien.common.cqrs.query.QueryHandler;
+import com.soat.planification_entretien.common.cqrs.query.QueryResponse;
 import com.soat.planification_entretien.entretien.query.domain.model.EntretienInQuery;
 import com.soat.planification_entretien.entretien.query.domain.port.repository.EntretienDao;
-import org.springframework.stereotype.Service;
 
-@Service
-public class ListerEntretiensQueryHandler {
+public class ListerEntretiensQueryHandler implements QueryHandler<ListerEntretiensQueryHandler.ListerEntretienQuery, QueryResponse<List<EntretienInQuery>>> {
 
     private final EntretienDao entretienDao;
 
@@ -15,8 +16,16 @@ public class ListerEntretiensQueryHandler {
         this.entretienDao = entretienDao;
     }
 
-    public List<EntretienInQuery> handle() {
-        return entretienDao.findAll();
+    @Override
+    public QueryResponse<List<EntretienInQuery>> handle(ListerEntretienQuery query) {
+        return new QueryResponse<>(entretienDao.findAll(), null);
     }
 
+    @Override
+    public Class listenTo() {
+        return ListerEntretienQuery.class;
+    }
+
+    public record ListerEntretienQuery() implements Query {
+    }
 }
