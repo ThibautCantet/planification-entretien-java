@@ -3,6 +3,7 @@ package com.soat.planification_entretien.recruteur.query.infrastructure.reposito
 import java.util.List;
 
 import com.soat.planification_entretien.recruteur.query.domain.model.Recruteur;
+import com.soat.planification_entretien.recruteur.query.domain.model.RecruteurDetail;
 import com.soat.planification_entretien.recruteur.query.domain.port.repository.RecruteurDao;
 import org.springframework.stereotype.Repository;
 
@@ -24,6 +25,11 @@ public class HibernateRecruteurDao implements RecruteurDao {
                         recruteur.getEmail(),
                         recruteur.getExperienceInYears()))
                 .toList();
+    }
+
+    @Override
+    public void addExperimente(RecruteurDetail recruteurDetail) {
+        //TODO
     }
 
 }
