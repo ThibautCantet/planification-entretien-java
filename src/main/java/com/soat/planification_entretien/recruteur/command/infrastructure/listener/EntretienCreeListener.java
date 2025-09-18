@@ -2,12 +2,13 @@ package com.soat.planification_entretien.recruteur.command.infrastructure.listen
 
 import com.soat.planification_entretien.common.application_service.Listener;
 import com.soat.planification_entretien.common.application_service.MessageBus;
+import com.soat.planification_entretien.common.domain.Event;
 import com.soat.planification_entretien.entretien.command.domain.event.EntretienCréé;
 import com.soat.planification_entretien.recruteur.command.application_service.RendreRecruteurIndisponibleCommandHandler;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EntretienCreeListener implements Listener<EntretienCréé> {
+public class EntretienCreeListener implements Listener<Event> {
     private final RendreRecruteurIndisponibleCommandHandler rendreRecruteurIndisponibleCommandHandler;
     private final MessageBus messageBus;
 
@@ -18,8 +19,10 @@ public class EntretienCreeListener implements Listener<EntretienCréé> {
     }
 
     @Override
-    public void onMessage(EntretienCréé entretienCréé) {
-        rendreRecruteurIndisponibleCommandHandler.handle(
-                new RendreRecruteurIndisponibleCommandHandler.RendreRecruteurIndisponibleCommand(entretienCréé.recruteurId()));
+    public void onMessage(Event event) {
+        if (event instanceof EntretienCréé entretienCréé) {
+            rendreRecruteurIndisponibleCommandHandler.handle(
+                    new RendreRecruteurIndisponibleCommandHandler.RendreRecruteurIndisponibleCommand(entretienCréé.recruteurId()));
+        }
     }
 }

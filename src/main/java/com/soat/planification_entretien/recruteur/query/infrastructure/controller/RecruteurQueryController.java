@@ -23,10 +23,7 @@ public class RecruteurQueryController {
 
     @GetMapping
     public ResponseEntity<List<RecruteurDetail>> lister() {
-        List<RecruteurDetail> recruteurs = listerRecruteursExperimentesQueryHandler.handle().stream()
-                .map(e -> new RecruteurDetail(e.id(), e.language(), e.experience(), e.email()))
-                .toList();
-
+        List<RecruteurDetail> recruteurs = listerRecruteursExperimentesQueryHandler.handle();
         return new ResponseEntity<>(recruteurs, HttpStatus.OK);
     }
 
