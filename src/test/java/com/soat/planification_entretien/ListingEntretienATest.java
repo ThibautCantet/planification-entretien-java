@@ -8,15 +8,15 @@ import java.util.List;
 import java.util.Map;
 
 import com.soat.ATest;
+import com.soat.planification_entretien.entretien.command.domain.model.Entretien;
 import com.soat.planification_entretien.entretien.command.domain.model.Status;
 import com.soat.planification_entretien.entretien.command.infrastructure.controller.EntretienCommandController;
 import com.soat.planification_entretien.entretien.command.domain.model.Candidat;
 import com.soat.planification_entretien.candidat.command.domain.port.repository.CandidatRepository;
-import com.soat.planification_entretien.entretien.command.domain.model.Entretien;
+import com.soat.planification_entretien.entretien.query.domain.model.EntretienInQuery;
 import com.soat.planification_entretien.entretien.command.domain.port.repository.EntretienRepository;
 import com.soat.planification_entretien.entretien.command.domain.model.Recruteur;
 import com.soat.planification_entretien.recruteur.command.domain.port.repository.RecruteurRepository;
-import com.soat.planification_entretien.entretien.query.infrastructure.controller.EntretienDetailDto;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
@@ -129,17 +129,17 @@ public class ListingEntretienATest extends ATest {
 
     @Alors("on récupères les entretiens suivants")
     public void onRécupèresLesEntretiensSuivants(DataTable dataTable) {
-        List<EntretienDetailDto> entretiens = dataTableTransformEntries(dataTable, ListingEntretienATest::buildEntretienDetail);
+        List<EntretienInQuery> entretiens = dataTableTransformEntries(dataTable, ListingEntretienATest::buildEntretienInQuery);
 
         var detailDtos = response.then().extract()
-                .as(EntretienDetailDto[].class);
+                .as(EntretienInQuery[].class);
 
         assertThat(Arrays.stream(detailDtos).toList())
-                .containsExactlyInAnyOrder(entretiens.toArray(EntretienDetailDto[]::new));
+                .containsExactlyInAnyOrder(entretiens.toArray(EntretienInQuery[]::new));
     }
 
-    public static EntretienDetailDto buildEntretienDetail(Map<String, String> entry) {
-        return new EntretienDetailDto(
+    public static EntretienInQuery buildEntretienInQuery(Map<String, String> entry) {
+        return new EntretienInQuery(
                 Integer.parseInt(entry.get("id")),
                 entry.get("candidat"),
                 entry.get("recruteur"),

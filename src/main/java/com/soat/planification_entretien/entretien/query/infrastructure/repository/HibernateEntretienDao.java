@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.soat.planification_entretien.entretien.command.domain.model.Status;
 import com.soat.planification_entretien.entretien.infrastructure.repository.HibernateEntretien;
-import com.soat.planification_entretien.entretien.query.domain.model.Entretien;
+import com.soat.planification_entretien.entretien.query.domain.model.EntretienInQuery;
 import com.soat.planification_entretien.entretien.query.domain.port.repository.EntretienDao;
 import org.springframework.stereotype.Repository;
 
@@ -17,14 +17,14 @@ public class HibernateEntretienDao implements EntretienDao {
     }
 
     @Override
-    public List<Entretien> findAll() {
+    public List<EntretienInQuery> findAll() {
         return entretienCrud.findAll().stream()
                 .map(HibernateEntretienDao::toEntretien)
                 .toList();
     }
 
-    public static Entretien toEntretien(HibernateEntretien jpaEntretien) {
-        return new Entretien(
+    public static EntretienInQuery toEntretien(HibernateEntretien jpaEntretien) {
+        return new EntretienInQuery(
                 jpaEntretien.getId(),
                 jpaEntretien.getCandidat().getEmail(),
                 jpaEntretien.getRecruteur().getEmail(),

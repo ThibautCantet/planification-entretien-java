@@ -3,6 +3,7 @@ package com.soat.planification_entretien.entretien.query.infrastructure.controll
 import java.util.List;
 
 import com.soat.planification_entretien.entretien.query.application_service.ListerEntretiensQueryHandler;
+import com.soat.planification_entretien.entretien.query.domain.model.EntretienInQuery;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,11 +22,8 @@ public class EntretienQueryController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<EntretienDetailDto>> findAll() {
-        var entretiens = listerEntretiensQueryHandler.handle()
-                .stream()
-                .map(e -> new EntretienDetailDto(e.id(), e.emailCandidat(), e.emailRecruteur(), e.language(), e.horaire(), e.status()))
-                .toList();
+    public ResponseEntity<List<EntretienInQuery>> findAll() {
+        var entretiens = listerEntretiensQueryHandler.handle();
         return new ResponseEntity<>(entretiens, HttpStatus.OK);
     }
 }

@@ -4,9 +4,8 @@ import java.util.List;
 
 import com.soat.ATest;
 import com.soat.planification_entretien.entretien.command.infrastructure.controller.EntretienCommandController;
-import com.soat.planification_entretien.entretien.query.domain.model.Entretien;
+import com.soat.planification_entretien.entretien.query.domain.model.EntretienInQuery;
 import com.soat.planification_entretien.entretien.query.domain.port.repository.EntretienDao;
-import com.soat.planification_entretien.entretien.query.infrastructure.controller.EntretienDetailDto;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
@@ -48,19 +47,10 @@ public class WorkflowEntretienATest extends ATest {
 
     @Alors("on récupères les entretiens après validation")
     public void onRécupèresLesEntretiensSuivants(DataTable dataTable) {
-        List<EntretienDetailDto> entretiens = dataTableTransformEntries(dataTable, ListingEntretienATest::buildEntretienDetail);
+        List<EntretienInQuery> entretiens = dataTableTransformEntries(dataTable, ListingEntretienATest::buildEntretienInQuery);
 
-        var detailDtos = entretienDao.findAll().stream()
-                .map(entretien -> new EntretienDetailDto(
-                        entretien.id(),
-                        entretien.emailCandidat(),
-                        entretien.emailRecruteur(),
-                        entretien.language(),
-                        entretien.horaire(),
-                        entretien.status()))
-                .toList();
+        var detailDtos = entretienDao.findAll();
 
-        assertThat(detailDtos.toArray())
-                .containsExactlyInAnyOrder(entretiens.toArray(EntretienDetailDto[]::new));
+        assertThat(detailDtos.toArray()).containsExactlyInAnyOrder(entretiens.toArray(EntretienInQuery[]::new));
     }
 }
