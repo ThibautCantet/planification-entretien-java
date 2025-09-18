@@ -24,7 +24,7 @@ public class EntretienQueryController {
     public ResponseEntity<List<EntretienDetailDto>> findAll() {
         var entretiens = listerEntretiensQueryHandler.handle()
                 .stream()
-                .map(e -> new EntretienDetailDto(e.getId(), e.getEmailCandidat(), e.getEmailRecruteur(), e.getLanguage(), e.getHoraire(), e.getStatus()))
+                .map(e -> new EntretienDetailDto(e.id(), e.emailCandidat(), e.emailRecruteur(), e.language(), e.horaire(), e.status()))
                 .toList();
         return new ResponseEntity<>(entretiens, HttpStatus.OK);
     }

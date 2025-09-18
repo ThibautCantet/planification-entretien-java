@@ -53,10 +53,10 @@ public class WorkflowEntretienATest extends ATest {
         var detailDtos = entretienDao.findAll().stream()
                 .map(entretien -> new EntretienDetailDto(
                         entretien.id(),
-                        entretien.getEmailCandidat(),
-                        entretien.getEmailRecruteur(),
+                        entretien.emailCandidat(),
+                        entretien.emailRecruteur(),
                         entretien.language(),
-                        entretien.getHoraire(),
+                        entretien.horaire(),
                         entretien.status()))
                 .toList();
 

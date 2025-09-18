@@ -5,10 +5,8 @@ import java.time.LocalDateTime;
 import com.soat.planification_entretien.common.domain.Event;
 import com.soat.planification_entretien.entretien.command.domain.event.EntretienCréé;
 import com.soat.planification_entretien.entretien.command.domain.event.EntretienNonCréé;
-import com.soat.planification_entretien.entretien.query.domain.port.client.IEntretien;
 
-
-public class Entretien implements IEntretien {
+public class Entretien {
     private Integer id;
 
     private Candidat candidat;
@@ -80,24 +78,8 @@ public class Entretien implements IEntretien {
         status = Status.VALIDE;
     }
 
-    @Override
-    public String getEmailCandidat() {
-        return candidat.adresseEmail();
-    }
-
-    @Override
-    public String getEmailRecruteur() {
-        return recruteur.adresseEmail();
-    }
-
-    @Override
     public String getLanguage() {
         return recruteur.getLanguage();
-    }
-
-    @Override
-    public LocalDateTime getHoraire() {
-        return horaireEntretien;
     }
 
     public String getStatus() {
