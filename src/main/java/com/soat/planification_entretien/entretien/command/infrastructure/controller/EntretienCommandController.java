@@ -5,7 +5,7 @@ import com.soat.planification_entretien.common.cqrs.application.CommandControlle
 import com.soat.planification_entretien.common.cqrs.middleware.command.CommandBusFactory;
 import com.soat.planification_entretien.entretien.command.application_service.PlanifierEntretienCommandHandler;
 import com.soat.planification_entretien.entretien.command.application_service.ValiderEntretienCommandHandler;
-import com.soat.planification_entretien.entretien.command.domain.event.EntretienPlanifie;
+import com.soat.planification_entretien.entretien.command.domain.event.EntretienPlanifié;
 import com.soat.planification_entretien.entretien.command.domain.model.Candidat;
 import com.soat.planification_entretien.entretien.command.domain.model.Recruteur;
 import com.soat.planification_entretien.recruteur.command.domain.port.repository.RecruteurRepository;
@@ -52,7 +52,7 @@ public class EntretienCommandController extends CommandController {
         }
         var commandResponse = getCommandBus().dispatch(new PlanifierEntretienCommandHandler.PlanifierEntretienCommand(candidat.get(), recruteur.get(), entretienDto.disponibiliteDuCandidat(), entretienDto.disponibiliteDuRecruteur()));
 
-        if (commandResponse.findFirst(EntretienPlanifie.class).isPresent()) {
+        if (commandResponse.findFirst(EntretienPlanifié.class).isPresent()) {
             return created(null).build();
         } else {
             return badRequest().build();

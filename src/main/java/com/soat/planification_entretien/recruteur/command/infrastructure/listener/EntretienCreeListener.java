@@ -1,28 +1,24 @@
 package com.soat.planification_entretien.recruteur.command.infrastructure.listener;
 
-import com.soat.planification_entretien.common.application_service.Listener;
-import com.soat.planification_entretien.common.application_service.MessageBus;
-import com.soat.planification_entretien.common.cqrs.event.Event;
-import com.soat.planification_entretien.entretien.command.domain.event.EntretienCréé;
+import com.soat.planification_entretien.common.cqrs.event.EventHandlerVoid;
+import com.soat.planification_entretien.entretien.command.domain.event.EntretienPlanifié;
 import com.soat.planification_entretien.recruteur.command.application_service.RendreRecruteurIndisponibleCommandHandler;
-import org.springframework.stereotype.Service;
 
-@Service
-public class EntretienCreeListener implements Listener<Event> {
+public class EntretienCreeListener extends EventHandlerVoid<EntretienPlanifié> {
     private final RendreRecruteurIndisponibleCommandHandler rendreRecruteurIndisponibleCommandHandler;
-    private final MessageBus messageBus;
 
-    public EntretienCreeListener(RendreRecruteurIndisponibleCommandHandler rendreRecruteurIndisponibleCommandHandler, MessageBus messageBus) {
+    public EntretienCreeListener(RendreRecruteurIndisponibleCommandHandler rendreRecruteurIndisponibleCommandHandler) {
         this.rendreRecruteurIndisponibleCommandHandler = rendreRecruteurIndisponibleCommandHandler;
-        this.messageBus = messageBus;
-        this.messageBus.subscribe(this);
     }
 
     @Override
-    public void onMessage(Event event) {
-        if (event instanceof EntretienCréé entretienCréé) {
+    public void handle(EntretienPlanifié entretienPlanifié) {
             rendreRecruteurIndisponibleCommandHandler.handle(
-                    new RendreRecruteurIndisponibleCommandHandler.RendreRecruteurIndisponibleCommand(entretienCréé.recruteurId()));
-        }
+                    new RendreRecruteurIndisponibleCommandHandler.RendreRecruteurIndisponibleCommand(entretienPlanifié.recruteurId()));
+    }
+
+    @Override
+    public Class<EntretienPlanifié> listenTo() {
+        return EntretienPlanifié.class;
     }
 }

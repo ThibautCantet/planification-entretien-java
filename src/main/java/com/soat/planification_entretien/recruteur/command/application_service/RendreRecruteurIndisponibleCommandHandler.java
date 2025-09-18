@@ -7,9 +7,7 @@ import com.soat.planification_entretien.common.cqrs.command.CommandHandler;
 import com.soat.planification_entretien.common.cqrs.command.CommandResponse;
 import com.soat.planification_entretien.common.cqrs.event.Event;
 import com.soat.planification_entretien.recruteur.command.domain.port.repository.RecruteurRepository;
-import org.springframework.stereotype.Service;
 
-@Service
 public class RendreRecruteurIndisponibleCommandHandler implements CommandHandler<RendreRecruteurIndisponibleCommandHandler.RendreRecruteurIndisponibleCommand, CommandResponse<Event>> {
 
     private final RecruteurRepository recruteurRepository;

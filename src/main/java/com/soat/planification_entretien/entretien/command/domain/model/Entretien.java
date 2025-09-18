@@ -3,8 +3,8 @@ package com.soat.planification_entretien.entretien.command.domain.model;
 import java.time.LocalDateTime;
 
 import com.soat.planification_entretien.common.cqrs.event.Event;
-import com.soat.planification_entretien.entretien.command.domain.event.EntretienCréé;
-import com.soat.planification_entretien.entretien.command.domain.event.EntretienNonCréé;
+import com.soat.planification_entretien.entretien.command.domain.event.EntretienPlanifié;
+import com.soat.planification_entretien.entretien.command.domain.event.EntretienNonPlanifié;
 
 public class Entretien {
     private Integer id;
@@ -68,10 +68,10 @@ public class Entretien {
 
         if (planifiable) {
             horaireEntretien = dateEtHeureDisponibiliteDuCandidat;
-            return new EntretienCréé(id, recruteur.id());
+            return new EntretienPlanifié(id, recruteur.id());
         }
 
-        return new EntretienNonCréé();
+        return new EntretienNonPlanifié();
     }
 
     public void valider() {

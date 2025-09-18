@@ -1,6 +1,5 @@
 package com.soat.planification_entretien.recruteur.query.infrastructure.listener;
 
-import com.soat.planification_entretien.common.application_service.MessageBus;
 import com.soat.planification_entretien.recruteur.command.domain.event.RecruteurCree;
 import com.soat.planification_entretien.recruteur.query.domain.model.RecruteurDetail;
 import com.soat.planification_entretien.recruteur.query.domain.port.repository.RecruteurDao;
@@ -16,9 +15,6 @@ import static org.mockito.Mockito.*;
 class RecruteurCréeListenerTest {
 
     @Mock
-    public MessageBus bus;
-
-    @Mock
     public RecruteurDao dao;
 
     @InjectMocks
@@ -28,7 +24,7 @@ class RecruteurCréeListenerTest {
     void should_add_RecruteurDetail_when_at_least_10_years_of_XP() {
         RecruteurCree recruteurCree = new RecruteurCree(1, "Java", 10, "recruteur@soat.fr");
 
-        listener.onMessage(recruteurCree);
+        listener.handle(recruteurCree);
 
         verify(dao).addExperimente(new RecruteurDetail(recruteurCree.id(), recruteurCree.language(), recruteurCree.experiencesInYears(), recruteurCree.email()));
     }
@@ -37,7 +33,7 @@ class RecruteurCréeListenerTest {
     void should_not_add_RecruteurDetail_when_less_than_10_years_of_XP() {
         RecruteurCree recruteurCree = new RecruteurCree(1, "Java", 9, "recruteur@soat.fr");
 
-        listener.onMessage(recruteurCree);
+        listener.handle(recruteurCree);
 
         verify(dao, never()).addExperimente(any());
     }
