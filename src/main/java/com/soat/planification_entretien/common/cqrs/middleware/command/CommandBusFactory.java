@@ -14,7 +14,9 @@ import com.soat.planification_entretien.entretien.command.application_service.An
 import com.soat.planification_entretien.entretien.command.application_service.PlanifierEntretienCommandHandler;
 import com.soat.planification_entretien.entretien.command.application_service.ValiderEntretienCommandHandler;
 import com.soat.planification_entretien.entretien.command.domain.port.repository.EntretienRepository;
+import com.soat.planification_entretien.entretien.query.domain.port.repository.EntretienAnnuleDao;
 import com.soat.planification_entretien.entretien.query.domain.port.service.EmailService;
+import com.soat.planification_entretien.entretien.query.infrastructure.listener.EntretienAnnuleListener;
 import com.soat.planification_entretien.recruteur.command.application_service.CreerRecruteurCommandHandler;
 import com.soat.planification_entretien.recruteur.command.application_service.RendreRecruteurIndisponibleCommandHandler;
 import com.soat.planification_entretien.recruteur.command.domain.port.repository.RecruteurRepository;
@@ -32,19 +34,22 @@ public class CommandBusFactory {
     private final EmailService emailService;
     private final RecruteurRepository recruteurRepository;
     private final RecruteurDao recruteurDao;
+    private final EntretienAnnuleDao entretienAnnuleDao;
 
     public CommandBusFactory(CandidatRepository candidatRepository,
                              CandidatFactory candidatFactory,
                              EntretienRepository entretienRepository,
                              EmailService emailService,
                              RecruteurRepository recruteurRepository,
-                             RecruteurDao recruteurDao) {
+                             RecruteurDao recruteurDao,
+                             EntretienAnnuleDao entretienAnnuleDao) {
         this.candidatRepository = candidatRepository;
         this.candidatFactory = candidatFactory;
         this.entretienRepository = entretienRepository;
         this.emailService = emailService;
         this.recruteurRepository = recruteurRepository;
         this.recruteurDao = recruteurDao;
+        this.entretienAnnuleDao = entretienAnnuleDao;
     }
 
     protected List<CommandHandler> getCommandHandlers() {
@@ -61,7 +66,7 @@ public class CommandBusFactory {
     protected List<EventHandler<? extends Event>> getEventHandlers() {
         return List.of(
                 new RecruteurCréeListener(recruteurDao),
-                //TODO check
+                new EntretienAnnuleListener(entretienAnnuleDao),
                 new EntretienCreeListener(new RendreRecruteurIndisponibleCommandHandler(recruteurRepository))
         );
     }

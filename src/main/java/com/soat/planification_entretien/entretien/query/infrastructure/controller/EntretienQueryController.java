@@ -5,6 +5,7 @@ import java.util.List;
 import com.soat.planification_entretien.common.cqrs.application.QueryController;
 import com.soat.planification_entretien.common.cqrs.middleware.queries.QueryBusFactory;
 import com.soat.planification_entretien.common.cqrs.query.QueryResponse;
+import com.soat.planification_entretien.entretien.query.application_service.CompterEntretiensAnnulésQueryHandler;
 import com.soat.planification_entretien.entretien.query.application_service.ListerEntretiensQueryHandler;
 import com.soat.planification_entretien.entretien.query.domain.model.EntretienInQuery;
 import org.springframework.http.HttpStatus;
@@ -27,4 +28,11 @@ public class EntretienQueryController extends QueryController {
         QueryResponse<List<EntretienInQuery>> queryResponse = getQueryBus().dispatch(new ListerEntretiensQueryHandler.ListerEntretienQuery());
         return new ResponseEntity<>(queryResponse.value(), HttpStatus.OK);
     }
+
+    @GetMapping("/compter-annules")
+    public ResponseEntity<Integer> countCancelled() {
+        QueryResponse<Integer> queryResponse = getQueryBus().dispatch(new CompterEntretiensAnnulésQueryHandler.CompterEntretiensAnnulésQuery());
+        return new ResponseEntity<>(queryResponse.value(), HttpStatus.OK);
+    }
+
 }

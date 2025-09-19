@@ -16,6 +16,7 @@ import com.soat.planification_entretien.candidat.command.domain.port.repository.
 import com.soat.planification_entretien.entretien.query.domain.model.EntretienInQuery;
 import com.soat.planification_entretien.entretien.command.domain.port.repository.EntretienRepository;
 import com.soat.planification_entretien.entretien.command.domain.model.Recruteur;
+import com.soat.planification_entretien.entretien.query.infrastructure.controller.EntretienQueryController;
 import com.soat.planification_entretien.recruteur.command.domain.port.repository.RecruteurRepository;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
@@ -51,7 +52,7 @@ public class ListingEntretienATest extends ATest {
 
     @Override
     protected void initPath() {
-        RestAssured.basePath = EntretienCommandController.PATH;
+        RestAssured.basePath = EntretienQueryController.PATH;
     }
 
     @Etantdonné("les recruteurs existants")
@@ -136,6 +137,25 @@ public class ListingEntretienATest extends ATest {
 
         assertThat(Arrays.stream(detailDtos).toList())
                 .containsExactlyInAnyOrder(entretiens.toArray(EntretienInQuery[]::new));
+    }
+
+    @Quand("on compte tous les entretiens annulés")
+    public void onCompteTousLesEntretiensAnnulés() {
+        initPath();
+        //@formatter:off
+        response = given()
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/compter-annules");
+        //@formatter:on
+    }
+
+    @Alors("on récupère le nombre d'entretiens annulés {int}")
+    public void onRécupèresLeNombreDEntretiensAnnulésSuivant(int nombreEntretiensAnnulés) {
+        var nombreEntretiensObtenus = response.then().extract()
+                .as(Integer.class);
+
+        assertThat(nombreEntretiensObtenus).isEqualTo(nombreEntretiensAnnulés);
     }
 
     public static EntretienInQuery buildEntretienInQuery(Map<String, String> entry) {
