@@ -3,6 +3,7 @@ package com.soat.planification_entretien.entretien.command.infrastructure.contro
 import com.soat.planification_entretien.candidat.command.domain.port.repository.CandidatRepository;
 import com.soat.planification_entretien.common.cqrs.application.CommandController;
 import com.soat.planification_entretien.common.cqrs.middleware.command.CommandBusFactory;
+import com.soat.planification_entretien.entretien.command.application_service.AnnulerEntretienCommandHandler;
 import com.soat.planification_entretien.entretien.command.application_service.PlanifierEntretienCommandHandler;
 import com.soat.planification_entretien.entretien.command.application_service.ValiderEntretienCommandHandler;
 import com.soat.planification_entretien.entretien.command.domain.event.EntretienPlanifié;
@@ -62,6 +63,13 @@ public class EntretienCommandController extends CommandController {
     @PatchMapping("{id}/valider")
     public ResponseEntity<Void> valider(@PathVariable("id") int id) {
         getCommandBus().dispatch(new ValiderEntretienCommandHandler.ValiderEntretienCommand(id));
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PatchMapping("{id}/annuler")
+    public ResponseEntity<Void> annuler(@PathVariable("id") int id) {
+        getCommandBus().dispatch(new AnnulerEntretienCommandHandler.AnnulerEntretienCommand(id));
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

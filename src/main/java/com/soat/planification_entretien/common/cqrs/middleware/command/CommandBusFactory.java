@@ -10,6 +10,7 @@ import com.soat.planification_entretien.common.cqrs.event.Event;
 import com.soat.planification_entretien.common.cqrs.event.EventHandler;
 import com.soat.planification_entretien.common.cqrs.middleware.event.EventBus;
 import com.soat.planification_entretien.common.cqrs.middleware.event.EventBusFactory;
+import com.soat.planification_entretien.entretien.command.application_service.AnnulerEntretienCommandHandler;
 import com.soat.planification_entretien.entretien.command.application_service.PlanifierEntretienCommandHandler;
 import com.soat.planification_entretien.entretien.command.application_service.ValiderEntretienCommandHandler;
 import com.soat.planification_entretien.entretien.command.domain.port.repository.EntretienRepository;
@@ -52,7 +53,8 @@ public class CommandBusFactory {
                 new PlanifierEntretienCommandHandler(entretienRepository, emailService),
                 new ValiderEntretienCommandHandler(entretienRepository),
                 new CreerRecruteurCommandHandler(recruteurRepository),
-                new RendreRecruteurIndisponibleCommandHandler(recruteurRepository)
+                new RendreRecruteurIndisponibleCommandHandler(recruteurRepository),
+                new AnnulerEntretienCommandHandler(entretienRepository)
         );
     }
 

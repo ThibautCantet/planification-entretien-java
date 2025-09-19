@@ -45,7 +45,20 @@ public class WorkflowEntretienATest extends ATest {
         //@formatter:on
     }
 
-    @Alors("on récupères les entretiens après validation")
+
+    @Quand("on annule l'entretien {int}")
+    public void onAnnuleLEntretien(int entretienId) {
+        initPath();
+        //@formatter:off
+        response = given()
+                .log().all()
+                .header("Content-Type", ContentType.JSON)
+                .when()
+                .patch(entretienId + "/annuler");
+        //@formatter:on
+    }
+
+    @Alors("on récupères les entretiens")
     public void onRécupèresLesEntretiensSuivants(DataTable dataTable) {
         List<EntretienInQuery> entretiens = dataTableTransformEntries(dataTable, ListingEntretienATest::buildEntretienInQuery);
 

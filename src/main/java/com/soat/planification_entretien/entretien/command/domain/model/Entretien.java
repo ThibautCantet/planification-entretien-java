@@ -78,6 +78,10 @@ public class Entretien {
         status = Status.VALIDE;
     }
 
+    public void annuler() {
+        status = Status.ANNULE;
+    }
+
     public String getLanguage() {
         return recruteur.getLanguage();
     }
