@@ -3,8 +3,8 @@ package com.soat.planification_entretien.controller;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.soat.planification_entretien.model.Recruteur;
-import com.soat.planification_entretien.repository.RecruteurRepository;
+import com.soat.planification_entretien.domain.model.Recruteur;
+import com.soat.planification_entretien.application.repository.RecruteurRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

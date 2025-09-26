@@ -6,8 +6,8 @@ import java.util.Optional;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
 import com.soat.planification_entretien.controller.RecruteurController;
-import com.soat.planification_entretien.model.Recruteur;
-import com.soat.planification_entretien.repository.RecruteurRepository;
+import com.soat.planification_entretien.domain.model.Recruteur;
+import com.soat.planification_entretien.application.repository.RecruteurRepository;
 import com.soat.planification_entretien.controller.RecruteurDto;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static io.restassured.RestAssured.*;
 import static org.assertj.core.api.Assertions.*;
-import static org.hamcrest.Matchers.*;
 
 public class CreationRecruteurATest extends ATest {
 

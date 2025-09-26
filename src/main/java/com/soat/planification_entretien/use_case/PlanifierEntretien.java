@@ -2,12 +2,12 @@ package com.soat.planification_entretien.use_case;
 
 import java.time.LocalDateTime;
 
-import com.soat.planification_entretien.model.Candidat;
-import com.soat.planification_entretien.model.Entretien;
-import com.soat.planification_entretien.model.Recruteur;
-import com.soat.planification_entretien.repository.CandidatRepository;
-import com.soat.planification_entretien.repository.EntretienRepository;
-import com.soat.planification_entretien.repository.RecruteurRepository;
+import com.soat.planification_entretien.domain.model.Candidat;
+import com.soat.planification_entretien.domain.model.Entretien;
+import com.soat.planification_entretien.domain.model.Recruteur;
+import com.soat.planification_entretien.application.repository.CandidatRepository;
+import com.soat.planification_entretien.application.repository.EntretienRepository;
+import com.soat.planification_entretien.application.repository.RecruteurRepository;
 import com.soat.planification_entretien.service.EmailService;
 import org.springframework.stereotype.Service;
 

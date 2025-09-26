@@ -3,7 +3,7 @@ package com.soat.planification_entretien.use_case;
 import java.util.List;
 
 import com.soat.planification_entretien.controller.EntretienDetailDto;
-import com.soat.planification_entretien.repository.EntretienRepository;
+import com.soat.planification_entretien.application.repository.EntretienRepository;
 import org.springframework.stereotype.Service;
 
 @Service

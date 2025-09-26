@@ -11,10 +11,10 @@ import com.soat.planification_entretien.application.repository.CandidatRepositor
 import com.soat.planification_entretien.application.repository.RecruteurRepository;
 import com.soat.planification_entretien.controller.EntretienController;
 import com.soat.planification_entretien.controller.EntretienDto;
-import com.soat.planification_entretien.model.Candidat;
-import com.soat.planification_entretien.model.Entretien;
-import com.soat.planification_entretien.model.Recruteur;
-import com.soat.planification_entretien.repository.EntretienRepository;
+import com.soat.planification_entretien.domain.model.Candidat;
+import com.soat.planification_entretien.domain.model.Entretien;
+import com.soat.planification_entretien.domain.model.Recruteur;
+import com.soat.planification_entretien.application.repository.EntretienRepository;
 import com.soat.planification_entretien.service.EmailService;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
