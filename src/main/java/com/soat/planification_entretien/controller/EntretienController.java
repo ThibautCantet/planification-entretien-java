@@ -24,7 +24,7 @@ public class EntretienController {
         this.entretienService = entretienService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<EntretienDetailDto>> findAll() {
         return new ResponseEntity<>(entretienService.lister(), HttpStatus.OK);
     }
