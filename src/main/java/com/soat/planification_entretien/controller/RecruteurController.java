@@ -25,7 +25,7 @@ public class RecruteurController {
         this.recruteurRepository = recruteurRepository;
     }
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<Integer> creer(@RequestBody RecruteurDto recruteurDto) {
         if (recruteurDto.language().isBlank() || !isEmail(recruteurDto.email()) || recruteurDto.experienceEnAnnees().isBlank() || Integer.parseInt(recruteurDto.experienceEnAnnees()) < 0) {
             return badRequest().build();

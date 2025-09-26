@@ -26,7 +26,7 @@ public class CandidatController {
         this.candidatRepository = candidatRepository;
     }
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<Integer> creer(@RequestBody CandidatDto candidatDto) {
 
         if (candidatDto.language().isBlank() || !isEmail(candidatDto.email()) || candidatDto.experienceEnAnnees().isBlank() || Integer.parseInt(candidatDto.experienceEnAnnees()) < 0) {

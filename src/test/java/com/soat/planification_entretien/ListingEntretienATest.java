@@ -95,11 +95,12 @@ public class ListingEntretienATest extends ATest {
 
     @Quand("on liste les tous les entretiens")
     public void onListeLesTousLesEntretiens() {
+        initPath();
         //@formatter:off
         response = given()
                         .contentType(ContentType.JSON)
                 .when()
-                        .get(EntretienController.PATH);
+                        .get();
         //@formatter:on
 
     }
@@ -110,8 +111,8 @@ public class ListingEntretienATest extends ATest {
 
         EntretienDetailDto[] detailDtos = response.then().extract()
                 .as(EntretienDetailDto[].class);
+
         assertThat(Arrays.stream(detailDtos).toList())
-                .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
                 .containsExactlyInAnyOrder(entretiens.toArray(EntretienDetailDto[]::new));
     }
 

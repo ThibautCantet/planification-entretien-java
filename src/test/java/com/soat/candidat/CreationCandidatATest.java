@@ -56,7 +56,7 @@ public class CreationCandidatATest extends ATest {
                 .header("Content-Type", ContentType.JSON)
                 .body(body)
         .when()
-                .post("/");
+                .post();
         //@formatter:on
     }
 
