@@ -9,9 +9,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface JpaEntretienRepository extends CrudRepository<JpaEntretien, Integer> {
-    Entretien findByCandidat(Candidat candidat);
+    JpaEntretien findByCandidat(JpaCandidat candidat);
 
     Entretien save(Entretien entretien);
 
     List<JpaEntretien> findAll();
+
+    JpaEntretien findByCandidatId(Integer candidatId);
 }

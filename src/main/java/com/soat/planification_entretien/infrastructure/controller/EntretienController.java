@@ -1,9 +1,10 @@
-package com.soat.planification_entretien.application.controller;
+package com.soat.planification_entretien.infrastructure.controller;
 
 import java.util.List;
 
 import com.soat.planification_entretien.application.use_case.ListerEntretien;
 import com.soat.planification_entretien.application.use_case.PlanifierEntretien;
+import com.soat.planification_entretien.application.use_case.input_port.EntretienDetail;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +29,7 @@ public class EntretienController {
     }
 
     @GetMapping
-    public ResponseEntity<List<EntretienDetailDto>> findAll() {
+    public ResponseEntity<List<EntretienDetail>> findAll() {
         return new ResponseEntity<>(listerEntretien.execute(), HttpStatus.OK);
     }
 

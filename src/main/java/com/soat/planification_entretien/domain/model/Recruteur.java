@@ -14,8 +14,17 @@ public class Recruteur {
         this.experienceInYears = experienceInYears;
     }
 
-    public Recruteur() {
+    public Recruteur(int id, String language, Integer experienceInYears) {
+        this.id = id;
+        this.language = language;
+        this.experienceInYears = experienceInYears;
+    }
 
+    public Recruteur(Integer id, String language, String email, Integer experienceInYears) {
+        this.id = id;
+        this.language = language;
+        this.email = email;
+        this.experienceInYears = experienceInYears;
     }
 
     public Integer getId() {

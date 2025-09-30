@@ -28,9 +28,6 @@ public abstract class ATest {
 
     protected abstract void initPath();
 
-    @Autowired
-    protected TestEntityManager entityManager;
-
     protected Response response;
 
     public static <T> List<T> dataTableTransformEntries(DataTable dataTable, Function<Map<String, String>, T> transformFunction) {

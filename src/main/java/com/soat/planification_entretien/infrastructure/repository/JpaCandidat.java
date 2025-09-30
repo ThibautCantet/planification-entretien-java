@@ -19,7 +19,8 @@ public class JpaCandidat {
     @Column
     private Integer experienceInYears;
 
-    public JpaCandidat(String language, String email, int experienceInYears) {
+    public JpaCandidat(Integer id, String language, String email, int experienceInYears) {
+        this.id = id;
         this.language = language;
         this.email = email;
         this.experienceInYears = experienceInYears;
@@ -46,10 +47,10 @@ public class JpaCandidat {
     }
 
     public Candidat toDomain() {
-        return new Candidat(language, email, experienceInYears);
+        return new Candidat(id, language, email, experienceInYears);
     }
 
     public static JpaCandidat fromDomain(Candidat candidat) {
-        return new JpaCandidat(candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceInYears());
+        return new JpaCandidat(candidat.getId(), candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceInYears());
     }
 }

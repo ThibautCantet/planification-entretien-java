@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.soat.planification_entretien.application.use_case.output_port.EntretienPort;
+import com.soat.planification_entretien.domain.model.Candidat;
 import com.soat.planification_entretien.domain.model.Entretien;
 import com.soat.planification_entretien.infrastructure.repository.JpaCandidat;
 import com.soat.planification_entretien.infrastructure.repository.JpaEntretien;
@@ -41,5 +42,11 @@ public class EntretienHibernateAdapter implements EntretienPort {
                 JpaRecruteur.fromDomain(entretien.getRecruteur()),
                 entretien.getHoraireEntretien());
         jpaEntretienRepository.save(jpaEntretien);
+    }
+
+    @Override
+    public Entretien findByCandidat(Candidat candidat) {
+        JpaCandidat jpaCandidat = JpaCandidat.fromDomain(candidat);
+        return jpaEntretienRepository.findByCandidat(jpaCandidat).toDomain();
     }
 }

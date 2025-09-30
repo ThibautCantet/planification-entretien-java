@@ -2,6 +2,7 @@ package com.soat.planification_entretien.infrastructure.repository;
 
 import java.time.LocalDateTime;
 
+import com.soat.planification_entretien.domain.model.Entretien;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -54,5 +55,9 @@ public class JpaEntretien {
 
     public Integer getId() {
         return id;
+    }
+
+    public Entretien toDomain() {
+        return new Entretien(id, candidat.toDomain(), recruteur.toDomain(), horaireEntretien);
     }
 }

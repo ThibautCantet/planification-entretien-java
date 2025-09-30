@@ -19,7 +19,8 @@ public class JpaRecruteur {
     @Column
     private Integer experienceInYears;
 
-    public JpaRecruteur(String language, String email, int experienceInYears) {
+    public JpaRecruteur(Integer id, String language, String email, int experienceInYears) {
+        this.id = id;
         this.language = language;
         this.email = email;
         this.experienceInYears = experienceInYears;
@@ -30,7 +31,7 @@ public class JpaRecruteur {
     }
 
     public static JpaRecruteur fromDomain(Recruteur recruteur) {
-        return new JpaRecruteur(recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears());
+        return new JpaRecruteur(recruteur.getId(), recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears());
     }
 
     public Integer getId() {
@@ -50,6 +51,6 @@ public class JpaRecruteur {
     }
 
     public Recruteur toDomain() {
-        return new Recruteur(language, email, experienceInYears);
+        return new Recruteur(id, language, email, experienceInYears);
     }
 }
