@@ -1,10 +1,10 @@
-package com.soat.planification_entretien.controller;
+package com.soat.planification_entretien.application.controller;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.soat.planification_entretien.application.use_case.output_port.CandidatPort;
 import com.soat.planification_entretien.domain.model.Candidat;
-import com.soat.planification_entretien.application.repository.CandidatRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,10 +20,10 @@ public class CandidatController {
 
     public static final String PATH = "/api/candidat";
 
-    private final CandidatRepository candidatRepository;
+    private final CandidatPort candidatPort;
 
-    public CandidatController(CandidatRepository candidatRepository) {
-        this.candidatRepository = candidatRepository;
+    public CandidatController(CandidatPort candidatPort) {
+        this.candidatPort = candidatPort;
     }
 
     @PostMapping
@@ -34,9 +34,9 @@ public class CandidatController {
         }
 
         Candidat candidat = new Candidat(candidatDto.language(), candidatDto.email(), Integer.parseInt(candidatDto.experienceEnAnnees()));
-        Candidat savedCandidat = candidatRepository.save(candidat);
+        var savedCandidatId = candidatPort.save(candidat);
 
-        return created(null).body(savedCandidat.getId());
+        return created(null).body(savedCandidatId);
     }
 
     private static boolean isEmail(String adresse) {

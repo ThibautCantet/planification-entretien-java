@@ -1,10 +1,10 @@
-package com.soat.planification_entretien.controller;
+package com.soat.planification_entretien.application.controller;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.soat.planification_entretien.application.use_case.output_port.RecruteurPort;
 import com.soat.planification_entretien.domain.model.Recruteur;
-import com.soat.planification_entretien.application.repository.RecruteurRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,10 +19,10 @@ public class RecruteurController {
     private static final String EMAIL_REGEX = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
     public static final String PATH = "/api/recruteur";
 
-    private final RecruteurRepository recruteurRepository;
+    private final RecruteurPort recruteurPort;
 
-    public RecruteurController(RecruteurRepository recruteurRepository) {
-        this.recruteurRepository = recruteurRepository;
+    public RecruteurController(RecruteurPort recruteurPort) {
+        this.recruteurPort = recruteurPort;
     }
 
     @PostMapping
@@ -32,9 +32,9 @@ public class RecruteurController {
         }
 
         Recruteur recruteur = new Recruteur(recruteurDto.language(), recruteurDto.email(), Integer.parseInt(recruteurDto.experienceEnAnnees()));
-        Recruteur savedRecruteur = recruteurRepository.save(recruteur);
+        var savedRecruteurId = recruteurPort.save(recruteur);
 
-        return created(null).body(savedRecruteur.getId());
+        return created(null).body(savedRecruteurId);
     }
 
     private static boolean isEmail(String adresse) {

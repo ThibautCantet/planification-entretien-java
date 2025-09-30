@@ -1,21 +1,21 @@
-package com.soat.planification_entretien.use_case;
+package com.soat.planification_entretien.application.use_case;
 
 import java.util.List;
 
-import com.soat.planification_entretien.controller.EntretienDetailDto;
-import com.soat.planification_entretien.application.repository.EntretienRepository;
+import com.soat.planification_entretien.application.controller.EntretienDetailDto;
+import com.soat.planification_entretien.application.use_case.output_port.EntretienPort;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ListerEntretien {
-    private final EntretienRepository entretienRepository;
+    private final EntretienPort entretienPort;
 
-    public ListerEntretien(EntretienRepository entretienRepository) {
-        this.entretienRepository = entretienRepository;
+    public ListerEntretien(EntretienPort entretienPort) {
+        this.entretienPort = entretienPort;
     }
 
     public List<EntretienDetailDto> execute() {
-        return entretienRepository.findAll().stream().map(entretien ->
+        return entretienPort.findAll().stream().map(entretien ->
                 new EntretienDetailDto(
                         entretien.getId(),
                         entretien.getCandidat().getEmail(),

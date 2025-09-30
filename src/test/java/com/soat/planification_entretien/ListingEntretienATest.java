@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.soat.ATest;
-import com.soat.planification_entretien.controller.EntretienController;
-import com.soat.planification_entretien.controller.EntretienDetailDto;
+import com.soat.planification_entretien.application.controller.EntretienController;
+import com.soat.planification_entretien.application.controller.EntretienDetailDto;
 import com.soat.planification_entretien.domain.model.Candidat;
 import com.soat.planification_entretien.domain.model.Entretien;
 import com.soat.planification_entretien.domain.model.Recruteur;

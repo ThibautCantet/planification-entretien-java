@@ -1,21 +1,11 @@
 package com.soat.planification_entretien.domain.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 
-@Entity
 public class Recruteur {
-    @Id
-    @GeneratedValue
     private Integer id;
 
-    @Column
     private String language;
-    @Column
     private String email;
-    @Column
     private Integer experienceInYears;
 
     public Recruteur(String language, String email, int experienceInYears) {

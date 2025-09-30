@@ -7,15 +7,15 @@ import java.time.format.DateTimeFormatter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
-import com.soat.planification_entretien.application.repository.CandidatRepository;
-import com.soat.planification_entretien.application.repository.RecruteurRepository;
-import com.soat.planification_entretien.controller.EntretienController;
-import com.soat.planification_entretien.controller.EntretienDto;
+import com.soat.planification_entretien.infrastructure.repository.JpaCandidatRepository;
+import com.soat.planification_entretien.infrastructure.repository.JpaRecruteurRepository;
+import com.soat.planification_entretien.application.controller.EntretienController;
+import com.soat.planification_entretien.application.controller.EntretienDto;
 import com.soat.planification_entretien.domain.model.Candidat;
 import com.soat.planification_entretien.domain.model.Entretien;
 import com.soat.planification_entretien.domain.model.Recruteur;
-import com.soat.planification_entretien.application.repository.EntretienRepository;
-import com.soat.planification_entretien.service.EmailService;
+import com.soat.planification_entretien.infrastructure.repository.JpaEntretienRepository;
+import com.soat.planification_entretien.application.use_case.output_port.EmailServicePort;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;
@@ -60,14 +60,14 @@ public class PlafinicationEntretienATest extends ATest {
     private LocalDateTime disponibiliteDuRecruteur;
 
     @Autowired
-    private EntretienRepository entretienRepository;
+    private JpaEntretienRepository entretienRepository;
     @Autowired
-    private CandidatRepository candidatRepository;
+    private JpaCandidatRepository candidatRepository;
     @Autowired
-    private RecruteurRepository recruteurRepository;
+    private JpaRecruteurRepository recruteurRepository;
 
     @Autowired
-    private EmailService emailService;
+    private EmailServicePort emailServicePort;
 
     @Before
     @Override
@@ -123,8 +123,8 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Et("un mail de confirmation est envoyé au candidat et au recruteur")
     public void unMailDeConfirmationEstEnvoyéAuCandidatEtAuRecruteur() {
-        verify(emailService).envoyerUnEmailDeConfirmationAuCandidat(candidat.getEmail(), disponibiliteDuCandidat);
-        verify(emailService).envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), disponibiliteDuCandidat);
+        verify(emailServicePort).envoyerUnEmailDeConfirmationAuCandidat(candidat.getEmail(), disponibiliteDuCandidat);
+        verify(emailServicePort).envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), disponibiliteDuCandidat);
     }
 
     @Alors("L’entretien n'est pas planifié")
@@ -138,7 +138,7 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Et("aucun mail de confirmation n'est envoyé au candidat ou au recruteur")
     public void aucunMailDeConfirmationNEstEnvoyéAuCandidatOuAuRecruteur() {
-        verify(emailService, never()).envoyerUnEmailDeConfirmationAuCandidat(candidat.getEmail(), disponibiliteDuCandidat);
-        verify(emailService, never()).envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), disponibiliteDuCandidat);
+        verify(emailServicePort, never()).envoyerUnEmailDeConfirmationAuCandidat(candidat.getEmail(), disponibiliteDuCandidat);
+        verify(emailServicePort, never()).envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), disponibiliteDuCandidat);
     }
 }
