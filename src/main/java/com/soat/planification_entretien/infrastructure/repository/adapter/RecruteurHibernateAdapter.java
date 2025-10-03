@@ -1,7 +1,5 @@
 package com.soat.planification_entretien.infrastructure.repository.adapter;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 import com.soat.planification_entretien.application.use_case.output_port.RecruteurPort;
@@ -30,12 +28,5 @@ public class RecruteurHibernateAdapter implements RecruteurPort {
         var jpaRecruteur = JpaRecruteur.fromDomain(recruteur);
         JpaRecruteur saved = jpaRecruteurRepository.save(jpaRecruteur);
         return saved.getId();
-    }
-
-    @Override
-    public List<Recruteur> findAll() {
-        return jpaRecruteurRepository.findAll().stream()
-                .map(JpaRecruteur::toDomain)
-                .toList();
     }
 }

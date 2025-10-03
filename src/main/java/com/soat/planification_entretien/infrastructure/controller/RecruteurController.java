@@ -1,17 +1,11 @@
 package com.soat.planification_entretien.infrastructure.controller;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.soat.planification_entretien.application.use_case.ListerEntretien;
-import com.soat.planification_entretien.application.use_case.ListerRecruteursExperimentes;
 import com.soat.planification_entretien.application.use_case.output_port.RecruteurPort;
 import com.soat.planification_entretien.domain.model.Recruteur;
-import com.soat.planification_entretien.domain.model.RecruteurDetail;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,11 +20,9 @@ public class RecruteurController {
     public static final String PATH = "/api/recruteur";
 
     private final RecruteurPort recruteurPort;
-    private final ListerRecruteursExperimentes listerRecruteursExperimentes;
 
-    public RecruteurController(RecruteurPort recruteurPort, ListerRecruteursExperimentes listerRecruteursExperimentes) {
+    public RecruteurController(RecruteurPort recruteurPort) {
         this.recruteurPort = recruteurPort;
-        this.listerRecruteursExperimentes = listerRecruteursExperimentes;
     }
 
     @PostMapping
@@ -49,12 +41,5 @@ public class RecruteurController {
         final Pattern r = Pattern.compile(EMAIL_REGEX);
         final Matcher m = r.matcher(adresse);
         return m.matches();
-    }
-
-    @GetMapping("")
-    public ResponseEntity<List<RecruteurDetail>> findAll() {
-        List<RecruteurDetail> entretienDetails = listerRecruteursExperimentes.execute().stream()
-                .toList();
-        return new ResponseEntity<>(entretienDetails, HttpStatus.OK);
     }
 }

@@ -1,8 +1,6 @@
 package com.soat.planification_entretien.infrastructure.repository.adapter;
 
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -24,11 +22,6 @@ public class InMemoryRecruteurRepository implements RecruteurPort {
         Recruteur toSave = new Recruteur(id, recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears());
         map.put(id, toSave);
         return id;
-    }
-
-    @Override
-    public List<Recruteur> findAll() {
-        return map.values().stream().toList();
     }
 
     @Override
