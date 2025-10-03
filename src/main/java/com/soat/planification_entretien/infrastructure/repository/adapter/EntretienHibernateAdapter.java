@@ -12,7 +12,7 @@ import com.soat.planification_entretien.infrastructure.repository.JpaEntretienRe
 import com.soat.planification_entretien.infrastructure.repository.JpaRecruteur;
 import org.springframework.stereotype.Repository;
 
-@Repository
+//@Repository
 public class EntretienHibernateAdapter implements EntretienPort {
 
     private final JpaEntretienRepository jpaEntretienRepository;

@@ -8,7 +8,7 @@ import com.soat.planification_entretien.infrastructure.repository.JpaCandidat;
 import com.soat.planification_entretien.infrastructure.repository.JpaCandidatRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
+//@Repository
 public class CandidatHibernateAdapter implements CandidatPort {
 
     private final JpaCandidatRepository jpaCandidatRepository;

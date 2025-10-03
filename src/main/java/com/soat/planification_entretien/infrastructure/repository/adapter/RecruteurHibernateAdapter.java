@@ -8,7 +8,7 @@ import com.soat.planification_entretien.infrastructure.repository.JpaRecruteur;
 import com.soat.planification_entretien.infrastructure.repository.JpaRecruteurRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
+//@Repository
 public class RecruteurHibernateAdapter implements RecruteurPort {
 
     private final JpaRecruteurRepository jpaRecruteurRepository;
