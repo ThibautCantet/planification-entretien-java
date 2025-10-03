@@ -1,10 +1,6 @@
 package com.soat.planification_entretien.infrastructure.controller;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import com.soat.planification_entretien.application.use_case.output_port.CandidatPort;
-import com.soat.planification_entretien.domain.model.Candidat;
+import com.soat.planification_entretien.application.use_case.CreerCandidat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,32 +12,25 @@ import static org.springframework.http.ResponseEntity.*;
 @RestController
 @RequestMapping(CandidatController.PATH)
 public class CandidatController {
-    private static final String EMAIL_REGEX = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
 
     public static final String PATH = "/api/candidat";
 
-    private final CandidatPort candidatPort;
+    private final CreerCandidat creerCandidat;
 
-    public CandidatController(CandidatPort candidatPort) {
-        this.candidatPort = candidatPort;
+    public CandidatController(CreerCandidat creerCandidat) {
+        this.creerCandidat = creerCandidat;
     }
 
     @PostMapping
     public ResponseEntity<Integer> creer(@RequestBody CandidatDto candidatDto) {
 
-        if (candidatDto.language().isBlank() || !isEmail(candidatDto.email()) || candidatDto.experienceEnAnnees().isBlank() || Integer.parseInt(candidatDto.experienceEnAnnees()) < 0) {
+        Integer id = creerCandidat.execute(candidatDto.language(), candidatDto.email(), candidatDto.experienceEnAnnees());
+
+        if (id == null) {
             return badRequest().build();
         }
 
-        Candidat candidat = new Candidat(candidatDto.language(), candidatDto.email(), Integer.parseInt(candidatDto.experienceEnAnnees()));
-        var savedCandidatId = candidatPort.save(candidat);
-
-        return created(null).body(savedCandidatId);
+        return created(null).body(id);
     }
 
-    private static boolean isEmail(String adresse) {
-        final Pattern r = Pattern.compile(EMAIL_REGEX);
-        final Matcher m = r.matcher(adresse);
-        return m.matches();
-    }
 }
