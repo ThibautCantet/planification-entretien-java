@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.domain.model;
+package com.soat.planification_entretien.application.use_case.input_port;
 
 public record RecruteurDetail(
     Integer id,

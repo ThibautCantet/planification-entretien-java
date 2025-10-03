@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.soat.planification_entretien.application.use_case.CreerRecruteur;
 import com.soat.planification_entretien.application.use_case.ListerRecruteursExperimentes;
-import com.soat.planification_entretien.domain.model.RecruteurDetail;
+import com.soat.planification_entretien.application.use_case.input_port.RecruteurDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

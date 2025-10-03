@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.soat.ATest;
-import com.soat.planification_entretien.domain.model.RecruteurDetail;
+import com.soat.planification_entretien.application.use_case.input_port.RecruteurDetail;
 import com.soat.planification_entretien.infrastructure.controller.RecruteurController;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;

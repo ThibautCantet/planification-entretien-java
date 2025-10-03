@@ -3,7 +3,7 @@ package com.soat.planification_entretien.application.use_case;
 import java.util.List;
 
 import com.soat.planification_entretien.application.use_case.output_port.RecruteurPort;
-import com.soat.planification_entretien.domain.model.RecruteurDetail;
+import com.soat.planification_entretien.application.use_case.input_port.RecruteurDetail;
 import org.springframework.stereotype.Service;
 
 @Service
