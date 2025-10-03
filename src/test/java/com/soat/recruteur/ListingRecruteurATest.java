@@ -47,6 +47,8 @@ public class ListingRecruteurATest extends ATest {
     public void onRécupèresLesRecruteursSuivants(DataTable dataTable) {
         List<RecruteurDetail> recruteurs = dataTableTransformEntries(dataTable, this::buildRecruteur);
 
+        assertThat(response.statusCode()).isEqualTo(200);
+
         RecruteurDetail[] detailDtos = response.then().extract()
                 .as(RecruteurDetail[].class);
         assertThat(Arrays.stream(detailDtos).toList())
