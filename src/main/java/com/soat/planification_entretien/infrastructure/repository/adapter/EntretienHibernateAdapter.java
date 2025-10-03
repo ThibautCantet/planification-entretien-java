@@ -47,6 +47,10 @@ public class EntretienHibernateAdapter implements EntretienPort {
     @Override
     public Entretien findByCandidat(Candidat candidat) {
         JpaCandidat jpaCandidat = JpaCandidat.fromDomain(candidat);
-        return jpaEntretienRepository.findByCandidat(jpaCandidat).toDomain();
+        JpaEntretien jpaEntretien = jpaEntretienRepository.findByCandidat(jpaCandidat);
+        if (jpaEntretien == null) {
+            return null;
+        }
+        return jpaEntretien.toDomain();
     }
 }
