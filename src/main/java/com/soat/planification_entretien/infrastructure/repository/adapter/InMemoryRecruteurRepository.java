@@ -26,7 +26,7 @@ public class InMemoryRecruteurRepository implements RecruteurPort {
         return id;
     }
 
-  //  @Override
+    @Override
     public List<Recruteur> findAll() {
         return map.values().stream().toList();
     }
