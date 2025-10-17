@@ -25,8 +25,8 @@ public class Entretien {
         this.horaireEntretien = horaireEntretien;
     }
 
-    public static Entretien of(Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
-        return new Entretien(candidat, recruteur, horaire);
+    public static Entretien of(Candidat candidat, Recruteur recruteur) {
+        return new Entretien(candidat, recruteur, null);
     }
 
     public Candidat getCandidat() {
@@ -43,5 +43,11 @@ public class Entretien {
 
     public Integer getId() {
         return id;
+    }
+
+    public boolean planifier(LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
+        return recruteur.getLanguage().equals(candidat.getLanguage())
+            && recruteur.getExperienceInYears() > candidat.getExperienceInYears()
+            && dateEtHeureDisponibiliteDuCandidat.equals(dateEtHeureDisponibiliteDuRecruteur);
     }
 }

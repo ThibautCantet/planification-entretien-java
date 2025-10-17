@@ -23,6 +23,9 @@ public class CandidatController {
 
     @PostMapping
     public ResponseEntity<Integer> creer(@RequestBody CandidatDto candidatDto) {
+        if (candidatDto.experienceEnAnnees().isBlank()) {
+            return badRequest().build();
+        }
 
         Integer id = creerCandidat.execute(candidatDto.language(), candidatDto.email(), candidatDto.experienceEnAnnees());
 

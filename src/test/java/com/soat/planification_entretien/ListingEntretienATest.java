@@ -101,8 +101,8 @@ public class ListingEntretienATest extends ATest {
     private Entretien buildEntretien(Map<String, String> entry) {
         return Entretien.of(
                 savedCandidats.get(0),
-                savedRecruteurs.get(0),
-                LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+                savedRecruteurs.get(0)
+        );
     }
 
     @Quand("on liste les tous les entretiens")
