@@ -3,11 +3,11 @@ package com.soat.planification_entretien.use_case;
 import java.time.LocalDateTime;
 
 import com.soat.planification_entretien.domain.EmailService;
+import com.soat.planification_entretien.domain.EntretienPort;
 import com.soat.planification_entretien.infrastructure.repository.CandidatRepository;
 import com.soat.planification_entretien.domain.Candidat;
 import com.soat.planification_entretien.domain.Entretien;
 import com.soat.planification_entretien.domain.Recruteur;
-import com.soat.planification_entretien.infrastructure.repository.EntretienRepository;
 import com.soat.planification_entretien.infrastructure.repository.RecruteurRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +15,13 @@ import org.springframework.stereotype.Service;
 public class PlanifierEntretien {
     private final CandidatRepository candidatRepository;
     private final RecruteurRepository recruteurRepository;
-    private final EntretienRepository entretienRepository;
+    private final EntretienPort entretienPort;
     private final EmailService emailService;
 
-    public PlanifierEntretien(CandidatRepository candidatRepository, RecruteurRepository recruteurRepository, EntretienRepository entretienRepository, EmailService emailService) {
+    public PlanifierEntretien(CandidatRepository candidatRepository, RecruteurRepository recruteurRepository, EntretienPort entretienPort, EmailService emailService) {
         this.candidatRepository = candidatRepository;
         this.recruteurRepository = recruteurRepository;
-        this.entretienRepository = entretienRepository;
+        this.entretienPort = entretienPort;
         this.emailService = emailService;
     }
 
@@ -33,7 +33,7 @@ public class PlanifierEntretien {
                 && recruteur.getExperienceInYears() > candidat.getExperienceInYears()
                 && dateEtHeureDisponibiliteDuCandidat.equals(dateEtHeureDisponibiliteDuRecruteur)) {
             Entretien entretien = Entretien.of(candidat, recruteur, dateEtHeureDisponibiliteDuRecruteur);
-            entretienRepository.save(entretien);
+            entretienPort.save(entretien);
             emailService.envoyerUnEmailDeConfirmationAuCandidat(candidat.getEmail(), dateEtHeureDisponibiliteDuCandidat);
             emailService.envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), dateEtHeureDisponibiliteDuCandidat);
             return true;

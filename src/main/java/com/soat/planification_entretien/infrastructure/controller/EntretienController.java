@@ -29,7 +29,16 @@ public class EntretienController {
 
     @GetMapping
     public ResponseEntity<List<EntretienDetailDto>> findAll() {
-        return new ResponseEntity<>(listerEntretien.execute(), HttpStatus.OK);
+        var entretienDetails = listerEntretien.execute()
+                .stream().map(entretien ->
+                new EntretienDetailDto(
+                        entretien.getId(),
+                        entretien.getCandidat().getEmail(),
+                        entretien.getRecruteur().getEmail(),
+                        entretien.getRecruteur().getLanguage(),
+                        entretien.getHoraireEntretien())
+        ).toList();
+        return new ResponseEntity<>(entretienDetails, HttpStatus.OK);
     }
 
     @PostMapping("planifier")
