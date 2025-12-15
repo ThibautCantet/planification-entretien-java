@@ -1,22 +1,36 @@
-package com.soat.planification_entretien.domain;
+package com.soat.planification_entretien.infrastructure.repository;
 
-public class Recruteur {
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
+@Entity
+public class JpaCandidat {
+    @Id
+    @GeneratedValue
     private Integer id;
+
+    @Column
     private String language;
+    @Column
     private String email;
+    @Column
     private Integer experienceInYears;
 
-    public Recruteur(Integer id, String language, String email, int experienceInYears) {
+    public JpaCandidat(Integer id, String language, String email, int experienceInYears) {
         this.id = id;
         this.language = language;
         this.email = email;
         this.experienceInYears = experienceInYears;
     }
-    public Recruteur(String language, String email, int experienceInYears) {
+
+    public JpaCandidat(String language, String email, int experienceInYears) {
         this(null, language, email, experienceInYears);
     }
 
-    public Recruteur() {
+    public JpaCandidat() {
+
     }
 
     public Integer getId() {

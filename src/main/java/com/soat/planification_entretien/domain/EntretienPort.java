@@ -6,4 +6,6 @@ public interface EntretienPort {
     List<Entretien> findAll();
 
     void save(Entretien entretien);
+
+    Entretien findByCandidatId(Integer candidatId);
 }

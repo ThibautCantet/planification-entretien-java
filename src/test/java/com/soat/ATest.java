@@ -10,7 +10,6 @@ import io.cucumber.datatable.DataTable;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 public abstract class ATest {
@@ -27,9 +26,6 @@ public abstract class ATest {
     }
 
     protected abstract void initPath();
-
-    @Autowired
-    protected TestEntityManager entityManager;
 
     protected Response response;
 

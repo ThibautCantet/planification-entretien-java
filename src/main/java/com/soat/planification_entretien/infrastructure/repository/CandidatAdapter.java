@@ -16,11 +16,14 @@ public class CandidatAdapter implements CandidatPort {
 
     @Override
     public Optional<Candidat> findById(int candidatId) {
-        return candidatRepository.findById(candidatId);
+        return candidatRepository.findById(candidatId)
+                .map(c -> new Candidat(c.getId(), c.getLanguage(), c.getEmail(), c.getExperienceInYears()));
     }
 
     @Override
     public Candidat save(Candidat candidat) {
-        return candidatRepository.save(candidat);
+        var toSave = new JpaCandidat(candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceInYears());
+        var saved = candidatRepository.save(toSave);
+        return new Candidat(saved.getId(), saved.getLanguage(), saved.getEmail(), saved.getExperienceInYears());
     }
 }

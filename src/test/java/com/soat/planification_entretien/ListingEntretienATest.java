@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.soat.ATest;
+import com.soat.planification_entretien.domain.CandidatPort;
+import com.soat.planification_entretien.domain.EntretienPort;
+import com.soat.planification_entretien.domain.RecruteurPort;
 import com.soat.planification_entretien.infrastructure.controller.EntretienController;
 import com.soat.planification_entretien.infrastructure.controller.EntretienDetailDto;
 import com.soat.planification_entretien.domain.Candidat;
@@ -21,6 +24,8 @@ import io.cucumber.java.fr.Etantdonné;
 import io.cucumber.java.fr.Quand;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import jakarta.persistence.EntityManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import static io.restassured.RestAssured.*;
@@ -31,6 +36,13 @@ public class ListingEntretienATest extends ATest {
 
     private List<Candidat> savedCandidats = new ArrayList<>();
     private List<Recruteur> savedRecruteurs = new ArrayList<>();
+
+    @Autowired
+    private RecruteurPort recruteurPort;
+    @Autowired
+    private CandidatPort candidatPort;
+    @Autowired
+    private EntretienPort entretienPort;
 
     @Before
     @Override
@@ -48,7 +60,7 @@ public class ListingEntretienATest extends ATest {
         List<Recruteur> recruteurs = dataTableTransformEntries(dataTable, this::buildRecruteur);
 
         for (Recruteur recruteur : recruteurs) {
-            Recruteur saved = entityManager.persist(recruteur);
+            Recruteur saved = recruteurPort.save(recruteur);
             savedRecruteurs.add(saved);
         }
     }
@@ -65,7 +77,7 @@ public class ListingEntretienATest extends ATest {
         List<Candidat> candidats = dataTableTransformEntries(dataTable, this::buildCandidat);
 
         for (Candidat candidat : candidats) {
-            Candidat saved = entityManager.persist(candidat);
+            Candidat saved = candidatPort.save(candidat);
             savedCandidats.add(saved);
         }
     }
@@ -82,7 +94,7 @@ public class ListingEntretienATest extends ATest {
         List<Entretien> entretiens = dataTableTransformEntries(dataTable, this::buildEntretien);
 
         for (Entretien entretien : entretiens) {
-            entityManager.persist(entretien);
+            entretienPort.save(entretien);
         }
     }
 

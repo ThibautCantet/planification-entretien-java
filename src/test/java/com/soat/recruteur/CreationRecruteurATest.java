@@ -5,9 +5,9 @@ import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
+import com.soat.planification_entretien.domain.RecruteurPort;
 import com.soat.planification_entretien.infrastructure.controller.RecruteurController;
 import com.soat.planification_entretien.domain.Recruteur;
-import com.soat.planification_entretien.infrastructure.repository.RecruteurRepository;
 import com.soat.planification_entretien.infrastructure.controller.RecruteurDto;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.*;
 public class CreationRecruteurATest extends ATest {
 
     @Autowired
-    private RecruteurRepository recruteurRepository;
+    private RecruteurPort recruteurPort;
 
     private RecruteurDto recruteurDto;
     private Integer recruteurId = 1;
@@ -65,7 +65,7 @@ public class CreationRecruteurATest extends ATest {
         response.then()
                 .statusCode(HttpStatus.SC_CREATED);
 
-        final Recruteur recruteur = recruteurRepository.findById(recruteurId).get();
+        final Recruteur recruteur = recruteurPort.findById(recruteurId).get();
         assertThat(recruteur).usingRecursiveComparison()
                 .ignoringFields("id")
                 .isEqualTo(new Recruteur(language, email, Integer.parseInt(experienceEnAnnees)));
@@ -79,7 +79,7 @@ public class CreationRecruteurATest extends ATest {
 
     @Et("le recruteur n'est pas enregistré")
     public void leRecruteurNEstPasEnregistré() {
-        final Optional<Recruteur> recruteur = recruteurRepository.findById(recruteurId);
+        final Optional<Recruteur> recruteur = recruteurPort.findById(recruteurId);
         assertThat(recruteur).isEmpty();
     }
 }

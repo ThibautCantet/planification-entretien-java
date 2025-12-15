@@ -16,11 +16,14 @@ public class RecruteurAdapter implements RecruteurPort {
 
     @Override
     public Optional<Recruteur> findById(int recruteurId) {
-        return recruteurRepository.findById(recruteurId);
+        return recruteurRepository.findById(recruteurId)
+                .map(r -> new Recruteur(r.getId(), r.getLanguage(), r.getEmail(), r.getExperienceInYears()));
     }
 
     @Override
     public Recruteur save(Recruteur recruteur) {
-        return recruteurRepository.save(recruteur);
+        var toSave = new JpaRecruteur(recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears());
+        var saved = recruteurRepository.save(toSave);
+        return new Recruteur(saved.getId(), saved.getLanguage(), saved.getEmail(), saved.getExperienceInYears());
     }
 }

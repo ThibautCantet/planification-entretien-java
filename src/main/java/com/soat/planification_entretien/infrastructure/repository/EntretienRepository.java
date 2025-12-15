@@ -2,16 +2,14 @@ package com.soat.planification_entretien.infrastructure.repository;
 
 import java.util.List;
 
-import com.soat.planification_entretien.domain.Candidat;
-import com.soat.planification_entretien.domain.Entretien;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EntretienRepository extends CrudRepository<Entretien, Integer> {
-    Entretien findByCandidat(Candidat candidat);
+public interface EntretienRepository extends CrudRepository<JpaEntretien, Integer> {
+    JpaEntretien save(JpaEntretien entretien);
 
-    Entretien save(Entretien entretien);
+    List<JpaEntretien> findAll();
 
-    List<Entretien> findAll();
+    JpaEntretien findByCandidatId(Integer candidatId);
 }

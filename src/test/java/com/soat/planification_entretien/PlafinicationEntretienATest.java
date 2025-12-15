@@ -7,14 +7,14 @@ import java.time.format.DateTimeFormatter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
+import com.soat.planification_entretien.domain.CandidatPort;
+import com.soat.planification_entretien.domain.EntretienPort;
+import com.soat.planification_entretien.domain.RecruteurPort;
 import com.soat.planification_entretien.infrastructure.controller.EntretienController;
 import com.soat.planification_entretien.infrastructure.controller.EntretienDto;
-import com.soat.planification_entretien.infrastructure.repository.CandidatRepository;
 import com.soat.planification_entretien.domain.Candidat;
 import com.soat.planification_entretien.domain.Entretien;
 import com.soat.planification_entretien.domain.Recruteur;
-import com.soat.planification_entretien.infrastructure.repository.EntretienRepository;
-import com.soat.planification_entretien.infrastructure.repository.RecruteurRepository;
 import com.soat.planification_entretien.domain.EmailService;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
@@ -30,7 +30,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
-import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.annotation.DirtiesContext;
@@ -47,7 +46,6 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @AutoConfigureCache
 @AutoConfigureDataJpa
 @EnableJpaRepositories
-@AutoConfigureTestEntityManager
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @DirtiesContext
 @CucumberContextConfiguration
@@ -60,11 +58,11 @@ public class PlafinicationEntretienATest extends ATest {
     private LocalDateTime disponibiliteDuRecruteur;
 
     @Autowired
-    private EntretienRepository entretienRepository;
+    private EntretienPort entretienPort;
     @Autowired
-    private CandidatRepository candidatRepository;
+    private CandidatPort candidatPort;
     @Autowired
-    private RecruteurRepository recruteurRepository;
+    private RecruteurPort recruteurPort;
 
     @Autowired
     private EmailService emailService;
@@ -83,7 +81,7 @@ public class PlafinicationEntretienATest extends ATest {
     @Etantdonné("un candidat {string} \\({string}) avec {string} ans d’expériences qui est disponible {string} à {string}")
     public void unCandidatAvecAnsDExpériencesQuiEstDisponibleÀ(String language, String email, String experienceInYears, String date, String time) {
         candidat = new Candidat(language, email, Integer.parseInt(experienceInYears));
-        var saved = candidatRepository.save(candidat);
+        var saved = candidatPort.save(candidat);
         candidat = new Candidat(saved.getId(), language, email, Integer.parseInt(experienceInYears));
         disponibiliteDuCandidat = LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));
     }
@@ -91,7 +89,7 @@ public class PlafinicationEntretienATest extends ATest {
     @Etqu("un recruteur {string} \\({string}) qui a {string} ans d’XP qui est dispo {string} à {string}")
     public void unRecruteurQuiAAnsDXPQuiEstDispo(String language, String email, String experienceInYears, String date, String time) {
         recruteur = new Recruteur(language, email, Integer.parseInt(experienceInYears));
-        var saved = recruteurRepository.save(recruteur);
+        var saved = recruteurPort.save(recruteur);
         recruteur = new Recruteur(saved.getId(), language, email, Integer.parseInt(experienceInYears));
         disponibiliteDuRecruteur = LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));
     }
@@ -116,7 +114,7 @@ public class PlafinicationEntretienATest extends ATest {
         response.then()
                 .statusCode(HttpStatus.SC_CREATED);
 
-        Entretien entretien = entretienRepository.findByCandidat(candidat);
+        Entretien entretien = entretienPort.findByCandidatId(candidat.getId());
         Entretien expectedEntretien = Entretien.of(candidat, recruteur, disponibiliteDuCandidat);
         assertThat(entretien).usingRecursiveComparison()
                 .ignoringFields("id")
@@ -134,7 +132,7 @@ public class PlafinicationEntretienATest extends ATest {
         response.then()
                 .statusCode(HttpStatus.SC_BAD_REQUEST);
 
-        Entretien entretien = entretienRepository.findByCandidat(candidat);
+        Entretien entretien = entretienPort.findByCandidatId(candidat.getId());
         assertThat(entretien).isNull();
     }
 
