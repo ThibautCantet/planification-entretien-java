@@ -1,9 +1,7 @@
 package com.soat.planification_entretien.use_case;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-import com.soat.planification_entretien.infrastructure.controller.EntretienDetailDto;
 import com.soat.planification_entretien.infrastructure.repository.CandidatRepository;
 import com.soat.planification_entretien.domain.Candidat;
 import com.soat.planification_entretien.domain.Entretien;
@@ -13,20 +11,20 @@ import com.soat.planification_entretien.infrastructure.repository.RecruteurRepos
 import org.springframework.stereotype.Service;
 
 @Service
-public class EntretienService {
+public class PlanifierEntretien {
     private final CandidatRepository candidatRepository;
     private final RecruteurRepository recruteurRepository;
     private final EntretienRepository entretienRepository;
     private final EmailService emailService;
 
-    public EntretienService(CandidatRepository candidatRepository, RecruteurRepository recruteurRepository, EntretienRepository entretienRepository, EmailService emailService) {
+    public PlanifierEntretien(CandidatRepository candidatRepository, RecruteurRepository recruteurRepository, EntretienRepository entretienRepository, EmailService emailService) {
         this.candidatRepository = candidatRepository;
         this.recruteurRepository = recruteurRepository;
         this.entretienRepository = entretienRepository;
         this.emailService = emailService;
     }
 
-    public boolean planifier(int candidatId, int recruteurId, LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
+    public boolean execute(int candidatId, int recruteurId, LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
         Candidat candidat = candidatRepository.findById(candidatId).get();
         Recruteur recruteur = recruteurRepository.findById(recruteurId).get();
 
@@ -42,14 +40,4 @@ public class EntretienService {
         return false;
     }
 
-    public List<EntretienDetailDto> lister() {
-        return entretienRepository.findAll().stream().map(entretien ->
-                new EntretienDetailDto(
-                        entretien.getId(),
-                        entretien.getCandidat().getEmail(),
-                        entretien.getRecruteur().getEmail(),
-                        entretien.getRecruteur().getLanguage(),
-                        entretien.getHoraireEntretien())
-        ).toList();
-    }
 }
