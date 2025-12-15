@@ -2,32 +2,32 @@ package com.soat.planification_entretien.use_case;
 
 import java.time.LocalDateTime;
 
+import com.soat.planification_entretien.domain.CandidatPort;
 import com.soat.planification_entretien.domain.EmailService;
 import com.soat.planification_entretien.domain.EntretienPort;
-import com.soat.planification_entretien.infrastructure.repository.CandidatRepository;
 import com.soat.planification_entretien.domain.Candidat;
 import com.soat.planification_entretien.domain.Entretien;
 import com.soat.planification_entretien.domain.Recruteur;
-import com.soat.planification_entretien.infrastructure.repository.RecruteurRepository;
+import com.soat.planification_entretien.domain.RecruteurPort;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PlanifierEntretien {
-    private final CandidatRepository candidatRepository;
-    private final RecruteurRepository recruteurRepository;
+    private final CandidatPort candidatPort;
+    private final RecruteurPort recruteurPort;
     private final EntretienPort entretienPort;
     private final EmailService emailService;
 
-    public PlanifierEntretien(CandidatRepository candidatRepository, RecruteurRepository recruteurRepository, EntretienPort entretienPort, EmailService emailService) {
-        this.candidatRepository = candidatRepository;
-        this.recruteurRepository = recruteurRepository;
+    public PlanifierEntretien(CandidatPort candidatPort, RecruteurPort recruteurPort, EntretienPort entretienPort, EmailService emailService) {
+        this.candidatPort = candidatPort;
+        this.recruteurPort = recruteurPort;
         this.entretienPort = entretienPort;
         this.emailService = emailService;
     }
 
     public boolean execute(int candidatId, int recruteurId, LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
-        Candidat candidat = candidatRepository.findById(candidatId).get();
-        Recruteur recruteur = recruteurRepository.findById(recruteurId).get();
+        Candidat candidat = candidatPort.findById(candidatId).get();
+        Recruteur recruteur = recruteurPort.findById(recruteurId).get();
 
         if (recruteur.getLanguage().equals(candidat.getLanguage())
                 && recruteur.getExperienceInYears() > candidat.getExperienceInYears()
