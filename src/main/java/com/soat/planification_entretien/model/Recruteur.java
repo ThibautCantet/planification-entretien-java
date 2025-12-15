@@ -18,10 +18,14 @@ public class Recruteur {
     @Column
     private Integer experienceInYears;
 
-    public Recruteur(String language, String email, int experienceInYears) {
+    public Recruteur(Integer id, String language, String email, int experienceInYears) {
+        this.id = id;
         this.language = language;
         this.email = email;
         this.experienceInYears = experienceInYears;
+    }
+    public Recruteur(String language, String email, int experienceInYears) {
+        this(null, language, email, experienceInYears);
     }
 
     public Recruteur() {

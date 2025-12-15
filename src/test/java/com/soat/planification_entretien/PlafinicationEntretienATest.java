@@ -7,14 +7,14 @@ import java.time.format.DateTimeFormatter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
-import com.soat.planification_entretien.application.repository.CandidatRepository;
-import com.soat.planification_entretien.application.repository.RecruteurRepository;
 import com.soat.planification_entretien.controller.EntretienController;
 import com.soat.planification_entretien.controller.EntretienDto;
 import com.soat.planification_entretien.model.Candidat;
 import com.soat.planification_entretien.model.Entretien;
 import com.soat.planification_entretien.model.Recruteur;
+import com.soat.planification_entretien.repository.CandidatRepository;
 import com.soat.planification_entretien.repository.EntretienRepository;
+import com.soat.planification_entretien.repository.RecruteurRepository;
 import com.soat.planification_entretien.service.EmailService;
 import io.cucumber.java.Before;
 import io.cucumber.java.fr.Alors;
@@ -83,14 +83,16 @@ public class PlafinicationEntretienATest extends ATest {
     @Etantdonné("un candidat {string} \\({string}) avec {string} ans d’expériences qui est disponible {string} à {string}")
     public void unCandidatAvecAnsDExpériencesQuiEstDisponibleÀ(String language, String email, String experienceInYears, String date, String time) {
         candidat = new Candidat(language, email, Integer.parseInt(experienceInYears));
-        candidatRepository.save(candidat);
+        var saved = candidatRepository.save(candidat);
+        candidat = new Candidat(saved.getId(), language, email, Integer.parseInt(experienceInYears));
         disponibiliteDuCandidat = LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));
     }
 
     @Etqu("un recruteur {string} \\({string}) qui a {string} ans d’XP qui est dispo {string} à {string}")
     public void unRecruteurQuiAAnsDXPQuiEstDispo(String language, String email, String experienceInYears, String date, String time) {
         recruteur = new Recruteur(language, email, Integer.parseInt(experienceInYears));
-        recruteurRepository.save(recruteur);
+        var saved = recruteurRepository.save(recruteur);
+        recruteur = new Recruteur(saved.getId(), language, email, Integer.parseInt(experienceInYears));
         disponibiliteDuRecruteur = LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));
     }
 
