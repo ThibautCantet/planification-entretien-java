@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.model;
+package com.soat.planification_entretien.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -6,7 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
 @Entity
-public class Recruteur {
+public class Candidat {
     @Id
     @GeneratedValue
     private Integer id;
@@ -18,17 +18,18 @@ public class Recruteur {
     @Column
     private Integer experienceInYears;
 
-    public Recruteur(Integer id, String language, String email, int experienceInYears) {
+    public Candidat(Integer id, String language, String email, int experienceInYears) {
         this.id = id;
         this.language = language;
         this.email = email;
         this.experienceInYears = experienceInYears;
     }
-    public Recruteur(String language, String email, int experienceInYears) {
+
+    public Candidat(String language, String email, int experienceInYears) {
         this(null, language, email, experienceInYears);
     }
 
-    public Recruteur() {
+    public Candidat() {
 
     }
 
