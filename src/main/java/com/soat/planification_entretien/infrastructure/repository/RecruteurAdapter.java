@@ -18,4 +18,9 @@ public class RecruteurAdapter implements RecruteurPort {
     public Optional<Recruteur> findById(int recruteurId) {
         return recruteurRepository.findById(recruteurId);
     }
+
+    @Override
+    public Recruteur save(Recruteur recruteur) {
+        return recruteurRepository.save(recruteur);
+    }
 }
