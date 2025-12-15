@@ -18,4 +18,9 @@ public class CandidatAdapter implements CandidatPort {
     public Optional<Candidat> findById(int candidatId) {
         return candidatRepository.findById(candidatId);
     }
+
+    @Override
+    public Candidat save(Candidat candidat) {
+        return candidatRepository.save(candidat);
+    }
 }
