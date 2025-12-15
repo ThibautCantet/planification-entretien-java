@@ -2,6 +2,7 @@ package com.soat.planification_entretien.use_case;
 
 import java.time.LocalDateTime;
 
+import com.soat.planification_entretien.domain.EmailService;
 import com.soat.planification_entretien.infrastructure.repository.CandidatRepository;
 import com.soat.planification_entretien.domain.Candidat;
 import com.soat.planification_entretien.domain.Entretien;
