@@ -1,11 +1,11 @@
-package com.soat.planification_entretien.infrastructure.repository.adapter;
+package com.soat.planification_entretien.infrastructure.repository.adapter.inmemory;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import com.soat.planification_entretien.application.use_case.output_port.CandidatPort;
-import com.soat.planification_entretien.domain.model.Candidat;
+import com.soat.planification_entretien.domain.Candidat;
+import com.soat.planification_entretien.domain.CandidatPort;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
@@ -21,10 +21,10 @@ public class InMemoryCandidatAdapter implements CandidatPort {
     }
 
     @Override
-    public int save(Candidat candidat) {
+    public Candidat save(Candidat candidat) {
         var newId = candidats.size() + 1;
         var candidatWithId = new Candidat(newId, candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceInYears());
         candidats.put(newId, candidatWithId);
-        return newId;
+        return candidatWithId;
     }
 }
