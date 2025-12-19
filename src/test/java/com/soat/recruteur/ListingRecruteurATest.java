@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.soat.ATest;
-import com.soat.planification_entretien.domain.RecruteurDetail;
+import com.soat.planification_entretien.infrastructure.controller.RecruteurDetailDto;
 import com.soat.planification_entretien.infrastructure.controller.RecruteurController;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
@@ -45,17 +45,17 @@ public class ListingRecruteurATest extends ATest {
 
     @Alors("on récupères les recruteurs suivants")
     public void onRécupèresLesRecruteursSuivants(DataTable dataTable) {
-        List<RecruteurDetail> recruteurs = dataTableTransformEntries(dataTable, this::buildRecruteur);
+        List<RecruteurDetailDto> recruteurs = dataTableTransformEntries(dataTable, this::buildRecruteur);
 
-        RecruteurDetail[] detailDtos = response.then().extract()
-                .as(RecruteurDetail[].class);
+        RecruteurDetailDto[] detailDtos = response.then().extract()
+                .as(RecruteurDetailDto[].class);
         assertThat(Arrays.stream(detailDtos).toList())
                 .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-                .containsExactlyInAnyOrder(recruteurs.toArray(RecruteurDetail[]::new));
+                .containsExactlyInAnyOrder(recruteurs.toArray(RecruteurDetailDto[]::new));
     }
 
-    private RecruteurDetail buildRecruteur(Map<String, String> entry) {
-        return new RecruteurDetail(
+    private RecruteurDetailDto buildRecruteur(Map<String, String> entry) {
+        return new RecruteurDetailDto(
                 Integer.parseInt(entry.get("id")),
                 entry.get("email"),
                 entry.get("competence"));

@@ -1,5 +1,6 @@
 package com.soat.planification_entretien.infrastructure.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.soat.planification_entretien.domain.Recruteur;
@@ -25,5 +26,13 @@ public class RecruteurAdapter implements RecruteurPort {
         var toSave = new JpaRecruteur(recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears());
         var saved = recruteurRepository.save(toSave);
         return new Recruteur(saved.getId(), saved.getLanguage(), saved.getEmail(), saved.getExperienceInYears());
+    }
+
+    @Override
+    public List<Recruteur> findExperimentes() {
+        return recruteurRepository.findAll()
+                .stream().filter(r -> r.getExperienceInYears() >= 10)
+                .map(r -> new Recruteur(r.getId(), r.getLanguage(), r.getEmail(), r.getExperienceInYears()))
+                .toList();
     }
 }

@@ -1,7 +1,11 @@
 package com.soat.planification_entretien.infrastructure.controller;
 
+import java.util.List;
+
 import com.soat.planification_entretien.use_case.CreerRecruteur;
+import com.soat.planification_entretien.use_case.ListerRecruteurExperimentes;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,9 +19,11 @@ public class RecruteurController {
     public static final String PATH = "/api/recruteur";
 
     private final CreerRecruteur creerRecruteur;
+    private final ListerRecruteurExperimentes listerRecruteursExperimentes;
 
-    public RecruteurController(CreerRecruteur creerRecruteur) {
+    public RecruteurController(CreerRecruteur creerRecruteur, ListerRecruteurExperimentes listerRecruteursExperimentes) {
         this.creerRecruteur = creerRecruteur;
+        this.listerRecruteursExperimentes = listerRecruteursExperimentes;
     }
 
     @PostMapping
@@ -30,5 +36,12 @@ public class RecruteurController {
         }
 
         return created(null).body(savedRecruteur.getId());
+    }
+
+    @GetMapping
+    public List<RecruteurDetailDto> listerExperiments() {
+        return listerRecruteursExperimentes.execute().stream()
+                .map(r -> new RecruteurDetailDto(r.getId(), r.getEmail(), r.getLanguage(), r.getExperienceInYears()))
+                .toList();
     }
 }
