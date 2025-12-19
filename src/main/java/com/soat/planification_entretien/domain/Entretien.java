@@ -2,7 +2,7 @@ package com.soat.planification_entretien.domain;
 
 import java.time.LocalDateTime;
 
-public class Entretien {
+public class Entretien implements IEntretien {
     private Integer id;
     private Candidat candidat;
     private LocalDateTime horaireEntretien;
@@ -46,5 +46,30 @@ public class Entretien {
 
     public Integer getId() {
         return id;
+    }
+
+    @Override
+    public int id() {
+        return id;
+    }
+
+    @Override
+    public String emailCandidat() {
+        return candidat.getEmail();
+    }
+
+    @Override
+    public String emailRecruteur() {
+        return recruteur.getEmail();
+    }
+
+    @Override
+    public String language() {
+        return candidat.getLanguage();
+    }
+
+    @Override
+    public LocalDateTime horaire() {
+        return horaireEntretien;
     }
 }

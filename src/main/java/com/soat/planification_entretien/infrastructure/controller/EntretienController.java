@@ -2,6 +2,7 @@ package com.soat.planification_entretien.infrastructure.controller;
 
 import java.util.List;
 
+import com.soat.planification_entretien.domain.Entretien;
 import com.soat.planification_entretien.use_case.PlanifierEntretien;
 import com.soat.planification_entretien.use_case.ListerEntretien;
 import org.springframework.http.HttpStatus;
@@ -32,11 +33,11 @@ public class EntretienController {
         var entretienDetails = listerEntretien.execute()
                 .stream().map(entretien ->
                 new EntretienDetailDto(
-                        entretien.getId(),
-                        entretien.getCandidat().getEmail(),
-                        entretien.getRecruteur().getEmail(),
-                        entretien.getRecruteur().getLanguage(),
-                        entretien.getHoraireEntretien())
+                        entretien.id(),
+                        entretien.emailCandidat(),
+                        entretien.emailRecruteur(),
+                        entretien.language(),
+                        entretien.horaire())
         ).toList();
         return new ResponseEntity<>(entretienDetails, HttpStatus.OK);
     }

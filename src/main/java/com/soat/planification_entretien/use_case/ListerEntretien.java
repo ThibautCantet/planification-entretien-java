@@ -2,8 +2,8 @@ package com.soat.planification_entretien.use_case;
 
 import java.util.List;
 
-import com.soat.planification_entretien.domain.Entretien;
 import com.soat.planification_entretien.domain.EntretienPort;
+import com.soat.planification_entretien.domain.IEntretien;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,7 +14,10 @@ public class ListerEntretien {
         this.entretienPort = entretienPort;
     }
 
-    public List<Entretien> execute() {
-        return entretienPort.findAll();
+    public List<IEntretien> execute() {
+        return entretienPort.findAll()
+                .stream()
+                .map(e -> (IEntretien)e)
+                .toList();
     }
 }
