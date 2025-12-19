@@ -24,7 +24,6 @@ import io.cucumber.java.fr.Etantdonné;
 import io.cucumber.java.fr.Quand;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -101,8 +100,8 @@ public class ListingEntretienATest extends ATest {
     private Entretien buildEntretien(Map<String, String> entry) {
         return Entretien.of(
                 savedCandidats.get(0),
-                savedRecruteurs.get(0),
-                LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+                savedRecruteurs.get(0)
+        );
     }
 
     @Quand("on liste les tous les entretiens")

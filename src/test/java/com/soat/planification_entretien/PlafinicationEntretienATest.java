@@ -115,7 +115,7 @@ public class PlafinicationEntretienATest extends ATest {
                 .statusCode(HttpStatus.SC_CREATED);
 
         Entretien entretien = entretienPort.findByCandidatId(candidat.getId());
-        Entretien expectedEntretien = Entretien.of(candidat, recruteur, disponibiliteDuCandidat);
+        Entretien expectedEntretien = Entretien.of(candidat, recruteur);
         assertThat(entretien).usingRecursiveComparison()
                 .ignoringFields("id")
                 .isEqualTo(expectedEntretien);

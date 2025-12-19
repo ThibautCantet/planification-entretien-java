@@ -49,8 +49,7 @@ public class JpaEntretien {
                         recruteur.getLanguage(),
                         recruteur.getEmail(),
                         recruteur.getExperienceInYears()
-                ),
-                horaireEntretien
+                )
         );
     }
 }

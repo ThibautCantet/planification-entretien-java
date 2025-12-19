@@ -17,8 +17,14 @@ public class Entretien {
     public Entretien() {
     }
 
-    public static Entretien of(Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
-        return new Entretien(candidat, recruteur, horaire);
+    public static Entretien of(Candidat candidat, Recruteur recruteur) {
+        return new Entretien(candidat, recruteur, null);
+    }
+
+    public Boolean planifier(LocalDateTime disponibiliteDuCandidat, LocalDateTime disponibiliteDuRecruteur) {
+        return recruteur.getLanguage().equals(candidat.getLanguage())
+               && recruteur.getExperienceInYears() > candidat.getExperienceInYears()
+               && disponibiliteDuCandidat.equals(disponibiliteDuRecruteur);
     }
 
     public Candidat getCandidat() {
