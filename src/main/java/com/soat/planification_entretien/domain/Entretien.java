@@ -8,7 +8,8 @@ public class Entretien {
     private LocalDateTime horaireEntretien;
     private Recruteur recruteur;
 
-    private Entretien(Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
+    private Entretien(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
+        this.id = id;
         this.candidat = candidat;
         this.recruteur = recruteur;
         this.horaireEntretien = horaire;
@@ -18,7 +19,11 @@ public class Entretien {
     }
 
     public static Entretien of(Candidat candidat, Recruteur recruteur) {
-        return new Entretien(candidat, recruteur, null);
+        return new Entretien(null, candidat, recruteur, null);
+    }
+
+    public static Entretien of(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaireEntretien) {
+        return new Entretien(id, candidat, recruteur, horaireEntretien);
     }
 
     public Boolean planifier(LocalDateTime disponibiliteDuCandidat, LocalDateTime disponibiliteDuRecruteur) {

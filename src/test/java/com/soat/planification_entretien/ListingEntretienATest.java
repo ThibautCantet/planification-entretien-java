@@ -99,8 +99,10 @@ public class ListingEntretienATest extends ATest {
 
     private Entretien buildEntretien(Map<String, String> entry) {
         return Entretien.of(
+                null,
                 savedCandidats.get(0),
-                savedRecruteurs.get(0)
+                savedRecruteurs.get(0),
+                LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
         );
     }
 

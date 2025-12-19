@@ -38,6 +38,7 @@ public class JpaEntretien {
 
     public Entretien toEntretien() {
         return Entretien.of(
+                id,
                 new Candidat(
                         candidat.getId(),
                         candidat.getLanguage(),
@@ -49,7 +50,8 @@ public class JpaEntretien {
                         recruteur.getLanguage(),
                         recruteur.getEmail(),
                         recruteur.getExperienceInYears()
-                )
+                ),
+                horaireEntretien
         );
     }
 }

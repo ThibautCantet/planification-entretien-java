@@ -25,7 +25,7 @@ public class EntretienAdapter implements EntretienPort {
     @Override
     public List<Entretien> findAll() {
         return entretienRepository.findAll().stream()
-                .map(entretien -> entretien.toEntretien())
+                .map(JpaEntretien::toEntretien)
                 .toList();
     }
 
