@@ -1,10 +1,12 @@
-package com.soat.planification_entretien.infrastructure.repository;
+package com.soat.planification_entretien.infrastructure.repository.adapter.jpa;
 
 import java.util.List;
 import java.util.Optional;
 
 import com.soat.planification_entretien.domain.Recruteur;
 import com.soat.planification_entretien.domain.RecruteurPort;
+import com.soat.planification_entretien.infrastructure.repository.JpaRecruteur;
+import com.soat.planification_entretien.infrastructure.repository.RecruteurRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
