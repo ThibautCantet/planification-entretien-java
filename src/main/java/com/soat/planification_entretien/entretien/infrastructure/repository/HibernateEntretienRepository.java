@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.soat.planification_entretien.candidat.domain.CandidatProspect;
 import com.soat.planification_entretien.candidat.infrastructure.repository.CandidatCrud;
+import com.soat.planification_entretien.entretien.domain.Candidat;
+import com.soat.planification_entretien.entretien.domain.RecruteurPlanifié;
 import com.soat.planification_entretien.recruteur.domain.Recruteur;
 import com.soat.planification_entretien.entretien.domain.EntretienRepository;
 import com.soat.planification_entretien.recruteur.infrastructure.repository.RecruteurCrud;
@@ -24,8 +26,8 @@ public class HibernateEntretienRepository implements EntretienRepository {
     @Override
     public void save(com.soat.planification_entretien.entretien.domain.Entretien entretien) {
 
-        var jpaCandidat = candidatCrud.findById(entretien.getCandidat().getId()).get();
-        var jpaRecruteur = recruteurCrud.findById(entretien.getRecruteur().getId()).get();
+        var jpaCandidat = candidatCrud.findById(entretien.getCandidat().id()).get();
+        var jpaRecruteur = recruteurCrud.findById(entretien.getRecruteur().id()).get();
 
         var jpaEntretien = Entretien.of(jpaCandidat,
                 jpaRecruteur, entretien.getHoraireEntretien());
@@ -51,8 +53,8 @@ public class HibernateEntretienRepository implements EntretienRepository {
     private static com.soat.planification_entretien.entretien.domain.Entretien toEntretien(Entretien jpaEntretien) {
         return com.soat.planification_entretien.entretien.domain.Entretien.of(
                 jpaEntretien.getId(),
-                new CandidatProspect(jpaEntretien.getCandidat().getLanguage(), jpaEntretien.getCandidat().getEmail(), jpaEntretien.getCandidat().getExperienceInYears()),
-                new Recruteur(jpaEntretien.getRecruteur().getLanguage(), jpaEntretien.getRecruteur().getEmail(), jpaEntretien.getRecruteur().getExperienceInYears()),
+                new Candidat(jpaEntretien.getCandidat().getId(), jpaEntretien.getCandidat().getLanguage(), jpaEntretien.getCandidat().getEmail(), jpaEntretien.getCandidat().getExperienceInYears()),
+                new RecruteurPlanifié(jpaEntretien.getRecruteur().getId(), jpaEntretien.getRecruteur().getLanguage(), jpaEntretien.getRecruteur().getEmail(), jpaEntretien.getRecruteur().getExperienceInYears()),
                 jpaEntretien.getHoraireEntretien());
     }
 }

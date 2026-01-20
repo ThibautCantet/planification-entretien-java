@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import com.soat.planification_entretien.candidat.domain.CandidatProspect;
 import com.soat.planification_entretien.candidat.domain.CandidatRepository;
+import com.soat.planification_entretien.entretien.domain.Candidat;
+import com.soat.planification_entretien.entretien.domain.RecruteurPlanifié;
 import com.soat.planification_entretien.entretien.use_case.ListerEntretiens;
 import com.soat.planification_entretien.entretien.use_case.PlanifierEntretien;
 import com.soat.planification_entretien.recruteur.domain.Recruteur;
@@ -56,7 +58,11 @@ public class EntretienController {
         if (recruteur.isEmpty()) {
             return badRequest().build();
         }
-        var planifie = planifierEntretien.execute(candidat.get(), recruteur.get(), entretienDto.disponibiliteDuCandidat(), entretienDto.disponibiliteDuRecruteur());
+        var candidatProspect = candidat.get();
+        var candidatTrouvé = new Candidat(candidatProspect.getId(), candidatProspect.getLanguage(), candidatProspect.getEmail(), candidatProspect.getExperienceInYears());
+        var recruteurTrouvé = recruteur.get();
+        var recruteurEntretien = new RecruteurPlanifié(recruteurTrouvé.getId(), recruteurTrouvé.getLanguage(), recruteurTrouvé.getEmail(), recruteurTrouvé.getExperienceInYears());
+        var planifie = planifierEntretien.execute(candidatTrouvé, recruteurEntretien, entretienDto.disponibiliteDuCandidat(), entretienDto.disponibiliteDuRecruteur());
 
         if (planifie) {
             return created(null).build();

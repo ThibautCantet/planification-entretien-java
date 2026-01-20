@@ -7,6 +7,8 @@ import java.time.format.DateTimeFormatter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
+import com.soat.planification_entretien.entretien.domain.Candidat;
+import com.soat.planification_entretien.entretien.domain.RecruteurPlanifié;
 import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienController;
 import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienDto;
 import com.soat.planification_entretien.candidat.domain.CandidatProspect;
@@ -117,7 +119,9 @@ public class PlafinicationEntretienATest extends ATest {
                 .statusCode(HttpStatus.SC_CREATED);
 
         Entretien entretien = entretienRepository.findByCandidat(candidat);
-        Entretien expectedEntretien = Entretien.of(candidat, recruteur, disponibiliteDuCandidat);
+        var expectedCandidat = new Candidat(null, candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceInYears());
+        var expectedRecruteur = new RecruteurPlanifié(null, recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears());
+        Entretien expectedEntretien = Entretien.of(expectedCandidat, expectedRecruteur, disponibiliteDuCandidat);
         assertThat(entretien).usingRecursiveComparison()
                 .ignoringFields("id", "candidat.id", "recruteur.id")
                 .isEqualTo(expectedEntretien);

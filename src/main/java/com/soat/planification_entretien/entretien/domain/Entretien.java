@@ -2,36 +2,33 @@ package com.soat.planification_entretien.entretien.domain;
 
 import java.time.LocalDateTime;
 
-import com.soat.planification_entretien.candidat.domain.CandidatProspect;
-import com.soat.planification_entretien.recruteur.domain.Recruteur;
-
 public class Entretien implements IEntretien {
     private EntretienId id;
 
-    private CandidatProspect candidat;
+    private Candidat candidat;
 
     private LocalDateTime horaireEntretien;
 
-    private Recruteur recruteur;
+    private RecruteurPlanifié recruteur;
 
-    public Entretien(Integer id, CandidatProspect candidat, Recruteur recruteur, LocalDateTime horaire) {
+    public Entretien(Integer id, Candidat candidat, RecruteurPlanifié recruteur, LocalDateTime horaire) {
         this.id = new EntretienId(id);
         this.candidat = candidat;
         this.recruteur = recruteur;
         this.horaireEntretien = horaire;
     }
 
-    private Entretien(CandidatProspect candidat, Recruteur recruteur, LocalDateTime horaire) {
+    private Entretien(Candidat candidat, RecruteurPlanifié recruteur, LocalDateTime horaire) {
         this.candidat = candidat;
         this.recruteur = recruteur;
         this.horaireEntretien = horaire;
     }
 
-    public static Entretien of(Integer id, CandidatProspect candidat, Recruteur recruteur, LocalDateTime horaire) {
+    public static Entretien of(Integer id, Candidat candidat, RecruteurPlanifié recruteur, LocalDateTime horaire) {
         return new Entretien(id, candidat, recruteur, horaire);
     }
 
-    public static Entretien of(CandidatProspect candidat, Recruteur recruteur, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
+    public static Entretien of(Candidat candidat, RecruteurPlanifié recruteur, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
         return new Entretien(candidat, recruteur, dateEtHeureDisponibiliteDuRecruteur);
     }
 
@@ -40,11 +37,11 @@ public class Entretien implements IEntretien {
         return entretien;
     }
 
-    public CandidatProspect getCandidat() {
+    public Candidat getCandidat() {
         return candidat;
     }
 
-    public Recruteur getRecruteur() {
+    public RecruteurPlanifié getRecruteur() {
         return recruteur;
     }
 
@@ -58,17 +55,17 @@ public class Entretien implements IEntretien {
 
     @Override
     public String getEmailCandidat() {
-        return candidat.getEmail();
+        return candidat.email();
     }
 
     @Override
     public String getEmailRecruteur() {
-        return recruteur.getEmail();
+        return recruteur.email();
     }
 
     @Override
     public String getLanguage() {
-        return recruteur.getLanguage();
+        return recruteur.langage();
     }
 
     @Override
