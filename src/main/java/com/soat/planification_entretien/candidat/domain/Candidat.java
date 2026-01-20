@@ -2,7 +2,7 @@ package com.soat.planification_entretien.candidat.domain;
 
 public class Candidat {
 
-    private Integer id;
+    private CandidatId id;
 
     private final CompetenceCandidat competence;
     private final EmailCandidat email;
@@ -12,18 +12,18 @@ public class Candidat {
     }
 
     public Candidat(Integer candidatId, String language, String email, Integer experienceEnAnnees) {
-        this.id = candidatId;
+        this.id = new CandidatId(candidatId);
         this.competence = CompetenceCandidat.of(language, experienceEnAnnees);
         this.email = EmailCandidat.of(email);
     }
 
     public static Candidat of(Integer id, Candidat candidat) {
-        candidat.id = id;
+        candidat.id = new CandidatId(id);
         return candidat;
     }
 
     public Integer getId() {
-        return id;
+        return Integer.valueOf(id.value());
     }
 
     public String getLanguage() {
