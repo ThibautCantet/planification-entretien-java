@@ -1,6 +1,6 @@
 package com.soat.planification_entretien.candidat.use_case;
 
-import com.soat.planification_entretien.candidat.domain.Candidat;
+import com.soat.planification_entretien.candidat.domain.CandidatProspect;
 import com.soat.planification_entretien.candidat.domain.CandidatRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +15,9 @@ public class CreerCandidat {
 
     public Integer execute(String language, String email, String experienceEnAnnees) {
         try {
-            Candidat candidat = new Candidat(language, email, Integer.parseInt(experienceEnAnnees));
+            CandidatProspect candidat = new CandidatProspect(language, email, Integer.parseInt(experienceEnAnnees));
 
-            Candidat savedCandidat = candidatRepository.save(candidat);
+            CandidatProspect savedCandidat = candidatRepository.save(candidat);
 
             return savedCandidat.getId();
         } catch (IllegalArgumentException e) {

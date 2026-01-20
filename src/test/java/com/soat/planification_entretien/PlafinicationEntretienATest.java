@@ -9,7 +9,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
 import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienController;
 import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienDto;
-import com.soat.planification_entretien.candidat.domain.Candidat;
+import com.soat.planification_entretien.candidat.domain.CandidatProspect;
 import com.soat.planification_entretien.candidat.domain.CandidatRepository;
 import com.soat.planification_entretien.entretien.domain.Entretien;
 import com.soat.planification_entretien.entretien.domain.EntretienRepository;
@@ -54,7 +54,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @ActiveProfiles("AcceptanceTest")
 public class PlafinicationEntretienATest extends ATest {
 
-    private Candidat candidat;
+    private CandidatProspect candidat;
     private LocalDateTime disponibiliteDuCandidat;
     private Recruteur recruteur;
     private LocalDateTime disponibiliteDuRecruteur;
@@ -82,7 +82,7 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Etantdonné("un candidat {string} \\({string}) avec {string} ans d’expériences qui est disponible {string} à {string}")
     public void unCandidatAvecAnsDExpériencesQuiEstDisponibleÀ(String language, String email, String experienceInYears, String date, String time) {
-        candidat = new Candidat(1, language, email, Integer.parseInt(experienceInYears));
+        candidat = new CandidatProspect(1, language, email, Integer.parseInt(experienceInYears));
         //entityManager.persist(candidat);
         candidatRepository.save(candidat);
         disponibiliteDuCandidat = LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));

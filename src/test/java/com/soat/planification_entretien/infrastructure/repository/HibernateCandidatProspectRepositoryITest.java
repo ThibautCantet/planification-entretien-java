@@ -1,6 +1,6 @@
 package com.soat.planification_entretien.infrastructure.repository;
 
-import com.soat.planification_entretien.candidat.domain.Candidat;
+import com.soat.planification_entretien.candidat.domain.CandidatProspect;
 import com.soat.planification_entretien.candidat.infrastructure.repository.CandidatCrud;
 import com.soat.planification_entretien.candidat.infrastructure.repository.HibernateCandidatRepository;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.*;
 @AutoConfigureDataJpa
 @EnableJpaRepositories
 @SpringBootTest
-class HibernateCandidatRepositoryITest {
+class HibernateCandidatProspectRepositoryITest {
 
     @Autowired
     private CandidatCrud candidatCrud;
@@ -25,11 +25,11 @@ class HibernateCandidatRepositoryITest {
 
     @Test
     void name() {
-        Candidat candidat = hibernateCandidatRepository.save(new Candidat("Java", "candidat@mail.com", 3));
+        CandidatProspect candidat = hibernateCandidatRepository.save(new CandidatProspect("Java", "candidat@mail.com", 3));
 
         assertThat(candidat)
                 .usingRecursiveComparison()
                 .ignoringFields("id")
-                .isEqualTo(new Candidat("Java", "candidat@mail.com", 3));
+                .isEqualTo(new CandidatProspect("Java", "candidat@mail.com", 3));
     }
 }

@@ -3,7 +3,7 @@ package com.soat.planification_entretien.entretien.infrastructure.controller;
 import java.util.List;
 import java.util.Optional;
 
-import com.soat.planification_entretien.candidat.domain.Candidat;
+import com.soat.planification_entretien.candidat.domain.CandidatProspect;
 import com.soat.planification_entretien.candidat.domain.CandidatRepository;
 import com.soat.planification_entretien.entretien.use_case.ListerEntretiens;
 import com.soat.planification_entretien.entretien.use_case.PlanifierEntretien;
@@ -48,7 +48,7 @@ public class EntretienController {
     @PostMapping("planifier")
     public ResponseEntity<Void> planifier(@RequestBody EntretienDto entretienDto) {
 
-        Optional<Candidat> candidat = candidatRepository.findById(entretienDto.candidatId());
+        Optional<CandidatProspect> candidat = candidatRepository.findById(entretienDto.candidatId());
         if (candidat.isEmpty()) {
             return badRequest().build();
         }

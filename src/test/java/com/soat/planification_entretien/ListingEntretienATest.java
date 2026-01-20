@@ -9,7 +9,7 @@ import java.util.Map;
 
 import com.soat.ATest;
 import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienController;
-import com.soat.planification_entretien.candidat.domain.Candidat;
+import com.soat.planification_entretien.candidat.domain.CandidatProspect;
 import com.soat.planification_entretien.candidat.domain.CandidatRepository;
 import com.soat.planification_entretien.entretien.domain.Entretien;
 import com.soat.planification_entretien.entretien.domain.EntretienRepository;
@@ -33,7 +33,7 @@ import static org.assertj.core.api.Assertions.*;
 @Transactional
 public class ListingEntretienATest extends ATest {
 
-    private List<Candidat> savedCandidats = new ArrayList<>();
+    private List<CandidatProspect> savedCandidats = new ArrayList<>();
     private List<Recruteur> savedRecruteurs = new ArrayList<>();
     @Autowired
     private CandidatRepository candidatRepository;
@@ -73,17 +73,17 @@ public class ListingEntretienATest extends ATest {
 
     @Et("les candidats existants")
     public void lesCandidatsExistants(DataTable dataTable) {
-        List<Candidat> candidats = dataTableTransformEntries(dataTable, this::buildCandidat);
+        List<CandidatProspect> candidats = dataTableTransformEntries(dataTable, this::buildCandidat);
 
-        for (Candidat candidat : candidats) {
+        for (CandidatProspect candidat : candidats) {
             //Candidat saved = entityManager.persist(candidat);
             candidatRepository.save(candidat);
             savedCandidats.add(candidat);
         }
     }
 
-    private Candidat buildCandidat(Map<String, String> entry) {
-        return new Candidat(
+    private CandidatProspect buildCandidat(Map<String, String> entry) {
+        return new CandidatProspect(
                 entry.get("language"),
                 entry.get("email"),
                 Integer.parseInt(entry.get("xp")));

@@ -2,7 +2,7 @@ package com.soat.planification_entretien.entretien.infrastructure.repository;
 
 import java.util.List;
 
-import com.soat.planification_entretien.candidat.domain.Candidat;
+import com.soat.planification_entretien.candidat.domain.CandidatProspect;
 import com.soat.planification_entretien.candidat.infrastructure.repository.CandidatCrud;
 import com.soat.planification_entretien.recruteur.domain.Recruteur;
 import com.soat.planification_entretien.entretien.domain.EntretienRepository;
@@ -40,7 +40,7 @@ public class HibernateEntretienRepository implements EntretienRepository {
     }
 
     @Override
-    public com.soat.planification_entretien.entretien.domain.Entretien findByCandidat(Candidat candidat) {
+    public com.soat.planification_entretien.entretien.domain.Entretien findByCandidat(CandidatProspect candidat) {
         var maybeEntretien = entretienCrud.findByCandidat_Email(candidat.getEmail());
 
         return maybeEntretien
@@ -51,7 +51,7 @@ public class HibernateEntretienRepository implements EntretienRepository {
     private static com.soat.planification_entretien.entretien.domain.Entretien toEntretien(Entretien jpaEntretien) {
         return com.soat.planification_entretien.entretien.domain.Entretien.of(
                 jpaEntretien.getId(),
-                new Candidat(jpaEntretien.getCandidat().getLanguage(), jpaEntretien.getCandidat().getEmail(), jpaEntretien.getCandidat().getExperienceInYears()),
+                new CandidatProspect(jpaEntretien.getCandidat().getLanguage(), jpaEntretien.getCandidat().getEmail(), jpaEntretien.getCandidat().getExperienceInYears()),
                 new Recruteur(jpaEntretien.getRecruteur().getLanguage(), jpaEntretien.getRecruteur().getEmail(), jpaEntretien.getRecruteur().getExperienceInYears()),
                 jpaEntretien.getHoraireEntretien());
     }

@@ -2,7 +2,7 @@ package com.soat.planification_entretien.candidat.infrastructure.repository;
 
 import java.util.Optional;
 
-import com.soat.planification_entretien.candidat.domain.Candidat;
+import com.soat.planification_entretien.candidat.domain.CandidatProspect;
 import com.soat.planification_entretien.candidat.domain.CandidatRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,9 +15,9 @@ public class HibernateCandidatRepository implements CandidatRepository {
     }
 
     @Override
-    public Optional<Candidat> findById(int candidatId) {
+    public Optional<CandidatProspect> findById(int candidatId) {
         return candidatCrud.findById(candidatId).map(
-                candidat -> new Candidat(
+                candidat -> new CandidatProspect(
                         candidatId,
                         candidat.getLanguage(),
                         candidat.getEmail(),
@@ -27,9 +27,9 @@ public class HibernateCandidatRepository implements CandidatRepository {
     }
 
     @Override
-    public Candidat save(Candidat candidat) {
+    public CandidatProspect save(CandidatProspect candidat) {
         var toSave = new com.soat.planification_entretien.candidat.infrastructure.repository.Candidat(candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceInYears());
         var saved = candidatCrud.save(toSave);
-        return Candidat.of(saved.getId(), candidat);
+        return CandidatProspect.of(saved.getId(), candidat);
     }
 }

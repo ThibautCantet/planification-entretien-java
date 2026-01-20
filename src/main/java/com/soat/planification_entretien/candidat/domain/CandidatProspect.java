@@ -1,23 +1,23 @@
 package com.soat.planification_entretien.candidat.domain;
 
-public class Candidat {
+public class CandidatProspect {
 
     private CandidatId id;
 
     private final CompetenceCandidat competence;
     private final EmailCandidat email;
 
-    public Candidat(String language, String email, int experienceInYears) {
+    public CandidatProspect(String language, String email, int experienceInYears) {
         this(null, language, email, experienceInYears);
     }
 
-    public Candidat(Integer candidatId, String language, String email, Integer experienceEnAnnees) {
+    public CandidatProspect(Integer candidatId, String language, String email, Integer experienceEnAnnees) {
         this.id = new CandidatId(candidatId);
         this.competence = CompetenceCandidat.of(language, experienceEnAnnees);
         this.email = EmailCandidat.of(email);
     }
 
-    public static Candidat of(Integer id, Candidat candidat) {
+    public static CandidatProspect of(Integer id, CandidatProspect candidat) {
         candidat.id = new CandidatId(id);
         return candidat;
     }

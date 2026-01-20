@@ -2,7 +2,7 @@ package com.soat.planification_entretien.entretien.use_case;
 
 import java.time.LocalDateTime;
 
-import com.soat.planification_entretien.candidat.domain.Candidat;
+import com.soat.planification_entretien.candidat.domain.CandidatProspect;
 import com.soat.planification_entretien.entretien.domain.EmailService;
 import com.soat.planification_entretien.entretien.domain.Entretien;
 import com.soat.planification_entretien.entretien.domain.EntretienRepository;
@@ -19,7 +19,7 @@ public class PlanifierEntretien {
         this.emailService = emailService;
     }
 
-    public boolean execute(Candidat candidat, Recruteur recruteur, LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
+    public boolean execute(CandidatProspect candidat, Recruteur recruteur, LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
         if (recruteur.getLanguage().equals(candidat.getLanguage())
             && recruteur.getExperienceInYears() > candidat.getExperienceInYears()
             && dateEtHeureDisponibiliteDuCandidat.equals(dateEtHeureDisponibiliteDuRecruteur)) {

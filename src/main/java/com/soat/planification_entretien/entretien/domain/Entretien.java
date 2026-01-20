@@ -2,36 +2,36 @@ package com.soat.planification_entretien.entretien.domain;
 
 import java.time.LocalDateTime;
 
-import com.soat.planification_entretien.candidat.domain.Candidat;
+import com.soat.planification_entretien.candidat.domain.CandidatProspect;
 import com.soat.planification_entretien.recruteur.domain.Recruteur;
 
 public class Entretien implements IEntretien {
     private EntretienId id;
 
-    private Candidat candidat;
+    private CandidatProspect candidat;
 
     private LocalDateTime horaireEntretien;
 
     private Recruteur recruteur;
 
-    public Entretien(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
+    public Entretien(Integer id, CandidatProspect candidat, Recruteur recruteur, LocalDateTime horaire) {
         this.id = new EntretienId(id);
         this.candidat = candidat;
         this.recruteur = recruteur;
         this.horaireEntretien = horaire;
     }
 
-    private Entretien(Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
+    private Entretien(CandidatProspect candidat, Recruteur recruteur, LocalDateTime horaire) {
         this.candidat = candidat;
         this.recruteur = recruteur;
         this.horaireEntretien = horaire;
     }
 
-    public static Entretien of(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
+    public static Entretien of(Integer id, CandidatProspect candidat, Recruteur recruteur, LocalDateTime horaire) {
         return new Entretien(id, candidat, recruteur, horaire);
     }
 
-    public static Entretien of(Candidat candidat, Recruteur recruteur, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
+    public static Entretien of(CandidatProspect candidat, Recruteur recruteur, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
         return new Entretien(candidat, recruteur, dateEtHeureDisponibiliteDuRecruteur);
     }
 
@@ -40,7 +40,7 @@ public class Entretien implements IEntretien {
         return entretien;
     }
 
-    public Candidat getCandidat() {
+    public CandidatProspect getCandidat() {
         return candidat;
     }
 

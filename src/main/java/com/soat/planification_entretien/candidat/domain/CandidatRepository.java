@@ -4,7 +4,7 @@ import java.util.Optional;
 
 
 public interface CandidatRepository {
-    Optional<Candidat> findById(int candidatId);
+    Optional<CandidatProspect> findById(int candidatId);
 
-    Candidat save(Candidat candidat);
+    CandidatProspect save(CandidatProspect candidat);
 }
