@@ -4,9 +4,8 @@ public class Recruteur {
 
     private Integer id;
 
-    private String language;
-    private String email;
-    private Integer experienceInYears;
+    private final CompetenceRecruteur competence;
+    private final EmailRecruteur email;
 
     public Recruteur(String language, String email, int experienceInYears) {
         this(null, language, email, experienceInYears);
@@ -14,9 +13,8 @@ public class Recruteur {
 
     public Recruteur(Integer recruteurId, String language, String email, Integer experienceInYears) {
         this.id = recruteurId;
-        this.language = language;
-        this.email = email;
-        this.experienceInYears = experienceInYears;
+        this.competence = CompetenceRecruteur.of(language, experienceInYears);
+        this.email = EmailRecruteur.of(email);
     }
 
     public static Recruteur of(Integer id, Recruteur recruteur) {
@@ -29,14 +27,14 @@ public class Recruteur {
     }
 
     public String getLanguage() {
-        return language;
+        return competence.langage();
     }
 
     public String getEmail() {
-        return email;
+        return email.adresse();
     }
 
     public Integer getExperienceInYears() {
-        return experienceInYears;
+        return competence.experienceEnAnnees();
     }
 }
