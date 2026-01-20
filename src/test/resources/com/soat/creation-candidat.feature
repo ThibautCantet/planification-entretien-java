@@ -12,6 +12,12 @@ Fonctionnalité: Création d'un candidat
     Alors l'enregistrement est refusé
     Et le candidat n'est pas enregistré
 
+  Scénario: Un candidat n'est pas crée quand son email est @soat.fr
+    Etant donné un candidat "Java" ("candidat@soat.fr") avec "2" ans d’expériences
+    Quand on tente d'enregistrer le candidat
+    Alors l'enregistrement est refusé
+    Et le candidat n'est pas enregistré
+
   Scénario: Un candidat n'est pas crée quand son nombre d'années d'expérience est vide
     Etant donné un candidat "Java" ("candidat@email.com") avec "" ans d’expériences
     Quand on tente d'enregistrer le candidat

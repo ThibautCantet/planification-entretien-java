@@ -8,7 +8,7 @@ public record EmailCandidat(String adresse) {
     private static final String EMAIL_REGEX = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
 
     static EmailCandidat of(String value) {
-        if (!isEmail(value)) {
+        if (!isEmail(value) || value.endsWith("@soat.fr")) {
             throw new IllegalArgumentException();
         }
         return new EmailCandidat(value);
