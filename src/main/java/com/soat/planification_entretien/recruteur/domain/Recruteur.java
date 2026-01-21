@@ -2,6 +2,7 @@ package com.soat.planification_entretien.recruteur.domain;
 
 public class Recruteur {
 
+    private boolean estDisponible;
     private RecruteurId id;
 
     private final CompetenceRecruteur competence;
@@ -15,6 +16,7 @@ public class Recruteur {
         this.id = new RecruteurId(recruteurId);
         this.competence = CompetenceRecruteur.of(language, experienceInYears);
         this.email = EmailRecruteur.of(email);
+        this.estDisponible = true;
     }
 
     public static Recruteur of(Integer id, Recruteur recruteur) {
@@ -39,6 +41,6 @@ public class Recruteur {
     }
 
     public boolean estDisponible() {
-        return true;
+        return estDisponible;
     }
 }

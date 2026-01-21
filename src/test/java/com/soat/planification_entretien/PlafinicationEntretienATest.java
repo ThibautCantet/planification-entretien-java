@@ -153,6 +153,8 @@ public class PlafinicationEntretienATest extends ATest {
     public void leRecruteurNEstPlusDisponible(String email) {
         var recruteur = recruteurRepository.findByEmail(email);
 
-        assertThat(recruteur.estDisponible()).isFalse();
+        assertThat(recruteur.estDisponible())
+                .as("Le recruteur ne devrait plus etre disponible")
+                .isFalse();
     }
 }
