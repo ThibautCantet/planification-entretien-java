@@ -113,15 +113,15 @@ public class PlafinicationEntretienATest extends ATest {
         //@formatter:on
     }
 
-    @Alors("L’entretien est planifié")
-    public void lEntretienEstPlanifié() {
+    @Alors("L’entretien est planifié avec un status {string}")
+    public void lEntretienEstPlanifié(String status) {
         response.then()
                 .statusCode(HttpStatus.SC_CREATED);
 
         Entretien entretien = entretienRepository.findByCandidat(candidat);
         var expectedCandidat = new Candidat(null, candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceInYears());
         var expectedRecruteur = new RecruteurPlanifié(null, recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears());
-        Entretien expectedEntretien = Entretien.of(expectedCandidat, expectedRecruteur, disponibiliteDuCandidat);
+        Entretien expectedEntretien = Entretien.of(expectedCandidat, expectedRecruteur, disponibiliteDuCandidat, status);
         assertThat(entretien).usingRecursiveComparison()
                 .ignoringFields("id", "candidat.id", "recruteur.id")
                 .isEqualTo(expectedEntretien);

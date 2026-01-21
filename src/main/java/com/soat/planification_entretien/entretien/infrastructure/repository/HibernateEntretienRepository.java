@@ -6,7 +6,6 @@ import com.soat.planification_entretien.candidat.domain.CandidatProspect;
 import com.soat.planification_entretien.candidat.infrastructure.repository.CandidatCrud;
 import com.soat.planification_entretien.entretien.domain.Candidat;
 import com.soat.planification_entretien.entretien.domain.RecruteurPlanifié;
-import com.soat.planification_entretien.recruteur.domain.Recruteur;
 import com.soat.planification_entretien.entretien.domain.EntretienRepository;
 import com.soat.planification_entretien.recruteur.infrastructure.repository.RecruteurCrud;
 import org.springframework.stereotype.Repository;
@@ -30,7 +29,7 @@ public class HibernateEntretienRepository implements EntretienRepository {
         var jpaRecruteur = recruteurCrud.findById(entretien.getRecruteurId()).get();
 
         var jpaEntretien = Entretien.of(jpaCandidat,
-                jpaRecruteur, entretien.getHoraireEntretien());
+                jpaRecruteur, entretien.getHoraireEntretien(), entretien.getStatus());
         entretienCrud.save(jpaEntretien);
     }
 
@@ -55,6 +54,7 @@ public class HibernateEntretienRepository implements EntretienRepository {
                 jpaEntretien.getId(),
                 new Candidat(jpaEntretien.getCandidat().getId(), jpaEntretien.getCandidat().getLanguage(), jpaEntretien.getCandidat().getEmail(), jpaEntretien.getCandidat().getExperienceInYears()),
                 new RecruteurPlanifié(jpaEntretien.getRecruteur().getId(), jpaEntretien.getRecruteur().getLanguage(), jpaEntretien.getRecruteur().getEmail(), jpaEntretien.getRecruteur().getExperienceInYears()),
-                jpaEntretien.getHoraireEntretien());
+                jpaEntretien.getHoraireEntretien(),
+                jpaEntretien.getStatus());
     }
 }

@@ -110,7 +110,8 @@ public class ListingEntretienATest extends ATest {
         return Entretien.of(
                 expectedCandidat,
                 expectedRecruteur,
-                LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+                LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
+                entry.get("status"));
     }
 
     @Quand("on liste les tous les entretiens")
@@ -142,6 +143,7 @@ public class ListingEntretienATest extends ATest {
                 entry.get("candidat"),
                 entry.get("recruteur"),
                 entry.get("language"),
-                LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+                LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
+                entry.get("status"));
     }
 }

@@ -10,18 +10,18 @@ public class Entretien implements IEntretien {
     private LocalDateTime horaireEntretien;
 
     private RecruteurPlanifié recruteur;
+    private StatusEntretien status;
 
-    public Entretien(Integer id, Candidat candidat, RecruteurPlanifié recruteur, LocalDateTime horaire) {
+    private Entretien(Integer id, Candidat candidat, RecruteurPlanifié recruteur, LocalDateTime horaire, String status) {
         this.id = new EntretienId(id);
         this.candidat = candidat;
         this.recruteur = recruteur;
         this.horaireEntretien = horaire;
+        this.status = status != null && !status.isEmpty() ? StatusEntretien.valueOf(status.toUpperCase()) : null;
     }
 
-    private Entretien(Candidat candidat, RecruteurPlanifié recruteur, LocalDateTime horaire) {
-        this.candidat = candidat;
-        this.recruteur = recruteur;
-        this.horaireEntretien = horaire;
+    private Entretien(Candidat candidat, RecruteurPlanifié recruteur, LocalDateTime horaire, String status) {
+        this(null, candidat, recruteur, horaire, status);
     }
 
     public Entretien(Candidat candidat, RecruteurPlanifié recruteur) {
@@ -29,12 +29,12 @@ public class Entretien implements IEntretien {
         this.recruteur = recruteur;
     }
 
-    public static Entretien of(Integer id, Candidat candidat, RecruteurPlanifié recruteur, LocalDateTime horaire) {
-        return new Entretien(id, candidat, recruteur, horaire);
+    public static Entretien of(Integer id, Candidat candidat, RecruteurPlanifié recruteur, LocalDateTime horaire, String status) {
+        return new Entretien(id, candidat, recruteur, horaire, status);
     }
 
-    public static Entretien of(Candidat candidat, RecruteurPlanifié recruteur, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
-        return new Entretien(candidat, recruteur, dateEtHeureDisponibiliteDuRecruteur);
+    public static Entretien of(Candidat candidat, RecruteurPlanifié recruteur, LocalDateTime dateEtHeureDisponibiliteDuRecruteur, String status) {
+        return new Entretien(candidat, recruteur, dateEtHeureDisponibiliteDuRecruteur, status);
     }
 
     public static Entretien of(Integer newId, Entretien entretien) {
@@ -78,10 +78,16 @@ public class Entretien implements IEntretien {
         return horaireEntretien;
     }
 
+    @Override
+    public String getStatus() {
+        return status != null ? status.name() : null;
+    }
+
     public boolean planifier(LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
         if (recruteur.estCompatibleAvec(candidat)) {
             if (dateEtHeureDisponibiliteDuCandidat.equals(dateEtHeureDisponibiliteDuRecruteur)) {
                 this.horaireEntretien = dateEtHeureDisponibiliteDuCandidat;
+                this.status = StatusEntretien.PLANIFIE;
                 return true;
             }
         }

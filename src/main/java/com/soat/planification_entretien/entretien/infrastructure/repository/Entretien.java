@@ -25,22 +25,26 @@ public class Entretien {
     @Column
     private LocalDateTime horaireEntretien;
 
+    @Column
+    private String status;
+
     @ManyToOne
     @JoinColumn(name = "recruteur_id")
     private Recruteur recruteur;
 
-    private Entretien(Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
+    private Entretien(Candidat candidat, Recruteur recruteur, LocalDateTime horaire, String status) {
         this.candidat = candidat;
         this.recruteur = recruteur;
         this.horaireEntretien = horaire;
+        this.status = status;
     }
 
     public Entretien() {
 
     }
 
-    public static Entretien of(Candidat candidat, Recruteur recruteur, LocalDateTime horaire) {
-        return new Entretien(candidat, recruteur, horaire);
+    public static Entretien of(Candidat candidat, Recruteur recruteur, LocalDateTime horaire, String status) {
+        return new Entretien(candidat, recruteur, horaire, status);
     }
 
     public Candidat getCandidat() {
@@ -57,5 +61,9 @@ public class Entretien {
 
     public Integer getId() {
         return id;
+    }
+
+    public String getStatus() {
+        return status;
     }
 }

@@ -12,4 +12,6 @@ public interface IEntretien {
     String getLanguage();
 
     LocalDateTime getHoraire();
+
+    String getStatus();
 }
