@@ -37,4 +37,8 @@ public class Recruteur {
     public Integer getExperienceInYears() {
         return competence.experienceEnAnnees();
     }
+
+    public boolean estDisponible() {
+        return true;
+    }
 }

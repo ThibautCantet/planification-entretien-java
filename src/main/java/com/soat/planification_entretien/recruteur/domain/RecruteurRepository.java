@@ -9,4 +9,6 @@ public interface RecruteurRepository {
     Recruteur save(Recruteur recruteur);
 
     List<Recruteur> find10AnsExperience();
+
+    Recruteur findByEmail(String email);
 }

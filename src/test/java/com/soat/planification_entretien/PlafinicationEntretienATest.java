@@ -92,9 +92,10 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Etqu("un recruteur {string} \\({string}) qui a {string} ans d’XP qui est dispo {string} à {string}")
     public void unRecruteurQuiAAnsDXPQuiEstDispo(String language, String email, String experienceInYears, String date, String time) {
-        recruteur = new Recruteur(1, language, email, Integer.parseInt(experienceInYears));
+        recruteur = new Recruteur(null, language, email, Integer.parseInt(experienceInYears));
         //entityManager.persist(recruteur);
-        recruteurRepository.save(recruteur);
+        var saved = recruteurRepository.save(recruteur);
+        recruteur = Recruteur.of(saved.getId(), recruteur);
         disponibiliteDuRecruteur = LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")), LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm")));
     }
 
@@ -146,5 +147,12 @@ public class PlafinicationEntretienATest extends ATest {
     public void aucunMailDeConfirmationNEstEnvoyéAuCandidatOuAuRecruteur() {
         verify(emailService, never()).envoyerUnEmailDeConfirmationAuCandidat(candidat.getEmail(), disponibiliteDuCandidat);
         verify(emailService, never()).envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), disponibiliteDuCandidat);
+    }
+
+    @Et("le recruteur {string} n'est plus disponible")
+    public void leRecruteurNEstPlusDisponible(String email) {
+        var recruteur = recruteurRepository.findByEmail(email);
+
+        assertThat(recruteur.estDisponible()).isFalse();
     }
 }
