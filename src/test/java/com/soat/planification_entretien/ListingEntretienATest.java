@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.soat.ATest;
-import com.soat.planification_entretien.entretien.domain.Candidat;
-import com.soat.planification_entretien.entretien.domain.RecruteurPlanifié;
+import com.soat.planification_entretien.entretien.domain.aggregate.Candidat;
+import com.soat.planification_entretien.entretien.domain.aggregate.RecruteurPlanifié;
 import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienController;
 import com.soat.planification_entretien.candidat.domain.CandidatProspect;
 import com.soat.planification_entretien.candidat.domain.CandidatRepository;
-import com.soat.planification_entretien.entretien.domain.Entretien;
-import com.soat.planification_entretien.entretien.domain.EntretienRepository;
+import com.soat.planification_entretien.entretien.domain.aggregate.Entretien;
+import com.soat.planification_entretien.entretien.domain.aggregate.EntretienRepository;
 import com.soat.planification_entretien.recruteur.domain.Recruteur;
 import com.soat.planification_entretien.recruteur.domain.RecruteurRepository;
 import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienDetailDto;
@@ -68,9 +68,11 @@ public class ListingEntretienATest extends ATest {
 
     private Recruteur buildRecruteur(Map<String, String> entry) {
         return new Recruteur(
+                Integer.parseInt(entry.get("id")),
                 entry.get("language"),
                 entry.get("email"),
-                Integer.parseInt(entry.get("xp")));
+                Integer.parseInt(entry.get("xp")),
+                Boolean.parseBoolean(entry.get("disponible")));
     }
 
     @Et("les candidats existants")
@@ -105,7 +107,11 @@ public class ListingEntretienATest extends ATest {
         var candidat = savedCandidats.get(0);
         var expectedCandidat = new Candidat(candidat.getId(), candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceInYears());
         var recruteur = savedRecruteurs.get(0);
-        var expectedRecruteur = new RecruteurPlanifié(recruteur.getId(), recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears());
+        var expectedRecruteur = new RecruteurPlanifié(recruteur.getId(),
+                recruteur.getLanguage(),
+                recruteur.getEmail(),
+                recruteur.getExperienceInYears(),
+                recruteur.estDisponible());
 
         return Entretien.of(
                 expectedCandidat,

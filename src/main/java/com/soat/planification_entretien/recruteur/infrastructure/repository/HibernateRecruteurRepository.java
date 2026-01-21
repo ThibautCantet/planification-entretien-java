@@ -49,6 +49,11 @@ public class HibernateRecruteurRepository implements RecruteurRepository {
                 toRecruteur()).orElse(null);
     }
 
+    @Override
+    public List<com.soat.planification_entretien.recruteur.domain.Recruteur> findAll() {
+        return recruteurCrud.findAll().stream().map(toRecruteur()).toList();
+    }
+
     private Function<Recruteur, com.soat.planification_entretien.recruteur.domain.Recruteur> toRecruteur() {
         return recruteur -> new com.soat.planification_entretien.recruteur.domain.Recruteur(
                 recruteur.getId(),

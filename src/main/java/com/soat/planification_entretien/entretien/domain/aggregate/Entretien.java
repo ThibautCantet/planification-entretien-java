@@ -1,4 +1,4 @@
-package com.soat.planification_entretien.entretien.domain;
+package com.soat.planification_entretien.entretien.domain.aggregate;
 
 import java.time.LocalDateTime;
 
@@ -85,17 +85,12 @@ public class Entretien implements IEntretien {
         return status != null ? status.name() : null;
     }
 
-    public boolean planifier(LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
-        if (recruteur.estCompatibleAvec(candidat)) {
-            if (dateEtHeureDisponibiliteDuCandidat.equals(dateEtHeureDisponibiliteDuRecruteur)) {
-                this.horaireEntretien = dateEtHeureDisponibiliteDuCandidat;
-                this.status = StatusEntretien.PLANIFIE;
-                EntretienPlanifie entretienPlanifie = new EntretienPlanifie(recruteur.id());
-                MessageBus.instance().send(entretienPlanifie);
-                return true;
-            }
-        }
-        return false;
+    public boolean planifier(LocalDateTime dateEtHeureDisponibiliteDuCandidat) {
+        this.horaireEntretien = dateEtHeureDisponibiliteDuCandidat;
+        this.status = StatusEntretien.PLANIFIE;
+        EntretienPlanifie entretienPlanifie = new EntretienPlanifie(recruteur.id());
+        MessageBus.instance().send(entretienPlanifie);
+        return true;
     }
 
     public boolean valider() {

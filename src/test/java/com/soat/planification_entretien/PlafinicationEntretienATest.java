@@ -7,15 +7,15 @@ import java.time.format.DateTimeFormatter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soat.ATest;
-import com.soat.planification_entretien.entretien.domain.Candidat;
-import com.soat.planification_entretien.entretien.domain.RecruteurPlanifié;
+import com.soat.planification_entretien.entretien.domain.aggregate.Candidat;
+import com.soat.planification_entretien.entretien.domain.aggregate.RecruteurPlanifié;
 import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienController;
 import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienDto;
 import com.soat.planification_entretien.candidat.domain.CandidatProspect;
 import com.soat.planification_entretien.candidat.domain.CandidatRepository;
-import com.soat.planification_entretien.entretien.domain.Entretien;
-import com.soat.planification_entretien.entretien.domain.EntretienRepository;
-import com.soat.planification_entretien.entretien.domain.EmailService;
+import com.soat.planification_entretien.entretien.domain.aggregate.Entretien;
+import com.soat.planification_entretien.entretien.domain.aggregate.EntretienRepository;
+import com.soat.planification_entretien.entretien.domain.application_service.EmailService;
 import com.soat.planification_entretien.recruteur.domain.Recruteur;
 import com.soat.planification_entretien.recruteur.domain.RecruteurRepository;
 import io.cucumber.java.Before;
@@ -102,7 +102,7 @@ public class PlafinicationEntretienATest extends ATest {
 
     @Quand("on tente une planification d’entretien")
     public void onTenteUnePlanificationDEntretien() throws JsonProcessingException {
-        EntretienDto entretienDto = new EntretienDto(candidat.getId(), recruteur.getId(), disponibiliteDuCandidat, disponibiliteDuRecruteur);
+        EntretienDto entretienDto = new EntretienDto(candidat.getId(), disponibiliteDuCandidat);
         String body = objectMapper.writeValueAsString(entretienDto);
         initPath();
         //@formatter:off
@@ -122,7 +122,11 @@ public class PlafinicationEntretienATest extends ATest {
 
         Entretien entretien = entretienRepository.findByCandidat(candidat);
         var expectedCandidat = new Candidat(null, candidat.getLanguage(), candidat.getEmail(), candidat.getExperienceInYears());
-        var expectedRecruteur = new RecruteurPlanifié(null, recruteur.getLanguage(), recruteur.getEmail(), recruteur.getExperienceInYears());
+        var expectedRecruteur = new RecruteurPlanifié(null,
+                "Java",
+                "recruteur@soat.fr",
+                10,
+                false);
         Entretien expectedEntretien = Entretien.of(expectedCandidat, expectedRecruteur, disponibiliteDuCandidat, status);
         assertThat(entretien).usingRecursiveComparison()
                 .ignoringFields("id", "candidat.id", "recruteur.id")
@@ -132,7 +136,7 @@ public class PlafinicationEntretienATest extends ATest {
     @Et("un mail de confirmation est envoyé au candidat et au recruteur")
     public void unMailDeConfirmationEstEnvoyéAuCandidatEtAuRecruteur() {
         verify(emailService).envoyerUnEmailDeConfirmationAuCandidat(candidat.getEmail(), disponibiliteDuCandidat);
-        verify(emailService).envoyerUnEmailDeConfirmationAuRecruteur(recruteur.getEmail(), disponibiliteDuCandidat);
+        verify(emailService).envoyerUnEmailDeConfirmationAuRecruteur("recruteur@soat.fr", disponibiliteDuCandidat);
     }
 
     @Alors("L’entretien n'est pas planifié")

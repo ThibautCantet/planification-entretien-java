@@ -2,8 +2,8 @@ package com.soat.planification_entretien.entretien.use_case;
 
 import java.util.List;
 
-import com.soat.planification_entretien.entretien.domain.EntretienRepository;
-import com.soat.planification_entretien.entretien.domain.IEntretien;
+import com.soat.planification_entretien.entretien.domain.aggregate.EntretienRepository;
+import com.soat.planification_entretien.entretien.domain.aggregate.IEntretien;
 import org.springframework.stereotype.Service;
 
 @Service

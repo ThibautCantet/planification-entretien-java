@@ -1,19 +1,13 @@
 package com.soat.planification_entretien.entretien.infrastructure.controller;
 
 import java.util.List;
-import java.util.Optional;
 
-import com.soat.planification_entretien.candidat.domain.CandidatProspect;
 import com.soat.planification_entretien.candidat.domain.CandidatRepository;
-import com.soat.planification_entretien.entretien.domain.Candidat;
-import com.soat.planification_entretien.entretien.domain.RecruteurPlanifié;
 import com.soat.planification_entretien.entretien.use_case.AnnulerEntretien;
 import com.soat.planification_entretien.entretien.use_case.ListerEntretiens;
 import com.soat.planification_entretien.entretien.use_case.PlanifierEntretien;
 import com.soat.planification_entretien.entretien.use_case.ValiderEntretien;
-import com.soat.planification_entretien.recruteur.domain.Recruteur;
 import com.soat.planification_entretien.recruteur.domain.RecruteurRepository;
-import jakarta.websocket.server.PathParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,8 +29,6 @@ public class EntretienController {
     private final ValiderEntretien validerEntretien;
     private final AnnulerEntretien annulerEntretien;
     private final ListerEntretiens listerEntretiens;
-    private final CandidatRepository candidatRepository;
-    private final RecruteurRepository recruteurRepository;
 
     public EntretienController(PlanifierEntretien planifierEntretien, ValiderEntretien validerEntretien, AnnulerEntretien annulerEntretien,
                                ListerEntretiens listerEntretiens, CandidatRepository candidatRepository,
@@ -45,8 +37,6 @@ public class EntretienController {
         this.validerEntretien = validerEntretien;
         this.annulerEntretien = annulerEntretien;
         this.listerEntretiens = listerEntretiens;
-        this.candidatRepository = candidatRepository;
-        this.recruteurRepository = recruteurRepository;
     }
 
     @GetMapping("/")
@@ -60,21 +50,7 @@ public class EntretienController {
 
     @PostMapping("planifier")
     public ResponseEntity<Void> planifier(@RequestBody EntretienDto entretienDto) {
-
-        Optional<CandidatProspect> candidat = candidatRepository.findById(entretienDto.candidatId());
-        if (candidat.isEmpty()) {
-            return badRequest().build();
-        }
-        Optional<Recruteur> recruteur = recruteurRepository.findById(entretienDto.recruteurId());
-        if (recruteur.isEmpty()) {
-            return badRequest().build();
-        }
-        var candidatProspect = candidat.get();
-        var candidatTrouvé = new Candidat(candidatProspect.getId(), candidatProspect.getLanguage(), candidatProspect.getEmail(), candidatProspect.getExperienceInYears());
-        var recruteurTrouvé = recruteur.get();
-        var recruteurEntretien = new RecruteurPlanifié(recruteurTrouvé.getId(), recruteurTrouvé.getLanguage(), recruteurTrouvé.getEmail(), recruteurTrouvé.getExperienceInYears());
-        var planifie = planifierEntretien.execute(candidatTrouvé, recruteurEntretien, entretienDto.disponibiliteDuCandidat(), entretienDto.disponibiliteDuRecruteur());
-
+        var planifie = planifierEntretien.execute(entretienDto.candidatId(), entretienDto.disponibiliteDuCandidat());
         if (planifie) {
             return created(null).build();
         } else {
