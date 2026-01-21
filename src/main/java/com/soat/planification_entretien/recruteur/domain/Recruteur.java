@@ -9,14 +9,14 @@ public class Recruteur {
     private final EmailRecruteur email;
 
     public Recruteur(String language, String email, int experienceInYears) {
-        this(null, language, email, experienceInYears);
+        this(null, language, email, experienceInYears, true);
     }
 
-    public Recruteur(Integer recruteurId, String language, String email, Integer experienceInYears) {
-        this.id = new RecruteurId(recruteurId);
+    public Recruteur(Integer id, String language, String email, Integer experienceInYears, boolean estDisponible) {
+        this.id = new RecruteurId(id);
         this.competence = CompetenceRecruteur.of(language, experienceInYears);
         this.email = EmailRecruteur.of(email);
-        this.estDisponible = true;
+        this.estDisponible = estDisponible;
     }
 
     public static Recruteur of(Integer id, Recruteur recruteur) {
@@ -25,7 +25,7 @@ public class Recruteur {
     }
 
     public Integer getId() {
-        return Integer.valueOf(id.value());
+        return this.id != null && id.value() != null && !id.value().isEmpty() ? Integer.valueOf(id.value()) : null;
     }
 
     public String getLanguage() {
@@ -42,5 +42,9 @@ public class Recruteur {
 
     public boolean estDisponible() {
         return estDisponible;
+    }
+
+    public void rendreIndisponible() {
+        this.estDisponible = false;
     }
 }

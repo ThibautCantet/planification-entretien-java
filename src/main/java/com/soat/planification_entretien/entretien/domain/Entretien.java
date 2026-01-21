@@ -2,6 +2,8 @@ package com.soat.planification_entretien.entretien.domain;
 
 import java.time.LocalDateTime;
 
+import com.soat.planification_entretien.common.application_service.MessageBus;
+
 public class Entretien implements IEntretien {
     private EntretienId id;
 
@@ -88,6 +90,8 @@ public class Entretien implements IEntretien {
             if (dateEtHeureDisponibiliteDuCandidat.equals(dateEtHeureDisponibiliteDuRecruteur)) {
                 this.horaireEntretien = dateEtHeureDisponibiliteDuCandidat;
                 this.status = StatusEntretien.PLANIFIE;
+                EntretienPlanifie entretienPlanifie = new EntretienPlanifie(recruteur.id());
+                MessageBus.instance().send(entretienPlanifie);
                 return true;
             }
         }
