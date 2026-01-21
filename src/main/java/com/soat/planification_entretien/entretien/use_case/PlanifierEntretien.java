@@ -20,10 +20,8 @@ public class PlanifierEntretien {
     }
 
     public boolean execute(Candidat candidat, RecruteurPlanifié recruteur, LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
-        if (recruteur.langage().equals(candidat.langage())
-            && recruteur.experienceEnAnnees() > candidat.experienceEnAnnees()
-            && dateEtHeureDisponibiliteDuCandidat.equals(dateEtHeureDisponibiliteDuRecruteur)) {
-            var entretien = Entretien.of(candidat, recruteur, dateEtHeureDisponibiliteDuRecruteur);
+        var entretien = new Entretien(candidat, recruteur);
+        if (entretien.planifier(dateEtHeureDisponibiliteDuCandidat, dateEtHeureDisponibiliteDuRecruteur)) {
             entretienRepository.save(entretien);
             emailService.envoyerUnEmailDeConfirmationAuCandidat(candidat.email(), dateEtHeureDisponibiliteDuCandidat);
             emailService.envoyerUnEmailDeConfirmationAuRecruteur(recruteur.email(), dateEtHeureDisponibiliteDuCandidat);

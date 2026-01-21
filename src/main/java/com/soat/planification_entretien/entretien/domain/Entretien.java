@@ -24,6 +24,11 @@ public class Entretien implements IEntretien {
         this.horaireEntretien = horaire;
     }
 
+    public Entretien(Candidat candidat, RecruteurPlanifié recruteur) {
+        this.candidat = candidat;
+        this.recruteur = recruteur;
+    }
+
     public static Entretien of(Integer id, Candidat candidat, RecruteurPlanifié recruteur, LocalDateTime horaire) {
         return new Entretien(id, candidat, recruteur, horaire);
     }
@@ -37,12 +42,12 @@ public class Entretien implements IEntretien {
         return entretien;
     }
 
-    public Candidat getCandidat() {
-        return candidat;
+    public int getCandidatId() {
+        return candidat.id();
     }
 
-    public RecruteurPlanifié getRecruteur() {
-        return recruteur;
+    public int getRecruteurId() {
+        return recruteur.id();
     }
 
     public LocalDateTime getHoraireEntretien() {
@@ -71,5 +76,15 @@ public class Entretien implements IEntretien {
     @Override
     public LocalDateTime getHoraire() {
         return horaireEntretien;
+    }
+
+    public boolean planifier(LocalDateTime dateEtHeureDisponibiliteDuCandidat, LocalDateTime dateEtHeureDisponibiliteDuRecruteur) {
+        if (recruteur.estCompatibleAvec(candidat)) {
+            if (dateEtHeureDisponibiliteDuCandidat.equals(dateEtHeureDisponibiliteDuRecruteur)) {
+                this.horaireEntretien = dateEtHeureDisponibiliteDuCandidat;
+                return true;
+            }
+        }
+        return false;
     }
 }
