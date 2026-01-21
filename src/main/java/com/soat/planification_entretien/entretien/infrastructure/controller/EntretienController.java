@@ -7,6 +7,7 @@ import com.soat.planification_entretien.candidat.domain.CandidatProspect;
 import com.soat.planification_entretien.candidat.domain.CandidatRepository;
 import com.soat.planification_entretien.entretien.domain.Candidat;
 import com.soat.planification_entretien.entretien.domain.RecruteurPlanifié;
+import com.soat.planification_entretien.entretien.use_case.AnnulerEntretien;
 import com.soat.planification_entretien.entretien.use_case.ListerEntretiens;
 import com.soat.planification_entretien.entretien.use_case.PlanifierEntretien;
 import com.soat.planification_entretien.entretien.use_case.ValiderEntretien;
@@ -32,13 +33,17 @@ public class EntretienController {
 
     private final PlanifierEntretien planifierEntretien;
     private final ValiderEntretien validerEntretien;
+    private final AnnulerEntretien annulerEntretien;
     private final ListerEntretiens listerEntretiens;
     private final CandidatRepository candidatRepository;
     private final RecruteurRepository recruteurRepository;
 
-    public EntretienController(PlanifierEntretien planifierEntretien, ValiderEntretien validerEntretien, ListerEntretiens listerEntretiens, CandidatRepository candidatRepository, RecruteurRepository recruteurRepository) {
+    public EntretienController(PlanifierEntretien planifierEntretien, ValiderEntretien validerEntretien, AnnulerEntretien annulerEntretien,
+                               ListerEntretiens listerEntretiens, CandidatRepository candidatRepository,
+                               RecruteurRepository recruteurRepository) {
         this.planifierEntretien = planifierEntretien;
         this.validerEntretien = validerEntretien;
+        this.annulerEntretien = annulerEntretien;
         this.listerEntretiens = listerEntretiens;
         this.candidatRepository = candidatRepository;
         this.recruteurRepository = recruteurRepository;
@@ -87,4 +92,15 @@ public class EntretienController {
             return badRequest().build();
         }
     }
+
+    @PatchMapping("/{entretienId}/annuler")
+    public ResponseEntity<Void> annuler(@PathVariable int entretienId) {
+        var annule = annulerEntretien.execute(entretienId);
+        if (annule) {
+            return noContent().build();
+        } else {
+            return badRequest().build();
+        }
+    }
+
 }
