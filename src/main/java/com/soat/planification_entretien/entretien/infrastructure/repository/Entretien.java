@@ -32,7 +32,8 @@ public class Entretien {
     @JoinColumn(name = "recruteur_id")
     private Recruteur recruteur;
 
-    private Entretien(Candidat candidat, Recruteur recruteur, LocalDateTime horaire, String status) {
+    private Entretien(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire, String status) {
+        this.id = id;
         this.candidat = candidat;
         this.recruteur = recruteur;
         this.horaireEntretien = horaire;
@@ -43,8 +44,8 @@ public class Entretien {
 
     }
 
-    public static Entretien of(Candidat candidat, Recruteur recruteur, LocalDateTime horaire, String status) {
-        return new Entretien(candidat, recruteur, horaire, status);
+    public static Entretien of(Integer id, Candidat candidat, Recruteur recruteur, LocalDateTime horaire, String status) {
+        return new Entretien(id, candidat, recruteur, horaire, status);
     }
 
     public Candidat getCandidat() {

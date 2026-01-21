@@ -9,5 +9,7 @@ public interface EntretienRepository {
 
     List<Entretien> findAll();
 
+    Entretien findById(int entretienId);
+
     Entretien findByCandidat(CandidatProspect candidat);
 }

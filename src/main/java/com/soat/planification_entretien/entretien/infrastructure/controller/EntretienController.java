@@ -9,11 +9,15 @@ import com.soat.planification_entretien.entretien.domain.Candidat;
 import com.soat.planification_entretien.entretien.domain.RecruteurPlanifié;
 import com.soat.planification_entretien.entretien.use_case.ListerEntretiens;
 import com.soat.planification_entretien.entretien.use_case.PlanifierEntretien;
+import com.soat.planification_entretien.entretien.use_case.ValiderEntretien;
 import com.soat.planification_entretien.recruteur.domain.Recruteur;
 import com.soat.planification_entretien.recruteur.domain.RecruteurRepository;
+import jakarta.websocket.server.PathParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,12 +31,14 @@ public class EntretienController {
     public static final String PATH = "/api/entretien/";
 
     private final PlanifierEntretien planifierEntretien;
+    private final ValiderEntretien validerEntretien;
     private final ListerEntretiens listerEntretiens;
     private final CandidatRepository candidatRepository;
     private final RecruteurRepository recruteurRepository;
 
-    public EntretienController(PlanifierEntretien planifierEntretien, ListerEntretiens listerEntretiens, CandidatRepository candidatRepository, RecruteurRepository recruteurRepository) {
+    public EntretienController(PlanifierEntretien planifierEntretien, ValiderEntretien validerEntretien, ListerEntretiens listerEntretiens, CandidatRepository candidatRepository, RecruteurRepository recruteurRepository) {
         this.planifierEntretien = planifierEntretien;
+        this.validerEntretien = validerEntretien;
         this.listerEntretiens = listerEntretiens;
         this.candidatRepository = candidatRepository;
         this.recruteurRepository = recruteurRepository;
@@ -70,5 +76,15 @@ public class EntretienController {
             return badRequest().build();
         }
 
+    }
+
+    @PatchMapping("/{entretienId}/valider")
+    public ResponseEntity<Void> valider(@PathVariable int entretienId) {
+        var valide = validerEntretien.execute(entretienId);
+        if (valide) {
+            return noContent().build();
+        } else {
+            return badRequest().build();
+        }
     }
 }

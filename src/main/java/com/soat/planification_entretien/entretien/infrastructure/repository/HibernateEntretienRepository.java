@@ -28,7 +28,9 @@ public class HibernateEntretienRepository implements EntretienRepository {
         var jpaCandidat = candidatCrud.findById(entretien.getCandidatId()).get();
         var jpaRecruteur = recruteurCrud.findById(entretien.getRecruteurId()).get();
 
-        var jpaEntretien = Entretien.of(jpaCandidat,
+        var jpaEntretien = Entretien.of(
+                entretien.getId(),
+                jpaCandidat,
                 jpaRecruteur, entretien.getHoraireEntretien(), entretien.getStatus());
         entretienCrud.save(jpaEntretien);
     }
@@ -38,6 +40,15 @@ public class HibernateEntretienRepository implements EntretienRepository {
         return entretienCrud.findAll().stream()
                 .map(HibernateEntretienRepository::toEntretien)
                 .toList();
+    }
+
+    @Override
+    public com.soat.planification_entretien.entretien.domain.Entretien findById(int entretienId) {
+        var maybeEntretien = entretienCrud.findById(entretienId);
+
+        return maybeEntretien
+                .map(HibernateEntretienRepository::toEntretien)
+                .orElse(null);
     }
 
     @Override

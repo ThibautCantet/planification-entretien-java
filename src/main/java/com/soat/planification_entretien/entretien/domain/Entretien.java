@@ -55,7 +55,7 @@ public class Entretien implements IEntretien {
     }
 
     public Integer getId() {
-        return Integer.valueOf(id.value());
+        return this.id != null && id.value() != null && !id.value().isEmpty() ? Integer.valueOf(id.value()) : null;
     }
 
     @Override
@@ -92,5 +92,10 @@ public class Entretien implements IEntretien {
             }
         }
         return false;
+    }
+
+    public boolean valider() {
+        this.status = StatusEntretien.VALIDE;
+        return true;
     }
 }
