@@ -100,7 +100,12 @@ public class Entretien implements IEntretien {
     }
 
     public boolean annuler() {
+        if (this.status == StatusEntretien.VALIDE) {
+            return false;
+        }
+
         this.status = StatusEntretien.ANNULE;
+
         return true;
     }
 

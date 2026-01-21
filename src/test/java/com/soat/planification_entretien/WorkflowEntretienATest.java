@@ -15,12 +15,14 @@ import com.soat.planification_entretien.entretien.domain.StatusEntretien;
 import com.soat.planification_entretien.entretien.infrastructure.controller.EntretienController;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
+import io.cucumber.java.PendingException;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Quand;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import static com.soat.planification_entretien.entretien.domain.StatusEntretien.*;
 import static io.restassured.RestAssured.*;
 import static org.assertj.core.api.Assertions.*;
 
@@ -88,5 +90,13 @@ public class WorkflowEntretienATest extends ATest {
                 new RecruteurPlanifié(null, entry.get("language"), entry.get("recruteur"), 0),
                 LocalDateTime.parse(entry.get("horaire"), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
                 entry.get("status"));
+    }
+
+    @Alors("l'entretien {int} reste au status {string}")
+    public void lEntretienResteAuStatus(int entretienId, String status) {
+        assertThat(response.statusCode()).isEqualTo(400);
+
+        var entretien = entretienRepository.findById(entretienId);
+        assertThat(entretien.getStatus()).isEqualTo(status);
     }
 }
